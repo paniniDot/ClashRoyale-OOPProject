@@ -18,7 +18,7 @@ public final class Launcher {
    *            parameters.
    */
   public static void main(final String[] args) {
-    Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
+    final Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
     config.setTitle(ClashRoyale.TITLE);
     config.setWindowedMode(ClashRoyale.WIDTH, ClashRoyale.HEIGHT);
     config.setForegroundFPS(ClashRoyale.FPS);
