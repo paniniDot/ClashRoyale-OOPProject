@@ -7,6 +7,6 @@
  * in the user manual at https://docs.gradle.org/7.3/userguide/multi_project_builds.html
  */
 
-rootProject.name = "ClashRoyale"
+rootProject.name = "ClashRoyale-OOPProject"
 include("app")
 
