@@ -10,6 +10,7 @@ import model.actors.cards.Card;
 import model.actors.cards.troops.Wizard;
 import model.actors.users.User;
 import model.utilities.AnimationUtilities;
+import model.utilities.Audio;
 import model.utilities.inGameUtilities.GameMap;
 
 /**
@@ -19,9 +20,12 @@ public class GameScreen extends BaseScreen {
 
   private Card wizard;
   private GameMap map;
-
+  private Audio audio;
+  
   @Override
   public void initialize() {
+    audio = new Audio("sounds/Battle.mp3");
+    audio.play();
     Gdx.input.setInputProcessor(super.getMainStage());
     this.map = new GameMap();
     final var arena = new BaseActor(0, 0, super.getMainStage());
