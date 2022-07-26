@@ -20,12 +20,10 @@ public class GameScreen extends BaseScreen {
 
   private Card wizard;
   private GameMap map;
-  private Audio audio;
-  
+
   @Override
   public void initialize() {
-    audio = new Audio("sounds/Battle.mp3");
-    audio.play();
+    Audio.playBattleMusic();
     Gdx.input.setInputProcessor(super.getMainStage());
     this.map = new GameMap();
     final var arena = new BaseActor(0, 0, super.getMainStage());

@@ -14,8 +14,7 @@ public class MenuScreen extends BaseScreen {
   private Audio audio;
   @Override
   public void initialize() {
-    audio = new Audio("sounds/Menu.mp3");
-    audio.play();
+    audio = Audio.playMenuMusic();
     final var background = new BaseActor(0, 0, super.getMainStage());
     background.setAnimation(AnimationUtilities.loadTexture("backgrounds/menuBackground.png"));
     background.setSize(ClashRoyale.WIDTH, ClashRoyale.HEIGHT);
