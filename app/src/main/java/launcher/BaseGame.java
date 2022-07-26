@@ -20,7 +20,7 @@ public abstract class BaseGame extends Game {
 
   /** 
    * Allows to switch from a screen to another. 
-
+   *
    * @param s 
    *        {@inheritDoc}
    */
