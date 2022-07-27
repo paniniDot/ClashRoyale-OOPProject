@@ -5,21 +5,23 @@ import java.util.TimerTask;
 /**
  * Utility class for CountDown in game.
  */
-public class CountDown {
-  private final Timer timer;
-  private int time;
-  /**
-   * default time.
-   */
-  public static final int TIMEDEFAULT = 60;
+public class CountDownController {
 
   /**
-   * build an countdown.
+   * Game will least 60 seconds.
    */
-  public CountDown() {
-    time = TIMEDEFAULT;
-    timer = new Timer();
-    timer.schedule(new MyTimerTask(), 0, 1000);
+  public static final int DEFAULT_TIME = 60;
+
+  private final Timer timer;
+  private int time;
+
+  /**
+   * build an countdown controller.
+   */
+  public CountDownController() {
+    this.time = DEFAULT_TIME;
+    this.timer = new Timer();
+    this.timer.schedule(new MyTimerTask(), 0, 1000);
 
   }
 
@@ -36,18 +38,16 @@ public class CountDown {
   }
 
   /**
-   * get time.
-   * 
-   * @return int
+   * @return the remaining seconds before game ends.
    */
   public int getTime() {
-    return time;
+    return this.time;
   }
 
   /**
-   * set time.
+   * Restart the timer.
    */
   public void setTime() {
-    time = TIMEDEFAULT;
+    this.time = DEFAULT_TIME;
   }
 }

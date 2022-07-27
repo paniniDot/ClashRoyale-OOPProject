@@ -8,31 +8,24 @@ import com.badlogic.gdx.audio.Music;
  */
 public final class Audio {
   private final Music music;
-  /**
-   * builds an music.
-   * @param name
-   *            the name of of files used.
-   */
+
   private Audio(final String name) {
     this.music = Gdx.audio.newMusic(Gdx.files.internal(name));
   }
-  /**
-   * play music.
-   * @return
-   */
+
   private void play() {
     this.music.play();
   }
   /**
-   * stop music.
-   * @return
+   * stops music.
    */
   public void stop() {
     this.music.stop();
   }
+
   /**
-   * play menu music.
-   * @return Audio 
+   * plays menu music.
+   * @return the menu audio. 
    */
   public static Audio playMenuMusic() {
     final Audio audio = new Audio("sounds/Menu.mp3");
@@ -40,8 +33,8 @@ public final class Audio {
     return audio; 
   }
   /**
-   * play battle music.
-   * @return Audio 
+   * plays battle music.
+   * @return the game audio. 
    */
   public static Audio playBattleMusic() {
     final Audio audio = new Audio("sounds/Battle.mp3");

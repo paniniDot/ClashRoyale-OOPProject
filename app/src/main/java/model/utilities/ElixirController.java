@@ -4,53 +4,53 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Utility class for elisir in game.
+ * Utility class for elixir in game.
  */
-public class ElisirCount {
+public class ElixirController {
   private final Timer timer;
-  private int elisir;
+  private int elixir;
 
   /**
-   * build an elisircount.
+   * build an elixir controller .
    */
-  public ElisirCount() {
-    elisir = 0;
-    timer = new Timer();
-    timer.schedule(new MyTimerTask(), 0, 1000);
+  public ElixirController() {
+    this.elixir = 0;
+    this.timer = new Timer();
+    this.timer.schedule(new MyTimerTask(), 0, 1000);
   }
 
   class MyTimerTask extends TimerTask {
 
     public void run() {
-      System.out.println(elisir);
-      if (elisir < 10) {
-        elisir++;
+      System.out.println(elixir);
+      if (elixir < 10) {
+        elixir++;
       }
     }
   }
 
   /**
-   * get elisir.
    * 
-   * @return int
+   * @return the current elixir owned.
    */
-  public int getElisir() {
-    return elisir;
+  public int getElixirCount() {
+    return this.elixir;
   }
 
   /**
-   * set elisir.
+   * set elixir value to 0.
    */
-  public void setElisir() {
-    elisir = 0;
+  public void resetElixirCount() {
+    this.elixir = 0;
   }
 
   /**
-   * decrement elisir.
+   * decrement elixir.
    * 
    * @param n
+   *        the amount of elixir to be taken.
    */
-  public void decrementElisir(final int n) {
-    elisir = elisir - n;
+  public void decrementElixir(final int n) {
+    this.elixir -= n;
   }
 }
