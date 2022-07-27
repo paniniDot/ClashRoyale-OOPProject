@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.jgrapht.Graph;
-import org.jgrapht.Graphs;
 import org.jgrapht.alg.shortestpath.AStarShortestPath;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.builder.GraphTypeBuilder;
@@ -46,7 +45,9 @@ public class GameMap {
       for (int j = 1; j < VERTICAL_UNITS; j++) {
         final var coords = new Vector2(i, j);
         if (!obstacles.contains(coords)) {
-          this.map.addVertex(new MapUnit(coords, new Vector2(x, y), MapUnit.Type.TERRAIN));
+          final var vertex = new MapUnit(coords, new Vector2(x, y), MapUnit.Type.TERRAIN);
+          System.out.println(vertex);
+          this.map.addVertex(vertex);
         }
         y += MapUnit.HEIGHT;
       }
@@ -56,13 +57,15 @@ public class GameMap {
 
   private void addEdges() {
     for (final var vertex : this.map.vertexSet()) {
+      if (vertex.getCoordinates().x > 1 && vertex.getCoordinates().y > 1) {
       for (var i = vertex.getCoordinates().x - 1; i <= vertex.getCoordinates().x + 1; i++) {
         for (var j = vertex.getCoordinates().y - 1; j <= vertex.getCoordinates().y + 1; j++) {
-          final var mapUnit = new MapUnit(new Vector2(i, j), new Vector2(MapUnit.WIDTH * (i - 1), MapUnit.HEIGHT * (j - 1)), MapUnit.Type.TERRAIN);
+          final var mapUnit = new MapUnit(new Vector2(i, j), new Vector2(X_START + MapUnit.WIDTH * (i - 1), Y_START + MapUnit.HEIGHT * (j - 1)), MapUnit.Type.TERRAIN);
           if (this.map.containsVertex(mapUnit)) {
-            Graphs.addEdgeWithVertices(map, vertex, mapUnit);
+            this.map.addEdge(vertex, mapUnit);
           } 
         }
+      }
       }
     }
   }
@@ -115,17 +118,16 @@ public class GameMap {
    * @return a list of vector2 of mapUnits coordinates.
    */
   public List<Vector2> getPath(final Vector2 source, final Vector2 dest) {
-    AStarShortestPath<MapUnit, DefaultEdge> pathFinder = 
-        new AStarShortestPath<>(this.map, (src, dst) -> this.euclideanDistance(src.getCoordinates(), dst.getCoordinates()));
-        return pathFinder.getPath(this.getMapUnitFromPixels(source), this.getMapUnitFromPixels(dest))
-            .getVertexList()
-            .stream()
-            .map(MapUnit::getCenter)
-            .collect(Collectors.toList());
+    return new AStarShortestPath<MapUnit, DefaultEdge>(this.map, (src, dst) -> this.euclideanDistance(src.getCoordinates(), dst.getCoordinates()))
+        .getPath(this.getMapUnitFromPixels(source), this.getMapUnitFromPixels(dest))
+        .getVertexList()
+        .stream()
+        .map(MapUnit::getCenter)
+        .collect(Collectors.toList());
   }
 
   private MapUnit getMapUnitFromPixels(final Vector2 pixels) {
-    final var coords = new Vector2((float) Math.ceil((pixels.x - X_START) / MapUnit.WIDTH), (float) Math.ceil((pixels.y - Y_START) / MapUnit.HEIGHT));
+    final var coords = new Vector2((float) Math.ceil((pixels.x - X_START) / MapUnit.WIDTH), (float) Math.ceil((Y_START - pixels.y) / MapUnit.HEIGHT));
     System.out.println(pixels + "-> " + coords);
     // il pixel passato alla funzione � un pixel a caso all'interno del rettangolo, io ho bisogno di quello in basso a sx per creare il rettangolo, uso il metodo sotto
     return new MapUnit(coords, this.getPixelsFromUnitCoords(coords), MapUnit.Type.TERRAIN);
