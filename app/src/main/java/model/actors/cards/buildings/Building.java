@@ -81,6 +81,16 @@ public abstract class Building extends Card implements Attackable {
   }
 
 
+  @Override
+  public Vector2 getPosition() {
+    return super.getPosition();
+  }
+
+  @Override
+  public void setPosition(final Vector2 newPos) {
+    super.setPosition(newPos.x, newPos.y);
+  }
+
   /**
    * @return self type.
    */

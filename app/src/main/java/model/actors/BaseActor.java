@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
@@ -96,6 +97,14 @@ public class BaseActor extends Actor {
    */
   public void setPosition(final float x, final float y) {
     super.setPosition(x, y);
+  }
+
+  /**
+   * 
+   * @return a vector2 containing the updated x,y positions of the actor.
+   */
+  public Vector2 getPosition() {
+    return new Vector2(super.getX(), super.getY());
   }
 
 }

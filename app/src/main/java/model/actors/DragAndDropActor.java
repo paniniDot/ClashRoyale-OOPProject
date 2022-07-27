@@ -1,5 +1,6 @@
 package model.actors;
 
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -91,17 +92,22 @@ public class DragAndDropActor extends BaseActor {
    * Called when drop occurs; extending classes may override this method.
    */
   public void onDrop() {
-    super.setPosition(this.getUpdatedPosition().x, this.getUpdatedPosition().y);
-    System.out.println(super.getX() + ", " + super.getY());
+    super.setPosition(this.getPosition().x, this.getPosition().y);
+    System.out.println("Screen: " + super.getX() + ", " + super.getY());
   }
 
   /**
+   * Place actor in new coordinates.
    * 
-   * @return a vector2 containing the updated x,y positions of the actor.
+   * @param spot
+   *            new coordinates.
    */
-  public Vector2 getUpdatedPosition() {
-    return new Vector2(self.getX(), self.getY());
+  public void moveTo(final Vector2 spot) {
+    this.addAction(Actions.moveTo(spot.x, spot.y, 0.02f, Interpolation.pow3));
+    super.setPosition(spot.x, spot.y);
+    System.out.println("Posizione da dragAndDropScreen :" + super.getPosition());
   }
+
   @Override 
   public void act(final float dt) {
       super.act(dt);

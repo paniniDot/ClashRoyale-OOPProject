@@ -13,7 +13,6 @@ import model.actors.users.User;
 public abstract class Card extends DragAndDropActor {
 
   private final int cost;
-  private Vector2 position;
   private final User owner;
 
   /** 
@@ -29,24 +28,7 @@ public abstract class Card extends DragAndDropActor {
   protected Card(final Stage stage, final int cost, final Vector2 position, final User owner) {
     super(position.x, position.y, stage);
     this.cost = cost;
-    this.position = position;
     this.owner = owner;
-  }
-
-  /** 
-   * @return the current position of the entity that implements this interface.
-   */
-  public Vector2 getPosition() {
-    return this.position;
-  }
-
-  /**
-   * Updates the current position of the entity.
-   * @param newPos
-   *              the new position.
-   */
-  public void setPosition(final Vector2 newPos) {
-    this.position = new Vector2(newPos);
   }
 
   /**
@@ -65,7 +47,7 @@ public abstract class Card extends DragAndDropActor {
 
   @Override
   public int hashCode() {
-    return Objects.hash(cost, owner, position);
+    return Objects.hash(cost, owner);
   }
 
   @Override
@@ -80,6 +62,6 @@ public abstract class Card extends DragAndDropActor {
       return false; 
     }
     final Card other = (Card) obj;
-    return cost == other.cost && Objects.equals(owner, other.owner) && Objects.equals(position, other.position);
+    return cost == other.cost && Objects.equals(owner, other.owner);
   }
 }
