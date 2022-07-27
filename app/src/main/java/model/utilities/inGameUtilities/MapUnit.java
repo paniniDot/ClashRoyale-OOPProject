@@ -1,5 +1,7 @@
 package model.utilities.inGameUtilities;
 
+import java.util.Objects;
+
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -93,4 +95,30 @@ public class MapUnit {
   public Vector2 getCenter() {
     return this.rect.getCenter(new Vector2());
   }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(coords, rect, type);
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    final MapUnit other = (MapUnit) obj;
+    return Objects.equals(coords, other.coords) && Objects.equals(rect, other.rect) && type == other.type;
+  }
+
+  @Override
+  public String toString() {
+    return "MapUnit [coords=" + coords + ", rect=" + rect + ", type=" + type + "]";
+  }
+
 }
