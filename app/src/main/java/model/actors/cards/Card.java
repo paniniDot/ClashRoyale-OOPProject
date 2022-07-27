@@ -5,13 +5,12 @@ import java.util.Objects;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import model.actors.DragAndDropActor;
-import model.actors.Attackable;
 import model.actors.users.User;
 
 /**
  * Defines a game card.
  */
-public abstract class Card extends DragAndDropActor implements Attackable {
+public abstract class Card extends DragAndDropActor {
 
   private final int cost;
   private Vector2 position;
@@ -34,11 +33,18 @@ public abstract class Card extends DragAndDropActor implements Attackable {
     this.owner = owner;
   }
 
-  @Override
+  /** 
+   * @return the current position of the entity that implements this interface.
+   */
   public Vector2 getPosition() {
     return this.position;
   }
-  @Override
+
+  /**
+   * Updates the current position of the entity.
+   * @param newPos
+   *              the new position.
+   */
   public void setPosition(final Vector2 newPos) {
     this.position = new Vector2(newPos);
   }
