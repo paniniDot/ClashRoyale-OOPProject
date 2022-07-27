@@ -15,6 +15,7 @@ public final class Audio {
 
   private void play() {
     this.music.play();
+    this.music.setVolume(0.1f);
   }
   /**
    * stops music.
