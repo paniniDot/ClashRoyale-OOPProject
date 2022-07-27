@@ -86,4 +86,16 @@ public class BaseActor extends Actor {
     }
   }
 
+  /**
+   * Updates the coordinates of the troop.
+   * 
+   * @param x
+   *        the new x coordinate.
+   * @param y 
+   *        the new y coordinate. 
+   */
+  public void setPosition(final float x, final float y) {
+    super.setPosition(x, y);
+  }
+
 }
