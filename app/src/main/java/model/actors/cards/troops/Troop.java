@@ -22,7 +22,7 @@ public abstract class Troop extends Card implements Attackable {
  *private final TargetType selfType;
   private final TargetType enemyType;
   */
-  private final int range;
+  private final double range;
   private Optional<Attackable> currentTarget;
 
   /**
@@ -45,7 +45,7 @@ public abstract class Troop extends Card implements Attackable {
    * @param range
    *          the distance between this troop and other entities to being targeted by it.
    */
-  protected Troop(final Stage stage, final int cost, final Vector2 position, final User owner, final double maxHP, final double damage, /*final double hitSpeed,*/ final Speeds speed, /*final TargetType selfType, final TargetType enemyType,*/ final int range) {
+  protected Troop(final Stage stage, final int cost, final Vector2 position, final User owner, final double maxHP, final double damage, /*final double hitSpeed,*/ final Speeds speed, /*final TargetType selfType, final TargetType enemyType,*/ final double range) {
     super(stage, cost, position, owner);
     this.currentHP = maxHP; 
     this.damage = damage;
@@ -89,7 +89,7 @@ public abstract class Troop extends Card implements Attackable {
   /**
    * @return the distance before this troop targets other entities.
    */
-  public int getRange() {
+  public double getRange() {
     return this.range;
   }
 
