@@ -3,6 +3,8 @@ package model.screens;
 import java.util.ArrayList;
 import java.util.List;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import launcher.ClashRoyale;
 import model.actors.BaseActor;
@@ -11,6 +13,8 @@ import model.actors.cards.troops.Wizard;
 import model.actors.users.User;
 import model.utilities.AnimationUtilities;
 import model.utilities.Audio;
+import model.utilities.CountDownController;
+import model.utilities.ElixirController;
 import model.utilities.inGameUtilities.GameMap;
 
 /**
@@ -20,10 +24,18 @@ public class GameScreen extends BaseScreen {
 
   private Card wizard;
   private GameMap map;
+  private SpriteBatch sprite;
+  private ElixirController elisir;
+  private CountDownController count;
+  private BitmapFont gamefont;
 
   @Override
   public void initialize() {
     Audio.playBattleMusic();
+    elisir = new ElixirController();
+    count = new CountDownController();
+    sprite = new SpriteBatch();
+    gamefont = new BitmapFont(Gdx.files.internal("Fonts/font.fnt"));
     Gdx.input.setInputProcessor(super.getMainStage());
     this.map = new GameMap();
     final var arena = new BaseActor(0, 0, super.getMainStage());
@@ -51,5 +63,13 @@ public class GameScreen extends BaseScreen {
   public void update(final float dt) {
     this.handleInput(dt);
     //this.wizard.moveBy(0, 1);
+  }
+  @Override
+  public void render(final float dt) {
+    super.render(dt);
+    sprite.begin();
+    gamefont.draw(sprite, "elisir " + elisir.getElixirCount(), 100, 100);
+    gamefont.draw(sprite, "durata " + count.getTime(), 100, 200);
+    sprite.end();
   }
 }
