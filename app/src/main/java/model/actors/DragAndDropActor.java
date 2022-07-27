@@ -56,6 +56,7 @@ public class DragAndDropActor extends BaseActor {
       public void touchUp(final InputEvent event, final float eventOffsetX, final float eventOffsetY, final int pointer, final int button) {
         // return object to original size when dropped by player
         self.addAction(Actions.scaleTo(1.00f, 1.00f, 0.25f));
+        self.onDrop();
       }
     });
 
@@ -101,5 +102,8 @@ public class DragAndDropActor extends BaseActor {
   public Vector2 getUpdatedPosition() {
     return new Vector2(self.getX(), self.getY());
   }
-
+  @Override 
+  public void act(final float dt) {
+      super.act(dt);
+  }
 }
