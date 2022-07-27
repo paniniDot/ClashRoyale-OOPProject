@@ -108,8 +108,4 @@ public class DragAndDropActor extends BaseActor {
     System.out.println("Posizione da dragAndDropScreen :" + super.getPosition());
   }
 
-  @Override 
-  public void act(final float dt) {
-      super.act(dt);
-  }
 }
