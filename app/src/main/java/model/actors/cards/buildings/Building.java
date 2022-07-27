@@ -6,18 +6,18 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import model.actors.cards.Card;
 import model.actors.users.User;
 import model.actors.Attackable;
-import model.actors.TargetType;
 
 /**
- * Building card (I.e. inferno tower, cannon).
+ * Building card.
  */
-public abstract class Building extends Card {
+public abstract class Building extends Card implements Attackable {
 
   private double currentHP;
   private final double damage;
   private final double hitSpeed;
-  private final TargetType selfType;
+  /*private final TargetType selfType;
   private final TargetType attackType;
+  */
   private double leftDuration;
   private final int range;
   private Optional<Attackable> currentTarget;
@@ -44,12 +44,13 @@ public abstract class Building extends Card {
    * @param range
    *            the range of influence.
    */
-  protected Building(final Stage stage, final int cost, final Vector2 position, final User owner, final double damage, final double hitSpeed, final TargetType self, final TargetType attack, final double duration, final int range) {
+  protected Building(final Stage stage, final int cost, final Vector2 position, final User owner, final double damage, final double hitSpeed, /*final TargetType self, final TargetType attack, */final double duration, final int range) {
     super(stage, cost, position, owner);
     this.damage = damage;
     this.hitSpeed = hitSpeed;
-    this.selfType = self;
+    /*this.selfType = self;
     this.attackType = attack;
+    */
     this.leftDuration = duration;
     this.range = range;
     this.currentTarget = Optional.empty();
@@ -83,18 +84,18 @@ public abstract class Building extends Card {
   /**
    * @return self type.
    */
-  public TargetType getSelfType() {
+/*  public TargetType getSelfType() {
     return selfType;
   }
 
-
+*/
   /**
    * @return enemy type.
    */
-  public TargetType getAttackType() {
+  /*public TargetType getAttackType() {
     return attackType;
   }
-
+*/
 
   /**
    * @return the range of influence.
@@ -134,7 +135,6 @@ public abstract class Building extends Card {
   public void attackCurrentTarget() {
     this.currentTarget.ifPresent(target -> target.reduceHPBy(this.damage));
   }
-
 
   @Override
   public void reduceHPBy(final double damage) {
