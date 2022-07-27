@@ -5,21 +5,23 @@ import java.util.Optional;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import model.actors.Attackable;
-import model.actors.TargetType;
+//import model.actors.TargetType;
 import model.actors.cards.Card;
 import model.actors.users.User;
 
 /**
  * Defines a troop. 
  */
-public abstract class Troop extends Card {
+public abstract class Troop extends Card implements Attackable {
 
   private double currentHP;
   private final double damage;
-  private final double hitSpeed;
-  private final MovementSpeed speed;
-  private final TargetType selfType;
+  //private final double hitSpeed;
+  private final Speeds speed;  //movement and hit speed
+/*
+ *private final TargetType selfType;
   private final TargetType enemyType;
+  */
   private final int range;
   private Optional<Attackable> currentTarget;
 
@@ -38,23 +40,20 @@ public abstract class Troop extends Card {
    *          hp per hit taken by this troop. 
    * @param hitSpeed
    *          number of hits per second.
-   * @param movementSpeed
-   *          {@inheritDoc}
-   * @param selfType
-   *          {@inheritDoc}
-   * @param enemyType
+   * @param speed
    *          {@inheritDoc}
    * @param range
    *          the distance between this troop and other entities to being targeted by it.
    */
-  protected Troop(final Stage stage, final int cost, final Vector2 position, final User owner, final double maxHP, final double damage, final double hitSpeed, final MovementSpeed movementSpeed, final TargetType selfType, final TargetType enemyType, final int range) {
+  protected Troop(final Stage stage, final int cost, final Vector2 position, final User owner, final double maxHP, final double damage, /*final double hitSpeed,*/ final Speeds speed, /*final TargetType selfType, final TargetType enemyType,*/ final int range) {
     super(stage, cost, position, owner);
     this.currentHP = maxHP; 
     this.damage = damage;
-    this.hitSpeed = hitSpeed;
-    this.speed = movementSpeed;
-    this.selfType = selfType;
+    //this.hitSpeed = hitSpeed;
+    this.speed = speed;
+    /*this.selfType = selfType;
     this.enemyType = enemyType;
+    */
     this.range = range;
     this.currentTarget = Optional.empty();
   }
@@ -76,14 +75,14 @@ public abstract class Troop extends Card {
   /**
    * @return the hit speed.
    */
-  public double getHitSpeed() {
+ /* public double getHitSpeed() {
     return this.hitSpeed;
   }
-
+*/
   /**
    * @return the movement speed of this troop.
    */
-  public MovementSpeed getSpeed() {
+  public Speeds getSpeed() {
     return this.speed;
   }
 
@@ -95,7 +94,7 @@ public abstract class Troop extends Card {
   }
 
   //verrà fatto una volta definita la meccanica in-game
-  public void setCurrentTarget(Attackable target) {};
+  //public void setCurrentTarget(Attackable target) {};
 
   /**
    * @return an optional containing an attackable entity who is targeted by this troop.
@@ -129,17 +128,17 @@ public abstract class Troop extends Card {
     return this.currentHP <= 0;
   }
 
-
+/*
   @Override
   public TargetType getSelfType() {
     return this.selfType;
   }
-
+*/
   /**
    * @return the type of enemies that this troop can target.
    */
-  public TargetType getEnemyType() {
+  /*public TargetType getEnemyType() {
     return this.enemyType;
-  }
+  }*/
 }
 

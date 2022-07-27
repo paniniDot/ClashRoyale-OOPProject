@@ -3,7 +3,7 @@ package model.actors.cards.troops;
 /**
  * Speed at which entities move.
  */
-public enum MovementSpeed {
+public enum Speeds {
   /**
    * Slow speed troops.
    */
