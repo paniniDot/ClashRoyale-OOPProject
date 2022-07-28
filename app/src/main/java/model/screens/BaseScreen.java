@@ -35,7 +35,7 @@ public abstract class BaseScreen implements Screen {
    * 
    * @return a secondary stage.
    */
-  public Stage uiStage() {
+  public Stage getUiStage() {
     return this.uiStage;
   }
 
