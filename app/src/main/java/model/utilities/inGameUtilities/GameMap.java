@@ -106,7 +106,67 @@ public class GameMap {
         new Vector2(18,15),
         new Vector2(16,16), 
         new Vector2(17,16), 
-        new Vector2(18,16)
+        new Vector2(18,16),
+
+        new Vector2(3,5),
+        new Vector2(3,6),
+        new Vector2(3,7),
+        new Vector2(4,5),
+        new Vector2(4,6),
+        new Vector2(4,7),
+        new Vector2(5,5),
+        new Vector2(5,6),
+        new Vector2(5,7),
+
+        new Vector2(8,1),
+        new Vector2(8,2),
+        new Vector2(8,3),
+        new Vector2(9,1),
+        new Vector2(9,2),
+        new Vector2(9,3),
+        new Vector2(10,1),
+        new Vector2(10,2),
+        new Vector2(10,3),
+
+        new Vector2(14,5),
+        new Vector2(14,6),
+        new Vector2(14,7),
+        new Vector2(15,5),
+        new Vector2(15,6),
+        new Vector2(15,7),
+        new Vector2(16,5),
+        new Vector2(16,6),
+        new Vector2(16,7),
+
+        new Vector2(3,24),
+        new Vector2(3,25),
+        new Vector2(3,26),
+        new Vector2(4,24),
+        new Vector2(4,25),
+        new Vector2(4,26),
+        new Vector2(5,24),
+        new Vector2(5,25),
+        new Vector2(5,26), 
+
+        new Vector2(8,27),
+        new Vector2(8,28),
+        new Vector2(8,29),
+        new Vector2(9,27),
+        new Vector2(9,28),
+        new Vector2(9,29),
+        new Vector2(10,27),
+        new Vector2(10,28),
+        new Vector2(10,29),
+
+        new Vector2(14,24),
+        new Vector2(14,25),
+        new Vector2(14,26),
+        new Vector2(15,24),
+        new Vector2(15,25),
+        new Vector2(15,26),
+        new Vector2(16,24),
+        new Vector2(16,25),
+        new Vector2(16,26)
         );
   }
 
@@ -126,6 +186,14 @@ public class GameMap {
         .stream()
         .map(MapUnit::getCenter)
         .collect(Collectors.toList());
+  }
+
+  /**
+   * 
+   * @return the map.
+   */
+  public Graph<MapUnit, DefaultEdge> getMap() {
+    return this.map;
   }
 
   private MapUnit getMapUnitFromPixels(final Vector2 pixels) {
