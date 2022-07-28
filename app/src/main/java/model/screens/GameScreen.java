@@ -1,7 +1,7 @@
 package model.screens;
 
-import java.util.ArrayList;
 import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -22,6 +22,7 @@ import model.utilities.inGameUtilities.GameMap;
  */
 public class GameScreen extends BaseScreen {
 
+  //private List<Card> wizards;
   private Card wizard;
   private GameMap map;
   private SpriteBatch sprite;
@@ -41,20 +42,30 @@ public class GameScreen extends BaseScreen {
     final var arena = new BaseActor(0, 0, super.getMainStage());
     arena.setAnimation(AnimationUtilities.loadTexture("arenas/arena1.png"));
     arena.setSize(ClashRoyale.WIDTH, ClashRoyale.HEIGHT);
+//    this.wizards = List.of(
+//        Wizard.create(new User("Panini"), super.getMainStage(), new Vector2(336, 596)),
+//        Wizard.create(new User("Panini"), super.getMainStage(), new Vector2(300, 500)),
+//        Wizard.create(new User("Panini"), super.getMainStage(), new Vector2(350, 550)),
+//        Wizard.create(new User("Panini"), super.getMainStage(), new Vector2(380, 596)));
     this.wizard = Wizard.create(new User("Panini"), super.getMainStage(), new Vector2(336, 596));
+//    this.wizards.forEach(w -> w.setAnimation(AnimationUtilities.loadAnimationFromFiles(new String[]{"wizard/selfWizard/walking/1.png",
+//        "wizard/selfWizard/walking/2.png", "wizard/selfWizard/walking/3.png", "wizard/selfWizard/walking/4.png"}, (float) 0.01724 * 10, true)));
     this.wizard.setAnimation(AnimationUtilities.loadAnimationFromFiles(new String[]{"wizard/selfWizard/walking/1.png",
         "wizard/selfWizard/walking/2.png", "wizard/selfWizard/walking/3.png", "wizard/selfWizard/walking/4.png"}, (float) 0.01724 * 10, true));
 
   }
 
   private void handleInput(final float dt) {
-    final List<Vector2> coords = new ArrayList<>();
-    coords.add(new Vector2(0, 0));
-    if (Gdx.input.justTouched()) {
-      this.wizard.moveBy(0, 10);
-      //System.out.println(this.map.getPath(new Vector2(this.wizard.getX(), this.wizard.getY()), new Vector2(450, 395)));
-      System.out.println(this.wizard.getPosition());
-    }
+    final var spots = this.map.getPath(new Vector2(this.wizard.getPosition().x, this.wizard.getPosition().y), new Vector2(450, 395));
+    this.wizard.moveTo(spots.get(1));
+    //this.wizards.forEach(w -> w.moveTo(this.map.getPath(w.getPosition(), new Vector2(450, 395)).get(1)));
+//    if (Gdx.input.justTouched()) {
+//      System.out.println(spots);
+//      this.wizard.moveTo(spots.get(1));
+//      //System.out.println("posizione di gamescreen: " + this.wizard.getPosition());
+//    }
+      //this.wizard.moveBy(0, 10);
+      //System.out.println("input: " + Gdx.input.getX() + ", " + (Gdx.graphics.getHeight() - Gdx.input.getY()));
     //this.wizard.moveBy(coords.get(0).x - this.wizard.getPosition().x , coords.get(0).y - this.wizard.getPosition().y);
     //coords.remove(0);
   }
