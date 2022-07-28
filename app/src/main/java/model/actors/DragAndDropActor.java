@@ -103,8 +103,7 @@ public class DragAndDropActor extends BaseActor {
    *            new coordinates.
    */
   public void moveTo(final Vector2 spot) {
-    this.addAction(Actions.moveTo(spot.x, spot.y, 0.02f, Interpolation.pow3));
-    super.setPosition(spot.x, spot.y);
+    this.addAction(Actions.moveTo(spot.x, spot.y, 2f));
     System.out.println("Posizione da dragAndDropScreen :" + super.getPosition());
   }
 
