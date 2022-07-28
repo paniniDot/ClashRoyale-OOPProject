@@ -15,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 public class BaseActor extends Actor {
 
   private Optional<Animation<TextureRegion>> animation;
-  private Optional<Rectangle> boundaries;
   private float elapsedTime;
 
   /**
@@ -31,7 +30,6 @@ public class BaseActor extends Actor {
     super();
     super.setPosition(x, y);
     this.animation = Optional.empty();
-    this.boundaries = Optional.empty();
     stage.addActor(this);
     this.elapsedTime = 0;
   }
@@ -43,18 +41,26 @@ public class BaseActor extends Actor {
    */
   public void setAnimation(final Animation<TextureRegion> animation) {
     this.animation = Optional.of(animation);
-    TextureRegion region = this.animation.get().getKeyFrame(0);
-    float w = region.getRegionWidth();
-    float h = region.getRegionHeight();
+    final TextureRegion region = this.animation.get().getKeyFrame(0);
+    final float w = region.getRegionWidth();
+    final float h = region.getRegionHeight();
     super.setSize(w, h);
-    this.boundaries = Optional.of(new Rectangle(super.getX(), super.getY(), w, h));
   }
 
   /**
    * @return a rectangle defining the boundaries of the actor.
    */
   public Rectangle getBoundaries() {
-    return this.boundaries.get();
+    return new Rectangle(super.getX(), super.getY(), super.getWidth(), super.getHeight());
+  }
+
+  /**
+   * 
+   * @return the center of the actor.
+   */
+  public Vector2 getCenter() {
+    System.out.println("Rettangolo = " + this.getBoundaries() + " Centro del rettangolo = " + this.getBoundaries().getCenter(new Vector2()));
+    return this.getBoundaries().getCenter(new Vector2());
   }
 
   /**
