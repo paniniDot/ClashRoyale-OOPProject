@@ -1,8 +1,10 @@
 package model.screens;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -15,6 +17,7 @@ import model.utilities.AnimationUtilities;
 import model.utilities.Audio;
 import model.utilities.CountDownController;
 import model.utilities.ElixirController;
+import model.utilities.RectDrawer;
 import model.utilities.inGameUtilities.GameMap;
 
 /**
@@ -56,7 +59,7 @@ public class GameScreen extends BaseScreen {
   }
 
   private void handleInput(final float dt) {
-    final var spots = this.map.getPath(new Vector2(this.wizard.getPosition().x, this.wizard.getPosition().y), new Vector2(450, 395));
+    final var spots = this.map.getPath(this.wizard.getPosition(), new Vector2(450, 395));
     this.wizard.moveTo(spots.get(1));
     //this.wizards.forEach(w -> w.moveTo(this.map.getPath(w.getPosition(), new Vector2(450, 395)).get(1)));
 //    if (Gdx.input.justTouched()) {
@@ -82,5 +85,6 @@ public class GameScreen extends BaseScreen {
     gamefont.draw(sprite, "elisir " + elisir.getElixirCount(), 100, 100);
     gamefont.draw(sprite, "durata " + count.getTime(), 100, 200);
     sprite.end();
+    RectDrawer.showDebugBoundingBoxes(this.map.getMap().vertexSet().stream().map(v -> v.getUnitRectangle()).collect(Collectors.toList()), Color.BLUE);
   }
 }
