@@ -1,8 +1,6 @@
 package model.screens;
 
-import java.util.List;
 import java.util.stream.Collectors;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -50,7 +48,7 @@ public class GameScreen extends BaseScreen {
 //        Wizard.create(new User("Panini"), super.getMainStage(), new Vector2(300, 500)),
 //        Wizard.create(new User("Panini"), super.getMainStage(), new Vector2(350, 550)),
 //        Wizard.create(new User("Panini"), super.getMainStage(), new Vector2(380, 596)));
-    this.wizard = Wizard.create(new User("Panini"), super.getMainStage(), new Vector2(336, 596));
+    this.wizard = Wizard.create(new User("Panini"), super.getMainStage(), new Vector2(297, 303));
 //    this.wizards.forEach(w -> w.setAnimation(AnimationUtilities.loadAnimationFromFiles(new String[]{"wizard/selfWizard/walking/1.png",
 //        "wizard/selfWizard/walking/2.png", "wizard/selfWizard/walking/3.png", "wizard/selfWizard/walking/4.png"}, (float) 0.01724 * 10, true)));
     this.wizard.setAnimation(AnimationUtilities.loadAnimationFromFiles(new String[]{"wizard/selfWizard/walking/1.png",
@@ -59,11 +57,11 @@ public class GameScreen extends BaseScreen {
   }
 
   private void handleInput(final float dt) {
-    final var spots = this.map.getPath(this.wizard.getPosition(), new Vector2(450, 395));
-    this.wizard.moveTo(spots.get(1));
     //this.wizards.forEach(w -> w.moveTo(this.map.getPath(w.getPosition(), new Vector2(450, 395)).get(1)));
+    final var spots = this.map.getPath(this.wizard.getCenter(), new Vector2(300, 567));
+    System.out.println("lista " + spots);
+    this.wizard.moveTo(new Vector2(spots.get(1).x - (int) this.wizard.getWidth() / 2, spots.get(1).y - (int) this.wizard.getHeight() / 2));
 //    if (Gdx.input.justTouched()) {
-//      System.out.println(spots);
 //      this.wizard.moveTo(spots.get(1));
 //      //System.out.println("posizione di gamescreen: " + this.wizard.getPosition());
 //    }
