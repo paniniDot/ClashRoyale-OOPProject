@@ -1,5 +1,6 @@
 package model.screens;
 
+import java.util.List;
 import java.util.stream.Collectors;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -23,8 +24,8 @@ import model.utilities.inGameUtilities.GameMap;
  */
 public class GameScreen extends BaseScreen {
 
-  //private List<Card> wizards;
-  private Card wizard;
+  private List<Card> wizards;
+  //private Card wizard;
   private GameMap map;
   private SpriteBatch sprite;
   private ElixirController elisir;
@@ -43,24 +44,31 @@ public class GameScreen extends BaseScreen {
     final var arena = new BaseActor(0, 0, super.getMainStage());
     arena.setAnimation(AnimationUtilities.loadTexture("arenas/arena1.png"));
     arena.setSize(ClashRoyale.WIDTH, ClashRoyale.HEIGHT);
-//    this.wizards = List.of(
-//        Wizard.create(new User("Panini"), super.getMainStage(), new Vector2(336, 596)),
-//        Wizard.create(new User("Panini"), super.getMainStage(), new Vector2(300, 500)),
-//        Wizard.create(new User("Panini"), super.getMainStage(), new Vector2(350, 550)),
-//        Wizard.create(new User("Panini"), super.getMainStage(), new Vector2(380, 596)));
-    this.wizard = Wizard.create(new User("Panini"), super.getMainStage(), new Vector2(297, 303));
-//    this.wizards.forEach(w -> w.setAnimation(AnimationUtilities.loadAnimationFromFiles(new String[]{"wizard/selfWizard/walking/1.png",
-//        "wizard/selfWizard/walking/2.png", "wizard/selfWizard/walking/3.png", "wizard/selfWizard/walking/4.png"}, (float) 0.01724 * 10, true)));
-    this.wizard.setAnimation(AnimationUtilities.loadAnimationFromFiles(new String[]{"wizard/selfWizard/walking/1.png",
-        "wizard/selfWizard/walking/2.png", "wizard/selfWizard/walking/3.png", "wizard/selfWizard/walking/4.png"}, (float) 0.01724 * 10, true));
+    this.wizards = List.of(
+        Wizard.create(new User("Panini"), super.getMainStage(), new Vector2(336, 596)),
+        Wizard.create(new User("Panini"), super.getMainStage(), new Vector2(300, 500)),
+        Wizard.create(new User("Panini"), super.getMainStage(), new Vector2(350, 550)),
+        Wizard.create(new User("Panini"), super.getMainStage(), new Vector2(380, 596)));
+    //this.wizard = Wizard.create(new User("Panini"), super.getMainStage(), new Vector2(297, 303));
+    this.wizards.forEach(w -> w.setAnimation(AnimationUtilities.loadAnimationFromFiles(new String[]{"wizard/selfWizard/walking/1.png",
+        "wizard/selfWizard/walking/2.png", "wizard/selfWizard/walking/3.png", "wizard/selfWizard/walking/4.png"}, (float) 0.01724 * 10, true)));
+    //this.wizard.setAnimation(AnimationUtilities.loadAnimationFromFiles(new String[]{"wizard/selfWizard/walking/1.png",
+     //   "wizard/selfWizard/walking/2.png", "wizard/selfWizard/walking/3.png", "wizard/selfWizard/walking/4.png"}, (float) 0.01724 * 10, true));
 
   }
 
   private void handleInput(final float dt) {
+    this.wizards.forEach(w -> {
+    final var spots = this.map.getPath(w.getCenter(), new Vector2(450, 395));
+    if(!spots.isEmpty()) {
+      System.out.println("lista " + spots);
+      w.moveTo(new Vector2(spots.get(1).x-w.getWidth()/2,spots.get(1).y-w.getHeight()/2));
+    }
+    });
     //this.wizards.forEach(w -> w.moveTo(this.map.getPath(w.getPosition(), new Vector2(450, 395)).get(1)));
-    final var spots = this.map.getPath(this.wizard.getCenter(), new Vector2(300, 567));
-    System.out.println("lista " + spots);
-    this.wizard.moveTo(new Vector2(spots.get(1).x - (int) this.wizard.getWidth() / 2, spots.get(1).y - (int) this.wizard.getHeight() / 2));
+    //final var spots = this.map.getPath(this.wizard.getCenter(), new Vector2(300, 567));
+    //System.out.println("lista " + spots);
+    //this.wizard.moveTo(new Vector2(spots.get(1).x - (int) this.wizard.getWidth() / 2, spots.get(1).y - (int) this.wizard.getHeight() / 2));
 //    if (Gdx.input.justTouched()) {
 //      this.wizard.moveTo(spots.get(1));
 //      //System.out.println("posizione di gamescreen: " + this.wizard.getPosition());
