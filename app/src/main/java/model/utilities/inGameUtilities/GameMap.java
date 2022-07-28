@@ -119,12 +119,13 @@ public class GameMap {
    * @return a list of vector2 of mapUnits coordinates.
    */
   public List<Vector2> getPath(final Vector2 source, final Vector2 dest) {
-    //System.out.println("source: " + source + ", dest: " + dest);
+    System.out.println("source: " + source + ", dest: " + dest + "" + getMapUnitFromPixels(new Vector2(240,483)));
+    
     return new AStarShortestPath<MapUnit, DefaultEdge>(this.map, (src, dst) -> this.euclideanDistance(src.getCoordinates(), dst.getCoordinates()))
         .getPath(this.getMapUnitFromPixels(source), this.getMapUnitFromPixels(dest))
         .getVertexList()
         .stream()
-        .map(MapUnit::getCenter)
+        .map(MapUnit::getPosition)
         .collect(Collectors.toList());
   }
 
