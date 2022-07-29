@@ -27,6 +27,9 @@ import model.utilities.Audio;
 public class MenuScreen extends BaseScreen {
   private Audio audio;
   private TextureAtlas atlas, atlasLabel;
+  private Skin skin, skinLabel;
+  private Table table;
+  private TextButton buttonPlay, buttonExit, buttonLevel, buttonScore;
   private Label heading, level;
   private User user;
 
