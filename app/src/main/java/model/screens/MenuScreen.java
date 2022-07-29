@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import launcher.BaseGame;
 import launcher.ClashRoyale;
 import model.actors.BaseActor;
+import model.actors.users.User;
 import model.utilities.AnimationUtilities;
 import model.utilities.Audio;
 
@@ -25,11 +26,12 @@ import model.utilities.Audio;
  */
 public class MenuScreen extends BaseScreen {
   private Audio audio;
-  private TextureAtlas atlas;
-  private Skin skin;
+  private TextureAtlas atlas, atlasLabel;
+  private Skin skin, skinLabel;
   private Table table;
-  private TextButton buttonPlay, buttonExit;
-  private Label heading;
+  private TextButton buttonPlay, buttonExit, buttonLevel, buttonScore;
+  private Label heading, level;
+  private User user;
 
   @Override
   public void initialize() {
@@ -44,15 +46,19 @@ public class MenuScreen extends BaseScreen {
     table = new Table(skin);
     table.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
+    //creating configuration labelbutton
+    
+    
     //creating heading
     heading = new Label(ClashRoyale.TITLE, skin);
-
+    atlasLabel = new TextureAtlas("buttons/scoreLabel.pack");
+    skinLabel = new Skin(Gdx.files.internal("buttons/menuSkinLabel.json"), atlasLabel);
+    
     //creating buttons
     buttonPlay = new TextButton("Play", skin);
     buttonPlay.addListener(new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
-        audio.stop();
         BaseGame.setActiveScreen(new GameScreen());
       }
     });
@@ -67,7 +73,9 @@ public class MenuScreen extends BaseScreen {
     });  
 
     buttonExit.pad(15);
-
+    user = new User("Panini");
+    buttonLevel = new TextButton("Score " +String.valueOf(user.getCurrentXP()), skinLabel);
+    buttonScore = new TextButton(user.getCurrentLevel().toString(), skinLabel);
     table.add(heading);
     table.getCell(heading).spaceBottom(100);
     table.row();
@@ -75,6 +83,11 @@ public class MenuScreen extends BaseScreen {
     table.row();
     table.add(buttonExit);
     super.getUiStage().addActor(table);
+    super.getUiStage().addActor(buttonLevel);
+    buttonLevel.setPosition(Gdx.graphics.getWidth()-buttonLevel.getWidth(), Gdx.graphics.getHeight()-buttonLevel.getHeight());
+    super.getUiStage().addActor(buttonScore);
+    buttonScore.setPosition(0, Gdx.graphics.getHeight()-buttonLevel.getHeight());
+
   }
 
   @Override

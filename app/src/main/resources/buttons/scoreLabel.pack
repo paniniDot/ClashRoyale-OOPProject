@@ -1,0 +1,12 @@
+
+scoreLabel.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+text_field
+  rotate: false
+  xy: 1, 1
+  size: 282, 51
+  orig: 282, 51
+  offset: 0, 0
+  index: -1
