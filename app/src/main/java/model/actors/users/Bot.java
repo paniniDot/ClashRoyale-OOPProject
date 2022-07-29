@@ -1,4 +1,4 @@
-package model.utilities;
+package model.actors.users;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,12 +11,13 @@ import model.utilities.ingame.GameMap;
 /**
  * bot implementation.
  */
-public class Bot {
+public class Bot extends User {
 
   /**
    * build bot. 
    */
   public Bot() {
+    super("Bot");
   }
 
   /**

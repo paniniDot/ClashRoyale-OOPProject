@@ -12,14 +12,14 @@ import launcher.ClashRoyale;
 import model.actors.BaseActor;
 import model.actors.cards.Card;
 import model.actors.cards.troops.Wizard;
+import model.actors.users.Bot;
 import model.actors.users.User;
 import model.utilities.AnimationUtilities;
 import model.utilities.Audio;
-import model.utilities.Bot;
 import model.utilities.CountDownController;
 import model.utilities.ElixirController;
 import model.utilities.RectDrawer;
-import model.utilities.inGameUtilities.GameMap;
+import model.utilities.ingame.GameMap;
 
 /**
  * In-game screen implementation.
@@ -51,14 +51,15 @@ public class GameScreen extends BaseScreen {
     arena.setSize(ClashRoyale.WIDTH, ClashRoyale.HEIGHT);
     this.wizardsplayer = List.of(
         Wizard.create(new User("Panini"), super.getMainStage(), new Vector2(300, 300)),
+        Wizard.create(new User("Panini"), super.getMainStage(), new Vector2(300, 378)),
         Wizard.create(new User("Panini"), super.getMainStage(), new Vector2(450, 400)));
     this.wizardsplayer.forEach(w -> w.setAnimation(AnimationUtilities.loadAnimationFromFiles(new String[]{"wizard/selfWizard/walking/1.png",
         "wizard/selfWizard/walking/2.png", "wizard/selfWizard/walking/3.png", "wizard/selfWizard/walking/4.png"}, (float) 0.01724 * 10, true)));
     this.wizardsbot = List.of(
-        Wizard.create(new User("Bot"), super.getMainStage(), new Vector2(336, 596)),
-        Wizard.create(new User("Bot"), super.getMainStage(), new Vector2(300, 500)),
-        Wizard.create(new User("Bot"), super.getMainStage(), new Vector2(350, 550)),
-        Wizard.create(new User("Bot"), super.getMainStage(), new Vector2(380, 596)));
+        Wizard.create(new Bot(), super.getMainStage(), new Vector2(336, 596)),
+        Wizard.create(new Bot(), super.getMainStage(), new Vector2(300, 500)),
+        Wizard.create(new Bot(), super.getMainStage(), new Vector2(350, 550)),
+        Wizard.create(new Bot(), super.getMainStage(), new Vector2(380, 596)));
     this.wizardsbot.forEach(w -> w.setAnimation(AnimationUtilities.loadAnimationFromFiles(new String[]{"wizard/selfWizard/walking/1.png",
         "wizard/selfWizard/walking/2.png", "wizard/selfWizard/walking/3.png", "wizard/selfWizard/walking/4.png"}, (float) 0.01724 * 10, true)));
 

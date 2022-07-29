@@ -11,6 +11,7 @@ import model.actors.cards.Card;
 import model.actors.towers.KingTower;
 import model.actors.towers.QueenTower;
 import model.actors.towers.Tower;
+import model.actors.users.Bot;
 import model.actors.users.User;
 import model.utilities.CardQueue;
 import model.utilities.ElixirController;
@@ -34,7 +35,7 @@ public class BotGameController extends GameController {
    * @param botCards
    *              {@inheritDoc}.
    */
-  public BotGameController(final List<Card> playerCards, final List<Card> botCards, final User player, final User bot, final Stage stage) {
+  public BotGameController(final List<Card> playerCards, final List<Card> botCards, final User player, final Bot bot, final Stage stage) {
     super(playerCards, player, stage);
     this.botCards = new CardQueue(botCards);
     this.botDeployedCards = new ArrayList<>();
@@ -45,7 +46,7 @@ public class BotGameController extends GameController {
   }
 
   /* logica per la posizione delle torri mancante */
-  private List<Tower> getBotTowers(final User bot, final Stage stage) {
+  private List<Tower> getBotTowers(final Bot bot, final Stage stage) {
     final List<Tower> towers = new ArrayList<>();
     towers.add(QueenTower.create(bot, stage, null));
     towers.add(QueenTower.create(bot, stage, null));
