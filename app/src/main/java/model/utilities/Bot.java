@@ -1,7 +1,9 @@
 package model.utilities;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
+
 import com.badlogic.gdx.math.Vector2;
 import model.actors.cards.Card;
 import model.utilities.inGameUtilities.GameMap;
@@ -11,13 +13,10 @@ import model.utilities.inGameUtilities.GameMap;
  */
 public class Bot {
 
-  private HashMap<Card, List<Vector2>> map;
-
   /**
    * build bot. 
    */
   public Bot() {
-    map = new HashMap<>();
   }
 
   /**
@@ -27,19 +26,21 @@ public class Bot {
    * @param gameMap
    * @return HashMap<Card, List<Vector2>>
    */
-  public HashMap<Card, List<Vector2>> findEnemy(final GameMap gameMap, final List<Card> playerCards, final List<Card> botCards) {
+  public Map<Card, List<Vector2>> findEnemy(final GameMap gameMap, final List<Card> playerCards, final List<Card> botCards) {
+    final Map<Card, List<Vector2>> cardPaths = new HashMap<>();
     Card player = null;
     for (final Card bot: botCards) {
-      final double min = Integer.MAX_VALUE;
+      double min = Double.MAX_VALUE;
       for (final Card p: playerCards) {
         final double d = this.euclideanDistance(bot.getCenter(), p.getCenter());
         if (Double.compare(min, d) > 0) {
           player = p;
+          min = d;
         }
       }
-      this.map.put(bot, gameMap.getPath(bot.getCenter(), player.getCenter()));
+      cardPaths.put(bot, gameMap.getPath(bot.getCenter(), player.getCenter()));
     }
-    return this.map;
+    return cardPaths;
   }
 
   private double euclideanDistance(final Vector2 src, final Vector2 dst) {
