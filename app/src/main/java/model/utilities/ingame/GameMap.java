@@ -1,4 +1,4 @@
-package model.utilities.inGameUtilities;
+package model.utilities.ingame;
 
 import java.util.List;
 import java.util.stream.Collectors;

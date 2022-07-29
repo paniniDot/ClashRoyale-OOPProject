@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.badlogic.gdx.math.Vector2;
 import model.actors.cards.Card;
-import model.utilities.inGameUtilities.GameMap;
+import model.utilities.ingame.GameMap;
 
 /**
  * bot implementation.
