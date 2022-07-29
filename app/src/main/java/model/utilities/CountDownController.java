@@ -28,7 +28,7 @@ public class CountDownController {
   class MyTimerTask extends TimerTask {
 
     public void run() {
-      System.out.println(time);
+      //System.out.println(time);
       if (time > 0) {
         time--;
       } else {

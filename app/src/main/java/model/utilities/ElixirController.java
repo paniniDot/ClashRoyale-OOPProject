@@ -22,7 +22,7 @@ public class ElixirController {
   class MyTimerTask extends TimerTask {
 
     public void run() {
-      System.out.println(elixir);
+      //System.out.println(elixir);
       if (elixir < 10) {
         elixir++;
       }
