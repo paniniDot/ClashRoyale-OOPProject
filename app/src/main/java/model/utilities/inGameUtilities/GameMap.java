@@ -14,10 +14,10 @@ import com.badlogic.gdx.math.Vector2;
  * The actual map.
  */
 public class GameMap {
-  private static final int HORIZONTAL_UNITS = 18;
-  private static final int VERTICAL_UNITS = 30;
-  private static final int X_START = 183;
-  private static final int Y_START = 258;
+  private static final int HORIZONTAL_UNITS = 19;
+  private static final int VERTICAL_UNITS = 32;
+  private static final int X_START = 175;
+  private static final int Y_START = 255;
 
   private final Graph<MapUnit, DefaultEdge> map;
 
