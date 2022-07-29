@@ -1,6 +1,6 @@
 package model.screens;
 
-import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 import java.util.stream.Collectors;
 import com.badlogic.gdx.Gdx;
@@ -34,7 +34,7 @@ public class GameScreen extends BaseScreen {
   private ElixirController elisir;
   private CountDownController count;
   private BitmapFont gamefont;
-  private HashMap<Card, List<Vector2>> spots;
+  private Map<Card, List<Vector2>> spots;
 
   @Override
   public void initialize() {
@@ -50,7 +50,8 @@ public class GameScreen extends BaseScreen {
     arena.setAnimation(AnimationUtilities.loadTexture("arenas/arena1.png"));
     arena.setSize(ClashRoyale.WIDTH, ClashRoyale.HEIGHT);
     this.wizardsplayer = List.of(
-        Wizard.create(new User("Panini"), super.getMainStage(), new Vector2(300, 300)));
+        Wizard.create(new User("Panini"), super.getMainStage(), new Vector2(300, 300)),
+        Wizard.create(new User("Panini"), super.getMainStage(), new Vector2(450, 400)));
     this.wizardsplayer.forEach(w -> w.setAnimation(AnimationUtilities.loadAnimationFromFiles(new String[]{"wizard/selfWizard/walking/1.png",
         "wizard/selfWizard/walking/2.png", "wizard/selfWizard/walking/3.png", "wizard/selfWizard/walking/4.png"}, (float) 0.01724 * 10, true)));
     this.wizardsbot = List.of(
@@ -67,7 +68,7 @@ public class GameScreen extends BaseScreen {
     spots = bot.findEnemy(map, wizardsplayer, wizardsbot);
     for (var entry : spots.entrySet()) {
       this.wizardsbot.forEach(w -> {
-        if (entry.getKey().equals(w)) {
+        if (entry.getKey().equals(w) && entry.getValue().size() > 1) {
           w.moveTo(new Vector2(entry.getValue().get(1).x - w.getWidth() / 2, entry.getValue().get(1).y - w.getHeight() / 2));
         }
         });
