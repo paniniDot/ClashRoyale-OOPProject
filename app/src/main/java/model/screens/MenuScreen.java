@@ -52,11 +52,11 @@ public class MenuScreen extends BaseScreen {
     //creating buttons
     buttonPlay = new TextButton("Play", skin);
     buttonPlay.addListener(new ClickListener() {
-      @Override
-      public void clicked(final InputEvent event, final float x, final float y) {
-        audio.stop();
-        BaseGame.setActiveScreen(new GameScreen());
-      }
+    @Override
+    public void clicked(final InputEvent event, final float x, final float y) {
+      audio.stop();
+      BaseGame.setActiveScreen(new GameScreen());
+    }
     });
     buttonPlay.pad(15);
     buttonExit = new TextButton("Exit", skin);
@@ -88,5 +88,9 @@ public class MenuScreen extends BaseScreen {
     super.dispose();
     this.atlas.dispose();
     this.skin.dispose();
+  }
+
+  @Override
+  public void update(final float dt) {
   }
 }
