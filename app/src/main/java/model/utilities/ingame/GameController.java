@@ -1,11 +1,17 @@
-package model.utilities.inGameUtilities;
+package model.utilities.ingame;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import com.badlogic.gdx.scenes.scene2d.Stage;
+
 import model.actors.cards.Card;
+import model.actors.towers.KingTower;
+import model.actors.towers.QueenTower;
+import model.actors.towers.Tower;
+import model.actors.users.User;
 import model.utilities.CardQueue;
 import model.utilities.ElixirController;
 
@@ -22,21 +28,36 @@ public abstract class GameController {
   private final CardQueue playerCards;
   private final List<Card> playerDeployedCards;
   private final List<Card> playerChoosableCards;
-  //private final List<Tower> playerActiveTowers;
+  private final List<Tower> playerActiveTowers;
   private final ElixirController elixirController;
 
   /**
    * 
    * @param playerCards
    *              the player deck.
+   * @param user
+   *              the user who is playing.
+   * @param stage 
+   *              the stage the gameController has to control.
    */
-  public GameController(final List<Card> playerCards) {
+  public GameController(final List<Card> playerCards, final User user, final Stage stage) {
     this.playerCards = new CardQueue(playerCards);
     this.playerDeployedCards = new ArrayList<>();
     this.playerChoosableCards = new ArrayList<>();
     IntStream.range(0, CHOOSABLE_CARDS).forEach(i -> this.playerChoosableCards.add(this.playerCards.getCard()));
+    this.playerActiveTowers = this.getPlayerTowers(user, stage);
     this.elixirController = new ElixirController();
   }
+
+  /* logica per la posizione delle torri nella mappa mancante */
+  private List<Tower> getPlayerTowers(final User user, final Stage stage) {
+    final List<Tower> towers = new ArrayList<>();
+    towers.add(QueenTower.create(user, stage, null));
+    towers.add(QueenTower.create(user, stage, null));
+    towers.add(KingTower.create(user, stage, null));
+    return towers;
+  }
+
 
   /**
    * 
@@ -76,6 +97,26 @@ public abstract class GameController {
   public void removePlayerCardFromMap(final Card card) {
     if (this.playerDeployedCards.contains(card)) {
       this.playerDeployedCards.remove(card);
+    }
+  }
+
+  /**
+   * 
+   * @return the currently active towers of the user.
+   */
+  public List<Tower> getPlayerActiveTowers() {
+    return Collections.unmodifiableList(this.playerActiveTowers);
+  }
+
+  /**
+   * If not already, destroys a user tower.
+   * 
+   * @param tower
+   *            the tower to be destroyed.
+   */
+  public void destroyUserTower(final Tower tower) {
+    if (this.playerActiveTowers.contains(tower)) {
+      this.playerActiveTowers.remove(tower);
     }
   }
 
