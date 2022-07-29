@@ -180,15 +180,15 @@ public class GameMap {
    */
   public List<Vector2> getPath(final Vector2 source, final Vector2 dest) {
     System.out.println("source: " + source + ", dest: " + dest + "" + getMapUnitFromPixels(new Vector2(240,483)));
-    if(this.map.containsVertex(getMapUnitFromPixels(source))) {
-    return new AStarShortestPath<MapUnit, DefaultEdge>(this.map, (src, dst) -> this.euclideanDistance(src.getCoordinates(), dst.getCoordinates()))
-        .getPath(this.getMapUnitFromPixels(source), this.getMapUnitFromPixels(dest))
-        .getVertexList()
-        .stream()
-        .map(MapUnit::getCenter)
-        .collect(Collectors.toList());
-  }
-  return List.of()  ;
+    if (this.map.containsVertex(getMapUnitFromPixels(source)) && this.map.containsVertex(getMapUnitFromPixels(dest))) {
+      return new AStarShortestPath<MapUnit, DefaultEdge>(this.map, (src, dst) -> this.euclideanDistance(src.getCoordinates(), dst.getCoordinates()))
+          .getPath(this.getMapUnitFromPixels(source), this.getMapUnitFromPixels(dest))
+          .getVertexList()
+          .stream()
+          .map(MapUnit::getCenter)
+          .collect(Collectors.toList());
+    }
+    return List.of();
   }
 
   /**
