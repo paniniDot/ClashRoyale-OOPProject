@@ -14,10 +14,10 @@ import com.badlogic.gdx.math.Vector2;
  * The actual map.
  */
 public class GameMap {
-  private static final int HORIZONTAL_UNITS = 18;
-  private static final int VERTICAL_UNITS = 30;
-  private static final int X_START = 183;
-  private static final int Y_START = 258;
+  private static final int HORIZONTAL_UNITS = 19;
+  private static final int VERTICAL_UNITS = 32;
+  private static final int X_START = 175;
+  private static final int Y_START = 255;
 
   private final Graph<MapUnit, DefaultEdge> map;
 
@@ -180,15 +180,15 @@ public class GameMap {
    */
   public List<Vector2> getPath(final Vector2 source, final Vector2 dest) {
     System.out.println("source: " + source + ", dest: " + dest + "" + getMapUnitFromPixels(new Vector2(240,483)));
-    if(this.map.containsVertex(getMapUnitFromPixels(source))) {
-    return new AStarShortestPath<MapUnit, DefaultEdge>(this.map, (src, dst) -> this.euclideanDistance(src.getCoordinates(), dst.getCoordinates()))
-        .getPath(this.getMapUnitFromPixels(source), this.getMapUnitFromPixels(dest))
-        .getVertexList()
-        .stream()
-        .map(MapUnit::getCenter)
-        .collect(Collectors.toList());
-  }
-  return List.of()  ;
+    if (this.map.containsVertex(getMapUnitFromPixels(source)) && this.map.containsVertex(getMapUnitFromPixels(dest))) {
+      return new AStarShortestPath<MapUnit, DefaultEdge>(this.map, (src, dst) -> this.euclideanDistance(src.getCoordinates(), dst.getCoordinates()))
+          .getPath(this.getMapUnitFromPixels(source), this.getMapUnitFromPixels(dest))
+          .getVertexList()
+          .stream()
+          .map(MapUnit::getCenter)
+          .collect(Collectors.toList());
+    }
+    return List.of();
   }
 
   /**

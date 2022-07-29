@@ -40,41 +40,35 @@ public class MenuScreen extends BaseScreen {
     background.setAnimation(AnimationUtilities.loadTexture("backgrounds/menuBackground.png"));
     background.setSize(ClashRoyale.WIDTH, ClashRoyale.HEIGHT);
     Gdx.input.setInputProcessor(super.getUiStage());
-
     atlas = new TextureAtlas("buttons/button.pack");
     skin = new Skin(Gdx.files.internal("buttons/menuSkin.json"), atlas);
     table = new Table(skin);
     table.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
     //creating configuration labelbutton
-    
-    
     //creating heading
     heading = new Label(ClashRoyale.TITLE, skin);
     atlasLabel = new TextureAtlas("buttons/scoreLabel.pack");
     skinLabel = new Skin(Gdx.files.internal("buttons/menuSkinLabel.json"), atlasLabel);
-    
     //creating buttons
     buttonPlay = new TextButton("Play", skin);
     buttonPlay.addListener(new ClickListener() {
-      @Override
-      public void clicked(InputEvent event, float x, float y) {
-        BaseGame.setActiveScreen(new GameScreen());
-      }
+    @Override
+    public void clicked(final InputEvent event, final float x, final float y) {
+      audio.stop();
+      BaseGame.setActiveScreen(new GameScreen());
+    }
     });
     buttonPlay.pad(15);
-
     buttonExit = new TextButton("Exit", skin);
     buttonExit.addListener(new ClickListener() {
-      @Override
-      public void clicked(InputEvent event, float x, float y) {
-        Gdx.app.exit();
-      }
-    });  
-
+    @Override
+    public void clicked(final InputEvent event, final float x, final float y) {
+      Gdx.app.exit();
+    }
+    });
     buttonExit.pad(15);
     user = new User("Panini");
-    buttonLevel = new TextButton("Score " +String.valueOf(user.getCurrentXP()), skinLabel);
+    buttonLevel = new TextButton("Score " + String.valueOf(user.getCurrentXP()), skinLabel);
     buttonScore = new TextButton(user.getCurrentLevel().toString(), skinLabel);
     table.add(heading);
     table.getCell(heading).spaceBottom(100);
@@ -84,20 +78,11 @@ public class MenuScreen extends BaseScreen {
     table.add(buttonExit);
     super.getUiStage().addActor(table);
     super.getUiStage().addActor(buttonLevel);
-    buttonLevel.setPosition(Gdx.graphics.getWidth()-buttonLevel.getWidth(), Gdx.graphics.getHeight()-buttonLevel.getHeight());
+    buttonLevel.setPosition(Gdx.graphics.getWidth() - buttonLevel.getWidth(), Gdx.graphics.getHeight() - buttonLevel.getHeight());
     super.getUiStage().addActor(buttonScore);
-    buttonScore.setPosition(0, Gdx.graphics.getHeight()-buttonLevel.getHeight());
-
+    buttonScore.setPosition(0, Gdx.graphics.getHeight() - buttonLevel.getHeight());
   }
 
-  @Override
-  public void update(final float dt) {
-    if (Gdx.input.isKeyJustPressed(Keys.S)) {
-      audio.stop();
-      BaseGame.setActiveScreen(new GameScreen());
-    }
-
-  }
   @Override
   public void dispose() {
     super.dispose();
@@ -105,6 +90,7 @@ public class MenuScreen extends BaseScreen {
     this.skin.dispose();
   }
 
-
-
+  @Override
+  public void update(final float dt) {
+  }
 }
