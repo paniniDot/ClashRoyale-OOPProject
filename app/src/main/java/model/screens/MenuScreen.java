@@ -52,6 +52,7 @@ public class MenuScreen extends BaseScreen {
     buttonPlay.addListener(new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
+        audio.stop();
         BaseGame.setActiveScreen(new GameScreen());
       }
     });
