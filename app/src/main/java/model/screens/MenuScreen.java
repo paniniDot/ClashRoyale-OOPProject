@@ -49,16 +49,20 @@ public class MenuScreen extends BaseScreen {
 
     //creating buttons
     buttonPlay = new TextButton("Play", skin);
-    buttonPlay.addListener(e -> {
-      BaseGame.setActiveScreen(new GameScreen());
-      return true;   
+    buttonPlay.addListener(new ClickListener() {
+      @Override
+      public void clicked(InputEvent event, float x, float y) {
+        BaseGame.setActiveScreen(new GameScreen());
+      }
     });
     buttonPlay.pad(15);
 
     buttonExit = new TextButton("Exit", skin);
-    buttonExit.addListener(e -> {
-      Gdx.app.exit();
-      return true;
+    buttonExit.addListener(new ClickListener() {
+      @Override
+      public void clicked(InputEvent event, float x, float y) {
+        Gdx.app.exit();
+      }
     });  
 
     buttonExit.pad(15);
