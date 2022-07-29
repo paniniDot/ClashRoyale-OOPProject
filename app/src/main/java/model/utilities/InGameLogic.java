@@ -1,6 +1,7 @@
 package model.utilities;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 import model.actors.cards.Card;
@@ -64,5 +65,38 @@ public class InGameLogic {
   public void deployBotCard(final Card card) {
     this.deployCard(card, this.botCards, this.botDeployedCards, this.playerChoosableCards);
   }
+
+  /**
+   * 
+   * @return a list of user currently deployed cards.
+   */
+  public List<Card> getPlayerDeployedCards() {
+    return Collections.unmodifiableList(this.playerDeployedCards);
+  }
+
+  /**
+   * 
+   * @return a list of user currently choosable cards.
+   */
+  public List<Card> getPlayerChoosableCards() {
+    return Collections.unmodifiableList(this.playerChoosableCards);
+  }
+
+  /**
+   * 
+   * @return a list of bot currently deployed cards.
+   */
+  public List<Card> getBotDeployedCards() {
+    return Collections.unmodifiableList(this.botDeployedCards);
+  }
+
+  /**
+   * 
+   * @return a list of bot currently choosable cards.
+   */
+  public List<Card> getBotChoosableCards() {
+    return Collections.unmodifiableList(this.botChoosableCards);
+  }
+
 }
 
