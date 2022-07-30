@@ -28,6 +28,10 @@ import model.utilities.Audio;
 /**
  * Menu screen implementation.
  */
+/**
+ * @author Giulia
+ *
+ */
 public class MenuScreen extends BaseScreen {
 
   /**
@@ -56,10 +60,14 @@ public class MenuScreen extends BaseScreen {
   private FileHandle file = Gdx.files.local("bin/desc.json");
   private UserDatabase desc;
   private User user;
-  
-  public UserDatabase newUserDatabase(){
+  private final int space = 15;
+  /**
+   * 
+   * @return descr
+   */
+  public UserDatabase newUserDatabase() {
     UserDatabase desc = new UserDatabase();
-    desc.currentXP = 10;                         
+    desc.currentXP = 10;
     desc.currentLevel = UserLevel.LVL2;
     return desc;
   }
@@ -89,29 +97,31 @@ public class MenuScreen extends BaseScreen {
     buttonPlay = new TextButton("Play", skin);
     buttonPlay.addListener(new ClickListener() {
       @Override
-      public void clicked(InputEvent event, float x, float y) {
-        //BaseGame.setActiveScreen(new GameScreen());
-        System.out.print(user.toString());
-        load();
-        System.out.print(user.toString());
-        buttonScore.setText("Score " +String.valueOf(user.getCurrentXP()));
+      public void clicked(final InputEvent event, final float x, final float y) {
+        BaseGame.setActiveScreen(new GameScreen());
+        
+        buttonScore.setText("Score " + String.valueOf(user.getCurrentXP()));
       }
     });
-    buttonPlay.pad(15);
+    buttonPlay.pad(space);
 
     buttonExit = new TextButton("Exit", skin);
     buttonExit.addListener(new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
-        //Gdx.app.exit();
         save(desc);
+        Gdx.app.exit();
       }
-    });  
-    desc = newUserDatabase();
-    
-    user = desc.createUser();
-    buttonExit.pad(15);
-    buttonScore = new TextButton("Score " +String.valueOf(user.getCurrentXP()), skinLabel);
+    });
+    buttonExit.pad(space);
+    if (user == null) {
+      desc = newUserDatabase();
+      user = desc.createUser();
+    }
+    if (file != null) {
+    load();
+    }
+    buttonScore = new TextButton("Score " + String.valueOf(user.getCurrentXP()), skinLabel);
     buttonLevel = new TextButton(user.getCurrentLevel().toString(), skinLabel);
     table.add(heading);
     table.getCell(heading).spaceBottom(100);
@@ -121,23 +131,27 @@ public class MenuScreen extends BaseScreen {
     table.add(buttonExit);
     super.getUiStage().addActor(table);
     super.getUiStage().addActor(buttonLevel);
-    buttonLevel.setPosition(Gdx.graphics.getWidth()-buttonLevel.getWidth(), Gdx.graphics.getHeight()-buttonLevel.getHeight());
+    buttonLevel.setPosition(Gdx.graphics.getWidth() - buttonLevel.getWidth(), Gdx.graphics.getHeight() - buttonLevel.getHeight());
     super.getUiStage().addActor(buttonScore);
-    buttonScore.setPosition(0, Gdx.graphics.getHeight()-buttonLevel.getHeight());
+    buttonScore.setPosition(0, Gdx.graphics.getHeight() - buttonLevel.getHeight());
 
   }
-
-  public void save(UserDatabase desc) {
-    Json json = new Json();
+  /**
+   * 
+   * @param desc
+   */
+  public void save(final UserDatabase desc) {
+    final Json json = new Json();
     json.setOutputType(OutputType.json);
     file.writeString(json.prettyPrint(desc), false);
   }
-
+  /**
+   * 
+   */
   public void load() {
-    Json json = new Json();
+    final Json json = new Json();
     desc = json.fromJson(UserDatabase.class, file);
     user = desc.createUser();
-
   }
 
   @Override
