@@ -10,6 +10,8 @@ import org.jgrapht.graph.builder.GraphTypeBuilder;
 
 import com.badlogic.gdx.math.Vector2;
 
+import model.utilities.VectorsUtilities;
+
 /**
  * The actual map.
  */
@@ -237,7 +239,7 @@ public class GameMap {
   public List<Vector2> getPath(final Vector2 source, final Vector2 dest) {
     System.out.println("source: " + source + ", dest: " + dest + "" + getMapUnitFromPixels(new Vector2(240,483)));
     if (this.map.containsVertex(getMapUnitFromPixels(source)) && this.map.containsVertex(getMapUnitFromPixels(dest))) {
-      return new AStarShortestPath<MapUnit, DefaultEdge>(this.map, (src, dst) -> this.euclideanDistance(src.getCoordinates(), dst.getCoordinates()))
+      return new AStarShortestPath<MapUnit, DefaultEdge>(this.map, (src, dst) -> VectorsUtilities.euclideanDistance(src.getCoordinates(), dst.getCoordinates()))
           .getPath(this.getMapUnitFromPixels(source), this.getMapUnitFromPixels(dest))
           .getVertexList()
           .stream()
@@ -247,6 +249,7 @@ public class GameMap {
     return List.of();
   }
 
+  //da rimuovere.
   /**
    * 
    * @return the map.
@@ -268,7 +271,4 @@ public class GameMap {
     return new Vector2((coords.x - 1) * MapUnit.WIDTH + X_START, (coords.y - 1) * MapUnit.HEIGHT + Y_START);
   }
 
-  private double euclideanDistance(final Vector2 src, final Vector2 dst) {
-    return Math.sqrt(Math.pow(src.x - dst.x, 2) + Math.pow(src.y - dst.y, 2));
-  }
 }
