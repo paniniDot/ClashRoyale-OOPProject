@@ -85,6 +85,8 @@ public class GameScreen extends BaseScreen {
     }
     if (count.getTime() == 0) {
       audio.stop();
+      elisir.setRunFalse();
+      count.setRunFalse();
       BaseGame.setActiveScreen(new MenuScreen());
     }
   }
