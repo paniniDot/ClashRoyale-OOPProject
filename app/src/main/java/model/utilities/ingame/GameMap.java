@@ -1,4 +1,4 @@
-package model.utilities.inGameUtilities;
+package model.utilities.ingame;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,14 +10,16 @@ import org.jgrapht.graph.builder.GraphTypeBuilder;
 
 import com.badlogic.gdx.math.Vector2;
 
+import model.utilities.VectorsUtilities;
+
 /**
  * The actual map.
  */
 public class GameMap {
-  private static final int HORIZONTAL_UNITS = 18;
-  private static final int VERTICAL_UNITS = 30;
-  private static final int X_START = 183;
-  private static final int Y_START = 258;
+  private static final int HORIZONTAL_UNITS = 19;
+  private static final int VERTICAL_UNITS = 32;
+  private static final int X_START = 175;
+  private static final int Y_START = 255;
 
   private final Graph<MapUnit, DefaultEdge> map;
 
@@ -79,6 +81,9 @@ public class GameMap {
         new Vector2(1,16), 
         new Vector2(2,16), 
         new Vector2(3,16),
+        new Vector2(1,17), 
+        new Vector2(2,17), 
+        new Vector2(3,17),
 
         new Vector2(5,15), 
         new Vector2(6,15), 
@@ -100,6 +105,16 @@ public class GameMap {
         new Vector2(12,16), 
         new Vector2(13,16),
         new Vector2(14,16),
+        new Vector2(5,17), 
+        new Vector2(6,17), 
+        new Vector2(7,17),
+        new Vector2(8,17), 
+        new Vector2(9,17), 
+        new Vector2(10,17),
+        new Vector2(11,17), 
+        new Vector2(12,17), 
+        new Vector2(13,17),
+        new Vector2(14,17),
 
         new Vector2(16,15), 
         new Vector2(17,15), 
@@ -107,66 +122,109 @@ public class GameMap {
         new Vector2(16,16), 
         new Vector2(17,16), 
         new Vector2(18,16),
+        new Vector2(16,17), 
+        new Vector2(17,17), 
+        new Vector2(18,17),
 
         new Vector2(3,5),
         new Vector2(3,6),
         new Vector2(3,7),
+        new Vector2(3,8),
+        new Vector2(3,9),
         new Vector2(4,5),
         new Vector2(4,6),
         new Vector2(4,7),
+        new Vector2(4,8),
+        new Vector2(4,9),
         new Vector2(5,5),
         new Vector2(5,6),
         new Vector2(5,7),
+        new Vector2(5,8),
+        new Vector2(5,9),
 
         new Vector2(8,1),
         new Vector2(8,2),
         new Vector2(8,3),
+        new Vector2(8,4),
+        new Vector2(8,5),
+        new Vector2(8,6),
         new Vector2(9,1),
         new Vector2(9,2),
         new Vector2(9,3),
+        new Vector2(9,4),
+        new Vector2(9,5),
+        new Vector2(9,6),
         new Vector2(10,1),
         new Vector2(10,2),
         new Vector2(10,3),
+        new Vector2(10,4),
+        new Vector2(10,5),
+        new Vector2(10,6),
+        new Vector2(11,1),
+        new Vector2(11,2),
+        new Vector2(11,3),
+        new Vector2(11,4),
+        new Vector2(11,5),
+        new Vector2(11,6),
 
         new Vector2(14,5),
         new Vector2(14,6),
         new Vector2(14,7),
+        new Vector2(14,8),
+        new Vector2(14,9),
         new Vector2(15,5),
         new Vector2(15,6),
         new Vector2(15,7),
+        new Vector2(15,8),
+        new Vector2(15,9),
         new Vector2(16,5),
         new Vector2(16,6),
         new Vector2(16,7),
+        new Vector2(16,8),
+        new Vector2(16,9),
 
-        new Vector2(3,24),
         new Vector2(3,25),
         new Vector2(3,26),
-        new Vector2(4,24),
+        new Vector2(3,27),
+        new Vector2(3,28),
         new Vector2(4,25),
         new Vector2(4,26),
-        new Vector2(5,24),
+        new Vector2(4,27),
+        new Vector2(4,28),
         new Vector2(5,25),
         new Vector2(5,26), 
+        new Vector2(5,27),
+        new Vector2(5,28),
 
-        new Vector2(8,27),
         new Vector2(8,28),
         new Vector2(8,29),
-        new Vector2(9,27),
+        new Vector2(8,30),
+        new Vector2(8,31),
         new Vector2(9,28),
         new Vector2(9,29),
-        new Vector2(10,27),
+        new Vector2(9,30),
+        new Vector2(9,31),
         new Vector2(10,28),
         new Vector2(10,29),
+        new Vector2(10,30),
+        new Vector2(10,31),
+        new Vector2(11,28),
+        new Vector2(11,29),
+        new Vector2(11,30),
+        new Vector2(11,31),
 
-        new Vector2(14,24),
         new Vector2(14,25),
         new Vector2(14,26),
-        new Vector2(15,24),
+        new Vector2(14,27),
+        new Vector2(14,28),
         new Vector2(15,25),
         new Vector2(15,26),
-        new Vector2(16,24),
+        new Vector2(15,27),
+        new Vector2(15,28),
         new Vector2(16,25),
-        new Vector2(16,26)
+        new Vector2(16,26), 
+        new Vector2(16,27),
+        new Vector2(16,28)
         );
   }
 
@@ -180,17 +238,18 @@ public class GameMap {
    */
   public List<Vector2> getPath(final Vector2 source, final Vector2 dest) {
     System.out.println("source: " + source + ", dest: " + dest + "" + getMapUnitFromPixels(new Vector2(240,483)));
-    if(this.map.containsVertex(getMapUnitFromPixels(source))) {
-    return new AStarShortestPath<MapUnit, DefaultEdge>(this.map, (src, dst) -> this.euclideanDistance(src.getCoordinates(), dst.getCoordinates()))
-        .getPath(this.getMapUnitFromPixels(source), this.getMapUnitFromPixels(dest))
-        .getVertexList()
-        .stream()
-        .map(MapUnit::getCenter)
-        .collect(Collectors.toList());
-  }
-  return List.of()  ;
+    if (this.map.containsVertex(getMapUnitFromPixels(source)) && this.map.containsVertex(getMapUnitFromPixels(dest))) {
+      return new AStarShortestPath<MapUnit, DefaultEdge>(this.map, (src, dst) -> VectorsUtilities.euclideanDistance(src.getCoordinates(), dst.getCoordinates()))
+          .getPath(this.getMapUnitFromPixels(source), this.getMapUnitFromPixels(dest))
+          .getVertexList()
+          .stream()
+          .map(MapUnit::getCenter)
+          .collect(Collectors.toList());
+    }
+    return List.of();
   }
 
+  //da rimuovere.
   /**
    * 
    * @return the map.
@@ -212,7 +271,4 @@ public class GameMap {
     return new Vector2((coords.x - 1) * MapUnit.WIDTH + X_START, (coords.y - 1) * MapUnit.HEIGHT + Y_START);
   }
 
-  private double euclideanDistance(final Vector2 src, final Vector2 dst) {
-    return Math.sqrt(Math.pow(src.x - dst.x, 2) + Math.pow(src.y - dst.y, 2));
-  }
 }

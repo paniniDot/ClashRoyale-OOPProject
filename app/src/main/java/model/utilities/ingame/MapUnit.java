@@ -1,4 +1,4 @@
-package model.utilities.inGameUtilities;
+package model.utilities.ingame;
 
 import java.util.Objects;
 
@@ -80,6 +80,14 @@ public class MapUnit {
     return this.rect;
   }
 
+  /**
+   * 
+   * @return the position of the left bottom corner of the unit.
+   */
+  public Vector2 getPosition() {
+    return new Vector2(this.rect.x, this.rect.y);
+  }
+  
   /**
    * 
    * @return whether is TERRAIN or OBSTACLE.

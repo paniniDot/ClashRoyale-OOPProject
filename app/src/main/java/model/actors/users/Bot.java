@@ -1,4 +1,4 @@
-package model.utilities;
+package model.actors.users;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,17 +6,19 @@ import java.util.List;
 
 import com.badlogic.gdx.math.Vector2;
 import model.actors.cards.Card;
-import model.utilities.inGameUtilities.GameMap;
+import model.utilities.VectorsUtilities;
+import model.utilities.ingame.GameMap;
 
 /**
  * bot implementation.
  */
-public class Bot {
+public class Bot extends User {
 
   /**
    * build bot. 
    */
   public Bot() {
+    super("Bot");
   }
 
   /**
@@ -32,7 +34,7 @@ public class Bot {
     for (final Card bot: botCards) {
       double min = Double.MAX_VALUE;
       for (final Card p: playerCards) {
-        final double d = this.euclideanDistance(bot.getCenter(), p.getCenter());
+        final double d = VectorsUtilities.euclideanDistance(bot.getCenter(), p.getCenter());
         if (Double.compare(min, d) > 0) {
           player = p;
           min = d;
@@ -43,7 +45,4 @@ public class Bot {
     return cardPaths;
   }
 
-  private double euclideanDistance(final Vector2 src, final Vector2 dst) {
-    return Math.sqrt(Math.pow(src.x - dst.x, 2) + Math.pow(src.y - dst.y, 2));
-  }
 }

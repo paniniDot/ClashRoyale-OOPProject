@@ -3,6 +3,7 @@ package model.actors.cards.troops;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
+import model.actors.Speeds;
 import model.actors.users.User;
 
 /**

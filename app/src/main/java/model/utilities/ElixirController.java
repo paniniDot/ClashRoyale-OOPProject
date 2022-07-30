@@ -9,25 +9,35 @@ import java.util.TimerTask;
 public class ElixirController {
   private final Timer timer;
   private int elixir;
+  private boolean run;
 
   /**
    * build an elixir controller .
    */
   public ElixirController() {
     this.elixir = 0;
+    this.run = true;
     this.timer = new Timer();
-    this.timer.schedule(new MyTimerTask(), 0, 1000);
+    TimerTask task = new TimerTask() {
+      public void run() {
+        //System.out.println(elixir);
+        if (elixir < 10 && run) {
+          elixir++;
+        } else {
+          timer.cancel();
+          timer.purge();
+       }
+     }
+     };
+     this.timer.schedule(task, 0, 1000);
   }
 
-  class MyTimerTask extends TimerTask {
-
-    public void run() {
-      //System.out.println(elixir);
-      if (elixir < 10) {
-        elixir++;
-      }
-    }
-  }
+   /**
+    * set return to false.
+    */
+   public void setRunFalse() {
+     this.run = false;
+   }
 
   /**
    * 
