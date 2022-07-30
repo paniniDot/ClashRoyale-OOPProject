@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+
+import launcher.BaseGame;
 import launcher.ClashRoyale;
 import model.actors.BaseActor;
 import model.actors.cards.Card;
@@ -34,11 +36,12 @@ public class GameScreen extends BaseScreen {
   private ElixirController elisir;
   private CountDownController count;
   private BitmapFont gamefont;
+  private Audio audio;
   private Map<Card, List<Vector2>> spots;
 
   @Override
   public void initialize() {
-    Audio.playBattleMusic();
+    audio = Audio.playBattleMusic();
     elisir = new ElixirController();
     count = new CountDownController();
     sprite = new SpriteBatch();
@@ -66,21 +69,24 @@ public class GameScreen extends BaseScreen {
   }
 
   private void handleInput(final float dt) {
-    spots = bot.findEnemy(map, wizardsplayer, wizardsbot);
-    for (var entry : spots.entrySet()) {
-      this.wizardsbot.forEach(w -> {
-        if (entry.getKey().equals(w) && entry.getValue().size() > 1) {
-          w.moveTo(new Vector2(entry.getValue().get(1).x - w.getWidth() / 2, entry.getValue().get(1).y - w.getHeight() / 2));
-        }
-        });
-    }
 
   }
 
   @Override
   public void update(final float dt) {
     this.handleInput(dt);
-    //this.wizard.moveBy(0, 1);
+    spots = bot.findEnemy(map, wizardsplayer, wizardsbot);
+    for (final var entry : spots.entrySet()) {
+      this.wizardsbot.forEach(w -> {
+        if (entry.getKey().equals(w) && entry.getValue().size() > 1) {
+          w.moveTo(new Vector2(entry.getValue().get(1).x - w.getWidth() / 2, entry.getValue().get(1).y - w.getHeight() / 2));
+        }
+        });
+    }
+    if (count.getTime() == 0) {
+      audio.stop();
+      BaseGame.setActiveScreen(new MenuScreen());
+    }
   }
   @Override
   public void render(final float dt) {
