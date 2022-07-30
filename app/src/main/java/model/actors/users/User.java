@@ -73,4 +73,25 @@ public class User {
     this.currentLevel = this.getNextLevel();
     this.checkCurrentXP();
   }
+/**
+ * 
+ * @param currentXP
+ */
+  public void setCurrentXP(int currentXP) {
+    this.currentXP = currentXP;
+  }
+
+  /**
+   * 
+   * @param currentLevel
+   */
+  public void setCurrentLevel(UserLevel currentLevel) {
+    this.currentLevel = currentLevel;
+  }
+
+  @Override
+  public String toString() {
+    return "User [name=" + name + ", currentXP=" + currentXP + ", currentLevel=" + currentLevel + "]";
+  }
+  
 }
