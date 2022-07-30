@@ -29,7 +29,21 @@ import model.utilities.Audio;
  * Menu screen implementation.
  */
 public class MenuScreen extends BaseScreen {
-  
+
+  /**
+   * for save file user.
+   */
+  public static class UserDatabase {
+    public int currentXP;
+    public UserLevel currentLevel;
+
+    public User createUser() {
+      User user = new User("P");
+      user.setCurrentLevel(currentLevel);
+      user.setCurrentXP(currentXP);
+      return user;
+    }
+  }
 
   private Audio audio;
   private TextureAtlas atlas, atlasLabel;
@@ -37,9 +51,18 @@ public class MenuScreen extends BaseScreen {
   private Table table;
   private TextButton buttonPlay, buttonExit, buttonLevel, buttonScore;
   private Label heading, level;
-  private User user;
+
   private Json json;
   private FileHandle file = Gdx.files.local("bin/desc.json");
+  private UserDatabase desc;
+  private User user;
+  
+  public UserDatabase newUserDatabase(){
+    UserDatabase desc = new UserDatabase();
+    desc.currentXP = 10;                         
+    desc.currentLevel = UserLevel.LVL2;
+    return desc;
+  }
 
   @Override
   public void initialize() {
@@ -55,19 +78,23 @@ public class MenuScreen extends BaseScreen {
     table.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
     //creating configuration labelbutton
-    
-    
+
+
     //creating heading
     heading = new Label(ClashRoyale.TITLE, skin);
     atlasLabel = new TextureAtlas("buttons/scoreLabel.pack");
     skinLabel = new Skin(Gdx.files.internal("buttons/menuSkinLabel.json"), atlasLabel);
-    
+
     //creating buttons
     buttonPlay = new TextButton("Play", skin);
     buttonPlay.addListener(new ClickListener() {
       @Override
       public void clicked(InputEvent event, float x, float y) {
-        BaseGame.setActiveScreen(new GameScreen());
+        //BaseGame.setActiveScreen(new GameScreen());
+        System.out.print(user.toString());
+        load();
+        System.out.print(user.toString());
+        buttonScore.setText("Score " +String.valueOf(user.getCurrentXP()));
       }
     });
     buttonPlay.pad(15);
@@ -77,16 +104,15 @@ public class MenuScreen extends BaseScreen {
       @Override
       public void clicked(InputEvent event, float x, float y) {
         //Gdx.app.exit();
-        user.newUserSave();
-        save(user);
-        buttonLevel.setText("Score " +String.valueOf(user.getCurrentXP()));
+        save(desc);
       }
     });  
-
+    desc = newUserDatabase();
+    
+    user = desc.createUser();
     buttonExit.pad(15);
-    user = new User("p");
-    buttonLevel = new TextButton("Score " +String.valueOf(user.getCurrentXP()), skinLabel);
-    buttonScore = new TextButton(user.getCurrentLevel().toString(), skinLabel);
+    buttonScore = new TextButton("Score " +String.valueOf(user.getCurrentXP()), skinLabel);
+    buttonLevel = new TextButton(user.getCurrentLevel().toString(), skinLabel);
     table.add(heading);
     table.getCell(heading).spaceBottom(100);
     table.row();
@@ -101,12 +127,19 @@ public class MenuScreen extends BaseScreen {
 
   }
 
-  public void save(User user) {
+  public void save(UserDatabase desc) {
     Json json = new Json();
     json.setOutputType(OutputType.json);
-    file.writeString(json.toJson(user), false);
+    file.writeString(json.prettyPrint(desc), false);
   }
-  
+
+  public void load() {
+    Json json = new Json();
+    desc = json.fromJson(UserDatabase.class, file);
+    user = desc.createUser();
+
+  }
+
   @Override
   public void update(final float dt) {
     if (Gdx.input.isKeyJustPressed(Keys.S)) {
