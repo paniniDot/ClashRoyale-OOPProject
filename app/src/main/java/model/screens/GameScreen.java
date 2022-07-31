@@ -53,36 +53,53 @@ public class GameScreen extends BaseScreen {
     arena.setAnimation(AnimationUtilities.loadTexture("arenas/arena1.png"));
     arena.setSize(ClashRoyale.WIDTH, ClashRoyale.HEIGHT);
     this.wizardsplayer = List.of(
-        Wizard.create(new User("Panini"), super.getMainStage(), new Vector2(300, 300)),
-        Wizard.create(new User("Panini"), super.getMainStage(), new Vector2(300, 378)),
-        Wizard.create(new User("Panini"), super.getMainStage(), new Vector2(450, 400)));
+        Wizard.create(new User("Panini"), super.getMainStage(), new Vector2(100, 100)),
+        Wizard.create(new User("Panini"), super.getMainStage(), new Vector2(200, 100)),
+        Wizard.create(new User("Panini"), super.getMainStage(), new Vector2(300, 100)));
     this.wizardsplayer.forEach(w -> w.setAnimation(AnimationUtilities.loadAnimationFromFiles(new String[]{"wizard/selfWizard/walking/1.png",
         "wizard/selfWizard/walking/2.png", "wizard/selfWizard/walking/3.png", "wizard/selfWizard/walking/4.png"}, (float) 0.01724 * 10, true)));
     this.wizardsbot = List.of(
-        Wizard.create(new Bot(), super.getMainStage(), new Vector2(336, 596)),
-        Wizard.create(new Bot(), super.getMainStage(), new Vector2(300, 500)),
-        Wizard.create(new Bot(), super.getMainStage(), new Vector2(350, 550)),
-        Wizard.create(new Bot(), super.getMainStage(), new Vector2(380, 596)));
+        Wizard.create(new Bot(), super.getMainStage(), new Vector2(100, 800)),
+        Wizard.create(new Bot(), super.getMainStage(), new Vector2(200, 800)),
+        Wizard.create(new Bot(), super.getMainStage(), new Vector2(300, 800)),
+        Wizard.create(new Bot(), super.getMainStage(), new Vector2(400, 800)));
     this.wizardsbot.forEach(w -> w.setAnimation(AnimationUtilities.loadAnimationFromFiles(new String[]{"wizard/selfWizard/walking/1.png",
         "wizard/selfWizard/walking/2.png", "wizard/selfWizard/walking/3.png", "wizard/selfWizard/walking/4.png"}, (float) 0.01724 * 10, true)));
 
   }
 
   private void handleInput(final float dt) {
-
+    if (!Gdx.input.isTouched()) {
+      spots = bot.findEnemy(map, wizardsplayer, wizardsbot);
+      for (final var entry : spots.entrySet()) {
+        this.wizardsbot.forEach(w -> {
+          if (entry.getKey().equals(w) && entry.getValue().size() > 1) {
+            if (entry.getValue().size() < 3) {
+              w.setAnimation(AnimationUtilities.loadAnimationFromFiles(new String[]{"wizard/selfWizard/walking/1.png",
+                  "wizard/selfWizard/walking/2.png", "wizard/selfWizard/walking/3.png", "wizard/selfWizard/walking/4.png"}, (float) 0.01724 * 10, true));
+            }
+            w.moveTo(new Vector2(entry.getValue().get(1).x - w.getWidth() / 2, entry.getValue().get(1).y - w.getHeight() / 2));
+          }
+          });
+      }
+      spots = bot.findEnemy(map, wizardsbot, wizardsplayer);
+      for (final var entry : spots.entrySet()) {
+        this.wizardsplayer.forEach(w -> {
+          if (entry.getKey().equals(w) && entry.getValue().size() > 1) {
+            if (entry.getValue().size() < 3) {
+              w.setAnimation(AnimationUtilities.loadAnimationFromFiles(new String[]{"wizard/selfWizard/walking/1.png",
+                  "wizard/selfWizard/walking/2.png", "wizard/selfWizard/walking/3.png", "wizard/selfWizard/walking/4.png"}, (float) 0.01724 * 10, true));
+            }
+            w.moveTo(new Vector2(entry.getValue().get(1).x - w.getWidth() / 2, entry.getValue().get(1).y - w.getHeight() / 2));
+          }
+          });
+      }
+    }
   }
 
   @Override
   public void update(final float dt) {
     this.handleInput(dt);
-    spots = bot.findEnemy(map, wizardsplayer, wizardsbot);
-    for (final var entry : spots.entrySet()) {
-      this.wizardsbot.forEach(w -> {
-        if (entry.getKey().equals(w) && entry.getValue().size() > 1) {
-          w.moveTo(new Vector2(entry.getValue().get(1).x - w.getWidth() / 2, entry.getValue().get(1).y - w.getHeight() / 2));
-        }
-        });
-    }
     if (count.getTime() == 0) {
       audio.stop();
       elisir.setRunFalse();
