@@ -69,33 +69,26 @@ public class GameScreen extends BaseScreen {
   }
 
   private void handleInput(final float dt) {
-    if (!Gdx.input.isTouched()) {
-      spots = bot.findEnemy(map, wizardsplayer, wizardsbot);
-      for (final var entry : spots.entrySet()) {
-        this.wizardsbot.forEach(w -> {
-          if (entry.getKey().equals(w) && entry.getValue().size() > 1) {
-            if (entry.getValue().size() < 3) {
-              w.setAnimation(AnimationUtilities.loadAnimationFromFiles(new String[]{"wizard/selfWizard/walking/1.png",
-                  "wizard/selfWizard/walking/2.png", "wizard/selfWizard/walking/3.png", "wizard/selfWizard/walking/4.png"}, (float) 0.01724 * 10, true));
-            }
-            w.moveTo(new Vector2(entry.getValue().get(1).x - w.getWidth() / 2, entry.getValue().get(1).y - w.getHeight() / 2));
-          }
-          });
-      }
-      spots = bot.findEnemy(map, wizardsbot, wizardsplayer);
-      for (final var entry : spots.entrySet()) {
-        this.wizardsplayer.forEach(w -> {
-          if (entry.getKey().equals(w) && entry.getValue().size() > 1) {
-            if (entry.getValue().size() < 3) {
-              w.setAnimation(AnimationUtilities.loadAnimationFromFiles(new String[]{"wizard/selfWizard/walking/1.png",
-                  "wizard/selfWizard/walking/2.png", "wizard/selfWizard/walking/3.png", "wizard/selfWizard/walking/4.png"}, (float) 0.01724 * 10, true));
-            }
-            w.moveTo(new Vector2(entry.getValue().get(1).x - w.getWidth() / 2, entry.getValue().get(1).y - w.getHeight() / 2));
-          }
-          });
-      }
-    }
+      move(bot.findEnemy(map, wizardsplayer, wizardsbot), wizardsbot);
+      move(bot.findEnemy(map, wizardsbot, wizardsplayer), wizardsplayer);
   }
+
+  private void move(final Map<Card, List<Vector2>> spots, final List<Card> card) {
+    for (final var entry : spots.entrySet()) {
+      card.forEach(w -> {
+        if (entry.getKey().equals(w) && entry.getValue().size() > 1) {
+          if (entry.getValue().size() < 3) {
+            w.setAnimation(AnimationUtilities.loadAnimationFromFiles(new String[]{"wizard/selfWizard/walking/1.png",
+                "wizard/selfWizard/walking/2.png", "wizard/selfWizard/walking/3.png", "wizard/selfWizard/walking/4.png"}, (float) 0.01724 * 10, true));
+          }
+          w.setDraggable(false);
+          if (!Gdx.input.isTouched() && !w.isDraggable()) {
+          w.moveTo(new Vector2(entry.getValue().get(1).x - w.getWidth() / 2, entry.getValue().get(1).y - w.getHeight() / 2));
+          }
+          }
+        });
+    }
+}
 
   @Override
   public void update(final float dt) {
