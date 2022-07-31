@@ -1,6 +1,8 @@
 package model.utilities.ingame;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.jgrapht.Graph;
@@ -10,6 +12,8 @@ import org.jgrapht.graph.builder.GraphTypeBuilder;
 
 import com.badlogic.gdx.math.Vector2;
 
+import model.actors.cards.Card;
+import model.utilities.Pair;
 import model.utilities.VectorsUtilities;
 
 /**
@@ -237,7 +241,7 @@ public class GameMap {
    * @return a list of vector2 of mapUnits coordinates.
    */
   public List<Vector2> getPath(final Vector2 source, final Vector2 dest) {
-    System.out.println("source: " + source + ", dest: " + dest + "" + getMapUnitFromPixels(new Vector2(240,483)));
+    //System.out.println("source: " + source + ", dest: " + dest + "" + getMapUnitFromPixels(new Vector2(240,483)));
     if (this.map.containsVertex(getMapUnitFromPixels(source)) && this.map.containsVertex(getMapUnitFromPixels(dest))) {
       return new AStarShortestPath<MapUnit, DefaultEdge>(this.map, (src, dst) -> VectorsUtilities.euclideanDistance(src.getCoordinates(), dst.getCoordinates()))
           .getPath(this.getMapUnitFromPixels(source), this.getMapUnitFromPixels(dest))
@@ -249,6 +253,29 @@ public class GameMap {
     return List.of();
   }
 
+  /**
+   * find enemy method.
+   * @param source
+   * @param destination
+   * @param gameMap
+   * @return HashMap<Card, List<Vector2>>
+   */
+  public Map<Pair<Card, Card>, List<Vector2>> findEnemy(final GameMap gameMap, final List<Card> source, final List<Card> destination) {
+    final Map<Pair<Card, Card>, List<Vector2>> cardPaths = new HashMap<>();
+    Card dest = null;
+    for (final Card src: source) {
+      double min = Double.MAX_VALUE;
+      for (final Card dst: destination) {
+        final double distance = VectorsUtilities.euclideanDistance(src.getCenter(), dst.getCenter());
+        if (Double.compare(min, distance) > 0) {
+          dest = dst;
+          min = distance;
+        }
+      }
+      cardPaths.put(new Pair<Card, Card>(src, dest), gameMap.getPath(src.getCenter(), dest.getCenter()));
+    }
+    return cardPaths;
+  }
   //da rimuovere.
   /**
    * 
