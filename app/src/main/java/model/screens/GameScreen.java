@@ -31,6 +31,7 @@ public class GameScreen extends BaseScreen {
   private List<Card> wizardsbot;
   private List<Card> wizardsplayer;
   private Bot bot;
+  private User user;
   private GameMap map;
   private SpriteBatch sprite;
   private ElixirController elisir;
@@ -49,44 +50,47 @@ public class GameScreen extends BaseScreen {
     Gdx.input.setInputProcessor(super.getMainStage());
     this.map = new GameMap();
     bot = new Bot();
+    this.user = new User("Panini");
     final var arena = new BaseActor(0, 0, super.getMainStage());
     arena.setAnimation(AnimationUtilities.loadTexture("arenas/arena1.png"));
     arena.setSize(ClashRoyale.WIDTH, ClashRoyale.HEIGHT);
     this.wizardsplayer = List.of(
-        Wizard.create(new User("Panini"), super.getMainStage(), new Vector2(100, 100)),
-        Wizard.create(new User("Panini"), super.getMainStage(), new Vector2(200, 100)),
-        Wizard.create(new User("Panini"), super.getMainStage(), new Vector2(300, 100)));
+        Wizard.create(this.user, super.getMainStage(), new Vector2(100, 100)),
+        Wizard.create(this.user, super.getMainStage(), new Vector2(200, 100)),
+        Wizard.create(this.user, super.getMainStage(), new Vector2(300, 100)));
     this.wizardsplayer.forEach(w -> w.setAnimation(AnimationUtilities.loadAnimationFromFiles(new String[]{"wizard/selfWizard/walking/1.png",
         "wizard/selfWizard/walking/2.png", "wizard/selfWizard/walking/3.png", "wizard/selfWizard/walking/4.png"}, (float) 0.01724 * 10, true)));
     this.wizardsbot = List.of(
-        Wizard.create(new Bot(), super.getMainStage(), new Vector2(100, 800)),
-        Wizard.create(new Bot(), super.getMainStage(), new Vector2(200, 800)),
-        Wizard.create(new Bot(), super.getMainStage(), new Vector2(300, 800)),
-        Wizard.create(new Bot(), super.getMainStage(), new Vector2(400, 800)));
+        Wizard.create(bot, super.getMainStage(), new Vector2(100, 800)),
+        Wizard.create(bot, super.getMainStage(), new Vector2(200, 800)),
+        Wizard.create(bot, super.getMainStage(), new Vector2(300, 800)),
+        Wizard.create(bot, super.getMainStage(), new Vector2(400, 800)));
     this.wizardsbot.forEach(w -> w.setAnimation(AnimationUtilities.loadAnimationFromFiles(new String[]{"wizard/selfWizard/walking/1.png",
         "wizard/selfWizard/walking/2.png", "wizard/selfWizard/walking/3.png", "wizard/selfWizard/walking/4.png"}, (float) 0.01724 * 10, true)));
 
+    this.wizardsbot.forEach(w -> System.out.println(w.getIdentifier()));
+    this.wizardsplayer.forEach(w -> System.out.println(w.getIdentifier()));
   }
 
   private void handleInput(final float dt) {
       move(bot.findEnemy(map, wizardsplayer, wizardsbot), wizardsbot);
-      move(bot.findEnemy(map, wizardsbot, wizardsplayer), wizardsplayer);
+      move(user.findEnemy(map, wizardsbot, wizardsplayer), wizardsplayer);
   }
 
   private void move(final Map<Card, List<Vector2>> spots, final List<Card> card) {
     for (final var entry : spots.entrySet()) {
       card.forEach(w -> {
-        if (entry.getKey().equals(w) && entry.getValue().size() > 1) {
+        if (entry.getKey().getIdentifier().compareTo(w.getIdentifier()) == 0 && entry.getValue().size() > 1) {
           if (entry.getValue().size() < 3) {
             w.setAnimation(AnimationUtilities.loadAnimationFromFiles(new String[]{"wizard/selfWizard/walking/1.png",
                 "wizard/selfWizard/walking/2.png", "wizard/selfWizard/walking/3.png", "wizard/selfWizard/walking/4.png"}, (float) 0.01724 * 10, true));
           }
           w.setDraggable(false);
           if (!Gdx.input.isTouched() && !w.isDraggable()) {
-          w.moveTo(new Vector2(entry.getValue().get(1).x - w.getWidth() / 2, entry.getValue().get(1).y - w.getHeight() / 2));
+            w.moveTo(new Vector2(entry.getValue().get(1).x - w.getWidth() / 2, entry.getValue().get(1).y - w.getHeight() / 2));
           }
-          }
-        });
+        }
+      });
     }
 }
 

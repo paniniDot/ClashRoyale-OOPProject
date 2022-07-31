@@ -1,6 +1,8 @@
 package model.actors;
 
 import java.util.Optional;
+import java.util.UUID;
+
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -14,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
  */
 public class BaseActor extends Actor {
 
+  private final UUID identifier;
   private Optional<Animation<TextureRegion>> animation;
   private float elapsedTime;
 
@@ -28,10 +31,20 @@ public class BaseActor extends Actor {
    */
   public BaseActor(final float x, final float y, final Stage stage) {
     super();
+    this.identifier = UUID.randomUUID();
     super.setPosition(x, y);
     this.animation = Optional.empty();
     stage.addActor(this);
     this.elapsedTime = 0;
+  }
+
+  /**
+   * 
+   * @return a unique identifier for the actor. 
+   * Used to distinguish different instances of the same actor when they have the same field values.
+   */
+  public UUID getIdentifier() {
+    return this.identifier;
   }
 
   /**
@@ -59,7 +72,7 @@ public class BaseActor extends Actor {
    * @return the center of the actor.
    */
   public Vector2 getCenter() {
-    System.out.println("Rettangolo = " + this.getBoundaries() + " Centro del rettangolo = " + this.getBoundaries().getCenter(new Vector2()));
+    //System.out.println("Rettangolo = " + this.getBoundaries() + " Centro del rettangolo = " + this.getBoundaries().getCenter(new Vector2()));
     return this.getBoundaries().getCenter(new Vector2());
   }
 
