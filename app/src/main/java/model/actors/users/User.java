@@ -1,6 +1,14 @@
 package model.actors.users;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import com.badlogic.gdx.math.Vector2;
+
+import model.actors.cards.Card;
+import model.utilities.VectorsUtilities;
+import model.utilities.ingame.GameMap;
 
 /**
  * Users that play the game.
@@ -77,7 +85,7 @@ public class User {
  * 
  * @param currentXP
  */
-  public void setCurrentXP(int currentXP) {
+  public void setCurrentXP(final int currentXP) {
     this.currentXP = currentXP;
   }
 
@@ -85,7 +93,7 @@ public class User {
    * 
    * @param currentLevel
    */
-  public void setCurrentLevel(UserLevel currentLevel) {
+  public void setCurrentLevel(final UserLevel currentLevel) {
     this.currentLevel = currentLevel;
   }
 
@@ -93,5 +101,29 @@ public class User {
   public String toString() {
     return "User [name=" + name + ", currentXP=" + currentXP + ", currentLevel=" + currentLevel + "]";
   }
-  
+
+  /**
+   * find enemy method.
+   * @param source
+   * @param destination
+   * @param gameMap
+   * @return HashMap<Card, List<Vector2>>
+   */
+  public Map<Card, List<Vector2>> findEnemy(final GameMap gameMap, final List<Card> source, final List<Card> destination) {
+    final Map<Card, List<Vector2>> cardPaths = new HashMap<>();
+    Card src = null;
+    for (final Card dest: destination) {
+      double min = Double.MAX_VALUE;
+      for (final Card s: source) {
+        final double distance = VectorsUtilities.euclideanDistance(dest.getCenter(), s.getCenter());
+        if (Double.compare(min, distance) > 0) {
+          src = s;
+          min = distance;
+        }
+      }
+      cardPaths.put(dest, gameMap.getPath(dest.getCenter(), src.getCenter()));
+    }
+    return cardPaths;
+  }
+
 }
