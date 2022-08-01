@@ -57,53 +57,40 @@ public class GameScreen extends BaseScreen {
     arena.setSize(ClashRoyale.WIDTH, ClashRoyale.HEIGHT);
     this.wizardsplayer = List.of(
         Wizard.create(this.user, super.getMainStage(), new Vector2(100, 100)),
-        Wizard.create(this.user, super.getMainStage(), new Vector2(200, 100)),
-        Wizard.create(this.user, super.getMainStage(), new Vector2(300, 100)));
+        Wizard.create(this.user, super.getMainStage(), new Vector2(200, 100)));
     this.wizardsplayer.forEach(w -> w.setAnimation(AnimationUtilities.loadAnimationFromFiles(new String[]{"wizard/selfWizard/walking/1.png",
         "wizard/selfWizard/walking/2.png", "wizard/selfWizard/walking/3.png", "wizard/selfWizard/walking/4.png"}, (float) 0.01724 * 10, true)));
     this.wizardsbot = List.of(
         Wizard.create(bot, super.getMainStage(), new Vector2(100, 800)),
-        Wizard.create(bot, super.getMainStage(), new Vector2(200, 800)),
-        Wizard.create(bot, super.getMainStage(), new Vector2(300, 800)),
-        Wizard.create(bot, super.getMainStage(), new Vector2(400, 800)));
+        Wizard.create(bot, super.getMainStage(), new Vector2(200, 800)));
     this.wizardsbot.forEach(w -> w.setAnimation(AnimationUtilities.loadAnimationFromFiles(new String[]{"wizard/selfWizard/walking/1.png",
         "wizard/selfWizard/walking/2.png", "wizard/selfWizard/walking/3.png", "wizard/selfWizard/walking/4.png"}, (float) 0.01724 * 10, true)));
-
-    this.wizardsbot.forEach(w -> System.out.println(w.getIdentifier()));
-    this.wizardsplayer.forEach(w -> System.out.println(w.getIdentifier()));
   }
 
   private void handleInput(final float dt) {
-      move(map.findEnemy(map, wizardsplayer, wizardsbot), wizardsplayer);
-      move(map.findEnemy(map, wizardsbot, wizardsplayer), wizardsbot);
-      mapToString(map.findEnemy(map, wizardsplayer, wizardsbot));
+    move(map.findEnemy(map, wizardsplayer, wizardsbot), wizardsplayer);
+    move(map.findEnemy(map, wizardsbot, wizardsplayer), wizardsbot);
   }
 
-  private void move(final Map<Pair<Card, Card>, List<Vector2>> spots, final List<Card> card) {
-    card.forEach(w -> {
-      for (final var entry : spots.entrySet()) {
-        //System.out.println("w " + w.getIdentifier() + "e " + entry.getKey().getIdentifier());
-        if (entry.getKey().getX().getIdentifier() == w.getIdentifier() && entry.getValue().size() > 1) {
-          if (entry.getValue().size() < 3) {
-            w.setAnimation(AnimationUtilities.loadAnimationFromFiles(
+  private void move(final List<Pair<Pair<Card, Card>, List<Vector2>>> spots, final List<Card> card) {
+    card.forEach(c -> {
+      spots.forEach(s -> {
+        if (s.getX().getX().getIdentifier() == c.getIdentifier() && s.getY().size() > 1) {
+          if (s.getY().size() < 3) {
+            c.setAnimation(AnimationUtilities.loadAnimationFromFiles(
                 new String[] { "wizard/selfWizard/walking/1.png", "wizard/selfWizard/walking/2.png",
                     "wizard/selfWizard/walking/3.png", "wizard/selfWizard/walking/4.png" },
                 (float) 0.01724 * 10, true));
           }
-          w.setDraggable(false);
-          if (!Gdx.input.isTouched() && !w.isDraggable()) {
-            w.moveTo(new Vector2(entry.getValue().get(1).x - w.getWidth() / 2, entry.getValue().get(1).y - w.getHeight() / 2));
+          c.setDraggable(false);
+          if (!Gdx.input.isTouched() && !c.isDraggable()) {
+            c.moveTo(new Vector2(s.getY().get(1).x - c.getWidth() / 2, s.getY().get(1).y - c.getHeight() / 2));
           }
         }
-      }
+      });
     });
   }
-  
-  private void mapToString(final Map<Pair<Card, Card>, List<Vector2>> spots) {
-    for (final var entry : spots.entrySet()) {
-      System.out.println("x " + entry.getKey().getX().getIdentifier() + " Y " + entry.getKey().getY().getIdentifier() + "list" + entry.getValue());
-    }
-  }
+
 
   @Override
   public void update(final float dt) {

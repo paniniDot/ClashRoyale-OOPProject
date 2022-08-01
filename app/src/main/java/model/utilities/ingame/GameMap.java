@@ -1,5 +1,6 @@
 package model.utilities.ingame;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,7 +54,7 @@ public class GameMap {
         final var coords = new Vector2(i, j);
         if (!obstacles.contains(coords)) {
           final var vertex = new MapUnit(coords, new Vector2(x, y), MapUnit.Type.TERRAIN);
-          System.out.println(vertex);
+          //System.out.println(vertex);
           this.map.addVertex(vertex);
         }
         y += MapUnit.HEIGHT;
@@ -258,21 +259,21 @@ public class GameMap {
    * @param source
    * @param destination
    * @param gameMap
-   * @return HashMap<Card, List<Vector2>>
+   * @return List<Pair<Pair<Card, Card>, List<Vector2>>> 
    */
-  public Map<Pair<Card, Card>, List<Vector2>> findEnemy(final GameMap gameMap, final List<Card> source, final List<Card> destination) {
-    final Map<Pair<Card, Card>, List<Vector2>> cardPaths = new HashMap<>();
+  public List<Pair<Pair<Card, Card>, List<Vector2>>> findEnemy(final GameMap gameMap, final List<Card> source, final List<Card> destination) {
+    final List<Pair<Pair<Card, Card>, List<Vector2>>> cardPaths = new ArrayList<>();
     Card dest = null;
-    for (final Card src: source) {
+    for (final Card src : source) {
       double min = Double.MAX_VALUE;
-      for (final Card dst: destination) {
+      for (final Card dst : destination) {
         final double distance = VectorsUtilities.euclideanDistance(src.getCenter(), dst.getCenter());
         if (Double.compare(min, distance) > 0) {
           dest = dst;
           min = distance;
         }
       }
-      cardPaths.put(new Pair<Card, Card>(src, dest), gameMap.getPath(src.getCenter(), dest.getCenter()));
+      cardPaths.add(new Pair<Pair<Card, Card>, List<Vector2>>(new Pair<Card, Card>(src, dest), gameMap.getPath(src.getCenter(), dest.getCenter())));
     }
     return cardPaths;
   }
