@@ -1,9 +1,7 @@
 package model.utilities.ingame;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.jgrapht.Graph;
@@ -13,7 +11,7 @@ import org.jgrapht.graph.builder.GraphTypeBuilder;
 
 import com.badlogic.gdx.math.Vector2;
 
-import model.actors.cards.Card;
+import model.actors.Attackable;
 import model.utilities.Pair;
 import model.utilities.VectorsUtilities;
 
@@ -45,18 +43,15 @@ public class GameMap {
   }
 
   private void addVerteces() {
-    final var obstacles = this.getObstacles();
     int x = X_START;
     int y = Y_START;
     for (int i = 1; i < HORIZONTAL_UNITS; i++) {
       y = Y_START;
       for (int j = 1; j < VERTICAL_UNITS; j++) {
         final var coords = new Vector2(i, j);
-        if (!obstacles.contains(coords)) {
-          final var vertex = new MapUnit(coords, new Vector2(x, y), MapUnit.Type.TERRAIN);
-          //System.out.println(vertex);
-          this.map.addVertex(vertex);
-        }
+        final var vertex = new MapUnit(coords, new Vector2(x, y), this.getTowers().contains(coords) ? MapUnit.Type.TOWER : this.getObstacles().contains(coords) ? MapUnit.Type.OBSTACLE : MapUnit.Type.TERRAIN);
+        //System.out.println(vertex);
+        this.map.addVertex(vertex);
         y += MapUnit.HEIGHT;
       }
       x += MapUnit.WIDTH;
@@ -71,66 +66,19 @@ public class GameMap {
           final var mapUnit = new MapUnit(new Vector2(i, j), new Vector2(X_START + MapUnit.WIDTH * (i - 1), Y_START + MapUnit.HEIGHT * (j - 1)), MapUnit.Type.TERRAIN);
           if (this.map.containsVertex(mapUnit) && !vertex.equals(mapUnit)) {
             this.map.addEdge(vertex, mapUnit);
-          } 
+          }
+          final var mapUnitObs = new MapUnit(new Vector2(i, j), new Vector2(X_START + MapUnit.WIDTH * (i - 1), Y_START + MapUnit.HEIGHT * (j - 1)), MapUnit.Type.TOWER);
+          if (this.map.containsVertex(mapUnitObs) && !vertex.equals(mapUnitObs)) {
+            this.map.addEdge(vertex, mapUnitObs);
+          }
         }
       }
       }
     }
   }
 
-  private List<Vector2> getObstacles() {
+  private List<Vector2> getTowers() {
     return List.of(
-        new Vector2(1,15), 
-        new Vector2(2,15), 
-        new Vector2(3,15), 
-        new Vector2(1,16), 
-        new Vector2(2,16), 
-        new Vector2(3,16),
-        new Vector2(1,17), 
-        new Vector2(2,17), 
-        new Vector2(3,17),
-
-        new Vector2(5,15), 
-        new Vector2(6,15), 
-        new Vector2(7,15),
-        new Vector2(8,15), 
-        new Vector2(9,15), 
-        new Vector2(10,15),
-        new Vector2(11,15), 
-        new Vector2(12,15), 
-        new Vector2(13,15),
-        new Vector2(14,15), 
-        new Vector2(5,16), 
-        new Vector2(6,16), 
-        new Vector2(7,16),
-        new Vector2(8,16), 
-        new Vector2(9,16), 
-        new Vector2(10,16),
-        new Vector2(11,16), 
-        new Vector2(12,16), 
-        new Vector2(13,16),
-        new Vector2(14,16),
-        new Vector2(5,17), 
-        new Vector2(6,17), 
-        new Vector2(7,17),
-        new Vector2(8,17), 
-        new Vector2(9,17), 
-        new Vector2(10,17),
-        new Vector2(11,17), 
-        new Vector2(12,17), 
-        new Vector2(13,17),
-        new Vector2(14,17),
-
-        new Vector2(16,15), 
-        new Vector2(17,15), 
-        new Vector2(18,15),
-        new Vector2(16,16), 
-        new Vector2(17,16), 
-        new Vector2(18,16),
-        new Vector2(16,17), 
-        new Vector2(17,17), 
-        new Vector2(18,17),
-
         new Vector2(3,5),
         new Vector2(3,6),
         new Vector2(3,7),
@@ -233,6 +181,61 @@ public class GameMap {
         );
   }
 
+  private List<Vector2> getObstacles() {
+    return List.of(
+        new Vector2(1,15), 
+        new Vector2(2,15), 
+        new Vector2(3,15), 
+        new Vector2(1,16), 
+        new Vector2(2,16), 
+        new Vector2(3,16),
+        new Vector2(1,17), 
+        new Vector2(2,17), 
+        new Vector2(3,17),
+
+        new Vector2(5,15), 
+        new Vector2(6,15), 
+        new Vector2(7,15),
+        new Vector2(8,15), 
+        new Vector2(9,15), 
+        new Vector2(10,15),
+        new Vector2(11,15), 
+        new Vector2(12,15), 
+        new Vector2(13,15),
+        new Vector2(14,15), 
+        new Vector2(5,16), 
+        new Vector2(6,16), 
+        new Vector2(7,16),
+        new Vector2(8,16), 
+        new Vector2(9,16), 
+        new Vector2(10,16),
+        new Vector2(11,16), 
+        new Vector2(12,16), 
+        new Vector2(13,16),
+        new Vector2(14,16),
+        new Vector2(5,17), 
+        new Vector2(6,17), 
+        new Vector2(7,17),
+        new Vector2(8,17), 
+        new Vector2(9,17), 
+        new Vector2(10,17),
+        new Vector2(11,17), 
+        new Vector2(12,17), 
+        new Vector2(13,17),
+        new Vector2(14,17),
+
+        new Vector2(16,15), 
+        new Vector2(17,15), 
+        new Vector2(18,15),
+        new Vector2(16,16), 
+        new Vector2(17,16), 
+        new Vector2(18,16),
+        new Vector2(16,17), 
+        new Vector2(17,17), 
+        new Vector2(18,17)
+        );
+  }
+
   /**
    * Evaluate the best path form a source to a destination.
    * @param source
@@ -248,6 +251,8 @@ public class GameMap {
           .getPath(this.getMapUnitFromPixels(source), this.getMapUnitFromPixels(dest))
           .getVertexList()
           .stream()
+          .filter(el -> !this.getTowers().contains(el.getCoordinates()))
+          .filter(el -> !this.getObstacles().contains(el.getCoordinates()))
           .map(MapUnit::getCenter)
           .collect(Collectors.toList());
     }
@@ -261,20 +266,21 @@ public class GameMap {
    * @param gameMap
    * @return List<Pair<Pair<Card, Card>, List<Vector2>>> 
    */
-  public List<Pair<Pair<Card, Card>, List<Vector2>>> findEnemy(final GameMap gameMap, final List<Card> source, final List<Card> destination) {
-    final List<Pair<Pair<Card, Card>, List<Vector2>>> cardPaths = new ArrayList<>();
-    Card dest = null;
-    for (final Card src : source) {
+  public List<Pair<Pair<Attackable, Attackable>, List<Vector2>>> findEnemy(final GameMap gameMap, final List<Attackable> source, final List<Attackable> destination) {
+    final List<Pair<Pair<Attackable, Attackable>, List<Vector2>>> cardPaths = new ArrayList<>();
+    Attackable dest = null;
+    for (final Attackable src : source) {
       double min = Double.MAX_VALUE;
-      for (final Card dst : destination) {
+      for (final Attackable dst : destination) {
         final double distance = VectorsUtilities.euclideanDistance(src.getCenter(), dst.getCenter());
         if (Double.compare(min, distance) > 0) {
           dest = dst;
           min = distance;
         }
       }
-      cardPaths.add(new Pair<Pair<Card, Card>, List<Vector2>>(new Pair<Card, Card>(src, dest), gameMap.getPath(src.getCenter(), dest.getCenter())));
+      cardPaths.add(new Pair<Pair<Attackable, Attackable>, List<Vector2>>(new Pair<Attackable, Attackable>(src, dest), gameMap.getPath(src.getCenter(), dest.getCenter())));
     }
+    System.out.println(cardPaths);
     return cardPaths;
   }
   //da rimuovere.
@@ -290,7 +296,7 @@ public class GameMap {
     final var coords = new Vector2((float) Math.ceil((pixels.x - X_START) / MapUnit.WIDTH), (float) Math.ceil((pixels.y - Y_START) / MapUnit.HEIGHT));
     //System.out.println(pixels + "-> " + coords);
     // il pixel passato alla funzione � un pixel a caso all'interno del rettangolo, io ho bisogno di quello in basso a sx per creare il rettangolo, uso il metodo sotto
-    final var mapUnit = new MapUnit(coords, this.getPixelsFromUnitCoords(coords), MapUnit.Type.TERRAIN);
+    final var mapUnit = new MapUnit(coords, this.getPixelsFromUnitCoords(coords), this.getTowers().contains(coords) ? MapUnit.Type.TOWER : MapUnit.Type.TERRAIN);
     //System.out.println(mapUnit);
     return mapUnit;
   }

@@ -30,6 +30,11 @@ public class MapUnit {
     TERRAIN,
 
     /**
+     * Units where towers reside.
+     */
+    TOWER,
+
+    /**
      * Units where cannot.
      */
     OBSTACLE;

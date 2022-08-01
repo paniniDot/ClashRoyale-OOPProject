@@ -3,16 +3,20 @@ package model.utilities.ingame;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
+import model.actors.Attackable;
 import model.actors.cards.Card;
 import model.actors.towers.KingTower;
 import model.actors.towers.QueenTower;
 import model.actors.towers.Tower;
 import model.actors.users.User;
-import model.utilities.CardQueue;
+import model.utilities.AnimationUtilities;
 import model.utilities.ElixirController;
 
 /**
@@ -25,7 +29,7 @@ public abstract class GameController {
    */
   protected static final int CHOOSABLE_CARDS = 4;
 
-  private final CardQueue playerCards;
+  private final List<Card> playerCards;
   private final List<Card> playerDeployedCards;
   private final List<Card> playerChoosableCards;
   private final List<Tower> playerActiveTowers;
@@ -41,10 +45,10 @@ public abstract class GameController {
    *              the stage the gameController has to control.
    */
   public GameController(final List<Card> playerCards, final User user, final Stage stage) {
-    this.playerCards = new CardQueue(playerCards);
+    this.playerCards = playerCards.stream().collect(Collectors.toList());
     this.playerDeployedCards = new ArrayList<>();
     this.playerChoosableCards = new ArrayList<>();
-    IntStream.range(0, CHOOSABLE_CARDS).forEach(i -> this.playerChoosableCards.add(this.playerCards.getCard()));
+    IntStream.range(0, CHOOSABLE_CARDS).forEach(i -> this.playerChoosableCards.add(this.playerCards.remove(0)));
     this.playerActiveTowers = this.getPlayerTowers(user, stage);
     this.elixirController = new ElixirController();
   }
@@ -52,9 +56,16 @@ public abstract class GameController {
   /* logica per la posizione delle torri nella mappa mancante */
   private List<Tower> getPlayerTowers(final User user, final Stage stage) {
     final List<Tower> towers = new ArrayList<>();
-    towers.add(QueenTower.create(user, stage, null));
-    towers.add(QueenTower.create(user, stage, null));
-    towers.add(KingTower.create(user, stage, null));
+    towers.add(QueenTower.create(user, stage, new Vector2(232, 323)));
+    towers.add(QueenTower.create(user, stage, new Vector2(426, 323)));
+    towers.add(KingTower.create(user, stage, new Vector2(309, 253)));
+    towers.forEach(t -> {
+      if (t.getClass() == QueenTower.class) {
+        t.setAnimation(AnimationUtilities.loadTexture("towers/self/queen_tower.png"));
+      } else {
+        t.setAnimation(AnimationUtilities.loadTexture("towers/self/king_tower.png"));
+      }
+    });
     return towers;
   }
 
@@ -85,7 +96,7 @@ public abstract class GameController {
       this.playerChoosableCards.remove(card);
       this.elixirController.decrementElixir(card.getCost());
       this.playerDeployedCards.add(card);
-      this.playerCards.addCard(card);
+      this.playerCards.add(card);
     }
   }
 
@@ -126,6 +137,15 @@ public abstract class GameController {
    */
   public int getPlayerElixirLeft() {
     return this.elixirController.getElixirCount();
+  }
+
+  /**
+   * 
+   * @return a list of attackable elements of the player.
+   */
+  public List<Attackable> getPlayerAttackable() {
+    /* ricorda di sostituire con playerDeployedCards */
+    return Stream.concat(this.playerChoosableCards.stream().map(c -> (Attackable) c), this.playerActiveTowers.stream().map(t -> (Attackable) t)).collect(Collectors.toList());
   }
 
 }
