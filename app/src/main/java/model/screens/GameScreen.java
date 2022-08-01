@@ -82,8 +82,8 @@ public class GameScreen extends BaseScreen {
                     "wizard/selfWizard/walking/3.png", "wizard/selfWizard/walking/4.png" },
                 (float) 0.01724 * 10, true));
           }
-          c.setDraggable(false);
-          if (!Gdx.input.isTouched() && !c.isDraggable()) {
+          if (!Gdx.input.isTouched() || !c.isDraggable()) {
+            c.setDraggable(false);
             c.moveTo(new Vector2(s.getY().get(1).x - c.getWidth() / 2, s.getY().get(1).y - c.getHeight() / 2));
           }
         }
