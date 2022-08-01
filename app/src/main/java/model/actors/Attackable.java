@@ -1,5 +1,7 @@
 package model.actors;
 
+import java.util.UUID;
+
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -11,6 +13,11 @@ public interface Attackable {
    * @return the current position of the entity that implements this interface.
    */
   Vector2 getPosition();
+
+  /**
+   * @return the center of the entity.
+   */
+  Vector2 getCenter();
 
   /**
    * Updates the current position of the entity.
