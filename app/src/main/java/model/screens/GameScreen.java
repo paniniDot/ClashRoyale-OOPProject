@@ -16,6 +16,9 @@ import model.actors.Attackable;
 import model.actors.BaseActor;
 import model.actors.cards.Card;
 import model.actors.cards.troops.Wizard;
+import model.actors.towers.KingTower;
+import model.actors.towers.QueenTower;
+import model.actors.towers.Tower;
 import model.actors.users.Bot;
 import model.actors.users.User;
 import model.utilities.AnimationUtilities;
@@ -85,7 +88,7 @@ public class GameScreen extends BaseScreen {
   private void move(final List<Pair<Pair<Attackable, Attackable>, List<Vector2>>> spots) {
       spots.forEach(s -> {
         if (s.getY().size() > 1) {
-          if (s.getX().getX().getClass().equals(Wizard.class)) {
+          if (!s.getX().getX().getClass().equals(QueenTower.class) && !s.getX().getX().getClass().equals(KingTower.class)) {
             if (!Gdx.input.isTouched() || !((Card) s.getX().getX()).isDraggable()) {
               System.out.println("Classe = " + s.getX().getX().getClass() + "Controllo = " + s.getX().getX().getClass().equals(Card.class));
               ((Card) s.getX().getX()).setDraggable(false);
@@ -115,9 +118,8 @@ public class GameScreen extends BaseScreen {
     gamefont.draw(sprite, "elisir " + elisir.getElixirCount(), 100, 100);
     gamefont.draw(sprite, "durata " + count.getTime(), 100, 200);
     sprite.end();
-    RectDrawer.showDebugBoundingBoxes(this.map.getMap().vertexSet().stream().filter(v -> v.getType().equals(MapUnit.Type.TERRAIN)).map(MapUnit::getUnitRectangle).collect(Collectors.toList()), Color.BLUE);
+    RectDrawer.showDebugBoundingBoxes(this.map.getMap().vertexSet().stream().map(MapUnit::getUnitRectangle).collect(Collectors.toList()), Color.BLUE);
+    //RectDrawer.showDebugBoundingBoxes(this.map.getMap().vertexSet().stream().filter(v -> v.getType().equals(MapUnit.Type.TERRAIN)).map(MapUnit::getUnitRectangle).collect(Collectors.toList()), Color.BLUE);
     RectDrawer.showDebugBoundingBoxes(this.map.getMap().vertexSet().stream().filter(v -> v.getType().equals(MapUnit.Type.TOWER)).map(MapUnit::getUnitRectangle).collect(Collectors.toList()), Color.RED);
-    RectDrawer.showDebugBoundingBoxes(this.map.getMap().vertexSet().stream().filter(v -> v.getType().equals(MapUnit.Type.OBSTACLE)).map(MapUnit::getUnitRectangle).collect(Collectors.toList()), Color.PURPLE);
-    
   }
 }

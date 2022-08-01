@@ -49,9 +49,11 @@ public class GameMap {
       y = Y_START;
       for (int j = 1; j < VERTICAL_UNITS; j++) {
         final var coords = new Vector2(i, j);
-        final var vertex = new MapUnit(coords, new Vector2(x, y), this.getTowers().contains(coords) ? MapUnit.Type.TOWER : this.getObstacles().contains(coords) ? MapUnit.Type.OBSTACLE : MapUnit.Type.TERRAIN);
-        //System.out.println(vertex);
-        this.map.addVertex(vertex);
+        if (!this.getObstacles().contains(coords)) {
+          final var vertex = new MapUnit(coords, new Vector2(x, y), this.getTowers().contains(coords) ? MapUnit.Type.TOWER : MapUnit.Type.TERRAIN);
+          // System.out.println(vertex);
+          this.map.addVertex(vertex);
+        }
         y += MapUnit.HEIGHT;
       }
       x += MapUnit.WIDTH;
@@ -63,13 +65,11 @@ public class GameMap {
       if (vertex.getCoordinates().x > 1 && vertex.getCoordinates().y > 1) {
       for (var i = vertex.getCoordinates().x - 1; i <= vertex.getCoordinates().x + 1; i++) {
         for (var j = vertex.getCoordinates().y - 1; j <= vertex.getCoordinates().y + 1; j++) {
-          final var mapUnit = new MapUnit(new Vector2(i, j), new Vector2(X_START + MapUnit.WIDTH * (i - 1), Y_START + MapUnit.HEIGHT * (j - 1)), MapUnit.Type.TERRAIN);
+          if (!this.getObstacles().contains(new Vector2(i, j))) {
+          final var mapUnit = new MapUnit(new Vector2(i, j), new Vector2(X_START + MapUnit.WIDTH * (i - 1), Y_START + MapUnit.HEIGHT * (j - 1)), this.getTowers().contains(new Vector2(i, j)) ? MapUnit.Type.TOWER : MapUnit.Type.TERRAIN);
           if (this.map.containsVertex(mapUnit) && !vertex.equals(mapUnit)) {
             this.map.addEdge(vertex, mapUnit);
           }
-          final var mapUnitObs = new MapUnit(new Vector2(i, j), new Vector2(X_START + MapUnit.WIDTH * (i - 1), Y_START + MapUnit.HEIGHT * (j - 1)), MapUnit.Type.TOWER);
-          if (this.map.containsVertex(mapUnitObs) && !vertex.equals(mapUnitObs)) {
-            this.map.addEdge(vertex, mapUnitObs);
           }
         }
       }
@@ -79,80 +79,33 @@ public class GameMap {
 
   private List<Vector2> getTowers() {
     return List.of(
-        new Vector2(3,5),
-        new Vector2(3,6),
-        new Vector2(3,7),
-        new Vector2(3,8),
-        new Vector2(3,9),
-        new Vector2(4,5),
         new Vector2(4,6),
         new Vector2(4,7),
         new Vector2(4,8),
         new Vector2(4,9),
-        new Vector2(5,5),
-        new Vector2(5,6),
-        new Vector2(5,7),
-        new Vector2(5,8),
-        new Vector2(5,9),
-
-        new Vector2(8,1),
-        new Vector2(8,2),
-        new Vector2(8,3),
-        new Vector2(8,4),
-        new Vector2(8,5),
-        new Vector2(8,6),
         new Vector2(9,1),
         new Vector2(9,2),
         new Vector2(9,3),
         new Vector2(9,4),
         new Vector2(9,5),
         new Vector2(9,6),
+
         new Vector2(10,1),
         new Vector2(10,2),
         new Vector2(10,3),
         new Vector2(10,4),
         new Vector2(10,5),
         new Vector2(10,6),
-        new Vector2(11,1),
-        new Vector2(11,2),
-        new Vector2(11,3),
-        new Vector2(11,4),
-        new Vector2(11,5),
-        new Vector2(11,6),
 
-        new Vector2(14,5),
-        new Vector2(14,6),
-        new Vector2(14,7),
-        new Vector2(14,8),
-        new Vector2(14,9),
-        new Vector2(15,5),
         new Vector2(15,6),
         new Vector2(15,7),
         new Vector2(15,8),
         new Vector2(15,9),
-        new Vector2(16,5),
-        new Vector2(16,6),
-        new Vector2(16,7),
-        new Vector2(16,8),
-        new Vector2(16,9),
 
-        new Vector2(3,25),
-        new Vector2(3,26),
-        new Vector2(3,27),
-        new Vector2(3,28),
         new Vector2(4,25),
         new Vector2(4,26),
         new Vector2(4,27),
-        new Vector2(4,28),
-        new Vector2(5,25),
-        new Vector2(5,26), 
-        new Vector2(5,27),
-        new Vector2(5,28),
 
-        new Vector2(8,28),
-        new Vector2(8,29),
-        new Vector2(8,30),
-        new Vector2(8,31),
         new Vector2(9,28),
         new Vector2(9,29),
         new Vector2(9,30),
@@ -161,28 +114,82 @@ public class GameMap {
         new Vector2(10,29),
         new Vector2(10,30),
         new Vector2(10,31),
-        new Vector2(11,28),
-        new Vector2(11,29),
-        new Vector2(11,30),
-        new Vector2(11,31),
 
-        new Vector2(14,25),
-        new Vector2(14,26),
-        new Vector2(14,27),
-        new Vector2(14,28),
         new Vector2(15,25),
         new Vector2(15,26),
-        new Vector2(15,27),
-        new Vector2(15,28),
-        new Vector2(16,25),
-        new Vector2(16,26), 
-        new Vector2(16,27),
-        new Vector2(16,28)
+        new Vector2(15,27)
+
+
         );
   }
 
   private List<Vector2> getObstacles() {
     return List.of(
+        new Vector2(3,5),
+        new Vector2(3,6),
+        new Vector2(3,7),
+        new Vector2(3,8),
+        new Vector2(3,9),
+        new Vector2(4,5),
+        new Vector2(5,5),
+        new Vector2(5,6),
+        new Vector2(5,7),
+        new Vector2(5,8),
+        new Vector2(5,9),
+        
+        new Vector2(8,1),
+        new Vector2(8,2),
+        new Vector2(8,3),
+        new Vector2(8,4),
+        new Vector2(8,5),
+        new Vector2(8,6),
+
+        new Vector2(11,1),
+        new Vector2(11,2),
+        new Vector2(11,3),
+        new Vector2(11,4),
+        new Vector2(11,5),
+        new Vector2(11,6),
+        
+        new Vector2(3,25),
+        new Vector2(3,26),
+        new Vector2(3,27),
+        new Vector2(3,28),
+        new Vector2(4,28),
+        new Vector2(5,25),
+        new Vector2(5,26), 
+        new Vector2(5,27),
+        new Vector2(5,28),
+        new Vector2(8,28),
+        new Vector2(8,29),
+        new Vector2(8,30),
+        new Vector2(8,31),
+        new Vector2(11,28),
+        new Vector2(11,29),
+        new Vector2(11,30),
+        new Vector2(11,31),
+        new Vector2(14,25),
+        new Vector2(14,26),
+        new Vector2(14,27),
+        new Vector2(14,28),
+        new Vector2(15,28),
+        new Vector2(16,25),
+        new Vector2(16,26), 
+        new Vector2(16,27),
+        new Vector2(16,28),
+        
+        new Vector2(14,5),
+        new Vector2(14,6),
+        new Vector2(14,7),
+        new Vector2(14,8),
+        new Vector2(14,9),
+        new Vector2(15,5),
+        new Vector2(16,5),
+        new Vector2(16,6),
+        new Vector2(16,7),
+        new Vector2(16,8),
+        new Vector2(16,9),
+        
         new Vector2(1,15), 
         new Vector2(2,15), 
         new Vector2(3,15), 
@@ -252,7 +259,6 @@ public class GameMap {
           .getVertexList()
           .stream()
           .filter(el -> !this.getTowers().contains(el.getCoordinates()))
-          .filter(el -> !this.getObstacles().contains(el.getCoordinates()))
           .map(MapUnit::getCenter)
           .collect(Collectors.toList());
     }

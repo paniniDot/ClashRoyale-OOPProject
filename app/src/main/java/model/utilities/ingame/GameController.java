@@ -56,9 +56,9 @@ public abstract class GameController {
   /* logica per la posizione delle torri nella mappa mancante */
   private List<Tower> getPlayerTowers(final User user, final Stage stage) {
     final List<Tower> towers = new ArrayList<>();
-    towers.add(QueenTower.create(user, stage, new Vector2(232, 323)));
-    towers.add(QueenTower.create(user, stage, new Vector2(426, 323)));
-    towers.add(KingTower.create(user, stage, new Vector2(309, 253)));
+    towers.add(QueenTower.create(user, stage, new Vector2(205, 312)));
+    towers.add(QueenTower.create(user, stage, new Vector2(415, 312)));
+    towers.add(KingTower.create(user, stage, new Vector2(300, 255)));
     towers.forEach(t -> {
       if (t.getClass() == QueenTower.class) {
         t.setAnimation(AnimationUtilities.loadTexture("towers/self/queen_tower.png"));
