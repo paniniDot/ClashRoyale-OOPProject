@@ -52,7 +52,6 @@ public abstract class Tower extends BaseActor implements Attackable {
 
   @Override
   public void setPosition(final Vector2 newPos) {
-    throw new UnsupportedOperationException();
   }
 
   @Override
