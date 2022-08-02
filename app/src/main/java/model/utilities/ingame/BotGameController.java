@@ -54,7 +54,7 @@ public class BotGameController extends GameController {
     final List<Tower> towers = new ArrayList<>();
     towers.add(QueenTower.create(bot, stage, new Vector2(205, 613)));
     towers.add(QueenTower.create(bot, stage, new Vector2(415, 613)));
-    towers.add(KingTower.create(bot, stage, new Vector2(300, 658)));
+    towers.add(KingTower.create(bot, stage, new Vector2(300, 640)));
     towers.forEach(t -> {
       if (t.getClass() == QueenTower.class) {
         t.setAnimation(AnimationUtilities.loadTexture("towers/enemy/queen_tower.png"));
