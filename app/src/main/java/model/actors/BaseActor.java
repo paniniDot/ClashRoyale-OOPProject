@@ -15,8 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
  * Simple entity (I.e. Queen or King towers).
  */
 public class BaseActor extends Actor {
-
-  private final UUID identifier;
+  
   private Optional<Animation<TextureRegion>> animation;
   private float elapsedTime;
 
@@ -31,20 +30,10 @@ public class BaseActor extends Actor {
    */
   public BaseActor(final float x, final float y, final Stage stage) {
     super();
-    this.identifier = UUID.randomUUID();
     super.setPosition(x, y);
     this.animation = Optional.empty();
     stage.addActor(this);
     this.elapsedTime = 0;
-  }
-
-  /**
-   * 
-   * @return a unique identifier for the actor. 
-   * Used to distinguish different instances of the same actor when they have the same field values.
-   */
-  public UUID getIdentifier() {
-    return this.identifier;
   }
 
   /**
