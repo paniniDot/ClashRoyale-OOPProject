@@ -9,12 +9,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import launcher.BaseGame;
 import launcher.ClashRoyale;
 import model.actors.Attackable;
 import model.actors.BaseActor;
 import model.actors.cards.Card;
+import model.actors.cards.troops.Troop;
 import model.actors.cards.troops.Wizard;
 import model.actors.towers.KingTower;
 import model.actors.towers.QueenTower;
@@ -68,15 +70,11 @@ public class GameScreen extends BaseScreen {
         Wizard.create(this.user, super.getMainStage(), new Vector2(300, 100)),
         Wizard.create(this.user, super.getMainStage(), new Vector2(200, 100)),
         Wizard.create(this.user, super.getMainStage(), new Vector2(400, 100)));
-    this.wizardsplayer.forEach(w -> w.setAnimation(AnimationUtilities.loadAnimationFromFiles(new String[]{"wizard/selfWizard/walking/1.png",
-        "wizard/selfWizard/walking/2.png", "wizard/selfWizard/walking/3.png", "wizard/selfWizard/walking/4.png"}, (float) 0.01724 * 10, true)));
     this.wizardsbot = List.of(
         Wizard.create(bot, super.getMainStage(), new Vector2(100, 800)),
         Wizard.create(bot, super.getMainStage(), new Vector2(300, 800)),
         Wizard.create(bot, super.getMainStage(), new Vector2(400, 800)),
         Wizard.create(bot, super.getMainStage(), new Vector2(200, 800)));
-    this.wizardsbot.forEach(w -> w.setAnimation(AnimationUtilities.loadAnimationFromFiles(new String[]{"wizard/selfWizard/walking/1.png",
-        "wizard/selfWizard/walking/2.png", "wizard/selfWizard/walking/3.png", "wizard/selfWizard/walking/4.png"}, (float) 0.01724 * 10, true)));
     this.gameController = new BotGameController(wizardsplayer, wizardsbot, user, bot, getMainStage());
   }
 
@@ -90,7 +88,8 @@ public class GameScreen extends BaseScreen {
         if (s.getY().size() > 1) {
           if (!s.getX().getX().getClass().equals(QueenTower.class) && !s.getX().getX().getClass().equals(KingTower.class)) {
             if (!Gdx.input.isTouched() || !((Card) s.getX().getX()).isDraggable()) {
-              System.out.println("Classe = " + s.getX().getX().getClass() + "Controllo = " + s.getX().getX().getClass().equals(Card.class));
+              //System.out.println("Classe = " + s.getX().getX().getClass() + "Controllo = " + s.getX().getX().getClass().equals(Card.class));
+              ((Troop) s.getX().getX()).setRotation(s.getY().get(1));
               ((Card) s.getX().getX()).setDraggable(false);
               ((Card) s.getX().getX()).moveTo(new Vector2(s.getY().get(1).x - ((Card) s.getX().getX()).getWidth() / 2, s.getY().get(1).y - ((Card) s.getX().getX()).getHeight() / 2));
             }

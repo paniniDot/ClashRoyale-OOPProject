@@ -138,7 +138,12 @@ public abstract class Troop extends Card implements Attackable {
   public void setPosition(final Vector2 newPos) {
     super.setPosition(newPos.x, newPos.y);
   }
-
+  /**
+   * update angle of the troop.
+   */
+  public void setRotation(final Vector2 dst) {
+    super.rotate(dst);
+  }
 /*
   @Override
   public TargetType getSelfType() {
