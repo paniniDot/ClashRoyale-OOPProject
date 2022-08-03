@@ -36,7 +36,7 @@ public class MenuScreen extends BaseScreen {
   private TextureAtlas atlas, atlasLabel;
   private Skin skin, skinLabel;
   private Table table;
-  private TextButton buttonPlay, buttonExit, buttonLevel, buttonScore;
+  private TextButton buttonPlay, buttonExit, buttonLevel, buttonScore, buttonDeck;
   private Label heading;
   private FileHandle file;
   private User user;
