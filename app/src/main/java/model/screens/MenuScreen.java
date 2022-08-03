@@ -55,9 +55,8 @@ public class MenuScreen extends BaseScreen {
   private Table table;
   private TextButton buttonPlay, buttonExit, buttonLevel, buttonScore;
   private Label heading, level;
-
   private Json json;
-  private FileHandle file = Gdx.files.local("bin/desc.json");
+  private FileHandle file;
   private UserDatabase desc;
   private User user;
   private final int space = 15;
@@ -66,92 +65,70 @@ public class MenuScreen extends BaseScreen {
    * @return descr
    */
   public UserDatabase newUserDatabase() {
-    UserDatabase desc = new UserDatabase();
-    desc.currentXP = 10;
-    desc.currentLevel = UserLevel.LVL2;
+    this.desc = new UserDatabase();
+    this.desc.currentXP = 10;
+    this.desc.currentLevel = UserLevel.LVL2;
     return desc;
   }
 
   @Override
   public void initialize() {
-    audio = Audio.playMenuMusic();
+    this.audio = Audio.playMenuMusic();
     final var background = new BaseActor(0, 0, super.getMainStage());
     background.setAnimation(AnimationUtilities.loadTexture("backgrounds/menuBackground.png"));
     background.setSize(ClashRoyale.WIDTH, ClashRoyale.HEIGHT);
     Gdx.input.setInputProcessor(super.getUiStage());
-    atlas = new TextureAtlas("buttons/button.pack");
-    skin = new Skin(Gdx.files.internal("buttons/menuSkin.json"), atlas);
-    table = new Table(skin);
-    table.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-    //creating configuration labelbutton
-
-    //creating heading
-    heading = new Label(ClashRoyale.TITLE, skin);
-    atlasLabel = new TextureAtlas("buttons/scoreLabel.pack");
-    skinLabel = new Skin(Gdx.files.internal("buttons/menuSkinLabel.json"), atlasLabel);
-
-    //creating buttons
-    buttonPlay = new TextButton("Play", skin);
-    buttonPlay.addListener(new ClickListener() {
-      @Override
-      public void clicked(final InputEvent event, final float x, final float y) {
-        BaseGame.setActiveScreen(new GameScreen());
-
-        buttonScore.setText("Score " + String.valueOf(user.getCurrentXP()));
-      }
-    });
-    buttonPlay.pad(space);
-
-    buttonExit = new TextButton("Exit", skin);
-    buttonExit.addListener(new ClickListener() {
-      @Override
-      public void clicked(InputEvent event, float x, float y) {
-        save(desc);
-        Gdx.app.exit();
-      }
-    });
-    buttonExit.pad(space);
-    if (user == null) {
-      desc = newUserDatabase();
-      user = desc.createUser();
+    this.atlas = new TextureAtlas("buttons/button.pack");
+    this.skin = new Skin(Gdx.files.internal("buttons/menuSkin.json"), this.atlas);
+    this.table = new Table(this.skin);
+    this.table.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    this.heading = new Label(ClashRoyale.TITLE, this.skin);
+    this.atlasLabel = new TextureAtlas("buttons/scoreLabel.pack");
+    this.skinLabel = new Skin(Gdx.files.internal("buttons/menuSkinLabel.json"), this.atlasLabel);
+    this.file = Gdx.files.local("bin/desc.json");
+    this.json = new Json();
+    if (this.user == null) {
+      this.desc = newUserDatabase();
+      this.user = desc.createUser();
     }
-    if (file != null) {
+    if (this.file != null) {
       load();
     }
-    buttonScore = new TextButton("Score " + String.valueOf(user.getCurrentXP()), skinLabel);
-    buttonLevel = new TextButton(user.getCurrentLevel().toString(), skinLabel);
-    //creating buttons
-    buttonPlay = new TextButton("Play", skin);
-    buttonPlay.addListener(new ClickListener() {
+
+    this.buttonPlay = new TextButton("Play", skin);
+    this.buttonPlay.addListener(new ClickListener() {
       @Override
       public void clicked(final InputEvent event, final float x, final float y) {
         audio.stop();
         BaseGame.setActiveScreen(new GameScreen());
       }
     });
-    buttonPlay.pad(15);
-    buttonExit = new TextButton("Exit", skin);
-    buttonExit.addListener(new ClickListener() {
+    this.buttonPlay.pad(space);
+
+    this.buttonExit = new TextButton("Exit", skin);
+    this.buttonExit.addListener(new ClickListener() {
       @Override
       public void clicked(final InputEvent event, final float x, final float y) {
+        save(desc);
         Gdx.app.exit();
       }
     });
-    buttonExit.pad(15);
-    user = new User("Panini");
-    buttonLevel = new TextButton("Score " + String.valueOf(user.getCurrentXP()), skinLabel);
-    buttonScore = new TextButton(user.getCurrentLevel().toString(), skinLabel);
-    table.add(heading);
-    table.getCell(heading).spaceBottom(100);
-    table.row();
-    table.add(buttonPlay);
-    table.row();
-    table.add(buttonExit);
-    super.getUiStage().addActor(table);
-    super.getUiStage().addActor(buttonLevel);
-    buttonLevel.setPosition(Gdx.graphics.getWidth() - buttonLevel.getWidth(), Gdx.graphics.getHeight() - buttonLevel.getHeight());
+    this.buttonExit.pad(space);
+
+    this.buttonScore = new TextButton("Score " + String.valueOf(this.user.getCurrentXP()), this.skinLabel);
+    this.buttonLevel = new TextButton(this.user.getCurrentLevel().toString(), this.skinLabel);
+
+    this.table.add(this.heading);
+    this.table.getCell(this.heading).spaceBottom(100);
+    this.table.row();
+    this.table.add(this.buttonPlay);
+    this.table.row();
+    this.table.add(this.buttonExit);
+    super.getUiStage().addActor(this.table);
+    super.getUiStage().addActor(this.buttonLevel);
+    this.buttonLevel.setPosition(Gdx.graphics.getWidth() - this.buttonLevel.getWidth(), Gdx.graphics.getHeight() - this.buttonLevel.getHeight());
     super.getUiStage().addActor(buttonScore);
-    buttonScore.setPosition(0, Gdx.graphics.getHeight() - buttonLevel.getHeight());
+    this.buttonScore.setPosition(0, Gdx.graphics.getHeight() - this.buttonLevel.getHeight());
 
 
   }
@@ -160,17 +137,15 @@ public class MenuScreen extends BaseScreen {
    * @param desc
    */
   public void save(final UserDatabase desc) {
-    final Json json = new Json();
-    json.setOutputType(OutputType.json);
-    file.writeString(json.prettyPrint(desc), false);
+    this.json.setOutputType(OutputType.json);
+    this.file.writeString(json.prettyPrint(desc), false);
   }
   /**
    * 
    */
   public void load() {
-    final Json json = new Json();
-    desc = json.fromJson(UserDatabase.class, file);
-    user = desc.createUser();
+    this.desc = this.json.fromJson(UserDatabase.class, this.file);
+    this.user = this.desc.createUser();
   }
 
   @Override
