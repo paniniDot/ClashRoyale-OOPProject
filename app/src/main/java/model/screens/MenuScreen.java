@@ -1,75 +1,48 @@
 package model.screens;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonWriter.OutputType;
+import com.badlogic.gdx.utils.JsonWriter;
+import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 
 import launcher.BaseGame;
 import launcher.ClashRoyale;
 import model.actors.BaseActor;
 import model.actors.users.User;
-import model.actors.users.UserLevel;
 import model.utilities.AnimationUtilities;
 import model.utilities.Audio;
 
 /**
  * Menu screen implementation.
  */
-/**
- * @author Giulia
- *
- */
 public class MenuScreen extends BaseScreen {
-
-  /**
-   * for save file user.
-   */
-  public static class UserDatabase {
-    public int currentXP;
-    public UserLevel currentLevel;
-
-    public User createUser() {
-      User user = new User("P");
-      user.setCurrentLevel(currentLevel);
-      user.setCurrentXP(currentXP);
-      return user;
-    }
-  }
-
   private Audio audio;
   private TextureAtlas atlas, atlasLabel;
   private Skin skin, skinLabel;
   private Table table;
   private TextButton buttonPlay, buttonExit, buttonLevel, buttonScore;
-  private Label heading, level;
-  private Json json;
+  private Label heading;
   private FileHandle file;
-  private UserDatabase desc;
   private User user;
-  private final int space = 15;
-  /**
-   * 
-   * @return descr
-   */
-  public UserDatabase newUserDatabase() {
-    this.desc = new UserDatabase();
-    this.desc.currentXP = 10;
-    this.desc.currentLevel = UserLevel.LVL2;
-    return desc;
-  }
+  private Gson gson;
+  private Writer writer;
+  private static final int SPACE = 15;
 
   @Override
   public void initialize() {
@@ -85,15 +58,26 @@ public class MenuScreen extends BaseScreen {
     this.heading = new Label(ClashRoyale.TITLE, this.skin);
     this.atlasLabel = new TextureAtlas("buttons/scoreLabel.pack");
     this.skinLabel = new Skin(Gdx.files.internal("buttons/menuSkinLabel.json"), this.atlasLabel);
-    this.file = Gdx.files.local("bin/desc.json");
-    this.json = new Json();
-    if (this.user == null) {
-      this.desc = newUserDatabase();
-      this.user = desc.createUser();
-    }
-    if (this.file != null) {
-      load();
-    }
+    this.gson = new Gson();
+    this.file = Gdx.files.internal("saves/user.json");
+      if (!this.file.exists()) {
+        this.user = new User("P"); 
+        try {
+          writer = new FileWriter(file.file());
+          gson.toJson(user, writer);
+          writer.close();
+        } catch (IOException e1) {
+          // TODO Auto-generated catch block
+          e1.printStackTrace();
+        }
+      } else {
+          try {
+            this.user = this.gson.fromJson(new FileReader(this.file.file()), User.class);
+          } catch (JsonSyntaxException | JsonIOException | FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+          }
+      }
 
     this.buttonPlay = new TextButton("Play", skin);
     this.buttonPlay.addListener(new ClickListener() {
@@ -103,17 +87,24 @@ public class MenuScreen extends BaseScreen {
         BaseGame.setActiveScreen(new GameScreen());
       }
     });
-    this.buttonPlay.pad(space);
+    this.buttonPlay.pad(SPACE);
 
     this.buttonExit = new TextButton("Exit", skin);
     this.buttonExit.addListener(new ClickListener() {
       @Override
       public void clicked(final InputEvent event, final float x, final float y) {
-        save(desc);
+        try {
+          writer = new FileWriter(file.file());
+          gson.toJson(user, writer);
+          writer.close();
+        } catch (IOException e1) {
+          // TODO Auto-generated catch block
+          e1.printStackTrace();
+        }
         Gdx.app.exit();
       }
     });
-    this.buttonExit.pad(space);
+    this.buttonExit.pad(SPACE);
 
     this.buttonScore = new TextButton("Score " + String.valueOf(this.user.getCurrentXP()), this.skinLabel);
     this.buttonLevel = new TextButton(this.user.getCurrentLevel().toString(), this.skinLabel);
@@ -132,21 +123,6 @@ public class MenuScreen extends BaseScreen {
 
 
   }
-  /**
-   * 
-   * @param desc
-   */
-  public void save(final UserDatabase desc) {
-    this.json.setOutputType(OutputType.json);
-    this.file.writeString(json.prettyPrint(desc), false);
-  }
-  /**
-   * 
-   */
-  public void load() {
-    this.desc = this.json.fromJson(UserDatabase.class, this.file);
-    this.user = this.desc.createUser();
-  }
 
   @Override
   public void dispose() {
@@ -154,7 +130,6 @@ public class MenuScreen extends BaseScreen {
     this.atlas.dispose();
     this.skin.dispose();
   }
-
 
   @Override
   public void update(final float dt) {
