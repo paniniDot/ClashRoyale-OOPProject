@@ -24,7 +24,8 @@ public class DeckScreen extends BaseScreen {
     skin = new Skin(Gdx.files.internal("buttons/menuSkin.json"), atlas);    
     table = new Table(skin);
     
- //   list = new List(skin, new String[]{"carta1","carta2","carta3"}); 
+    list = new List<String>(skin, "small");
+    list.setItems(new String[] {"one", "two", "three"}); 
   
     
     table.add("SELECT DECK");
