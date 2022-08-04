@@ -25,9 +25,8 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.7.2")
 
     // This dependency is used by the application.
-    implementation("com.google.guava:guava:30.1.1-jre")
-    
-    implementation("com.badlogicgames.gdx:gdx-backend-lwjgl3:1.10.0")
+	implementation("com.google.guava:guava:30.1.1-jre")
+	implementation("com.badlogicgames.gdx:gdx-backend-lwjgl3:1.10.0")
 	implementation("com.badlogicgames.gdx:gdx-platform:1.10.0")
 	implementation("com.badlogicgames.gdx:gdx-box2d-platform:1.10.0")
 	implementation("com.badlogicgames.gdx:gdx-bullet-platform:1.10.0")
@@ -39,7 +38,7 @@ dependencies {
 	implementation("com.badlogicgames.gdx:gdx-freetype:1.10.0")
 	implementation("com.badlogicgames.box2dlights:box2dlights:1.5")
 	implementation("com.badlogicgames.gdx:gdx-platform:1.10.0:natives-desktop")
-	
+	implementation("com.google.code.gson:gson:2.9.1")
 	implementation("org.jgrapht:jgrapht-core:1.5.1")
 
 	implementation("com.google.code.gson:gson:2.9.1")

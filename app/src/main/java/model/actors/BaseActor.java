@@ -18,6 +18,7 @@ public class BaseActor extends Actor {
   
   private Optional<Animation<TextureRegion>> animation;
   private float elapsedTime;
+  private float rotate;
 
   /**
    * 
@@ -91,7 +92,12 @@ public class BaseActor extends Actor {
   public void draw(final Batch batch, final float parentAlpha) {
     super.draw(batch, parentAlpha);
     if (super.isVisible()) {
-      batch.draw(this.animation.get().getKeyFrame(this.elapsedTime), super.getX(), super.getY());
+      batch.draw(this.animation.get().getKeyFrame(this.elapsedTime), 
+          super.getX(), super.getY(), 
+          this.getWidth() / 2, this.getHeight() / 2,
+          super.getWidth(), super.getHeight(), 
+          1.0f, 1.0f,
+          this.rotate);
     }
   }
 
@@ -114,5 +120,30 @@ public class BaseActor extends Actor {
   public Vector2 getPosition() {
     return new Vector2(super.getX(), super.getY());
   }
+
+  /**
+   * update angle of the actor.
+   */
+  public void rotate(final Vector2 dst) {
+    Vector2 src = getCenter();
+    if (src.x < dst.x + 10 && src.x > dst.x - 10 && src.y < dst.y) {
+      rotate = 0;
+    } else if (src.x < dst.x + 10 && src.x > dst.x - 10 && src.y > dst.y) {
+      rotate = 180;
+    } else if (src.y < dst.y + 10 && src.y > dst.y - 10 && src.x < dst.x) {
+      rotate = -90;
+    } else if (src.y < dst.y + 10 && src.y > dst.y - 10 && src.x > dst.x) {
+      rotate = 90;
+    } else if (src.x < dst.x && src.y < dst.y) {
+      rotate = -45;
+    } else if (src.x > dst.x && src.y < dst.y) {
+      rotate = 45;
+    } else if (src.x < dst.x && src.y > dst.y) {
+      rotate = 225;
+    } else if (src.x > dst.x && src.y > dst.y) {
+      rotate = 135;
+    } 
+  }
+
 
 }

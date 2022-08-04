@@ -31,9 +31,9 @@ public class MenuController extends Controller {
   /**
    * Istanciate a new GameController which takes control of the application.
    */
-//  public void triggerPlay() {
-//    new GameController().setCurrentActiveScreen();
-//  }
+  public void triggerPlay() {
+    new GameController().setCurrentActiveScreen();
+  }
 
   /**
    * Close the application.
