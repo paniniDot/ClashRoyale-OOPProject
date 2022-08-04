@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import control.BaseGame;
 import control.controller.Controller;
+import control.controller.GameController;
 import control.launcher.ClashRoyale;
 import model.actors.Attackable;
 import model.actors.BaseActor;
@@ -54,8 +55,6 @@ public class GameScreen extends BaseScreen {
   private User user;
   private GameMap map;
   private SpriteBatch sprite;
-  private ElixirController elisir;
-  private CountDownController count;
   private BitmapFont gamefont;
   private Audio audio;
   private Map<Card, List<Vector2>> spots;
@@ -64,8 +63,6 @@ public class GameScreen extends BaseScreen {
   @Override
   public void initialize() {
     super.getController().playMusic();
-    elisir = new ElixirController();
-    count = new CountDownController();
     sprite = new SpriteBatch();
     gamefont = new BitmapFont(Gdx.files.internal("Fonts/font.fnt"));
     this.map = new GameMap();
@@ -114,18 +111,15 @@ public class GameScreen extends BaseScreen {
   @Override
   public void update(final float dt) {
     this.handleInput(dt);
-    if (count.getTime() == 0) {
-      audio.stop();
-      elisir.setRunFalse();
-      count.setRunFalse();
-    }
+    super.getController().update(dt);
+
   }
   @Override
   public void render(final float dt) {
     super.render(dt);
     sprite.begin();
-    gamefont.draw(sprite, "elisir " + elisir.getElixirCount(), 100, 100);
-    gamefont.draw(sprite, "durata " + count.getTime(), 100, 200);
+    gamefont.draw(sprite, "elisir " + ((GameController) super.getController()).getCurrentElixir(), 100, 100);
+    gamefont.draw(sprite, "durata " + ((GameController) super.getController()).getLeftTime(), 100, 200);
     sprite.end();
     RectDrawer.showDebugBoundingBoxes(this.map.getMap().vertexSet().stream().map(MapUnit::getUnitRectangle).collect(Collectors.toList()), Color.BLUE);
     //RectDrawer.showDebugBoundingBoxes(this.map.getMap().vertexSet().stream().filter(v -> v.getType().equals(MapUnit.Type.TERRAIN)).map(MapUnit::getUnitRectangle).collect(Collectors.toList()), Color.BLUE);
