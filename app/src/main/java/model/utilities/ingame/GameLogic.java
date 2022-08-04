@@ -22,7 +22,7 @@ import model.utilities.ElixirController;
 /**
  * Defines the logic to be used inside the game.
  */
-public abstract class GameController {
+public abstract class GameLogic {
 
   /**
    * the number of cards that can be chosen in every moment.
@@ -44,7 +44,7 @@ public abstract class GameController {
    * @param stage 
    *              the stage the gameController has to control.
    */
-  public GameController(final List<Card> playerCards, final User user, final Stage stage) {
+  public GameLogic(final List<Card> playerCards, final User user, final Stage stage) {
     this.playerCards = playerCards.stream().collect(Collectors.toList());
     this.playerDeployedCards = new ArrayList<>();
     this.playerChoosableCards = new ArrayList<>();
@@ -59,13 +59,7 @@ public abstract class GameController {
     towers.add(QueenTower.create(user, stage, new Vector2(205, 312)));
     towers.add(QueenTower.create(user, stage, new Vector2(415, 312)));
     towers.add(KingTower.create(user, stage, new Vector2(300, 255)));
-    towers.forEach(t -> {
-      if (t.getClass() == QueenTower.class) {
-        t.setAnimation(AnimationUtilities.loadTexture("towers/self/queen_tower.png"));
-      } else {
-        t.setAnimation(AnimationUtilities.loadTexture("towers/self/king_tower.png"));
-      }
-    });
+    towers.forEach(t -> t.setAnimation(AnimationUtilities.loadTexture(t.getClass().equals(QueenTower.class) ? "towers/self/queen_tower.png" : "towers/self/king_tower.png")));
     return towers;
   }
 

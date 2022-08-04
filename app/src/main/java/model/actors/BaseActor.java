@@ -15,11 +15,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
  * Simple entity (I.e. Queen or King towers).
  */
 public class BaseActor extends Actor {
-
-  private final UUID identifier;
+  
   private Optional<Animation<TextureRegion>> animation;
   private float elapsedTime;
   private float rotate;
+  private Vector2 origin;
 
   /**
    * 
@@ -32,20 +32,11 @@ public class BaseActor extends Actor {
    */
   public BaseActor(final float x, final float y, final Stage stage) {
     super();
-    this.identifier = UUID.randomUUID();
     super.setPosition(x, y);
+    this.origin = new Vector2(x,y);
     this.animation = Optional.empty();
     stage.addActor(this);
     this.elapsedTime = 0;
-  }
-
-  /**
-   * 
-   * @return a unique identifier for the actor. 
-   * Used to distinguish different instances of the same actor when they have the same field values.
-   */
-  public UUID getIdentifier() {
-    return this.identifier;
   }
 
   /**
@@ -75,6 +66,14 @@ public class BaseActor extends Actor {
   public Vector2 getCenter() {
     //System.out.println("Rettangolo = " + this.getBoundaries() + " Centro del rettangolo = " + this.getBoundaries().getCenter(new Vector2()));
     return this.getBoundaries().getCenter(new Vector2());
+  }
+
+  /**
+   * 
+   * @return the origin of the actor.
+   */
+  public Vector2 getOrigin() {
+    return this.origin;
   }
 
   /**

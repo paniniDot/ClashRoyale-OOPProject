@@ -1,4 +1,4 @@
-package model.screens;
+package view.screens;
 
 import java.util.Map;
 import java.util.List;
@@ -11,8 +11,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-import launcher.BaseGame;
-import launcher.ClashRoyale;
+import control.BaseGame;
+import control.controller.Controller;
+import control.controller.GameController;
+import control.launcher.ClashRoyale;
 import model.actors.Attackable;
 import model.actors.BaseActor;
 import model.actors.cards.Card;
@@ -38,14 +40,21 @@ import model.utilities.ingame.MapUnit;
  */
 public class GameScreen extends BaseScreen {
 
+  /**
+   * Constructor.
+   * 
+   * @param controller
+   *                  {@inheritDoc}.
+   */
+  public GameScreen(final Controller controller) {
+    super(controller);
+  }
   private List<Card> wizardsbot;
   private List<Card> wizardsplayer;
   private Bot bot;
   private User user;
   private GameMap map;
   private SpriteBatch sprite;
-  private ElixirController elisir;
-  private CountDownController count;
   private BitmapFont gamefont;
   private Audio audio;
   private Map<Card, List<Vector2>> spots;
@@ -53,12 +62,9 @@ public class GameScreen extends BaseScreen {
 
   @Override
   public void initialize() {
-    audio = Audio.playBattleMusic();
-    elisir = new ElixirController();
-    count = new CountDownController();
+    super.getController().playMusic();
     sprite = new SpriteBatch();
     gamefont = new BitmapFont(Gdx.files.internal("Fonts/font.fnt"));
-    Gdx.input.setInputProcessor(super.getMainStage());
     this.map = new GameMap();
     bot = new Bot();
     this.user = new User("Panini");
@@ -87,13 +93,14 @@ public class GameScreen extends BaseScreen {
       spots.forEach(s -> {
         if (!s.getX().getX().getClass().equals(QueenTower.class) && !s.getX().getX().getClass().equals(KingTower.class)) {
           if (!Gdx.input.isTouched()) {
-            if (s.getY().size() < 2) {
-              ((Troop) s.getX().getX()).setRotation(s.getX().getY().getCenter());
-            } else if (!((Card) s.getX().getX()).isDraggable()) {
-              //System.out.println("Classe = " + s.getX().getX().getClass() + "Controllo = " + s.getX().getX().getClass().equals(Card.class));
+            if (this.map.getMap().containsVertex(this.map.getMapUnitFromPixels(s.getX().getX().getCenter())) && ((Card) s.getX().getX()).isDraggable() ) {
                 ((Card) s.getX().getX()).setDraggable(false);
-              } else {
-                ((Troop) s.getX().getX()).setRotation(s.getY().get(1));
+            } else if (!this.map.getMap().containsVertex(this.map.getMapUnitFromPixels(s.getX().getX().getCenter()))) {
+                ((Card) s.getX().getX()).setPosition(((Card) s.getX().getX()).getOrigin().x, ((Card) s.getX().getX()).getOrigin().y);
+            } else if (s.getY().size() <= 3 && s.getY().size() > 1) {
+                ((Card) s.getX().getX()).setRotation(s.getX().getY().getCenter());
+            } else if (s.getY().size() > 3) {
+                ((Card) s.getX().getX()).setRotation(s.getY().get(1));
                 ((Card) s.getX().getX()).moveTo(new Vector2(s.getY().get(1).x - ((Card) s.getX().getX()).getWidth() / 2, s.getY().get(1).y - ((Card) s.getX().getX()).getHeight() / 2));
               }
             } 
@@ -105,19 +112,15 @@ public class GameScreen extends BaseScreen {
   @Override
   public void update(final float dt) {
     this.handleInput(dt);
-    if (count.getTime() == 0) {
-      audio.stop();
-      elisir.setRunFalse();
-      count.setRunFalse();
-      BaseGame.setActiveScreen(new MenuScreen());
-    }
+    super.getController().update(dt);
+
   }
   @Override
   public void render(final float dt) {
     super.render(dt);
     sprite.begin();
-    gamefont.draw(sprite, "elisir " + elisir.getElixirCount(), 100, 100);
-    gamefont.draw(sprite, "durata " + count.getTime(), 100, 200);
+    gamefont.draw(sprite, "elisir " + ((GameController) super.getController()).getCurrentElixir(), 100, 100);
+    gamefont.draw(sprite, "durata " + ((GameController) super.getController()).getLeftTime(), 100, 200);
     sprite.end();
     RectDrawer.showDebugBoundingBoxes(this.map.getMap().vertexSet().stream().map(MapUnit::getUnitRectangle).collect(Collectors.toList()), Color.BLUE);
     //RectDrawer.showDebugBoundingBoxes(this.map.getMap().vertexSet().stream().filter(v -> v.getType().equals(MapUnit.Type.TERRAIN)).map(MapUnit::getUnitRectangle).collect(Collectors.toList()), Color.BLUE);

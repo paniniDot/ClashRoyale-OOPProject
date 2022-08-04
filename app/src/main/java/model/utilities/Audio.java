@@ -13,7 +13,10 @@ public final class Audio {
     this.music = Gdx.audio.newMusic(Gdx.files.internal(name));
   }
 
-  private void play() {
+  /**
+   * starts music.
+   */
+  public void play() {
     this.music.play();
     this.music.setVolume(0.1f);
   }
@@ -28,18 +31,14 @@ public final class Audio {
    * plays menu music.
    * @return the menu audio. 
    */
-  public static Audio playMenuMusic() {
-    final Audio audio = new Audio("sounds/Menu.mp3");
-    audio.play();
-    return audio; 
+  public static Audio getMenuMusic() {
+    return new Audio("sounds/Menu.mp3");
   }
   /**
    * plays battle music.
    * @return the game audio. 
    */
-  public static Audio playBattleMusic() {
-    final Audio audio = new Audio("sounds/Battle.mp3");
-    audio.play();
-    return audio; 
+  public static Audio getBattleMusic() {
+    return new Audio("sounds/Battle.mp3");
   }
 }

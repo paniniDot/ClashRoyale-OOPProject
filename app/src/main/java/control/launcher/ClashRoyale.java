@@ -1,6 +1,11 @@
-package launcher;
+package control.launcher;
 
-import model.screens.MenuScreen;
+import com.badlogic.gdx.Gdx;
+
+import control.BaseGame;
+import control.controller.MenuController;
+import model.Model;
+import view.screens.MenuScreen;
 
 /**
  * Implementation of BaseGame class.
@@ -29,7 +34,7 @@ public class ClashRoyale extends BaseGame {
 
   @Override
   public void create() {
-    super.setScreen(new MenuScreen());
+    new MenuController().setCurrentActiveScreen();
   }
 
 }
