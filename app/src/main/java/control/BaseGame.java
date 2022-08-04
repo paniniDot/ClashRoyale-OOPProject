@@ -1,4 +1,4 @@
-package launcher;
+package control;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
