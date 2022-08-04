@@ -77,7 +77,7 @@ public class GameMap {
     }
   }
 
-  private List<Vector2> getTowers() {
+  public List<Vector2> getTowers() {
     return List.of(
         new Vector2(4,6),
         new Vector2(4,7),
@@ -123,7 +123,7 @@ public class GameMap {
         );
   }
 
-  private List<Vector2> getObstacles() {
+  public List<Vector2> getObstacles() {
     return List.of(
         new Vector2(3,5),
         new Vector2(3,6),
@@ -298,7 +298,7 @@ public class GameMap {
     return this.map;
   }
 
-  private MapUnit getMapUnitFromPixels(final Vector2 pixels) {
+  public MapUnit getMapUnitFromPixels(final Vector2 pixels) {
     final var coords = new Vector2((float) Math.ceil((pixels.x - X_START) / MapUnit.WIDTH), (float) Math.ceil((pixels.y - Y_START) / MapUnit.HEIGHT));
     //System.out.println(pixels + "-> " + coords);
     // il pixel passato alla funzione � un pixel a caso all'interno del rettangolo, io ho bisogno di quello in basso a sx per creare il rettangolo, uso il metodo sotto

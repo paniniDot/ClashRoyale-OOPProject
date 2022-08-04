@@ -93,12 +93,13 @@ public class GameScreen extends BaseScreen {
       spots.forEach(s -> {
         if (!s.getX().getX().getClass().equals(QueenTower.class) && !s.getX().getX().getClass().equals(KingTower.class)) {
           if (!Gdx.input.isTouched()) {
-            if (s.getY().size() < 2) {
-              ((Troop) s.getX().getX()).setRotation(s.getX().getY().getCenter());
-            } else if (!((Card) s.getX().getX()).isDraggable()) {
-              //System.out.println("Classe = " + s.getX().getX().getClass() + "Controllo = " + s.getX().getX().getClass().equals(Card.class));
+            if (this.map.getMap().containsVertex(this.map.getMapUnitFromPixels(s.getX().getX().getCenter())) && ((Card) s.getX().getX()).isDraggable() ) {
                 ((Card) s.getX().getX()).setDraggable(false);
-              } else {
+            } else if (!this.map.getMap().containsVertex(this.map.getMapUnitFromPixels(s.getX().getX().getCenter()))) {
+              ((Card) s.getX().getX()).setPosition(((Card) s.getX().getX()).getOriginX(), ((Card) s.getX().getX()).getOriginY());
+            } else if (s.getY().size() <= 3 && s.getY().size() > 1) {
+                ((Card) s.getX().getX()).setRotation(s.getX().getY().getCenter());
+            } else if (s.getY().size() > 3) {
                 ((Card) s.getX().getX()).setRotation(s.getY().get(1));
                 ((Card) s.getX().getX()).moveTo(new Vector2(s.getY().get(1).x - ((Card) s.getX().getX()).getWidth() / 2, s.getY().get(1).y - ((Card) s.getX().getX()).getHeight() / 2));
               }

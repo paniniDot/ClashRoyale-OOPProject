@@ -32,6 +32,7 @@ public class BaseActor extends Actor {
   public BaseActor(final float x, final float y, final Stage stage) {
     super();
     super.setPosition(x, y);
+    super.setOrigin(x, y);
     this.animation = Optional.empty();
     stage.addActor(this);
     this.elapsedTime = 0;
