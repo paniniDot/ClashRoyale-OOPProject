@@ -1,9 +1,11 @@
-package model.screens;
+package view.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+
+import control.controller.Controller;
 
 /**
  * Abstract class that extends Screen class functionalities.
@@ -12,14 +14,18 @@ public abstract class BaseScreen implements Screen {
 
   private final Stage mainStage;
   private final Stage uiStage;
+  private final Controller controller;
 
   /** 
    * Constructor.
+   * 
+   * @param controller
+   *                 the controller object this screen will subscribe to.
    */
-  public BaseScreen() {
+  public BaseScreen(final Controller controller) {
     this.mainStage = new Stage();
     this.uiStage = new Stage();
-
+    this.controller = controller;
     this.initialize();
   }
 
@@ -37,6 +43,14 @@ public abstract class BaseScreen implements Screen {
    */
   public Stage getUiStage() {
     return this.uiStage;
+  }
+
+  /**
+   * 
+   * @return the controller this screen has subscribed to.
+   */
+  public Controller getController() {
+    return this.controller;
   }
 
   /**
@@ -96,5 +110,4 @@ public abstract class BaseScreen implements Screen {
     this.mainStage.dispose();
     this.uiStage.dispose();
   }
-
 }

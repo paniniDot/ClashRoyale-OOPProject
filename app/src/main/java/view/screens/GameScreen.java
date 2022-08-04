@@ -1,4 +1,4 @@
-package model.screens;
+package view.screens;
 
 import java.util.Map;
 import java.util.List;
@@ -10,8 +10,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
-import launcher.BaseGame;
-import launcher.ClashRoyale;
+import control.BaseGame;
+import control.controller.Controller;
+import control.launcher.ClashRoyale;
 import model.actors.Attackable;
 import model.actors.BaseActor;
 import model.actors.cards.Card;
@@ -36,6 +37,15 @@ import model.utilities.ingame.MapUnit;
  */
 public class GameScreen extends BaseScreen {
 
+  /**
+   * Constructor.
+   * 
+   * @param controller
+   *                  {@inheritDoc}.
+   */
+  public GameScreen(final Controller controller) {
+    super(controller);
+  }
   private List<Card> wizardsbot;
   private List<Card> wizardsplayer;
   private Bot bot;
@@ -51,12 +61,11 @@ public class GameScreen extends BaseScreen {
 
   @Override
   public void initialize() {
-    audio = Audio.playBattleMusic();
+    super.getController().playMusic();
     elisir = new ElixirController();
     count = new CountDownController();
     sprite = new SpriteBatch();
     gamefont = new BitmapFont(Gdx.files.internal("Fonts/font.fnt"));
-    Gdx.input.setInputProcessor(super.getMainStage());
     this.map = new GameMap();
     bot = new Bot();
     this.user = new User("Panini");
