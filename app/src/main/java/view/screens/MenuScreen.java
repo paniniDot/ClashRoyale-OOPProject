@@ -37,7 +37,6 @@ public class MenuScreen extends BaseScreen {
   private FileHandle file;
   private User user;
   private Gson gson;
-  private Writer writer;
   private static final int SPACE = 15;
 
   /**
@@ -67,19 +66,9 @@ public class MenuScreen extends BaseScreen {
     this.file = Gdx.files.internal("saves/user.json");
       if (!this.file.exists()) {
         this.user = new User("P"); 
-        try {
-          writer = new FileWriter(file.file());
-          gson.toJson(user, writer);
-          writer.close();
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
+        save(this.user);
       } else {
-          try {
-            this.user = this.gson.fromJson(new FileReader(this.file.file()), User.class);
-          } catch (IOException e) {
-            e.printStackTrace();
-          }
+        this.user = load();
       }
     this.buttonPlay = new TextButton("Play", skin);
     this.buttonPlay.addListener(new ClickListener() {
@@ -95,13 +84,7 @@ public class MenuScreen extends BaseScreen {
     this.buttonExit.addListener(new ClickListener() {
       @Override
       public void clicked(final InputEvent event, final float x, final float y) {
-        try {
-          writer = new FileWriter(file.file());
-          gson.toJson(user, writer);
-          writer.close();
-        } catch (IOException e1) {
-          e1.printStackTrace();
-        }
+        save(user);
         Gdx.app.exit();
       }
     });
@@ -133,5 +116,32 @@ public class MenuScreen extends BaseScreen {
   @Override
   public void update(final float dt) {
   }
-  
+
+  /**
+   * 
+   * @param user
+   */
+  public void save(final User user) {
+    final Writer writer;
+    try {
+      writer = new FileWriter(file.file());
+      gson.toJson(user, writer);
+      writer.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * 
+   * @return User
+   */
+  public User load() {
+    try {
+      return this.gson.fromJson(new FileReader(this.file.file()), User.class);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
 }
