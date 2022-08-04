@@ -107,4 +107,11 @@ public class DragAndDropActor extends BaseActor {
     System.out.println("Posizione da dragAndDropScreen :" + super.getPosition());
   }
 
+  /**
+   * update angle of the troop.
+   */
+  public void setRotation(final Vector2 dst) {
+    super.rotate(dst);
+  }
+
 }
