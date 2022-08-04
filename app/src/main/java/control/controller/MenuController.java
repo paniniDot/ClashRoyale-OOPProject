@@ -5,6 +5,7 @@ import model.utilities.Audio;
 import com.badlogic.gdx.Gdx;
 
 import model.Model;
+import view.screens.DeckScreen;
 import view.screens.MenuScreen;
 
 /**
@@ -33,6 +34,13 @@ public class MenuController extends Controller {
    */
   public void triggerPlay() {
     new GameController().setCurrentActiveScreen();
+  }
+  
+  /**
+   * Istanciate a new DeckController which takes control of the application.
+   */
+  public void triggerDeck() {
+    new DeckController().setCurrentActiveScreen();
   }
 
   /**
