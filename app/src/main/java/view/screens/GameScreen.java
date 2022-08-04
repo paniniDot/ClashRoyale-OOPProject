@@ -102,7 +102,7 @@ public class GameScreen extends BaseScreen {
               //System.out.println("Classe = " + s.getX().getX().getClass() + "Controllo = " + s.getX().getX().getClass().equals(Card.class));
                 ((Card) s.getX().getX()).setDraggable(false);
               } else {
-                ((Troop) s.getX().getX()).setRotation(s.getY().get(1));
+                ((Card) s.getX().getX()).setRotation(s.getY().get(1));
                 ((Card) s.getX().getX()).moveTo(new Vector2(s.getY().get(1).x - ((Card) s.getX().getX()).getWidth() / 2, s.getY().get(1).y - ((Card) s.getX().getX()).getHeight() / 2));
               }
             } 
@@ -118,7 +118,6 @@ public class GameScreen extends BaseScreen {
       audio.stop();
       elisir.setRunFalse();
       count.setRunFalse();
-      BaseGame.setActiveScreen(new MenuScreen());
     }
   }
   @Override

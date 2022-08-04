@@ -75,7 +75,7 @@ public class MenuScreen extends BaseScreen {
       @Override
       public void clicked(final InputEvent event, final float x, final float y) {
         getController().stopMusic();
-        //((MenuController) getController()).triggerPlay();
+        ((MenuController) getController()).triggerPlay();
       }
     });
     this.buttonPlay.pad(SPACE);
