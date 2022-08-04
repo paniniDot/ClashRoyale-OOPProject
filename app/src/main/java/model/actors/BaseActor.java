@@ -19,6 +19,7 @@ public class BaseActor extends Actor {
   private Optional<Animation<TextureRegion>> animation;
   private float elapsedTime;
   private float rotate;
+  private Vector2 origin;
 
   /**
    * 
@@ -32,7 +33,7 @@ public class BaseActor extends Actor {
   public BaseActor(final float x, final float y, final Stage stage) {
     super();
     super.setPosition(x, y);
-    super.setOrigin(x, y);
+    this.origin = new Vector2(x,y);
     this.animation = Optional.empty();
     stage.addActor(this);
     this.elapsedTime = 0;
@@ -65,6 +66,14 @@ public class BaseActor extends Actor {
   public Vector2 getCenter() {
     //System.out.println("Rettangolo = " + this.getBoundaries() + " Centro del rettangolo = " + this.getBoundaries().getCenter(new Vector2()));
     return this.getBoundaries().getCenter(new Vector2());
+  }
+
+  /**
+   * 
+   * @return the origin of the actor.
+   */
+  public Vector2 getOrigin() {
+    return this.origin;
   }
 
   /**

@@ -96,7 +96,7 @@ public class GameScreen extends BaseScreen {
             if (this.map.getMap().containsVertex(this.map.getMapUnitFromPixels(s.getX().getX().getCenter())) && ((Card) s.getX().getX()).isDraggable() ) {
                 ((Card) s.getX().getX()).setDraggable(false);
             } else if (!this.map.getMap().containsVertex(this.map.getMapUnitFromPixels(s.getX().getX().getCenter()))) {
-              ((Card) s.getX().getX()).setPosition(((Card) s.getX().getX()).getOriginX(), ((Card) s.getX().getX()).getOriginY());
+                ((Card) s.getX().getX()).setPosition(((Card) s.getX().getX()).getOrigin().x, ((Card) s.getX().getX()).getOrigin().y);
             } else if (s.getY().size() <= 3 && s.getY().size() > 1) {
                 ((Card) s.getX().getX()).setRotation(s.getX().getY().getCenter());
             } else if (s.getY().size() > 3) {
