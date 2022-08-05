@@ -12,13 +12,13 @@ import model.actors.Attackable;
  */
 public abstract class Building extends Card implements Attackable {
 
-  private double currentHP;
+  private double currentHP; //Equals to the remaining duration
   private final double damage;
   private final double hitSpeed;
   /*private final TargetType selfType;
   private final TargetType attackType;
   */
-  private double leftDuration;
+  //private double leftDuration;
   private final int range;
   private Optional<Attackable> currentTarget;
 
@@ -44,14 +44,15 @@ public abstract class Building extends Card implements Attackable {
    * @param range
    *            the range of influence.
    */
-  protected Building(final Stage stage, final int cost, final Vector2 position, final User owner, final double damage, final double hitSpeed, /*final TargetType self, final TargetType attack, */final double duration, final int range) {
+  protected Building(final Stage stage, final int cost, final Vector2 position, final User owner, final double maxHP, final double damage, final double hitSpeed, /*final TargetType self, final TargetType attack, final double duration,*/ final int range) {
     super(stage, cost, position, owner);
+    this.currentHP = maxHP;
     this.damage = damage;
     this.hitSpeed = hitSpeed;
     /*this.selfType = self;
     this.attackType = attack;
     */
-    this.leftDuration = duration;
+    //this.leftDuration = duration;
     this.range = range;
     this.currentTarget = Optional.empty();
   }
@@ -154,13 +155,13 @@ public abstract class Building extends Card implements Attackable {
   /**
    * @param value the amount of time to be reduced the left duration.
    */
-  public void reduceDurationByValue(final int value) {
+  /*public void reduceDurationByValue(final int value) {
     this.leftDuration -= value;
-  }
+  }*/
 
   @Override
   public boolean isDead() {
-    return this.currentHP <= 0 || this.leftDuration < 0;
+    return this.currentHP <= 0; //|| this.leftDuration < 0;
   }
 }
 

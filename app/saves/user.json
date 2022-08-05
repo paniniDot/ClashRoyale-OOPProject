@@ -1,5 +1,9 @@
+<<<<<<< HEAD
+{"name":"P","currentXP":0,"currentLevel":"LVL1"}
+=======
 {
   "name": "P",
   "currentXP": 0,
   "currentLevel": "LVL1"
 }
+>>>>>>> f95a888ca25aa228cacf83f75a8acda17d2c36a1

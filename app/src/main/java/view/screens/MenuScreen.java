@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import control.BaseGame;
 import control.controller.Controller;
 import control.controller.MenuController;
 import control.launcher.ClashRoyale;
@@ -32,7 +33,7 @@ public class MenuScreen extends BaseScreen {
   private TextureAtlas atlas, atlasLabel;
   private Skin skin, skinLabel;
   private Table table;
-  private TextButton buttonPlay, buttonExit, buttonLevel, buttonScore;
+  private TextButton buttonPlay, buttonExit, buttonLevel, buttonScore, buttonDeck;
   private Label heading;
   private FileHandle file;
   private User user;
@@ -79,6 +80,16 @@ public class MenuScreen extends BaseScreen {
       }
     });
     this.buttonPlay.pad(SPACE);
+    
+    this.buttonDeck = new TextButton("Deck", skin);
+    this.buttonDeck.addListener(new ClickListener() {
+      @Override
+      public void clicked(final InputEvent event, final float x, final float y) {
+        getController().stopMusic();
+        ((MenuController) getController()).triggerDeck();
+        }
+    });
+    this.buttonDeck.pad(SPACE);
 
     this.buttonExit = new TextButton("Exit", skin);
     this.buttonExit.addListener(new ClickListener() {
@@ -97,6 +108,8 @@ public class MenuScreen extends BaseScreen {
     this.table.getCell(this.heading).spaceBottom(100);
     this.table.row();
     this.table.add(this.buttonPlay);
+    this.table.row();
+    this.table.add(this.buttonDeck);
     this.table.row();
     this.table.add(this.buttonExit);
     super.getUiStage().addActor(this.table);
