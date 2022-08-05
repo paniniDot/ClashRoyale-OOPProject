@@ -51,9 +51,9 @@ public class DeckScreen extends BaseScreen {
     this.table = new Table(skin);
     this.table.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     this.heading = new Label("Scelta Deck", this.skin);
-  //  this.list = new List<String>(skin, "small");
+    this.list = new List<String>(skin, "small");
   //  list.setItems(new String[] {"one", "two", "three"}); 
-  //  this.scrollPane = new ScrollPane(list, skin);
+    this.scrollPane = new ScrollPane(list, skin);
     buttonAdd = new TextButton("ADD", skin);
     buttonAdd.pad(SPACE);
     buttonRemove = new TextButton("REMOVE", skin);
