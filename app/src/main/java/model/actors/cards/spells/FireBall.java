@@ -21,6 +21,14 @@ public final class FireBall extends Spell {
   }
 
   /**
+   * Start the action of Fireball. 
+   */
+  @Override
+  public void start() {
+    //TODO
+  }
+
+  /**
    * Create a fireball card based on the user level.
    * @param user
    *          who wants to deploy the fireball.
@@ -41,11 +49,4 @@ public final class FireBall extends Spell {
     }
   }
 
-  /**
-   * Start the action of Fireball. 
-   */
-  @Override
-  public void start() {
-
-  }
 }
