@@ -20,9 +20,9 @@ import com.google.gson.GsonBuilder;
 import control.controller.Controller;
 import control.controller.MenuController;
 import control.launcher.ClashRoyale;
-import model.actors.BaseActor;
 import model.actors.users.User;
 import model.utilities.AnimationUtilities;
+import view.actors.BaseActor;
 
 /**
  * Menu screen implementation.
