@@ -24,10 +24,3 @@ default.selection
   orig: 9, 8
   offset: 0, 0
   index: -1
-default.trasparent
-  rotate: false
-  xy: 317, 100
-  size: 1, 1
-  orig: 1, 1
-  offset: 0, 0
-  index: -1
