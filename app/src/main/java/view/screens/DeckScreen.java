@@ -46,13 +46,13 @@ public class DeckScreen extends BaseScreen {
     background.setAnimation(AnimationUtilities.loadTexture("backgrounds/menuBackground.png"));
     background.setSize(ClashRoyale.WIDTH, ClashRoyale.HEIGHT);
     Gdx.input.setInputProcessor(super.getUiStage());
-    this.atlas = new TextureAtlas("buttons/button.pack");
+    this.atlas = new TextureAtlas("buttons/atlas.pack");
     this.skin = new Skin(Gdx.files.internal("buttons/menuSkin.json"), atlas);
     this.table = new Table(skin);
     this.table.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     this.heading = new Label("Scelta Deck", this.skin);
-    this.list = new List<String>(skin, "small");
-  //  list.setItems(new String[] {"one", "two", "three"}); 
+    this.list = new List<String>(skin);
+    list.setItems(new String[] {"a", "b"}); 
     this.scrollPane = new ScrollPane(list, skin);
     buttonAdd = new TextButton("ADD", skin);
     buttonAdd.pad(SPACE);
@@ -64,6 +64,7 @@ public class DeckScreen extends BaseScreen {
     super.getUiStage().addActor(this.table);
     this.table.getCell(this.heading).spaceBottom(100);
     this.table.row();
+    super.getUiStage().addActor(this.table);
   }
 
   @Override
