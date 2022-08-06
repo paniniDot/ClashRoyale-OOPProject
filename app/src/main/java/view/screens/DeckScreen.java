@@ -1,5 +1,10 @@
 package view.screens;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.util.Scanner;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -48,6 +53,17 @@ public class DeckScreen extends BaseScreen {
     final var background = new BaseActor(0, 0, super.getMainStage());
     background.setAnimation(AnimationUtilities.loadTexture("backgrounds/menuBackground.png"));
     background.setSize(ClashRoyale.WIDTH, ClashRoyale.HEIGHT);
+    InputStream readcards;
+    try {
+      readcards = new FileInputStream("C:\\documenti/cardsList.txt");
+      Scanner obj = new Scanner(readcards);
+      while (obj.hasNextLine())
+        System.out.println(obj.nextLine());
+    } catch (FileNotFoundException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    
 
 
   }

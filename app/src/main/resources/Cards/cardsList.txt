@@ -1,0 +1,4 @@
+Simone	1
+Marco	3
+Filippo	4
+Angola	2
