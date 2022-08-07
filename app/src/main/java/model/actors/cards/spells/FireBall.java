@@ -16,10 +16,17 @@ public final class FireBall extends Spell {
   private static final double DURATION = 0.1;
 
   private FireBall(final User owner, final Stage stage, final Vector2 position, final double damage) {
-    super(stage, FireBall.ELIXIR_COST, position, owner, FireBall.DURATION, FireBall.RANGE);
+    super(FireBall.ELIXIR_COST, position, owner, FireBall.DURATION, FireBall.RANGE);
     this.damage = damage;
   }
 
+  /**
+   * 
+   * @return the damage given from this fireball.
+   */
+  public double getDamage() {
+    return this.damage;
+  }
   /**
    * Start the action of Fireball. 
    */
