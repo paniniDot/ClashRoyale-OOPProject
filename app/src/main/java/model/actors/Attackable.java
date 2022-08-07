@@ -1,7 +1,5 @@
 package model.actors;
 
-import java.util.UUID;
-
 import com.badlogic.gdx.math.Vector2;
 
 /**
