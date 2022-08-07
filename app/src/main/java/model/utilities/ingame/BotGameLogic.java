@@ -17,14 +17,13 @@ import model.actors.towers.QueenTower;
 import model.actors.towers.Tower;
 import model.actors.users.Bot;
 import model.actors.users.User;
-import model.utilities.AnimationUtilities;
 import model.utilities.ElixirController;
 
 /**
  * An implementation of GameController in which the user plays 
  * against a bot.
  */
-public class BotGameController extends GameLogic {
+public class BotGameLogic extends GameLogic {
 
   private final List<Card> botCards;
   private final List<Card> botDeployedCards;
@@ -39,29 +38,22 @@ public class BotGameController extends GameLogic {
    * @param botCards
    *              {@inheritDoc}.
    */
-  public BotGameController(final List<Card> playerCards, final List<Card> botCards, final User player, final Bot bot, final Stage stage) {
-    super(playerCards, player, stage);
+  public BotGameLogic(final List<Card> playerCards, final List<Card> botCards, final User player, final Bot bot) {
+    super(playerCards, player);
     this.botCards = botCards.stream().collect(Collectors.toList());
     this.botDeployedCards = new ArrayList<>();
     this.botChoosableCards = new ArrayList<>();
     IntStream.range(0, GameLogic.CHOOSABLE_CARDS).forEach(i -> this.botChoosableCards.add(this.botCards.remove(0)));
-    this.botActiveTowers = this.getBotTowers(bot, stage);
+    this.botActiveTowers = this.getBotTowers(bot);
     this.elixirController = new ElixirController();
   }
 
   /* logica per la posizione delle torri mancante */
-  private List<Tower> getBotTowers(final Bot bot, final Stage stage) {
+  private List<Tower> getBotTowers(final Bot bot) {
     final List<Tower> towers = new ArrayList<>();
-    towers.add(QueenTower.create(bot, stage, new Vector2(205, 613)));
-    towers.add(QueenTower.create(bot, stage, new Vector2(415, 613)));
-    towers.add(KingTower.create(bot, stage, new Vector2(300, 640)));
-    towers.forEach(t -> {
-      if (t.getClass() == QueenTower.class) {
-        t.setAnimation(AnimationUtilities.loadTexture("towers/enemy/queen_tower.png"));
-      } else {
-        t.setAnimation(AnimationUtilities.loadTexture("towers/enemy/king_tower.png"));
-      }
-    });
+    towers.add(QueenTower.create(bot, new Vector2(205, 613)));
+    towers.add(QueenTower.create(bot, new Vector2(415, 613)));
+    towers.add(KingTower.create(bot, new Vector2(300, 640)));
     return towers;
   }
 
