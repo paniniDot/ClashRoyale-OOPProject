@@ -56,7 +56,7 @@ public class MenuScreen extends BaseScreen {
     final var background = new BaseActor(0, 0, super.getMainStage());
     background.setAnimation(AnimationUtilities.loadTexture("backgrounds/menuBackground.png"));
     background.setSize(ClashRoyale.WIDTH, ClashRoyale.HEIGHT);
-    this.atlas = new TextureAtlas("buttons/button.pack");
+    this.atlas = new TextureAtlas("buttons/atlas.pack");
     this.skin = new Skin(Gdx.files.internal("buttons/menuSkin.json"), this.atlas);
     this.table = new Table(this.skin);
     this.table.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -80,7 +80,6 @@ public class MenuScreen extends BaseScreen {
       }
     });
     this.buttonPlay.pad(SPACE);
-    
     this.buttonDeck = new TextButton("Deck", skin);
     this.buttonDeck.addListener(new ClickListener() {
       @Override
