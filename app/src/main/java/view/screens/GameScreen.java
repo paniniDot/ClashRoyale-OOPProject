@@ -16,7 +16,6 @@ import control.controller.Controller;
 import control.controller.GameController;
 import control.launcher.ClashRoyale;
 import model.actors.Attackable;
-import model.actors.BaseActor;
 import model.actors.cards.Card;
 import model.actors.cards.troops.Troop;
 import model.actors.cards.troops.Wizard;
@@ -31,9 +30,10 @@ import model.utilities.CountDownController;
 import model.utilities.ElixirController;
 import model.utilities.Pair;
 import model.utilities.RectDrawer;
-import model.utilities.ingame.BotGameController;
+import model.utilities.ingame.BotGameLogic;
 import model.utilities.ingame.GameMap;
 import model.utilities.ingame.MapUnit;
+import view.actors.BaseActor;
 
 /**
  * In-game screen implementation.
@@ -58,7 +58,7 @@ public class GameScreen extends BaseScreen {
   private BitmapFont gamefont;
   private Audio audio;
   private Map<Card, List<Vector2>> spots;
-  private BotGameController gameController;
+  private BotGameLogic gameController;
 
   @Override
   public void initialize() {
@@ -81,7 +81,7 @@ public class GameScreen extends BaseScreen {
         Wizard.create(bot, super.getMainStage(), new Vector2(300, 800)),
         Wizard.create(bot, super.getMainStage(), new Vector2(400, 800)),
         Wizard.create(bot, super.getMainStage(), new Vector2(200, 800)));
-    this.gameController = new BotGameController(wizardsplayer, wizardsbot, user, bot, getMainStage());
+    this.gameController = new BotGameLogic(wizardsplayer, wizardsbot, user, bot, getMainStage());
   }
 
   private void handleInput(final float dt) {
