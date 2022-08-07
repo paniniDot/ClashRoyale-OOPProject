@@ -8,7 +8,6 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import model.actors.Attackable;
 import model.actors.cards.Card;
@@ -16,7 +15,6 @@ import model.actors.towers.KingTower;
 import model.actors.towers.QueenTower;
 import model.actors.towers.Tower;
 import model.actors.users.User;
-import model.utilities.AnimationUtilities;
 import model.utilities.ElixirController;
 
 /**
@@ -41,25 +39,22 @@ public abstract class GameLogic {
    *              the player deck.
    * @param user
    *              the user who is playing.
-   * @param stage 
-   *              the stage the gameController has to control.
    */
-  public GameLogic(final List<Card> playerCards, final User user, final Stage stage) {
+  public GameLogic(final List<Card> playerCards, final User user) {
     this.playerCards = playerCards.stream().collect(Collectors.toList());
     this.playerDeployedCards = new ArrayList<>();
     this.playerChoosableCards = new ArrayList<>();
     IntStream.range(0, CHOOSABLE_CARDS).forEach(i -> this.playerChoosableCards.add(this.playerCards.remove(0)));
-    this.playerActiveTowers = this.getPlayerTowers(user, stage);
+    this.playerActiveTowers = this.getPlayerTowers(user);
     this.elixirController = new ElixirController();
   }
 
   /* logica per la posizione delle torri nella mappa mancante */
-  private List<Tower> getPlayerTowers(final User user, final Stage stage) {
+  private List<Tower> getPlayerTowers(final User user) {
     final List<Tower> towers = new ArrayList<>();
-    towers.add(QueenTower.create(user, stage, new Vector2(205, 312)));
-    towers.add(QueenTower.create(user, stage, new Vector2(415, 312)));
-    towers.add(KingTower.create(user, stage, new Vector2(300, 255)));
-    towers.forEach(t -> t.setAnimation(AnimationUtilities.loadTexture(t.getClass().equals(QueenTower.class) ? "towers/self/queen_tower.png" : "towers/self/king_tower.png")));
+    towers.add(QueenTower.create(user, new Vector2(205, 312)));
+    towers.add(QueenTower.create(user, new Vector2(415, 312)));
+    towers.add(KingTower.create(user, new Vector2(300, 255)));
     return towers;
   }
 
