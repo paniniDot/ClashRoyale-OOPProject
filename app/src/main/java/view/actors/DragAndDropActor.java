@@ -1,4 +1,4 @@
-package model.actors;
+package view.actors;
 
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;

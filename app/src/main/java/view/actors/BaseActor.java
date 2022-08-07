@@ -1,7 +1,6 @@
-package model.actors;
+package view.actors;
 
 import java.util.Optional;
-import java.util.UUID;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -15,11 +14,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
  * Simple entity (I.e. Queen or King towers).
  */
 public class BaseActor extends Actor {
-  
+
   private Optional<Animation<TextureRegion>> animation;
   private float elapsedTime;
   private float rotate;
-  private Vector2 origin;
+  private final Vector2 origin;
 
   /**
    * 
@@ -33,7 +32,7 @@ public class BaseActor extends Actor {
   public BaseActor(final float x, final float y, final Stage stage) {
     super();
     super.setPosition(x, y);
-    this.origin = new Vector2(x,y);
+    this.origin = new Vector2(x, y);
     this.animation = Optional.empty();
     stage.addActor(this);
     this.elapsedTime = 0;
