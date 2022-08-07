@@ -3,7 +3,6 @@ package model.actors.cards.troops;
 import java.util.Optional;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import model.actors.Attackable;
 import model.actors.Speeds;
 //import model.actors.TargetType;
@@ -27,8 +26,8 @@ public abstract class Troop extends Card implements Attackable {
   private Optional<Attackable> currentTarget;
 
   /**
-   * @param stage
-   *          {@inheritDoc}
+   * Constructor.
+   * 
    * @param cost
    *          elixir needed to deploy the troop.
    * @param position
@@ -46,8 +45,8 @@ public abstract class Troop extends Card implements Attackable {
    * @param range
    *          the distance between this troop and other entities to being targeted by it.
    */
-  protected Troop(final Stage stage, final int cost, final Vector2 position, final User owner, final double maxHP, final double damage, /*final double hitSpeed,*/ final Speeds speed, /*final TargetType selfType, final TargetType enemyType,*/ final double range) {
-    super(stage, cost, position, owner);
+  protected Troop(final int cost, final Vector2 position, final User owner, final double maxHP, final double damage, /*final double hitSpeed,*/ final Speeds speed, /*final TargetType selfType, final TargetType enemyType,*/ final double range) {
+    super(cost, position, owner);
     this.currentHP = maxHP; 
     this.damage = damage;
     //this.hitSpeed = hitSpeed;
@@ -136,7 +135,13 @@ public abstract class Troop extends Card implements Attackable {
 
   @Override
   public void setPosition(final Vector2 newPos) {
-    super.setPosition(newPos.x, newPos.y);
+    super.setPosition(newPos);
+  }
+
+  /* da rivedere !!! */
+  @Override
+  public Vector2 getCenter() {
+    return this.getPosition();
   }
 
 /*
