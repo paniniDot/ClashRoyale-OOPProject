@@ -58,6 +58,30 @@ public class BotGameLogic extends GameLogic {
   }
 
   /**
+   * 
+   * @return a list of every card used from the bot during the match.
+   */
+  public List<Card> getBotDeck() {
+    return Collections.unmodifiableList(this.botCards);
+  }
+
+  /**
+   * 
+   * @return a list of bot currently deployed cards.
+   */
+  public List<Card> getPlayerDeployedCards() {
+    return Collections.unmodifiableList(this.botDeployedCards);
+  }
+
+  /**
+   * 
+   * @return a list of bot currently choosable cards.
+   */
+  public List<Card> getPlayerChoosableCards() {
+    return Collections.unmodifiableList(this.botChoosableCards);
+  }
+
+  /**
    * Deploys a card of the bot.
    * @param card
    *           the card to be deployed.
@@ -86,7 +110,7 @@ public class BotGameLogic extends GameLogic {
    * 
    * @return the currently active towers of the bot.
    */
-  public List<Tower> getPlayerActiveTowers() {
+  public List<Tower> getBotActiveTowers() {
     return Collections.unmodifiableList(this.botActiveTowers);
   }
 
@@ -109,6 +133,8 @@ public class BotGameLogic extends GameLogic {
     return this.elixirController.getElixirCount();
   }
 
+  
+  
   /**
    * 
    * @return a list of attackable elements of the bot.
