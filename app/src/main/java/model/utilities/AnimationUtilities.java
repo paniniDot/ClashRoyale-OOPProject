@@ -1,5 +1,7 @@
 package model.utilities;
 
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
@@ -26,16 +28,16 @@ public final class AnimationUtilities {
    *              Whether the animation has to repeat over and over once frame are finished or not.
    * @return the animation.
    */
-  public static Animation<TextureRegion> loadAnimationFromFiles(final String[] fileNames, final float frameDuration, final boolean loop) { 
-    int fileCount = fileNames.length;
-    Array<TextureRegion> textureArray = new Array<TextureRegion>();
+  public static Animation<TextureRegion> loadAnimationFromFiles(final List<String> fileNames, final float frameDuration, final boolean loop) { 
+    final int fileCount = fileNames.size();
+    final var textureArray = new Array<TextureRegion>();
     for (int n = 0; n < fileCount; n++) {
-      String fileName = fileNames[n];
-      Texture texture = new Texture(Gdx.files.internal(fileName));
+      final String fileName = fileNames.get(n);
+      final var texture = new Texture(Gdx.files.internal(fileName));
       texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
       textureArray.add(new TextureRegion(texture));
     }
-    Animation<TextureRegion> anim = new Animation<TextureRegion>(frameDuration, textureArray);
+    final var anim = new Animation<TextureRegion>(frameDuration, textureArray);
     if (loop) {
       anim.setPlayMode(Animation.PlayMode.LOOP);
     } else {
@@ -51,8 +53,7 @@ public final class AnimationUtilities {
    * @return the animation.
    */
   public static Animation<TextureRegion> loadTexture(final String fileName) {
-    String[] fileNames = new String[1];
-    fileNames[0] = fileName;
+    final var fileNames = List.of(fileName);
     return AnimationUtilities.loadAnimationFromFiles(fileNames, 1, true);
   }
 }
