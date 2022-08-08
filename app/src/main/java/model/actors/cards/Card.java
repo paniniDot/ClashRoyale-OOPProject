@@ -1,5 +1,7 @@
 package model.actors.cards;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -63,6 +65,12 @@ public abstract class Card {
   public void setPosition(final Vector2 newPos) {
     this.position = newPos;
   }
+
+  /**
+   * 
+   * @return a map containing the animation files for each card. 
+   */
+  public abstract Map<String, List<String>> getAnimationFiles();
 
   /**
    * 

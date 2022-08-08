@@ -2,6 +2,7 @@ package model.actors.cards.buildings;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import com.badlogic.gdx.math.Vector2;
 
@@ -60,5 +61,11 @@ public final class InfernoTower extends Building {
       case LVL5: return new InfernoTower(user, position, 1168, 307);
       default:   return new InfernoTower(user, position, 800, 210);
       }
+  }
+
+  @Override
+  public Map<String, List<String>> getAnimationFiles() {
+    // TODO Auto-generated method stub
+    return null;
   }
 }

@@ -16,16 +16,6 @@ import model.actors.users.User;
  */
 public final class Wizard extends Troop {
 
-  /**
-   * Animation files.
-   */
-  public static final Map<String, List<String>> ANIMATIONS = Map.of(
-      "SELF_MOVING", List.of("wizard/selfWizard/walking/1.png", "wizard/selfWizard/walking/2.png", "wizard/selfWizard/walking/3.png", "wizard/selfWizard/walking/4.png"),
-      "SELF_FIGHTING", List.of(),
-      "ENEMY_MOVING", List.of(),
-      "ENEMY_FIGHTING", List.of(),
-      "AS_CARD", List.of());
-
   private static final int ELIXIR_COST = 5;
   private static final double HIT_SPEED = 1.4;
   private static final int RANGE = 5;
@@ -52,6 +42,16 @@ public final class Wizard extends Troop {
         case LVL5: return new Wizard(user, position, 496, 189);
         default: return new Wizard(user, position, 340, 130);
         }
+  }
+
+  @Override
+  public Map<String, List<String>> getAnimationFiles() {
+    return Map.of(
+        "SELF_MOVING", List.of("wizard/selfWizard/walking/1.png", "wizard/selfWizard/walking/2.png", "wizard/selfWizard/walking/3.png", "wizard/selfWizard/walking/4.png"),
+        "SELF_FIGHTING", List.of(),
+        "ENEMY_MOVING", List.of(),
+        "ENEMY_FIGHTING", List.of(),
+        "AS_CARD", List.of());
   }
 
   /*

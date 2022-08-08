@@ -1,5 +1,8 @@
 package model.actors.cards.troops;
 
+import java.util.List;
+import java.util.Map;
+
 import com.badlogic.gdx.math.Vector2;
 
 import model.actors.Speeds;
@@ -35,5 +38,15 @@ public final class Giant extends Troop {
           case LVL5: return new Giant(user, position, 2920, 183);
           default: return new Giant(user, position, 2000, 126);
       }
+  }
+
+  @Override
+  public Map<String, List<String>> getAnimationFiles() {
+    return Map.of(
+        "SELF_MOVING", List.of("wizard/selfWizard/walking/1.png", "wizard/selfWizard/walking/2.png", "wizard/selfWizard/walking/3.png", "wizard/selfWizard/walking/4.png"),
+        "SELF_FIGHTING", List.of(),
+        "ENEMY_MOVING", List.of(),
+        "ENEMY_FIGHTING", List.of(),
+        "AS_CARD", List.of());
   }
 }

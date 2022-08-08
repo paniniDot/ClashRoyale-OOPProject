@@ -1,5 +1,8 @@
 package model.actors.towers;
 
+import java.util.List;
+import java.util.Map;
+
 import com.badlogic.gdx.math.Vector2;
 
 import model.actors.Speeds;
@@ -35,5 +38,12 @@ public final class KingTower extends Tower {
       case LVL5: return new KingTower(position, owner, 67, 3096);
       default: return new KingTower(position, owner, 50, 2400);
     }
+  }
+
+  @Override
+  public Map<String, List<String>> getAnimationFiles() {
+    return Map.of(
+        "SELF", List.of("towers/self/king_tower.png"),
+        "ENEMY", List.of("towers/enemy/king_tower.png"));
   }
 }

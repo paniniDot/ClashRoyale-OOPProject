@@ -1,5 +1,7 @@
 package model.actors.towers;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -135,6 +137,12 @@ public abstract class Tower implements Attackable {
   public Speeds getHitSpeed() {
     return hitSpeed;
   }
+
+  /**
+   * 
+   * @return a map containing the file locations for each animation.
+   */
+  public abstract Map<String, List<String>> getAnimationFiles();
 
   @Override
   public int hashCode() {

@@ -1,5 +1,8 @@
 package model.actors.towers;
 
+import java.util.List;
+import java.util.Map;
+
 import com.badlogic.gdx.math.Vector2;
 
 import model.actors.Speeds;
@@ -35,5 +38,12 @@ public final class QueenTower extends Tower {
       case LVL5: return new QueenTower(position, owner, 67, 1890);
       default: return new QueenTower(position, owner, 50, 1400);
     }
+  }
+
+  @Override
+  public Map<String, List<String>> getAnimationFiles() {
+    return Map.of(
+        "SELF", List.of("towers/self/queen_tower.png"),
+        "ENEMY", List.of("towers/enemy/queen_tower.png"));
   }
 }

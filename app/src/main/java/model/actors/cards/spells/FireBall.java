@@ -1,5 +1,8 @@
 package model.actors.cards.spells;
 
+import java.util.List;
+import java.util.Map;
+
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
@@ -54,6 +57,12 @@ public final class FireBall extends Spell {
       case LVL5: return new FireBall(user, stage, position, 374);
       default:   return new FireBall(user, stage, position, 325);
     }
+  }
+
+  @Override
+  public Map<String, List<String>> getAnimationFiles() {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 }

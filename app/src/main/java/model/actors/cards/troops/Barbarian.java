@@ -1,5 +1,8 @@
 package model.actors.cards.troops;
 
+import java.util.List;
+import java.util.Map;
+
 import com.badlogic.gdx.math.Vector2;
 
 import model.actors.Speeds;
@@ -34,5 +37,15 @@ public final class Barbarian extends Troop {
           case LVL5: return new Barbarian(user, position, 480, 109);
           default: return new Barbarian(user, position, 330, 82);
       }
+  }
+
+  @Override
+  public Map<String, List<String>> getAnimationFiles() {
+    return Map.of(
+        "SELF_MOVING", List.of("wizard/selfWizard/walking/1.png", "wizard/selfWizard/walking/2.png", "wizard/selfWizard/walking/3.png", "wizard/selfWizard/walking/4.png"),
+        "SELF_FIGHTING", List.of(),
+        "ENEMY_MOVING", List.of(),
+        "ENEMY_FIGHTING", List.of(),
+        "AS_CARD", List.of());
   }
 }
