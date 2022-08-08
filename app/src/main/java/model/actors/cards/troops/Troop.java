@@ -122,7 +122,6 @@ public abstract class Troop extends Card implements Attackable {
     this.currentHP = this.currentHP < damage ? 0 : this.currentHP - damage;
   }
 
-
   @Override
   public boolean isDead() {
     return this.currentHP <= 0;
@@ -138,12 +137,11 @@ public abstract class Troop extends Card implements Attackable {
     super.setPosition(newPos);
   }
 
-  /* da rivedere !!! */
+  // da rivedere.
   @Override
   public Vector2 getCenter() {
-    return this.getPosition();
+    return new Vector2();
   }
-
 /*
   @Override
   public TargetType getSelfType() {

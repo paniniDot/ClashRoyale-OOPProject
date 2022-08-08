@@ -153,6 +153,12 @@ public abstract class Building extends Card implements Attackable {
     this.currentHP = this.currentHP < damage ? 0 : this.currentHP - damage;
   }
 
+  // da rivedere.
+  @Override
+  public Vector2 getCenter() {
+    return new Vector2();
+  }
+
   /**
    * @param value the amount of time to be reduced the left duration.
    */
@@ -165,11 +171,5 @@ public abstract class Building extends Card implements Attackable {
     return this.currentHP <= 0; //|| this.leftDuration < 0;
   }
 
-
-  /* da rivedere !!!! */
-  @Override
-  public Vector2 getCenter() {
-    return this.getPosition();
-  }
 }
 
