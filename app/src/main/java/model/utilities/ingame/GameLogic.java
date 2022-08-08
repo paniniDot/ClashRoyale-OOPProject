@@ -61,6 +61,14 @@ public abstract class GameLogic {
 
   /**
    * 
+   * @return a list of every card used from the player during the match.
+   */
+  public List<Card> getPlayerDeck() {
+    return Collections.unmodifiableList(this.playerCards);
+  }
+
+  /**
+   * 
    * @return a list of user currently deployed cards.
    */
   public List<Card> getPlayerDeployedCards() {
