@@ -11,6 +11,7 @@ import model.actors.cards.Card;
 import model.actors.cards.troops.Wizard;
 import model.actors.users.Bot;
 import model.actors.users.User;
+import model.utilities.AnimationUtilities;
 import model.utilities.Audio;
 import model.utilities.CountDownController;
 import model.utilities.ElixirController;
@@ -93,8 +94,9 @@ public class GameController extends Controller {
    * Load actors in the main stage of the screen drived by this controller.
    */
   public void loadActors() {
-    this.logic.getPlayerAttackable().forEach(a -> {
-      final var actor = new CardActor(a.getSelfId(), a.getPosition().x, a.getPosition().y, super.getScreen().getMainStage());
+    this.logic.getPlayerDeck().forEach(c -> {
+      final var actor = new CardActor(c.getSelfId(), c.getPosition().x, c.getPosition().y, super.getScreen().getMainStage());
+      AnimationUtilities.loadAnimationFromFiles(, getCurrentElixir(), true);
       super.getScreen().getMainStage().addActor(actor); 
     });
   }
