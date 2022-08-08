@@ -1,6 +1,7 @@
 package view.actors;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -21,7 +22,10 @@ public class BaseActor extends Actor {
   private final Vector2 origin;
 
   /**
+   * Constructor.
    * 
+   * @param id
+   *          the unique id for this actor.
    * @param x
    *          x coordinate where the actor is placed.
    * @param y
@@ -30,7 +34,6 @@ public class BaseActor extends Actor {
    *          {@inheritDoc}
    */
   public BaseActor(final float x, final float y, final Stage stage) {
-    super();
     super.setPosition(x, y);
     this.origin = new Vector2(x, y);
     this.animation = Optional.empty();
