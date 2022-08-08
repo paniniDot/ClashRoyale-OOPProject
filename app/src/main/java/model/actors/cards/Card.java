@@ -1,6 +1,7 @@
 package model.actors.cards;
 
 import java.util.Objects;
+import java.util.UUID;
 
 import com.badlogic.gdx.math.Vector2;
 
@@ -10,10 +11,10 @@ import model.actors.users.User;
  */
 public abstract class Card {
 
+  private final UUID id;
   private final int cost;
   private final User owner;
   private Vector2 position;
-
   /** 
    * Constructor.
    * 
@@ -25,9 +26,18 @@ public abstract class Card {
    *          the user who deployed the card.
    */
   protected Card(final int cost, final Vector2 position, final User owner) {
+    this.id = UUID.randomUUID();
     this.cost = cost;
     this.owner = owner;
     this.position = position;
+  }
+
+  /**
+   * 
+   * @return the self unique identifier for this card.
+   */
+  public UUID getSelfId() {
+    return this.id;
   }
 
   /**
@@ -64,7 +74,7 @@ public abstract class Card {
 
   @Override
   public int hashCode() {
-    return Objects.hash(cost, owner, position);
+    return Objects.hash(cost, id, owner, position);
   }
 
   @Override
@@ -79,8 +89,10 @@ public abstract class Card {
       return false;
     }
     final Card other = (Card) obj;
-    return cost == other.cost && Objects.equals(owner, other.owner) && Objects.equals(position, other.position);
+    return cost == other.cost && Objects.equals(id, other.id) && Objects.equals(owner, other.owner)
+        && Objects.equals(position, other.position);
   }
 
-  
+
+
 }

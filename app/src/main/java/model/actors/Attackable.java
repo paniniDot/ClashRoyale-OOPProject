@@ -1,5 +1,7 @@
 package model.actors;
 
+import java.util.UUID;
+
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -40,5 +42,10 @@ public interface Attackable {
    * @return the type of the entity (i.e. air troop, ground troop).
    */
   //TargetType getSelfType();
+  
+  /**
+   * @return self unique identifier.
+   */
+  UUID getSelfId();
 
 }

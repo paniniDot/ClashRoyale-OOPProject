@@ -1,6 +1,8 @@
 package model.actors.towers;
 
 import java.util.Objects;
+import java.util.UUID;
+
 import com.badlogic.gdx.math.Vector2;
 import model.actors.Attackable;
 import model.actors.Speeds;
@@ -11,6 +13,7 @@ import model.actors.users.User;
  */
 public abstract class Tower implements Attackable {
 
+  private final UUID id;
   private final User owner;
   private final Vector2 position;
   private final double range;
@@ -38,6 +41,7 @@ public abstract class Tower implements Attackable {
    *            the number of hits per second.
    */
   public Tower(final Vector2 position, final User owner, final double range, final boolean isActive, final double damage, final double hp, final Speeds hitSpeed) {
+    this.id = UUID.randomUUID();
     this.owner = owner;
     this.position = position;
     this.range = range;
@@ -53,11 +57,6 @@ public abstract class Tower implements Attackable {
   }
 
   @Override
-  public Vector2 getCenter() {
-    return this.getPosition();
-  }
-
-  @Override
   public void setPosition(final Vector2 newPos) {
   }
 
@@ -69,6 +68,17 @@ public abstract class Tower implements Attackable {
   @Override
   public boolean isDead() {
     return this.currentHP <= 0;
+  }
+
+  // da rivedere.
+  @Override
+  public Vector2 getCenter() {
+    return new Vector2();
+  }
+
+  @Override
+  public UUID getSelfId() {
+    return this.id;
   }
 
   /**
@@ -128,7 +138,7 @@ public abstract class Tower implements Attackable {
 
   @Override
   public int hashCode() {
-    return Objects.hash(currentHP, damage, hitSpeed, isActive, owner, position, range);
+    return Objects.hash(currentHP, damage, hitSpeed, id, isActive, owner, position, range);
   }
 
   @Override
@@ -145,8 +155,10 @@ public abstract class Tower implements Attackable {
     final Tower other = (Tower) obj;
     return Double.doubleToLongBits(currentHP) == Double.doubleToLongBits(other.currentHP)
         && Double.doubleToLongBits(damage) == Double.doubleToLongBits(other.damage) && hitSpeed == other.hitSpeed
-        && isActive == other.isActive && Objects.equals(owner, other.owner) && Objects.equals(position, other.position)
+        && Objects.equals(id, other.id) && isActive == other.isActive && Objects.equals(owner, other.owner)
+        && Objects.equals(position, other.position)
         && Double.doubleToLongBits(range) == Double.doubleToLongBits(other.range);
   }
+
 
 }
