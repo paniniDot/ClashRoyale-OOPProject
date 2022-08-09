@@ -5,11 +5,13 @@ import java.util.List;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import model.Model;
 import model.actors.Attackable;
 import model.actors.cards.Card;
 import model.actors.cards.troops.Wizard;
+import model.actors.towers.Tower;
 import model.actors.users.Bot;
 import model.actors.users.User;
 import model.utilities.AnimationUtilities;
@@ -34,10 +36,9 @@ public class GameController extends Controller {
   private final CountDownController count;
   private final User user;
   private final Bot bot;
-  private final List<CardActor> playerCardActors;
-  private final List<CardActor> botCardActors;
   private final GameMap gameMap;
   private final BotGameLogic logic;
+
   /**
    * Constructor.
    */
@@ -47,18 +48,19 @@ public class GameController extends Controller {
     this.count = new CountDownController();
     this.user = new User("panini");
     this.bot = new Bot();
-    this.playerCardActors = new ArrayList<>();
-    this.botCardActors = new ArrayList<>();
     this.gameMap = new GameMap();
     this.logic = new BotGameLogic(
         List.of(Wizard.create(this.user, new Vector2(100, 100)),
             Wizard.create(this.user, new Vector2(300, 100)),
             Wizard.create(this.user, new Vector2(200, 100)),
-            Wizard.create(this.user, new Vector2(400, 100))), 
+            Wizard.create(this.user, new Vector2(400, 100)),
+            Wizard.create(this.user, new Vector2(500, 100)),
+            Wizard.create(this.user, new Vector2(600, 100))),
         List.of(Wizard.create(this.bot, new Vector2(100, 800)),
             Wizard.create(this.bot, new Vector2(300, 800)),
             Wizard.create(this.bot, new Vector2(200, 800)),
-            Wizard.create(this.bot, new Vector2(400, 800))), 
+            Wizard.create(this.bot, new Vector2(400, 800)),
+            Wizard.create(this.bot, new Vector2(500, 800))),
         this.user, this.bot);
     super.registerScreen(new GameScreen(this));
     super.registerModel(new Model());
@@ -73,8 +75,8 @@ public class GameController extends Controller {
       super.stopMusic();
       new MenuController().setCurrentActiveScreen();
     }
-    this.updateAttackablePositions();
-    this.updateActorPositions();
+    //this.updateAttackablePositions();
+    //this.updateActorPositions();
   }
   /**
    *@return the remaining seconds before game ends.
@@ -105,35 +107,71 @@ public class GameController extends Controller {
     return this.logic.getBotAttackable();
   }
 
+  private List<CardActor> loadActorsFrom(final List<Card> list, final Stage stage, final String animationName) {
+    final var actors = new ArrayList<CardActor>();
+    list.forEach(c -> {
+      final var actor = new CardActor(c.getSelfId(), c.getPosition().x, c.getPosition().y, stage);
+      actor.setAnimation(AnimationUtilities.loadAnimationFromFiles(c.getAnimationFiles().get(animationName), ANIMATIONS_FRAME_DURATION, true));
+      actors.add(actor);
+    });
+    return actors;
+  }
+
   /**
    * Load card actors in the main stage of the screen driven by this controller.
+   * 
+   * @param stage 
+   *              the stage where actors have to be placed.
+   *
+   * @return a list of CardActors owned by the user.
    */
-  public void loadActors() {
-    this.logic.getPlayerDeck().forEach(c -> {
-      final var actor = new CardActor(c.getSelfId(), c.getPosition().x, c.getPosition().y, super.getScreen().getMainStage());
-      actor.setAnimation(AnimationUtilities.loadAnimationFromFiles(c.getAnimationFiles().get("SELF_MOVING"), ANIMATIONS_FRAME_DURATION, true));
-      this.playerCardActors.add(actor);
-    });
+  public final List<CardActor> loadPlayerActors(final Stage stage) {
+    return this.loadActorsFrom(this.logic.getPlayerDeck(), stage, "SELF_MOVING");
+  }
 
-    this.logic.getBotDeck().forEach(c -> {
-      final var actor = new CardActor(c.getSelfId(), c.getPosition().x, c.getPosition().y, super.getScreen().getMainStage());
-      actor.setAnimation(AnimationUtilities.loadAnimationFromFiles(c.getAnimationFiles().get("ENEMY_MOVING"), ANIMATIONS_FRAME_DURATION, true));
-      this.botCardActors.add(actor);
+  /**
+   * Load card actors in the main stage of the screen driven by this controller.
+   * 
+   * @param stage 
+   *              the stage where actors have to be placed.
+   *
+   * @return a list of CardActors owned by the user.
+   */
+  public final List<CardActor> loadBotActors(final Stage stage) {
+    return this.loadActorsFrom(this.logic.getBotDeck(), stage, "SELF_MOVING");
+  }
+
+  private List<TowerActor> loadTowersFrom(final List<Tower> list, final Stage stage, final String animationName) {
+    final var towers = new ArrayList<TowerActor>();
+    list.forEach(t -> {
+      final var actor = new TowerActor(t.getSelfId(), t.getPosition().x, t.getPosition().y, stage);
+      actor.setAnimation(AnimationUtilities.loadAnimationFromFiles(t.getAnimationFiles().get(animationName), ANIMATIONS_FRAME_DURATION, true));
+      towers.add(actor);
     });
+    return towers;
+  }
+  /**
+   * Load tower actors in the main stage of the screen driven by this controller.
+   * 
+   * @param stage 
+   *              the stage where towers have to be placed.
+   *
+   * @return a list of the deployed towers.
+   */
+  public final List<TowerActor> loadPlayerTowers(final Stage stage) {
+    return this.loadTowersFrom(this.logic.getPlayerActiveTowers(), stage, "SELF");
   }
 
   /**
    * Load tower actors in the main stage of the screen driven by this controller.
+   * 
+   * @param stage 
+   *              the stage where towers have to be placed.
+   *
+   * @return a list of the deployed towers.
    */
-  public void loadTowers() {
-    this.logic.getPlayerActiveTowers().forEach(t -> {
-      final var actor = new TowerActor(t.getSelfId(), t.getPosition().x, t.getPosition().y, super.getScreen().getMainStage());
-      actor.setAnimation(AnimationUtilities.loadAnimationFromFiles(t.getAnimationFiles().get("SELF"), ANIMATIONS_FRAME_DURATION, true));
-    });
-    this.logic.getBotActiveTowers().forEach(t -> {
-      final var actor = new TowerActor(t.getSelfId(), t.getPosition().x, t.getPosition().y, super.getScreen().getMainStage());
-      actor.setAnimation(AnimationUtilities.loadAnimationFromFiles(t.getAnimationFiles().get("ENEMY"), ANIMATIONS_FRAME_DURATION, true));
-    });
+  public final List<TowerActor> loadBotTowers(final Stage stage) {
+    return this.loadTowersFrom(this.logic.getBotActiveTowers(), stage, "ENEMY");
   }
 
   private void updateAttackablePositions() {
@@ -151,11 +189,16 @@ public class GameController extends Controller {
     }));
   }
 
-  private void updateActorPositions() {
-    this.playerCardActors.forEach(actor -> {
+  private void updateActorPositions(final List<CardActor> playerCards, final List<CardActor> botCards) {
+    playerCards.forEach(actor -> {
       this.getUserAttackables().forEach(attackable -> {
         if (actor.getSelfId().equals(attackable.getSelfId())) {
-          actor.moveTo(attackable.getPosition());
+          if (actor.isDraggable()) {
+            actor.setDraggable(false);
+            attackable.setPosition(actor.getPosition());
+          } else {
+            actor.moveTo(attackable.getPosition());
+          }
         }
       });
     });
