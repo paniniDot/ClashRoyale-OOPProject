@@ -25,6 +25,7 @@ public abstract class Troop extends Card implements Attackable {
   private final double range;
   private Optional<Attackable> currentTarget;
 
+
   /**
    * Constructor.
    * 
@@ -56,6 +57,7 @@ public abstract class Troop extends Card implements Attackable {
     */
     this.range = range;
     this.currentTarget = Optional.empty();
+
   }
 
   /**
@@ -137,11 +139,6 @@ public abstract class Troop extends Card implements Attackable {
     super.setPosition(newPos);
   }
 
-  // da rivedere.
-  @Override
-  public Vector2 getCenter() {
-    return new Vector2();
-  }
 /*
   @Override
   public TargetType getSelfType() {

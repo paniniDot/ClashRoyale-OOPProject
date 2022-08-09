@@ -17,6 +17,8 @@ public abstract class Card {
   private final int cost;
   private final User owner;
   private Vector2 position;
+  private Vector2 center;
+  
   /** 
    * Constructor.
    * 
@@ -32,6 +34,7 @@ public abstract class Card {
     this.cost = cost;
     this.owner = owner;
     this.position = position;
+    this.center = position;
   }
 
   /**
@@ -79,10 +82,19 @@ public abstract class Card {
   public Vector2 getPosition() {
     return this.position;
   }
+  
+  public void setCenter(Vector2 newPos) {
+    // TODO Auto-generated method stub
+    this.center = newPos;
+  }
 
+  public Vector2 getCenter() {
+    // TODO Auto-generated method stub
+    return this.center;
+  }
   @Override
   public int hashCode() {
-    return Objects.hash(cost, id, owner, position);
+    return Objects.hash(cost, id, owner);
   }
 
   @Override

@@ -23,7 +23,7 @@ public abstract class Tower implements Attackable {
   private final double damage;
   private double currentHP;
   private final Speeds hitSpeed;
-
+  private Vector2 center;
   /**
    * Builds a new Tower.
    * 
@@ -51,6 +51,7 @@ public abstract class Tower implements Attackable {
     this.damage = damage;
     this.currentHP = hp;
     this.hitSpeed = hitSpeed;
+    this.center = position;
   }
 
   @Override
@@ -72,11 +73,6 @@ public abstract class Tower implements Attackable {
     return this.currentHP <= 0;
   }
 
-  // da rivedere.
-  @Override
-  public Vector2 getCenter() {
-    return new Vector2();
-  }
 
   @Override
   public UUID getSelfId() {
@@ -168,5 +164,14 @@ public abstract class Tower implements Attackable {
         && Double.doubleToLongBits(range) == Double.doubleToLongBits(other.range);
   }
 
-
+  @Override
+  public void setCenter(Vector2 newPos) {
+    // TODO Auto-generated method stub
+    this.center = newPos;
+  }
+  // da rivedere.
+  @Override
+  public Vector2 getCenter() {
+    return this.center ;
+  }
 }

@@ -54,12 +54,11 @@ public class GameController extends Controller {
             Wizard.create(this.user, new Vector2(300, 100)),
             Wizard.create(this.user, new Vector2(200, 100)),
             Wizard.create(this.user, new Vector2(400, 100)),
-            Wizard.create(this.user, new Vector2(500, 100)),
             Wizard.create(this.user, new Vector2(600, 100))),
         List.of(Wizard.create(this.bot, new Vector2(100, 800)),
             Wizard.create(this.bot, new Vector2(300, 800)),
+            Wizard.create(this.bot, new Vector2(300, 800)),
             Wizard.create(this.bot, new Vector2(200, 800)),
-            Wizard.create(this.bot, new Vector2(400, 800)),
             Wizard.create(this.bot, new Vector2(500, 800))),
         this.user, this.bot);
     super.registerScreen(new GameScreen(this));
@@ -75,7 +74,7 @@ public class GameController extends Controller {
       super.stopMusic();
       new MenuController().setCurrentActiveScreen();
     }
-    this.updateAttackablePositions();
+    
   }
   /**
    *@return the remaining seconds before game ends.
@@ -112,6 +111,7 @@ public class GameController extends Controller {
       final var actor = new CardActor(c.getSelfId(), c.getPosition().x, c.getPosition().y, stage);
       actor.setAnimation(AnimationUtilities.loadAnimationFromFiles(c.getAnimationFiles().get(animationName), ANIMATIONS_FRAME_DURATION, true));
       actors.add(actor);
+      c.setCenter(actor.getCenter());
     });
     return actors;
   }
@@ -146,6 +146,8 @@ public class GameController extends Controller {
       final var actor = new TowerActor(t.getSelfId(), t.getPosition().x, t.getPosition().y, stage);
       actor.setAnimation(AnimationUtilities.loadAnimationFromFiles(t.getAnimationFiles().get(animationName), ANIMATIONS_FRAME_DURATION, true));
       towers.add(actor);
+      towers.add(actor);
+      t.setCenter(actor.getCenter());
     });
     return towers;
   }
@@ -174,6 +176,7 @@ public class GameController extends Controller {
   }
 
   private void updateAttackablePositions() {
+
     final var playerAttackablesPos = this.gameMap.findEnemy(this.getUserAttackables(), this.getBotAttackables());
     final var botAttackablesPos = this.gameMap.findEnemy(this.getBotAttackables(), this.getUserAttackables());
     this.logic.getPlayerAttackable().forEach(p -> playerAttackablesPos.forEach(a -> {
@@ -191,33 +194,39 @@ public class GameController extends Controller {
   public void updateActorPositions(final List<CardActor> playerCards, final List<CardActor> botCards) {
     playerCards.forEach(actor -> {
       this.getUserAttackables().forEach(attackable -> {
-        //System.out.println(actor.getSelfId() + " " + attackable.getSelfId());
+        // System.out.println(actor.getSelfId() + " " + attackable.getSelfId());
         if (!Gdx.input.isTouched()) {
-        if (actor.getSelfId().equals(attackable.getSelfId()) && this.gameMap.getMap().containsVertex(this.gameMap.getMapUnitFromPixels(actor.getPosition()))) {
-          if (actor.isDraggable()) {
-            actor.setDraggable(false);
-            attackable.setPosition(actor.getPosition());
-          } else {
-            actor.moveTo(attackable.getPosition());
+          if (actor.getSelfId().equals(attackable.getSelfId()) ) {
+            if (actor.isDraggable() && this.gameMap.getMap().containsVertex(this.gameMap.getMapUnitFromPixels(actor.getPosition()))) {
+              actor.setDraggable(false);
+              attackable.setPosition(actor.getPosition());
+              attackable.setCenter(actor.getCenter());
+            } else if (this.gameMap.getMap().containsVertex(this.gameMap.getMapUnitFromPixels(attackable.getPosition()))) {
+              attackable.setCenter(actor.getCenter());
+              actor.moveTo(new Vector2(attackable.getPosition().x - actor.getWidth() / 2, attackable.getPosition().y - actor.getHeight() / 2));
+            }
           }
-        }
         }
       });
     });
+
     botCards.forEach(actor -> {
       this.getBotAttackables().forEach(attackable -> {
-        //System.out.println(actor.getSelfId() + " " + attackable.getSelfId());
+        // System.out.println(actor.getSelfId() + " " + attackable.getSelfId());
         if (!Gdx.input.isTouched()) {
-          if (actor.getSelfId().equals(attackable.getSelfId()) && this.gameMap.getMap().containsVertex(this.gameMap.getMapUnitFromPixels(actor.getPosition()))) {       
-          if (actor.isDraggable()) {
-            actor.setDraggable(false);
-            attackable.setPosition(actor.getPosition());
-          } else {
-            actor.moveTo(attackable.getPosition());
+          if (actor.getSelfId().equals(attackable.getSelfId()) ) {
+            if (actor.isDraggable() && this.gameMap.getMap().containsVertex(this.gameMap.getMapUnitFromPixels(actor.getPosition()))) {
+              actor.setDraggable(false);
+              attackable.setPosition(actor.getPosition());
+              attackable.setCenter(actor.getCenter());
+            } else if (this.gameMap.getMap().containsVertex(this.gameMap.getMapUnitFromPixels(attackable.getPosition()))) {
+              attackable.setCenter(actor.getCenter());
+              actor.moveTo(new Vector2(attackable.getPosition().x - actor.getWidth() / 2, attackable.getPosition().y - actor.getHeight() / 2));
+            }
           }
-        }
         }
       });
     });
+    this.updateAttackablePositions();
   }
 }

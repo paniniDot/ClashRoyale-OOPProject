@@ -254,7 +254,7 @@ public class GameMap {
   private List<Vector2> getPath(final Vector2 source, final Vector2 dest) {
     //System.out.println("source: " + source + ", dest: " + dest + "" + getMapUnitFromPixels(new Vector2(240,483)));
     if (this.map.containsVertex(getMapUnitFromPixels(source)) && this.map.containsVertex(getMapUnitFromPixels(dest))) {
-      return new AStarShortestPath<MapUnit, DefaultEdge>(this.map, (src, dst) -> VectorsUtilities.euclideanDistance(src.getCoordinates(), dst.getCoordinates()))
+      return new AStarShortestPath<MapUnit, DefaultEdge>(this.map, (src, dst) -> VectorsUtilities.euclideanDistance(src.getCenter(), dst.getCenter()))
           .getPath(this.getMapUnitFromPixels(source), this.getMapUnitFromPixels(dest))
           .getVertexList()
           .stream()
@@ -277,15 +277,16 @@ public class GameMap {
     for (final Attackable src : source) {
       double min = Double.MAX_VALUE;
       for (final Attackable dst : destination) {
-        final double distance = VectorsUtilities.euclideanDistance(src.getPosition(), dst.getPosition());
+        final double distance = VectorsUtilities.euclideanDistance(src.getCenter(), dst.getCenter());
         if (Double.compare(min, distance) > 0) {
           dest = dst;
           min = distance;
         }
       }
-      cardPaths.add(new Pair<Pair<Attackable, Attackable>, List<Vector2>>(new Pair<Attackable, Attackable>(src, dest), this.getPath(src.getPosition(), dest.getPosition())));
+      cardPaths.add(new Pair<Pair<Attackable, Attackable>, List<Vector2>>(new Pair<Attackable, Attackable>(src, dest), this.getPath(src.getCenter(), dest.getCenter())));
+      
     }
-    //System.out.println(cardPaths);
+    System.out.println(cardPaths);
     return cardPaths;
   }
   //da rimuovere.

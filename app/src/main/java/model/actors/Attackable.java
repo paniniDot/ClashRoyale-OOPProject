@@ -25,6 +25,8 @@ public interface Attackable {
    *              the new position.
    */
   void setPosition(Vector2 newPos);
+  
+  void setCenter(Vector2 newPos);
 
   /**
    * Reduces the health of the entity.
