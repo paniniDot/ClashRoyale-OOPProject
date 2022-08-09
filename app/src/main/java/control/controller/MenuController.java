@@ -35,7 +35,7 @@ public class MenuController extends Controller {
   public void triggerPlay() {
     new GameController().setCurrentActiveScreen();
   }
-  
+
   /**
    * Istanciate a new DeckController which takes control of the application.
    */
