@@ -141,6 +141,6 @@ public class BotGameLogic extends GameLogic {
    */
   public List<Attackable> getBotAttackable() {
     /* ricorda di sostituire con botDeployedCards */
-    return Stream.concat(this.botChoosableCards.stream().map(c -> (Attackable) c), this.botActiveTowers.stream().map(t -> (Attackable) t)).collect(Collectors.toList());
+    return Stream.concat(this.botCards.stream().map(c -> (Attackable) c), this.botActiveTowers.stream().map(t -> (Attackable) t)).collect(Collectors.toList());
   }
 }

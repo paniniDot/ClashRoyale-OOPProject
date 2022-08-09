@@ -80,6 +80,7 @@ public class GameScreen extends BaseScreen {
   @Override
   public void update(final float dt) {
     super.getController().update(dt);
+    ((GameController) super.getController()).updateActorPositions(playerCards, botCards);
   }
 
   @Override

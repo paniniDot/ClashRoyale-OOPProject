@@ -142,7 +142,7 @@ public abstract class GameLogic {
    */
   public List<Attackable> getPlayerAttackable() {
     /* ricorda di sostituire con playerDeployedCards */
-    return Stream.concat(this.playerChoosableCards.stream().map(c -> (Attackable) c), this.playerActiveTowers.stream().map(t -> (Attackable) t)).collect(Collectors.toList());
+    return Stream.concat(this.playerCards.stream().map(c -> (Attackable) c), this.playerActiveTowers.stream().map(t -> (Attackable) t)).collect(Collectors.toList());
   }
 
 }

@@ -277,15 +277,15 @@ public class GameMap {
     for (final Attackable src : source) {
       double min = Double.MAX_VALUE;
       for (final Attackable dst : destination) {
-        final double distance = VectorsUtilities.euclideanDistance(src.getCenter(), dst.getCenter());
+        final double distance = VectorsUtilities.euclideanDistance(src.getPosition(), dst.getPosition());
         if (Double.compare(min, distance) > 0) {
           dest = dst;
           min = distance;
         }
       }
-      cardPaths.add(new Pair<Pair<Attackable, Attackable>, List<Vector2>>(new Pair<Attackable, Attackable>(src, dest), this.getPath(src.getCenter(), dest.getCenter())));
+      cardPaths.add(new Pair<Pair<Attackable, Attackable>, List<Vector2>>(new Pair<Attackable, Attackable>(src, dest), this.getPath(src.getPosition(), dest.getPosition())));
     }
-    System.out.println(cardPaths);
+    //System.out.println(cardPaths);
     return cardPaths;
   }
   //da rimuovere.

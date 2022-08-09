@@ -75,8 +75,7 @@ public class GameController extends Controller {
       super.stopMusic();
       new MenuController().setCurrentActiveScreen();
     }
-    //this.updateAttackablePositions();
-    //this.updateActorPositions();
+    this.updateAttackablePositions();
   }
   /**
    *@return the remaining seconds before game ends.
@@ -178,27 +177,45 @@ public class GameController extends Controller {
     final var playerAttackablesPos = this.gameMap.findEnemy(this.getUserAttackables(), this.getBotAttackables());
     final var botAttackablesPos = this.gameMap.findEnemy(this.getBotAttackables(), this.getUserAttackables());
     this.logic.getPlayerAttackable().forEach(p -> playerAttackablesPos.forEach(a -> {
-      if (p.equals(a.getX().getX())) {
+      if (p.equals(a.getX().getX()) && a.getY().size() > 1 ) {
         p.setPosition(a.getY().get(1));
       }
     }));
     this.logic.getBotAttackable().forEach(p -> botAttackablesPos.forEach(a -> {
-      if (p.equals(a.getX().getX())) {
+      if (p.equals(a.getX().getX()) && a.getY().size() > 1) {
         p.setPosition(a.getY().get(1));
       }
     }));
   }
 
-  private void updateActorPositions(final List<CardActor> playerCards, final List<CardActor> botCards) {
+  public void updateActorPositions(final List<CardActor> playerCards, final List<CardActor> botCards) {
     playerCards.forEach(actor -> {
       this.getUserAttackables().forEach(attackable -> {
-        if (actor.getSelfId().equals(attackable.getSelfId())) {
+        //System.out.println(actor.getSelfId() + " " + attackable.getSelfId());
+        if (!Gdx.input.isTouched()) {
+        if (actor.getSelfId().equals(attackable.getSelfId()) && this.gameMap.getMap().containsVertex(this.gameMap.getMapUnitFromPixels(actor.getPosition()))) {
           if (actor.isDraggable()) {
             actor.setDraggable(false);
             attackable.setPosition(actor.getPosition());
           } else {
             actor.moveTo(attackable.getPosition());
           }
+        }
+        }
+      });
+    });
+    botCards.forEach(actor -> {
+      this.getBotAttackables().forEach(attackable -> {
+        //System.out.println(actor.getSelfId() + " " + attackable.getSelfId());
+        if (!Gdx.input.isTouched()) {
+          if (actor.getSelfId().equals(attackable.getSelfId()) && this.gameMap.getMap().containsVertex(this.gameMap.getMapUnitFromPixels(actor.getPosition()))) {       
+          if (actor.isDraggable()) {
+            actor.setDraggable(false);
+            attackable.setPosition(actor.getPosition());
+          } else {
+            actor.moveTo(attackable.getPosition());
+          }
+        }
         }
       });
     });
