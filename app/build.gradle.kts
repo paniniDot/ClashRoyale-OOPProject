@@ -46,7 +46,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClass.set("launcher.Launcher")
+    mainClass.set("control.launcher.Launcher")
 }
 
 java {
