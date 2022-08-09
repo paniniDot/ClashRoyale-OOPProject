@@ -1,21 +1,12 @@
 package view.screens;
 
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
 import java.util.Scanner;
-
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
@@ -40,12 +31,15 @@ public class DeckScreen extends BaseScreen {
   private Skin skin;
   private Table table, tableDeck, tableCards; 
   private List list, cards, deck;
-  private Map<String, Integer> cardsMap, deckMap; 
+  private ArrayList<String> cardsList, deckList; 
   private ScrollPane scrollPaneDeck, scrollPaneCards;
   private TextButton buttonAdd, buttonRemove, buttonExit;
   private Label heading, headingDeck, headingCards;
   private Gson gson;
   private static final int SPACE = 15;
+  private static final int HEIGHTSCROLLPANE = 350;
+  private static final int WIDTHSCROLLPANE = 400;
+  private static final int DIMDECK = 4;
   private Texture texture1;
 
 
@@ -64,8 +58,8 @@ public class DeckScreen extends BaseScreen {
     final var background = new BaseActor(0, 0, super.getMainStage());
     background.setAnimation(AnimationUtilities.loadTexture("backgrounds/menuBackground.png"));
     background.setSize(ClashRoyale.WIDTH, ClashRoyale.HEIGHT);
-    cardsMap = new HashMap<>();
-    deckMap = new HashMap<>();
+    cardsList = new ArrayList<>();
+    deckList = new ArrayList<>();
   }
   @Override
   public void show() {
@@ -73,41 +67,39 @@ public class DeckScreen extends BaseScreen {
     Gdx.input.setInputProcessor(super.getUiStage());
     this.atlas = new TextureAtlas("buttons/atlas.pack");
     this.skin = new Skin(Gdx.files.internal("buttons/menuSkin.json"), atlas);
-
     this.table = new Table(skin);
     this.tableDeck = new Table(skin);
     this.tableCards = new Table(skin);
-
     this.table.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
+    
 
     this.table.debug();
 
-    //come faccio a leggere riga per riga?   FileHandle file = Gdx.files.local("Cards/cardsList.txt");
-    String[] read;
-    //   System.out.println(read);
+    String read;
     FileInputStream file, file2;
     try {
-      file = new FileInputStream  ("C:\\Users\\Giulia\\Desktop/cardsList.txt");
-      file2 = new FileInputStream  ("C:\\Users\\Giulia\\Desktop/deckList.txt");
+      String pathCards = "C:\\Users\\Giulia\\Desktop/cardsList.txt";
+      String pathDeck = "C:\\Users\\Giulia\\Desktop/deckList.txt";
+      file = new FileInputStream  (pathCards);
+      file2 = new FileInputStream  (pathDeck);
       Scanner sc = new Scanner(file);
       Scanner sc2 = new Scanner(file2);
       while (sc.hasNextLine()) {
-        read = sc.nextLine().split("\t");
-        cardsMap.put(read[0], Integer.parseInt(read[1]));
+        read = sc.nextLine();
+        cardsList.add(read);
       }
       while (sc2.hasNextLine()) {
-        read = sc2.nextLine().split("\t");
-        deckMap.put(read[0], Integer.parseInt(read[1]));
+        read = sc2.nextLine();
+        deckList.add(read);
       }
       this.heading = new Label("Scelta Deck", this.skin);
-      this.headingDeck = new Label("Mazzo", this.skin);
-      this.headingCards = new Label("Deck", this.skin);
+      this.headingDeck = new Label("Deck", this.skin);
+      this.headingCards = new Label("Mazzo", this.skin);
       this.cards = new List<String>(skin);
-      Object[] objectArray = cardsMap.entrySet().toArray();
+      Object[] objectArray = cardsList.toArray();
       cards.setItems(objectArray);
       this.deck = new List<String>(skin);
-      objectArray = deckMap.entrySet().toArray();
+      objectArray = deckList.toArray();
       deck.setItems(objectArray);
 
       this.scrollPaneDeck = new ScrollPane(deck);
@@ -117,78 +109,56 @@ public class DeckScreen extends BaseScreen {
       this.buttonAdd.addListener(new ClickListener() {
         @Override
         public void clicked(final InputEvent event, final float x, final float y) {
-          boolean check = true;
-          if (!deckMap.isEmpty() && check) {
-            String key = deck.getSelected().toString();
-            key = key.substring( 0, key.indexOf("=") );
-            if (deckMap.get(key).intValue() >1) {
-              int numCards = deckMap.get(key).intValue() - 1;
-              deckMap.put(key, numCards);
+            if(deckList.size() < DIMDECK) {
+            cardsList.remove(cards.getSelected());
+            Object[] objectArray = cardsList.toArray();
+            cards.setItems(objectArray);
+            deckList.add((String) cards.getSelected());
+            objectArray = deckList.toArray();
+            deck.setItems(objectArray);
             }
             else
-            { deckMap.remove(key);}
-            Object[] objectArray = deckMap.entrySet().toArray();
-            deck.setItems(objectArray);
-            check =deckMap.containsKey(key);
-            if(cardsMap.isEmpty() || !cardsMap.containsKey(key)) {
-              cardsMap.put(key, 1);
-            }
-            else {
-              int numCards = cardsMap.get(key).intValue() + 1;
-              cardsMap.put(key, numCards);
-            }
-            objectArray = cardsMap.entrySet().toArray();
-            cards.setItems(objectArray);
-          }
-          deck.setSelected(false);
-          }
-      });
+              System.out.println("Deck pieno(MAX 4 CARTE), RIMUOVERE PRIMA CARTA");
+        }
+        });
+      
       this.buttonRemove = new TextButton("REMOVE", skin);
       this.buttonRemove.pad(SPACE);
       this.buttonRemove.addListener(new ClickListener() {
         @Override
         public void clicked(final InputEvent event, final float x, final float y) {
-          boolean check = true;
-          if (!cardsMap.isEmpty() && check) {
-            String key = cards.getSelected().toString();
-            key = key.substring( 0, key.indexOf("=") );
-            if (cardsMap.get(key).intValue() >1) {
-              int numCards = cardsMap.get(key).intValue() - 1;
-              cardsMap.put(key, numCards);
-            }
-            else
-            {cardsMap.remove(key);}
-            Object[] objectArray = cardsMap.entrySet().toArray();
-            cards.setItems(objectArray);
-            check = cardsMap.containsKey(key);
-            if (deckMap.isEmpty() || !deckMap.containsKey(key)) {
-              deckMap.put(key, 1);
-            }
-            else {
-              int numCards = deckMap.get(key).intValue() + 1;
-              deckMap.put(key, numCards);
-            }
-            objectArray = deckMap.entrySet().toArray();
-            deck.setItems(objectArray);
-          }
-          cards.setSelected(false);
+       
           }
       });
       buttonExit = new TextButton("EXIT", skin);
       this.buttonExit.addListener(new ClickListener() {
         @Override
         public void clicked(final InputEvent event, final float x, final float y) {
+//          try {
+//            FileOutputStream save = new FileOutputStream(pathCards);
+//            for(var entry : cardsMap.entrySet()){
+//              String data = entry.getKey()+"\t"+entry.getValue();
+//              byte[] array = data.getBytes();
+//              save.write(array);
+//            }
+//          } catch (FileNotFoundException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//          } catch (IOException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//          }
           Gdx.app.exit();
         }
       });
       buttonExit.pad(10);
 
       this.tableDeck.add(headingDeck).row();
-      this.tableDeck.add(scrollPaneDeck).height(350).width(400).left().expandY().expandX();
-      this.tableDeck.add(buttonAdd).right();
+      this.tableDeck.add(scrollPaneDeck).height(HEIGHTSCROLLPANE).width(WIDTHSCROLLPANE).left().expandY().expandX();
+      this.tableDeck.add(buttonRemove).right();
       this.tableCards.add(headingCards).row();
-      this.tableCards.add(scrollPaneCards).height(350).width(400).left().expandY().expandX();
-      this.tableCards.add(buttonRemove).right();
+      this.tableCards.add(scrollPaneCards).height(HEIGHTSCROLLPANE).width(WIDTHSCROLLPANE).left().expandY().expandX();
+      this.tableCards.add(buttonAdd).right();
       this.table.add().spaceBottom(SPACE).row();
       this.table.add(heading);
       this.table.getCell(this.heading).spaceBottom(100).row();
