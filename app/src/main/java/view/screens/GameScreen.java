@@ -1,28 +1,21 @@
 package view.screens;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 
 import control.controller.Controller;
 import control.controller.GameController;
 import control.launcher.ClashRoyale;
 
-import model.actors.Attackable;
-import model.actors.cards.Card;
-import model.actors.towers.KingTower;
-import model.actors.towers.QueenTower;
 import model.utilities.AnimationUtilities;
-import model.utilities.Pair;
-import model.utilities.RectDrawer;
-import model.utilities.ingame.MapUnit;
 
 import view.actors.BaseActor;
+import view.actors.CardActor;
+import view.actors.TowerActor;
 
 /**
  * In-game screen implementation.
@@ -31,6 +24,10 @@ public class GameScreen extends BaseScreen {
 
   private SpriteBatch sprite;
   private BitmapFont gamefont;
+  private List<CardActor> playerCards;
+  private List<CardActor> botCards;
+  private List<TowerActor> playerTowers;
+  private List<TowerActor> botTowers;
 
   /**
    * Constructor.
@@ -45,13 +42,16 @@ public class GameScreen extends BaseScreen {
   @Override
   public void initialize() {
     super.getController().playMusic();
+    System.out.println(super.getMainStage());
     sprite = new SpriteBatch();
     gamefont = new BitmapFont(Gdx.files.internal("Fonts/font.fnt"));
     final var arena = new BaseActor(0, 0, super.getMainStage());
     arena.setAnimation(AnimationUtilities.loadTexture("arenas/arena1.png"));
     arena.setSize(ClashRoyale.WIDTH, ClashRoyale.HEIGHT);
-    ((GameController) super.getController()).loadActors();
-    ((GameController) super.getController()).loadTowers();
+    this.playerCards = ((GameController) super.getController()).loadPlayerActors(super.getMainStage());
+    this.botCards = ((GameController) super.getController()).loadBotActors(super.getMainStage());
+    this.playerTowers = ((GameController) super.getController()).loadPlayerTowers(super.getMainStage());
+    this.botTowers = ((GameController) super.getController()).loadBotTowers(super.getMainStage());
   }
 
 //  private void move(final List<Pair<Pair<Attackable, Attackable>, List<Vector2>>> spots) {
@@ -73,6 +73,9 @@ public class GameScreen extends BaseScreen {
 //      });
 //    }
 
+  private void handleInput() {
+    
+  }
 
   @Override
   public void update(final float dt) {
