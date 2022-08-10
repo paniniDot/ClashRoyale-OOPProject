@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import control.controller.Controller;
-import control.controller.GameController;
+import control.controller.game.GameController;
 import control.launcher.ClashRoyale;
 
 import model.utilities.AnimationUtilities;
