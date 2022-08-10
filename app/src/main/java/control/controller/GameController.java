@@ -147,7 +147,6 @@ public class GameController extends Controller {
       final var actor = new TowerActor(t.getSelfId(), t.getPosition().x, t.getPosition().y, stage);
       actor.setAnimation(AnimationUtilities.loadAnimationFromFiles(t.getAnimationFiles().get(animationName), ANIMATIONS_FRAME_DURATION, true));
       towers.add(actor);
-      towers.add(actor);
     });
     return towers;
   }
