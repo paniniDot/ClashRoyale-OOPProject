@@ -194,6 +194,7 @@ public class GameController extends Controller {
             a.setPosition(new Vector2(c.getPosition().x + c.getWidth() / 2, c.getPosition().y + c.getHeight() / 2));
           } else if (this.castedToIntPosition(new Vector2(c.getPosition().x + c.getWidth() / 2, c.getPosition().y + c.getHeight() / 2)).equals(this.castedToIntPosition(a.getPosition()))) {
             this.updateAttackablePosition(a, enemyAttackables);
+            c.setRotation(a.getPosition());
             a.setPosition(new Vector2(a.getPosition().x - c.getWidth() / 2, a.getPosition().y - c.getHeight() / 2));
             c.moveTo(a.getPosition());
             a.setPosition(new Vector2(a.getPosition().x + c.getWidth() / 2, a.getPosition().y + c.getHeight() / 2));
