@@ -188,13 +188,16 @@ public class GameController extends Controller {
   private void updateActorPosition(final List<CardActor> cards, final List<Attackable> selfAttackables, final List<Attackable> enemyAttackables) {
     cards.forEach(c -> {
       selfAttackables.forEach(a -> {
-        if (!Gdx.input.isTouched() && c.getSelfId().equals(a.getSelfId()) && this.gameMap.containsPosition(c.getPosition())) {
+        if (!Gdx.input.isTouched() && c.getSelfId().equals(a.getSelfId()) && this.gameMap.containsPosition(new Vector2(c.getPosition().x + c.getWidth() / 2, c.getPosition().y + c.getHeight() / 2))) {
+          System.out.println(c.getPosition() + " " + a.getPosition());
           if (c.isDraggable()) {
             c.setDraggable(false);
-            a.setPosition(c.getPosition());
-          } else if (this.castedToIntPosition(c.getPosition()).equals(this.castedToIntPosition(a.getPosition()))) {
+            a.setPosition(new Vector2(c.getPosition().x + c.getWidth() / 2, c.getPosition().y + c.getHeight() / 2));
+          } else if (this.castedToIntPosition(new Vector2(c.getPosition().x + c.getWidth() / 2, c.getPosition().y + c.getHeight() / 2)).equals(this.castedToIntPosition(a.getPosition()))) {
             this.updateAttackablePosition(a, enemyAttackables);
+            a.setPosition(new Vector2(a.getPosition().x - c.getWidth() / 2, a.getPosition().y - c.getHeight() / 2));
             c.moveTo(a.getPosition());
+            a.setPosition(new Vector2(a.getPosition().x + c.getWidth() / 2, a.getPosition().y + c.getHeight() / 2));
           }
         }
       });
