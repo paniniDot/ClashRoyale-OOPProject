@@ -162,5 +162,4 @@ public abstract class Tower implements Attackable {
         && Double.doubleToLongBits(range) == Double.doubleToLongBits(other.range);
   }
 
-
 }

@@ -54,10 +54,6 @@ public final class Wizard extends Troop {
         "AS_CARD", List.of());
   }
 
-  /*
-  @Override
-  public TargetType getSelfType() {
-    // TODO Auto-generated method stub
-    return null;
-  }*/
+
+
 }

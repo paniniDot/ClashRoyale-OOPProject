@@ -83,7 +83,7 @@ public abstract class Card {
 
   @Override
   public int hashCode() {
-    return Objects.hash(cost, id, owner);
+    return Objects.hash(cost, id, owner, position);
   }
 
   @Override

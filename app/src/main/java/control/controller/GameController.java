@@ -55,12 +55,11 @@ public class GameController extends Controller {
             Wizard.create(this.user, new Vector2(300, 100)),
             Wizard.create(this.user, new Vector2(200, 100)),
             Wizard.create(this.user, new Vector2(400, 100)),
-            Wizard.create(this.user, new Vector2(500, 100)),
             Wizard.create(this.user, new Vector2(600, 100))),
         List.of(Wizard.create(this.bot, new Vector2(100, 800)),
             Wizard.create(this.bot, new Vector2(300, 800)),
+            Wizard.create(this.bot, new Vector2(300, 800)),
             Wizard.create(this.bot, new Vector2(200, 800)),
-            Wizard.create(this.bot, new Vector2(400, 800)),
             Wizard.create(this.bot, new Vector2(500, 800))),
         this.user, this.bot);
     super.registerScreen(new GameScreen(this));
@@ -147,6 +146,7 @@ public class GameController extends Controller {
     list.forEach(t -> {
       final var actor = new TowerActor(t.getSelfId(), t.getPosition().x, t.getPosition().y, stage);
       actor.setAnimation(AnimationUtilities.loadAnimationFromFiles(t.getAnimationFiles().get(animationName), ANIMATIONS_FRAME_DURATION, true));
+      towers.add(actor);
       towers.add(actor);
     });
     return towers;

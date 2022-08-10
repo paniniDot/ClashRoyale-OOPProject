@@ -68,4 +68,10 @@ public final class InfernoTower extends Building {
     // TODO Auto-generated method stub
     return null;
   }
+
+  @Override
+  public void setCenter(Vector2 newPos) {
+    // TODO Auto-generated method stub
+    
+  }
 }
