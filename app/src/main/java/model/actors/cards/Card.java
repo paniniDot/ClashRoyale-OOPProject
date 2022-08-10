@@ -17,6 +17,7 @@ public abstract class Card {
   private final int cost;
   private final User owner;
   private Vector2 position;
+
   /** 
    * Constructor.
    * 
@@ -82,7 +83,7 @@ public abstract class Card {
 
   @Override
   public int hashCode() {
-    return Objects.hash(cost, id, owner, position);
+    return Objects.hash(cost, id, owner);
   }
 
   @Override

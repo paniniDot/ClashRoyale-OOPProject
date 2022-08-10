@@ -137,11 +137,6 @@ public abstract class Troop extends Card implements Attackable {
     super.setPosition(newPos);
   }
 
-  // da rivedere.
-  @Override
-  public Vector2 getCenter() {
-    return new Vector2();
-  }
 /*
   @Override
   public TargetType getSelfType() {

@@ -72,12 +72,6 @@ public abstract class Tower implements Attackable {
     return this.currentHP <= 0;
   }
 
-  // da rivedere.
-  @Override
-  public Vector2 getCenter() {
-    return new Vector2();
-  }
-
   @Override
   public UUID getSelfId() {
     return this.id;

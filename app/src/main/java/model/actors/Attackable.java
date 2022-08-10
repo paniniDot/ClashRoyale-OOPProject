@@ -15,11 +15,6 @@ public interface Attackable {
   Vector2 getPosition();
 
   /**
-   * @return the center of the entity.
-   */
-  Vector2 getCenter();
-
-  /**
    * Updates the current position of the entity.
    * @param newPos
    *              the new position.
@@ -42,7 +37,7 @@ public interface Attackable {
    * @return the type of the entity (i.e. air troop, ground troop).
    */
   //TargetType getSelfType();
-  
+
   /**
    * @return self unique identifier.
    */
