@@ -23,7 +23,7 @@ import model.utilities.ElixirController;
  * An implementation of GameController in which the user plays 
  * against a bot.
  */
-public class BotGameLogic extends GameLogic {
+public class BotGameModel extends GameModel {
 
   private final List<Card> botCards;
   private final List<Card> botDeployedCards;
@@ -38,12 +38,12 @@ public class BotGameLogic extends GameLogic {
    * @param botCards
    *              {@inheritDoc}.
    */
-  public BotGameLogic(final List<Card> playerCards, final List<Card> botCards, final User player, final Bot bot) {
+  public BotGameModel(final List<Card> playerCards, final List<Card> botCards, final User player, final Bot bot) {
     super(playerCards, player);
     this.botCards = botCards.stream().collect(Collectors.toList());
     this.botDeployedCards = new ArrayList<>();
     this.botChoosableCards = new ArrayList<>();
-    IntStream.range(0, GameLogic.CHOOSABLE_CARDS).forEach(i -> this.botChoosableCards.add(this.botCards.remove(0)));
+    IntStream.range(0, GameModel.CHOOSABLE_CARDS).forEach(i -> this.botChoosableCards.add(this.botCards.remove(0)));
     this.botActiveTowers = this.getBotTowers(bot);
     this.elixirController = new ElixirController();
   }

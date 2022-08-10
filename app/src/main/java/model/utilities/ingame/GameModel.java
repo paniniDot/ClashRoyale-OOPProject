@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 
 import com.badlogic.gdx.math.Vector2;
 
+import model.Model;
 import model.actors.Attackable;
 import model.actors.cards.Card;
 import model.actors.towers.KingTower;
@@ -20,7 +21,7 @@ import model.utilities.ElixirController;
 /**
  * Defines the logic to be used inside the game.
  */
-public abstract class GameLogic {
+public abstract class GameModel extends Model {
 
   /**
    * the number of cards that can be chosen in every moment.
@@ -40,7 +41,7 @@ public abstract class GameLogic {
    * @param user
    *              the user who is playing.
    */
-  public GameLogic(final List<Card> playerCards, final User user) {
+  public GameModel(final List<Card> playerCards, final User user) {
     this.playerCards = playerCards.stream().collect(Collectors.toList());
     this.playerDeployedCards = new ArrayList<>();
     this.playerChoosableCards = new ArrayList<>();
