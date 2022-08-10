@@ -1,6 +1,7 @@
 package control.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.badlogic.gdx.Gdx;
@@ -75,14 +76,15 @@ public class GameController extends Controller {
       super.stopMusic();
       new MenuController().setCurrentActiveScreen();
     }
-    this.updateAttackablePositions();
   }
+
   /**
    *@return the remaining seconds before game ends.
    */
   public int getLeftTime() {
     return this.count.getTime();
   }
+
   /**
    *@return the current elixir owned.
    */
@@ -149,6 +151,7 @@ public class GameController extends Controller {
     });
     return towers;
   }
+
   /**
    * Load tower actors in the main stage of the screen driven by this controller.
    * 
@@ -173,51 +176,46 @@ public class GameController extends Controller {
     return this.loadTowersFrom(this.logic.getBotActiveTowers(), stage, "ENEMY");
   }
 
-  private void updateAttackablePositions() {
-    final var playerAttackablesPos = this.gameMap.findEnemy(this.getUserAttackables(), this.getBotAttackables());
-    final var botAttackablesPos = this.gameMap.findEnemy(this.getBotAttackables(), this.getUserAttackables());
-    this.logic.getPlayerAttackable().forEach(p -> playerAttackablesPos.forEach(a -> {
-      if (p.equals(a.getX().getX()) && a.getY().size() > 1 ) {
-        p.setPosition(a.getY().get(1));
+  private void updateAttackablePosition(final Attackable attackable, final List<Attackable> enemies) {
+    final var playerAttackablePos = this.gameMap.findEnemy(List.of(attackable), enemies);
+    playerAttackablePos.forEach(a -> {
+      if (a.getY().size() > 1) {
+        attackable.setPosition(a.getY().get(1));
       }
-    }));
-    this.logic.getBotAttackable().forEach(p -> botAttackablesPos.forEach(a -> {
-      if (p.equals(a.getX().getX()) && a.getY().size() > 1) {
-        p.setPosition(a.getY().get(1));
-      }
-    }));
+    });
   }
 
-  public void updateActorPositions(final List<CardActor> playerCards, final List<CardActor> botCards) {
-    playerCards.forEach(actor -> {
-      this.getUserAttackables().forEach(attackable -> {
-        //System.out.println(actor.getSelfId() + " " + attackable.getSelfId());
-        if (!Gdx.input.isTouched()) {
-        if (actor.getSelfId().equals(attackable.getSelfId()) && this.gameMap.getMap().containsVertex(this.gameMap.getMapUnitFromPixels(actor.getPosition()))) {
-          if (actor.isDraggable()) {
-            actor.setDraggable(false);
-            attackable.setPosition(actor.getPosition());
-          } else {
-            actor.moveTo(attackable.getPosition());
+  private void updateActorPosition(final List<CardActor> cards, final List<Attackable> selfAttackables, final List<Attackable> enemyAttackables) {
+    cards.forEach(c -> {
+      selfAttackables.forEach(a -> {
+        if (!Gdx.input.isTouched() && c.getSelfId().equals(a.getSelfId()) && this.gameMap.containsPosition(c.getPosition())) {
+          if (c.isDraggable()) {
+            c.setDraggable(false);
+            a.setPosition(c.getPosition());
+          } else if (this.castedToIntPosition(c.getPosition()).equals(this.castedToIntPosition(a.getPosition()))) {
+            this.updateAttackablePosition(a, enemyAttackables);
+            c.moveTo(a.getPosition());
           }
-        }
-        }
-      });
-    });
-    botCards.forEach(actor -> {
-      this.getBotAttackables().forEach(attackable -> {
-        //System.out.println(actor.getSelfId() + " " + attackable.getSelfId());
-        if (!Gdx.input.isTouched()) {
-          if (actor.getSelfId().equals(attackable.getSelfId()) && this.gameMap.getMap().containsVertex(this.gameMap.getMapUnitFromPixels(actor.getPosition()))) {       
-          if (actor.isDraggable()) {
-            actor.setDraggable(false);
-            attackable.setPosition(actor.getPosition());
-          } else {
-            actor.moveTo(attackable.getPosition());
-          }
-        }
         }
       });
     });
   }
+
+  /**
+   * Update the positions of both actors and cards.
+   * 
+   * @param playerCards
+   *                  a list of CardActors owned by the player.
+   * @param botCards
+   *                  a list of CardActors owned by the enemy (whether is a bot or real player).
+   */
+  public void updateActorPositions(final List<CardActor> playerCards, final List<CardActor> botCards) {
+    this.updateActorPosition(playerCards, this.getUserAttackables(), this.getBotAttackables());
+    this.updateActorPosition(botCards, this.getBotAttackables(), this.getUserAttackables()); 
+  }
+
+  private Vector2 castedToIntPosition(final Vector2 pos) {
+    return new Vector2((int) pos.x, (int) pos.y);
+  }
 }
+
