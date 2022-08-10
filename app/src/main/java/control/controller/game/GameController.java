@@ -1,4 +1,4 @@
-package control.controller;
+package control.controller.game;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,6 +8,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
+import control.controller.Controller;
+import control.controller.MenuController;
 import model.Model;
 import model.actors.Attackable;
 import model.actors.cards.Card;
@@ -19,49 +21,42 @@ import model.utilities.AnimationUtilities;
 import model.utilities.Audio;
 import model.utilities.CountDownController;
 import model.utilities.ElixirController;
-import model.utilities.Pair;
-import model.utilities.ingame.BotGameLogic;
+import model.utilities.ingame.BotGameModel;
+import model.utilities.ingame.GameModel;
 import model.utilities.ingame.GameMap;
 import view.actors.CardActor;
 import view.actors.TowerActor;
 import view.screens.GameScreen;
 
 /**
- * Controller implementation for the game screen.
+ * Abstract Controller for the game screen.
  */
-public class GameController extends Controller {
+public abstract class GameController extends Controller {
 
-  private static final float ANIMATIONS_FRAME_DURATION = (float) 0.017_24 * 10;
+  /**
+   * Used by GameController implementations to load animations. 
+   */
+  public static final float ANIMATIONS_FRAME_DURATION = (float) 0.017_24 * 10;
 
-  private final ElixirController elixir;
-  private final CountDownController count;
+  private final ElixirController playerElixir;
+  private final CountDownController timer;
   private final User user;
-  private final Bot bot;
   private final GameMap gameMap;
-  private final BotGameLogic logic;
+  private final GameModel logic;
 
   /**
    * Constructor.
+   * 
+   * @param logic
+   *            the logic followed by this controller.
    */
-  public GameController() {
+  public GameController(final GameModel logic) {
     super(Audio.getBattleMusic());
-    this.elixir = new ElixirController();
-    this.count = new CountDownController();
+    this.playerElixir = new ElixirController();
+    this.timer = new CountDownController();
     this.user = new User("panini");
-    this.bot = new Bot();
     this.gameMap = new GameMap();
-    this.logic = new BotGameLogic(
-        List.of(Wizard.create(this.user, new Vector2(100, 100)),
-            Wizard.create(this.user, new Vector2(300, 100)),
-            Wizard.create(this.user, new Vector2(200, 100)),
-            Wizard.create(this.user, new Vector2(400, 100)),
-            Wizard.create(this.user, new Vector2(600, 100))),
-        List.of(Wizard.create(this.bot, new Vector2(100, 800)),
-            Wizard.create(this.bot, new Vector2(300, 800)),
-            Wizard.create(this.bot, new Vector2(300, 800)),
-            Wizard.create(this.bot, new Vector2(200, 800)),
-            Wizard.create(this.bot, new Vector2(500, 800))),
-        this.user, this.bot);
+    this.logic = logic;
     super.registerScreen(new GameScreen(this));
     super.registerModel(new Model());
     Gdx.input.setInputProcessor(super.getScreen().getMainStage());
@@ -69,26 +64,32 @@ public class GameController extends Controller {
 
   @Override
   public void update(final float dt) {
-    if (this.count.getTime() == 0) {
-      this.elixir.setRunFalse();
-      this.count.setRunFalse();
+    if (this.timer.getTime() == 0) {
+      this.playerElixir.setRunFalse();
+      this.onUpdate();
+      this.timer.setRunFalse();
       super.stopMusic();
       new MenuController().setCurrentActiveScreen();
     }
   }
 
   /**
+   * Called from subclasses to extend functionalities when the match is over.
+   */
+  protected abstract void onUpdate();
+
+  /**
    *@return the remaining seconds before game ends.
    */
   public int getLeftTime() {
-    return this.count.getTime();
+    return this.timer.getTime();
   }
 
   /**
-   *@return the current elixir owned.
+   *@return the current elixir owned by the user.
    */
-  public int getCurrentElixir() {
-    return this.elixir.getElixirCount();
+  public int getPlayerCurrentElixir() {
+    return this.playerElixir.getElixirCount();
   }
 
   /**
@@ -101,13 +102,25 @@ public class GameController extends Controller {
 
   /**
    * 
-   * @return a list of bot attackable entities.
+   * @return the current game map.
    */
-  public List<Attackable> getBotAttackables() {
-    return this.logic.getBotAttackable();
+  protected GameMap getGameMap() {
+    return this.gameMap;
   }
 
-  private List<CardActor> loadActorsFrom(final List<Card> list, final Stage stage, final String animationName) {
+  /**
+   * Load new card actors in the stage passed as argument, picking them informations from the list passed as argument.
+   * 
+   * @param list
+   *            the list of Cards used to create new actors.
+   * @param stage
+   *            where actors have to be placed.
+   * @param animationName
+   *            the animation of the actors.
+   * @return 
+   *            a list of CardActors.
+   */
+  protected List<CardActor> loadActorsFrom(final List<Card> list, final Stage stage, final String animationName) {
     final var actors = new ArrayList<CardActor>();
     list.forEach(c -> {
       final var actor = new CardActor(c.getSelfId(), c.getPosition().x, c.getPosition().y, stage);
@@ -118,7 +131,7 @@ public class GameController extends Controller {
   }
 
   /**
-   * Load card actors in the main stage of the screen driven by this controller.
+   * Load card actors in a stage of the screen driven by this controller.
    * 
    * @param stage 
    *              the stage where actors have to be placed.
@@ -130,18 +143,18 @@ public class GameController extends Controller {
   }
 
   /**
-   * Load card actors in the main stage of the screen driven by this controller.
+   * Load new tower actors in the stage passed as argument, picking them informations from the list passed as argument.
    * 
-   * @param stage 
-   *              the stage where actors have to be placed.
-   *
-   * @return a list of CardActors owned by the user.
+   * @param list
+   *            the list of Towers used to create new actors.
+   * @param stage
+   *            where actors have to be placed.
+   * @param animationName
+   *            the animation of the actors.
+   * @return
+   *            a list of new Tower Actors.
    */
-  public final List<CardActor> loadBotActors(final Stage stage) {
-    return this.loadActorsFrom(this.logic.getBotDeck(), stage, "SELF_MOVING");
-  }
-
-  private List<TowerActor> loadTowersFrom(final List<Tower> list, final Stage stage, final String animationName) {
+  protected List<TowerActor> loadTowersFrom(final List<Tower> list, final Stage stage, final String animationName) {
     final var towers = new ArrayList<TowerActor>();
     list.forEach(t -> {
       final var actor = new TowerActor(t.getSelfId(), t.getPosition().x, t.getPosition().y, stage);
@@ -164,60 +177,13 @@ public class GameController extends Controller {
   }
 
   /**
-   * Load tower actors in the main stage of the screen driven by this controller.
-   * 
-   * @param stage 
-   *              the stage where towers have to be placed.
-   *
-   * @return a list of the deployed towers.
-   */
-  public final List<TowerActor> loadBotTowers(final Stage stage) {
-    return this.loadTowersFrom(this.logic.getBotActiveTowers(), stage, "ENEMY");
-  }
-
-  private void updateAttackablePosition(final Attackable attackable, final List<Attackable> enemies) {
-    final var playerAttackablePos = this.gameMap.findEnemy(List.of(attackable), enemies);
-    playerAttackablePos.forEach(a -> {
-      if (a.getY().size() > 1) {
-        attackable.setPosition(a.getY().get(1));
-      }
-    });
-  }
-
-  private void updateActorPosition(final List<CardActor> cards, final List<Attackable> selfAttackables, final List<Attackable> enemyAttackables) {
-    cards.forEach(c -> {
-      selfAttackables.forEach(a -> {
-        if (!Gdx.input.isTouched() && c.getSelfId().equals(a.getSelfId()) && this.gameMap.containsPosition(new Vector2(c.getPosition().x + c.getWidth() / 2, c.getPosition().y + c.getHeight() / 2))) {
-          System.out.println(c.getPosition() + " " + a.getPosition());
-          if (c.isDraggable()) {
-            c.setDraggable(false);
-            a.setPosition(new Vector2(c.getPosition().x + c.getWidth() / 2, c.getPosition().y + c.getHeight() / 2));
-          } else if (this.castedToIntPosition(new Vector2(c.getPosition().x + c.getWidth() / 2, c.getPosition().y + c.getHeight() / 2)).equals(this.castedToIntPosition(a.getPosition()))) {
-            this.updateAttackablePosition(a, enemyAttackables);
-            a.setPosition(new Vector2(a.getPosition().x - c.getWidth() / 2, a.getPosition().y - c.getHeight() / 2));
-            c.moveTo(a.getPosition());
-            a.setPosition(new Vector2(a.getPosition().x + c.getWidth() / 2, a.getPosition().y + c.getHeight() / 2));
-          }
-        }
-      });
-    });
-  }
-
-  /**
    * Update the positions of both actors and cards.
    * 
    * @param playerCards
    *                  a list of CardActors owned by the player.
-   * @param botCards
+   * @param enemyCards
    *                  a list of CardActors owned by the enemy (whether is a bot or real player).
    */
-  public void updateActorPositions(final List<CardActor> playerCards, final List<CardActor> botCards) {
-    this.updateActorPosition(playerCards, this.getUserAttackables(), this.getBotAttackables());
-    this.updateActorPosition(botCards, this.getBotAttackables(), this.getUserAttackables()); 
-  }
+  public abstract void updateActorPositions(List<CardActor> playerCards, List<CardActor> enemyCards);
 
-  private Vector2 castedToIntPosition(final Vector2 pos) {
-    return new Vector2((int) pos.x, (int) pos.y);
-  }
 }
-
