@@ -73,9 +73,6 @@ public class GameScreen extends BaseScreen {
 //      });
 //    }
 
-  private void handleInput() {
-    
-  }
 
   @Override
   public void update(final float dt) {
