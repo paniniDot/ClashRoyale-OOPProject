@@ -4,10 +4,15 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
@@ -41,7 +46,8 @@ public class DeckScreen extends BaseScreen {
   private static final int WIDTHSCROLLPANE = 400;
   private static final int DIMDECK = 4;
   private Texture texture1;
-
+  private Dialog  endDialog;
+  private JFrame frame;
 
   /**
    * Constructor.
@@ -60,6 +66,8 @@ public class DeckScreen extends BaseScreen {
     background.setSize(ClashRoyale.WIDTH, ClashRoyale.HEIGHT);
     cardsList = new ArrayList<>();
     deckList = new ArrayList<>();
+
+
   }
   @Override
   public void show() {
@@ -118,7 +126,8 @@ public class DeckScreen extends BaseScreen {
             deck.setItems(objectArray);
             }
             else
-              System.out.println("Deck pieno(MAX 4 CARTE), RIMUOVERE PRIMA CARTA");
+            JOptionPane.showMessageDialog(frame, "DECK PIENO(MAX 4 CARTE), RIMUOVERE PRIMA UNA CARTA");
+
         }
         });
       
