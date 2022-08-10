@@ -77,7 +77,7 @@ public class BotGameLogic extends GameLogic {
    * 
    * @return a list of bot currently choosable cards.
    */
-  public List<Card> getPlayerChoosableCards() {
+  public List<Card> getBotChoosableCards() {
     return Collections.unmodifiableList(this.botChoosableCards);
   }
 
@@ -133,8 +133,6 @@ public class BotGameLogic extends GameLogic {
     return this.elixirController.getElixirCount();
   }
 
-  
-  
   /**
    * 
    * @return a list of attackable elements of the bot.
