@@ -18,7 +18,7 @@ public abstract class Building extends Card implements Attackable {
   private final TargetType attackType;
   */
   //private double leftDuration;
-  private final int range;
+  private final double range;
   private Optional<Attackable> currentTarget;
 
   /**
@@ -45,7 +45,7 @@ public abstract class Building extends Card implements Attackable {
    * @param range
    *            the range of influence.
    */
-  protected Building(final int cost, final Vector2 position, final User owner, final double maxHP, final double damage, final double hitSpeed, /*final TargetType self, final TargetType attack, final double duration,*/ final int range) {
+  protected Building(final int cost, final Vector2 position, final User owner, final double maxHP, final double damage, final double hitSpeed, /*final TargetType self, final TargetType attack, final double duration,*/ final double range) {
     super(cost, position, owner);
     this.currentHP = maxHP;
     this.damage = damage;
@@ -109,10 +109,8 @@ public abstract class Building extends Card implements Attackable {
   }
 */
 
-  /**
-   * @return the range of influence.
-   */
-  public int getRange() {
+  @Override
+  public double getRange() {
     return range;
   }
 
