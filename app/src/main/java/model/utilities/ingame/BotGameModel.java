@@ -29,7 +29,6 @@ public class BotGameModel extends GameModel {
   private final List<Card> botDeployedCards;
   private final List<Card> botChoosableCards;
   private final List<Tower> botActiveTowers;
-  private final ElixirController elixirController;
 
   /**
    * 
@@ -45,7 +44,6 @@ public class BotGameModel extends GameModel {
     this.botChoosableCards = new ArrayList<>();
     IntStream.range(0, GameModel.CHOOSABLE_CARDS).forEach(i -> this.botChoosableCards.add(this.botCards.remove(0)));
     this.botActiveTowers = this.getBotTowers(bot);
-    this.elixirController = new ElixirController();
   }
 
   /* logica per la posizione delle torri mancante */
@@ -89,7 +87,6 @@ public class BotGameModel extends GameModel {
   public void deployBotCard(final Card card) {
     if (this.botChoosableCards.contains(card)) {
       this.botChoosableCards.remove(card);
-      this.elixirController.decrementElixir(card.getCost());
       this.botDeployedCards.add(card);
       this.botCards.add(card);
     }
@@ -124,13 +121,6 @@ public class BotGameModel extends GameModel {
     if (this.botActiveTowers.contains(tower)) {
       this.botActiveTowers.remove(tower);
     }
-  }
-  /**
-   * 
-   * @return the current elixir left to the bot.
-   */
-  public int getBotElixirLeft() {
-    return this.elixirController.getElixirCount();
   }
 
   /**

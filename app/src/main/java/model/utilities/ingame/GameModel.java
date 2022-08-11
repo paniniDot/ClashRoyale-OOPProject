@@ -32,7 +32,6 @@ public abstract class GameModel extends Model {
   private final List<Card> playerDeployedCards;
   private final List<Card> playerChoosableCards;
   private final List<Tower> playerActiveTowers;
-  private final ElixirController elixirController;
 
   /**
    * 
@@ -47,7 +46,6 @@ public abstract class GameModel extends Model {
     this.playerChoosableCards = new ArrayList<>();
     IntStream.range(0, CHOOSABLE_CARDS).forEach(i -> this.playerChoosableCards.add(this.playerCards.remove(0)));
     this.playerActiveTowers = this.getPlayerTowers(user);
-    this.elixirController = new ElixirController();
   }
 
   /* logica per la posizione delle torri nella mappa mancante */
@@ -92,7 +90,6 @@ public abstract class GameModel extends Model {
   public void deployPlayerCard(final Card card) {
     if (this.playerChoosableCards.contains(card)) {
       this.playerChoosableCards.remove(card);
-      this.elixirController.decrementElixir(card.getCost());
       this.playerDeployedCards.add(card);
       this.playerCards.add(card);
     }
@@ -127,14 +124,6 @@ public abstract class GameModel extends Model {
     if (this.playerActiveTowers.contains(tower)) {
       this.playerActiveTowers.remove(tower);
     }
-  }
-
-  /**
-   * 
-   * @return the current elixir left to the player.
-   */
-  public int getPlayerElixirLeft() {
-    return this.elixirController.getElixirCount();
   }
 
   /**
