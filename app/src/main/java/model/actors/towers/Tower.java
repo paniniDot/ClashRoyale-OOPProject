@@ -53,6 +53,7 @@ public abstract class Tower implements Attackable {
     this.damage = damage;
     this.currentHP = hp;
     this.hitSpeed = hitSpeed;
+    this.currentTarget = Optional.empty();
   }
 
   @Override
