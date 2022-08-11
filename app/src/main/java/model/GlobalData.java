@@ -11,22 +11,22 @@ import model.actors.cards.troops.Wizard;
 import model.actors.users.Bot;
 
 /**
- * Class used to easily access istances of User, Bot and their decks.
+ * Class used to easily provide istances of User, Bot and their decks.
  */
 public final class GlobalData {
 
   /**
-   * The user.
+   * Provides a user instance.
    */
   public static final User USER = new User("Panini");
 
   /**
-   * The bot.
+   * Provides a bot.
    */
   public static final Bot BOT = new Bot();
 
   /**
-   * User deck.
+   * Provides the User deck.
    */
   public static final List<Card> USER_DECK = List.of(
       Wizard.create(USER, new Vector2(100, 100)), 
@@ -38,7 +38,7 @@ public final class GlobalData {
       Wizard.create(USER, new Vector2(700, 100)));
 
   /**
-   * Bot deck.
+   * Provides the Bot deck.
    */
   public static final List<Card> BOT_DECK = List.of(
       Wizard.create(BOT, new Vector2(100, 800)), 
