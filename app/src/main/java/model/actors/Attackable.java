@@ -22,6 +22,12 @@ public interface Attackable {
    */
   void setPosition(Vector2 newPos);
 
+  /**
+   * 
+   * @return the range of action of the entity.
+   */
+  double getRange();
+
   /** 
    * @return the current target of the entity that implements this interface.
    */
