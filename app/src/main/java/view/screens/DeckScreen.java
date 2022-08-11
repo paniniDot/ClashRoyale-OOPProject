@@ -21,8 +21,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.google.gson.Gson;
-
 import control.controller.Controller;
+import control.controller.DeckController;
+import control.controller.MenuController;
 import control.launcher.ClashRoyale;
 import model.utilities.AnimationUtilities;
 import view.actors.BaseActor;
@@ -38,7 +39,7 @@ public class DeckScreen extends BaseScreen {
   private List list, cards, deck;
   private ArrayList<String> cardsList, deckList; 
   private ScrollPane scrollPaneDeck, scrollPaneCards;
-  private TextButton buttonAdd, buttonRemove, buttonExit;
+  private TextButton buttonAdd, buttonRemove, buttonReturn;
   private Label heading, headingDeck, headingCards;
   private Gson gson;
   private static final int SPACE = 15;
@@ -79,114 +80,91 @@ public class DeckScreen extends BaseScreen {
     this.tableDeck = new Table(skin);
     this.tableCards = new Table(skin);
     this.table.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-    
 
-    this.table.debug();
+    cardsList.add("Archer Queen");
+    cardsList.add("Golden Knight");
+    cardsList.add("Skeleton King");
+    cardsList.add("Mighty Miner");
+    cardsList.add("Miner");
+    cardsList.add("Princess");
+    deckList.add("Mega Knight");
+    deckList.add("Ice Wizard");
+    deckList.add("Inferno Dragon");
+    deckList.add("Ram Rider");
 
-    String read;
-    FileInputStream file, file2;
-    try {
-      String pathCards = "C:\\Users\\Giulia\\Desktop/cardsList.txt";
-      String pathDeck = "C:\\Users\\Giulia\\Desktop/deckList.txt";
-      file = new FileInputStream  (pathCards);
-      file2 = new FileInputStream  (pathDeck);
-      Scanner sc = new Scanner(file);
-      Scanner sc2 = new Scanner(file2);
-      while (sc.hasNextLine()) {
-        read = sc.nextLine();
-        cardsList.add(read);
-      }
-      while (sc2.hasNextLine()) {
-        read = sc2.nextLine();
-        deckList.add(read);
-      }
-      this.heading = new Label("Scelta Deck", this.skin);
-      this.headingDeck = new Label("Deck", this.skin);
-      this.headingCards = new Label("Mazzo", this.skin);
-      this.cards = new List<String>(skin);
-      Object[] objectArray = cardsList.toArray();
-      cards.setItems(objectArray);
-      this.deck = new List<String>(skin);
-      objectArray = deckList.toArray();
-      deck.setItems(objectArray);
+    this.heading = new Label("Scelta Deck", this.skin);
+    this.headingDeck = new Label("Deck", this.skin);
+    this.headingCards = new Label("Mazzo", this.skin);
+    this.cards = new List<String>(skin);
+    Object[] objectArray = cardsList.toArray();
+    cards.setItems(objectArray);
+    this.deck = new List<String>(skin);
+    objectArray = deckList.toArray();
+    deck.setItems(objectArray);
 
-      this.scrollPaneDeck = new ScrollPane(deck);
-      this.scrollPaneCards = new ScrollPane(cards);
-      this.buttonAdd = new TextButton("ADD", skin);
-      this.buttonAdd.pad(SPACE);
-      this.buttonAdd.addListener(new ClickListener() {
-        @Override
-        public void clicked(final InputEvent event, final float x, final float y) {
-            if(deckList.size() < DIMDECK) {
-            cardsList.remove(cards.getSelected());
-            Object[] objectArray = cardsList.toArray();
-            cards.setItems(objectArray);
-            deckList.add((String) cards.getSelected());
-            objectArray = deckList.toArray();
-            deck.setItems(objectArray);
-            }
-            else
-            JOptionPane.showMessageDialog(frame, "DECK PIENO(MAX 4 CARTE), RIMUOVERE PRIMA UNA CARTA");
-
+    this.scrollPaneDeck = new ScrollPane(deck);
+    this.scrollPaneCards = new ScrollPane(cards);
+    this.buttonAdd = new TextButton("ADD", skin);
+    this.buttonAdd.pad(SPACE);
+    this.buttonAdd.addListener(new ClickListener() {
+      @Override
+      public void clicked(final InputEvent event, final float x, final float y) {
+        if (deckList.size() < DIMDECK) {
+          Object[] objectArray;
+          String tmp = (String) cards.getSelected();
+          cardsList.remove(cards.getSelected());
+          objectArray = cardsList.toArray();
+          cards.setItems(objectArray);
+          deckList.add(tmp);
+          objectArray = deckList.toArray();
+          deck.setItems(objectArray);
         }
-        });
-      
-      this.buttonRemove = new TextButton("REMOVE", skin);
-      this.buttonRemove.pad(SPACE);
-      this.buttonRemove.addListener(new ClickListener() {
-        @Override
-        public void clicked(final InputEvent event, final float x, final float y) {
-       
-          }
-      });
-      buttonExit = new TextButton("EXIT", skin);
-      this.buttonExit.addListener(new ClickListener() {
-        @Override
-        public void clicked(final InputEvent event, final float x, final float y) {
-//          try {
-//            FileOutputStream save = new FileOutputStream(pathCards);
-//            for(var entry : cardsMap.entrySet()){
-//              String data = entry.getKey()+"\t"+entry.getValue();
-//              byte[] array = data.getBytes();
-//              save.write(array);
-//            }
-//          } catch (FileNotFoundException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//          } catch (IOException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//          }
-          Gdx.app.exit();
+        else {
+          JOptionPane.showMessageDialog(frame, "DECK PIENO(MAX 4 CARTE), RIMUOVERE PRIMA UNA CARTA");
         }
-      });
-      buttonExit.pad(10);
+      }
+    });
 
-      this.tableDeck.add(headingDeck).row();
-      this.tableDeck.add(scrollPaneDeck).height(HEIGHTSCROLLPANE).width(WIDTHSCROLLPANE).left().expandY().expandX();
-      this.tableDeck.add(buttonRemove).right();
-      this.tableCards.add(headingCards).row();
-      this.tableCards.add(scrollPaneCards).height(HEIGHTSCROLLPANE).width(WIDTHSCROLLPANE).left().expandY().expandX();
-      this.tableCards.add(buttonAdd).right();
-      this.table.add().spaceBottom(SPACE).row();
-      this.table.add(heading);
-      this.table.getCell(this.heading).spaceBottom(100).row();
-      this.table.add(tableDeck).left().row();
-      this.table.add(tableCards).left().row();
-      this.table.add(this.buttonExit).right();
+    this.buttonRemove = new TextButton("REMOVE", skin);
+    this.buttonRemove.pad(SPACE);
+    this.buttonRemove.addListener(new ClickListener() {
+      @Override
+      public void clicked(final InputEvent event, final float x, final float y) {
+        if (!deckList.isEmpty()) {
+        Object[] objectArray;
+        String tmp = (String) deck.getSelected();
+        deckList.remove(deck.getSelected());
+        objectArray = deckList.toArray();
+        deck.setItems(objectArray);
+        cardsList.add(tmp);
+        objectArray = cardsList.toArray();
+        cards.setItems(objectArray);
+        }
+      }
+    });
+    buttonReturn = new TextButton("RETURN", skin);
+    this.buttonReturn.addListener(new ClickListener() {
+      @Override
+      public void clicked(final InputEvent event, final float x, final float y) {
+        ((DeckController) getController()).triggerMenu();
+      }
+    });
+    buttonReturn.pad(10);
 
-      super.getUiStage().addActor(this.table);
-    } catch (FileNotFoundException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
+    this.tableDeck.add(headingDeck).row();
+    this.tableDeck.add(scrollPaneDeck).height(HEIGHTSCROLLPANE).width(WIDTHSCROLLPANE).left().expandY().expandX();
+    this.tableDeck.add(buttonRemove).right();
+    this.tableCards.add(headingCards).row();
+    this.tableCards.add(scrollPaneCards).height(HEIGHTSCROLLPANE).width(WIDTHSCROLLPANE).left().expandY().expandX();
+    this.tableCards.add(buttonAdd).right();
+    this.table.add().spaceBottom(SPACE).row();
+    this.table.add(heading);
+    this.table.getCell(this.heading).spaceBottom(100).row();
+    this.table.add(tableDeck).left().row();
+    this.table.add(tableCards).left().row();
+    this.table.add(this.buttonReturn).right();
 
-
-    //  String[] elenco = read.split("\n");
-    //  cards.setItems(elenco);
-
-
-
+    super.getUiStage().addActor(this.table);
   }
 
   @Override
