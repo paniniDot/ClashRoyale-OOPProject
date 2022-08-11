@@ -29,7 +29,7 @@ public interface Attackable {
   double getRange();
 
   /** 
-   * @return the current target of the entity that implements this interface.
+   * @return the current target, if any, of the entity that implements this interface.
    */
   Optional<Attackable> getCurrentTarget();
 
