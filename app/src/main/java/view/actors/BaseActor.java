@@ -1,7 +1,6 @@
 package view.actors;
 
 import java.util.Optional;
-import java.util.UUID;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -24,8 +23,6 @@ public class BaseActor extends Actor {
   /**
    * Constructor.
    * 
-   * @param id
-   *          the unique id for this actor.
    * @param x
    *          x coordinate where the actor is placed.
    * @param y
