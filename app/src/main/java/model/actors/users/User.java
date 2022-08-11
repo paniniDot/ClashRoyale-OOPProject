@@ -1,14 +1,8 @@
 package model.actors.users;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
-import com.badlogic.gdx.math.Vector2;
-
-import model.actors.cards.Card;
-import model.utilities.VectorsUtilities;
-import model.utilities.ingame.GameMap;
 
 /**
  * Users that play the game.
@@ -100,6 +94,26 @@ public class User {
   @Override
   public String toString() {
     return "User [name=" + name + ", currentXP=" + currentXP + ", currentLevel=" + currentLevel + "]";
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(currentLevel, currentXP, name);
+  }
+
+  @Override
+  public boolean equals(final Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (getClass() != obj.getClass()) {
+      return false;
+    }
+    final User other = (User) obj;
+    return currentLevel == other.currentLevel && currentXP == other.currentXP && Objects.equals(name, other.name);
   }
 
 }

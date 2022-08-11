@@ -22,8 +22,8 @@ public abstract class Spell extends Card {
   private final List<Attackable> targets;
 
   /**
-   * @param stage
-   *           {@inheritDoc}
+   * Constructor.
+   * 
    * @param cost
    *           Elixir cost.
    * @param position
@@ -35,8 +35,8 @@ public abstract class Spell extends Card {
    * @param range
    *           The range of influence.
    */
-  protected Spell(final Stage stage, final int cost, final Vector2 position, final User owner, final double duration, final int range /*final TargetType targetType*/) {
-    super(stage, cost, position, owner);
+  protected Spell(final int cost, final Vector2 position, final User owner, final double duration, final int range /*final TargetType targetType*/) {
+    super(cost, position, owner);
     this.leftDuration = duration;
     this.range = range;
     this.targets = Collections.emptyList();

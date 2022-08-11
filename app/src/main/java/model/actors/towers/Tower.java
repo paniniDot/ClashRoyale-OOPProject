@@ -1,31 +1,35 @@
 package model.actors.towers;
 
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
+
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import model.actors.Attackable;
-import model.actors.BaseActor;
 import model.actors.Speeds;
 import model.actors.users.User;
 
 /**
  * Tower abstract class.
  */
-public abstract class Tower extends BaseActor implements Attackable {
+public abstract class Tower implements Attackable {
 
+  private final UUID id;
   private final User owner;
+  private final Vector2 position;
   private final double range;
   private boolean isActive;
   private final double damage;
   private double currentHP;
   private final Speeds hitSpeed;
+  private Optional<Attackable> currentTarget;
 
   /**
    * Builds a new Tower.
    * 
    * @param position 
-   *            {@inheritDoc}.
-   * @param stage
    *            {@inheritDoc}.
    * @param owner
    *            the owner of the tower.
@@ -40,14 +44,20 @@ public abstract class Tower extends BaseActor implements Attackable {
    * @param hitSpeed
    *            the number of hits per second.
    */
-  public Tower(final Vector2 position, final Stage stage, final User owner, final double range, final boolean isActive, final double damage, final double hp, final Speeds hitSpeed) {
-    super(position.x, position.y, stage);
+  public Tower(final Vector2 position, final User owner, final double range, final boolean isActive, final double damage, final double hp, final Speeds hitSpeed) {
+    this.id = UUID.randomUUID();
     this.owner = owner;
+    this.position = position;
     this.range = range;
     this.isActive = isActive;
     this.damage = damage;
     this.currentHP = hp;
     this.hitSpeed = hitSpeed;
+  }
+
+  @Override
+  public Vector2 getPosition() {
+    return this.position;
   }
 
   @Override
@@ -62,6 +72,11 @@ public abstract class Tower extends BaseActor implements Attackable {
   @Override
   public boolean isDead() {
     return this.currentHP <= 0;
+  }
+
+  @Override
+  public UUID getSelfId() {
+    return this.id;
   }
 
   /**
@@ -119,9 +134,15 @@ public abstract class Tower extends BaseActor implements Attackable {
     return hitSpeed;
   }
 
+  /**
+   * 
+   * @return a map containing the file locations for each animation.
+   */
+  public abstract Map<String, List<String>> getAnimationFiles();
+
   @Override
   public int hashCode() {
-    return Objects.hash(currentHP, damage, hitSpeed, isActive, owner, range);
+    return Objects.hash(currentHP, damage, hitSpeed, id, isActive, owner, position, range);
   }
 
   @Override
@@ -130,7 +151,7 @@ public abstract class Tower extends BaseActor implements Attackable {
       return true;
     }
     if (obj == null) {
-      return false;
+      return true;
     }
     if (getClass() != obj.getClass()) {
       return false;
@@ -138,9 +159,24 @@ public abstract class Tower extends BaseActor implements Attackable {
     final Tower other = (Tower) obj;
     return Double.doubleToLongBits(currentHP) == Double.doubleToLongBits(other.currentHP)
         && Double.doubleToLongBits(damage) == Double.doubleToLongBits(other.damage) && hitSpeed == other.hitSpeed
-        && isActive == other.isActive && Objects.equals(owner, other.owner)
+        && Objects.equals(id, other.id) && isActive == other.isActive && Objects.equals(owner, other.owner)
+        && Objects.equals(position, other.position)
         && Double.doubleToLongBits(range) == Double.doubleToLongBits(other.range);
   }
 
+  @Override
+  public Optional<Attackable> getCurrentTarget() {
+    return this.currentTarget;
+  }
+
+  @Override
+  public void setCurrentTarget(final Attackable attackable) {
+    this.currentTarget = Optional.of(attackable);
+  }
+
+  @Override
+  public void resetCurrentTarget() {
+    this.currentTarget = Optional.empty();
+  }
 
 }

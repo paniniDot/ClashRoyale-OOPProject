@@ -3,7 +3,6 @@ package model.actors.cards.troops;
 import java.util.Optional;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import model.actors.Attackable;
 import model.actors.Speeds;
 //import model.actors.TargetType;
@@ -26,9 +25,10 @@ public abstract class Troop extends Card implements Attackable {
   private final double range;
   private Optional<Attackable> currentTarget;
 
+
   /**
-   * @param stage
-   *          {@inheritDoc}
+   * Constructor.
+   * 
    * @param cost
    *          elixir needed to deploy the troop.
    * @param position
@@ -46,8 +46,8 @@ public abstract class Troop extends Card implements Attackable {
    * @param range
    *          the distance between this troop and other entities to being targeted by it.
    */
-  protected Troop(final Stage stage, final int cost, final Vector2 position, final User owner, final double maxHP, final double damage, /*final double hitSpeed,*/ final Speeds speed, /*final TargetType selfType, final TargetType enemyType,*/ final double range) {
-    super(stage, cost, position, owner);
+  protected Troop(final int cost, final Vector2 position, final User owner, final double maxHP, final double damage, /*final double hitSpeed,*/ final Speeds speed, /*final TargetType selfType, final TargetType enemyType,*/ final double range) {
+    super(cost, position, owner);
     this.currentHP = maxHP; 
     this.damage = damage;
     //this.hitSpeed = hitSpeed;
@@ -57,6 +57,7 @@ public abstract class Troop extends Card implements Attackable {
     */
     this.range = range;
     this.currentTarget = Optional.empty();
+
   }
 
   /**
@@ -94,19 +95,17 @@ public abstract class Troop extends Card implements Attackable {
     return this.range;
   }
 
-  //verrà fatto una volta definita la meccanica in-game
-  //public void setCurrentTarget(Attackable target) {};
-
-  /**
-   * @return an optional containing an attackable entity who is targeted by this troop.
-   */
+  @Override
   public Optional<Attackable> getCurrentTarget() {
     return this.currentTarget;
   }
 
-  /**
-   * Resets the current target.
-   */
+  @Override
+  public void setCurrentTarget(final Attackable attackable) {
+    this.currentTarget = Optional.of(attackable);
+  }
+
+  @Override
   public void resetCurrentTarget() {
     this.currentTarget = Optional.empty();
   }
@@ -123,7 +122,6 @@ public abstract class Troop extends Card implements Attackable {
     this.currentHP = this.currentHP < damage ? 0 : this.currentHP - damage;
   }
 
-
   @Override
   public boolean isDead() {
     return this.currentHP <= 0;
@@ -136,7 +134,7 @@ public abstract class Troop extends Card implements Attackable {
 
   @Override
   public void setPosition(final Vector2 newPos) {
-    super.setPosition(newPos.x, newPos.y);
+    super.setPosition(newPos);
   }
 
 /*

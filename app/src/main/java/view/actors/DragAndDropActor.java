@@ -1,4 +1,6 @@
-package model.actors;
+package view.actors;
+
+import java.util.UUID;
 
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
@@ -19,12 +21,16 @@ public class DragAndDropActor extends BaseActor {
 
 
   /**
+   * Constructor.
+   * 
+   * @param id 
+   *        {@inheritDoc}.
    * @param x
    *        x coordinate where the actor is placed.
    * @param y
    *        y coordinate where the actor is placed.
    * @param s
-   *        {@inheritDoc}
+   *        {@inheritDoc}.
    */
   public DragAndDropActor(final float x, final float y, final Stage s) {
     super(x, y, s);

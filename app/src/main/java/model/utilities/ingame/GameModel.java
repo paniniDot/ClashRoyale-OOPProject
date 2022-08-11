@@ -8,21 +8,20 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 
+import model.Model;
 import model.actors.Attackable;
 import model.actors.cards.Card;
 import model.actors.towers.KingTower;
 import model.actors.towers.QueenTower;
 import model.actors.towers.Tower;
 import model.actors.users.User;
-import model.utilities.AnimationUtilities;
 import model.utilities.ElixirController;
 
 /**
  * Defines the logic to be used inside the game.
  */
-public abstract class GameLogic {
+public abstract class GameModel extends Model {
 
   /**
    * the number of cards that can be chosen in every moment.
@@ -33,7 +32,6 @@ public abstract class GameLogic {
   private final List<Card> playerDeployedCards;
   private final List<Card> playerChoosableCards;
   private final List<Tower> playerActiveTowers;
-  private final ElixirController elixirController;
 
   /**
    * 
@@ -41,28 +39,32 @@ public abstract class GameLogic {
    *              the player deck.
    * @param user
    *              the user who is playing.
-   * @param stage 
-   *              the stage the gameController has to control.
    */
-  public GameLogic(final List<Card> playerCards, final User user, final Stage stage) {
+  public GameModel(final List<Card> playerCards, final User user) {
     this.playerCards = playerCards.stream().collect(Collectors.toList());
     this.playerDeployedCards = new ArrayList<>();
     this.playerChoosableCards = new ArrayList<>();
     IntStream.range(0, CHOOSABLE_CARDS).forEach(i -> this.playerChoosableCards.add(this.playerCards.remove(0)));
-    this.playerActiveTowers = this.getPlayerTowers(user, stage);
-    this.elixirController = new ElixirController();
+    this.playerActiveTowers = this.getPlayerTowers(user);
   }
 
   /* logica per la posizione delle torri nella mappa mancante */
-  private List<Tower> getPlayerTowers(final User user, final Stage stage) {
+  private List<Tower> getPlayerTowers(final User user) {
     final List<Tower> towers = new ArrayList<>();
-    towers.add(QueenTower.create(user, stage, new Vector2(205, 312)));
-    towers.add(QueenTower.create(user, stage, new Vector2(415, 312)));
-    towers.add(KingTower.create(user, stage, new Vector2(300, 255)));
-    towers.forEach(t -> t.setAnimation(AnimationUtilities.loadTexture(t.getClass().equals(QueenTower.class) ? "towers/self/queen_tower.png" : "towers/self/king_tower.png")));
+    towers.add(QueenTower.create(user, new Vector2(205, 312)));
+    towers.add(QueenTower.create(user, new Vector2(415, 312)));
+    towers.add(KingTower.create(user, new Vector2(300, 255)));
     return towers;
   }
 
+
+  /**
+   * 
+   * @return a list of every card used from the player during the match.
+   */
+  public List<Card> getPlayerDeck() {
+    return Collections.unmodifiableList(this.playerCards);
+  }
 
   /**
    * 
@@ -88,7 +90,6 @@ public abstract class GameLogic {
   public void deployPlayerCard(final Card card) {
     if (this.playerChoosableCards.contains(card)) {
       this.playerChoosableCards.remove(card);
-      this.elixirController.decrementElixir(card.getCost());
       this.playerDeployedCards.add(card);
       this.playerCards.add(card);
     }
@@ -127,19 +128,11 @@ public abstract class GameLogic {
 
   /**
    * 
-   * @return the current elixir left to the player.
-   */
-  public int getPlayerElixirLeft() {
-    return this.elixirController.getElixirCount();
-  }
-
-  /**
-   * 
    * @return a list of attackable elements of the player.
    */
   public List<Attackable> getPlayerAttackable() {
     /* ricorda di sostituire con playerDeployedCards */
-    return Stream.concat(this.playerChoosableCards.stream().map(c -> (Attackable) c), this.playerActiveTowers.stream().map(t -> (Attackable) t)).collect(Collectors.toList());
+    return Stream.concat(this.playerCards.stream().map(c -> (Attackable) c), this.playerActiveTowers.stream().map(t -> (Attackable) t)).collect(Collectors.toList());
   }
 
 }

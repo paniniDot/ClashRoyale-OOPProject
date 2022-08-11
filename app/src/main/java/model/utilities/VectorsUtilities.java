@@ -27,7 +27,7 @@ public final class VectorsUtilities {
     final var vec3d = cam.unproject(new Vector3(x, y, 0));
     return new Vector2(vec3d.x, vec3d.y);
   }
-  
+
   /**
    * Evaluate the distance between two points.
    * 
@@ -38,6 +38,6 @@ public final class VectorsUtilities {
    * @return the distance between the two points
    */
   public static double euclideanDistance(final Vector2 src, final Vector2 dst) {
-    return Math.sqrt(Math.pow(src.x - dst.x, 2) + Math.pow(src.y - dst.y, 2));
+    return src.dst(dst);
   }
 }

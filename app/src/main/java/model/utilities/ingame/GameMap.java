@@ -12,6 +12,7 @@ import org.jgrapht.graph.builder.GraphTypeBuilder;
 import com.badlogic.gdx.math.Vector2;
 
 import model.actors.Attackable;
+import model.actors.cards.troops.Wizard;
 import model.utilities.Pair;
 import model.utilities.VectorsUtilities;
 
@@ -136,7 +137,7 @@ public class GameMap {
         new Vector2(5,7),
         new Vector2(5,8),
         new Vector2(5,9),
-        
+
         new Vector2(8,1),
         new Vector2(8,2),
         new Vector2(8,3),
@@ -150,7 +151,7 @@ public class GameMap {
         new Vector2(11,4),
         new Vector2(11,5),
         new Vector2(11,6),
-        
+
         new Vector2(3,25),
         new Vector2(3,26),
         new Vector2(3,27),
@@ -177,7 +178,7 @@ public class GameMap {
         new Vector2(16,26), 
         new Vector2(16,27),
         new Vector2(16,28),
-        
+
         new Vector2(14,5),
         new Vector2(14,6),
         new Vector2(14,7),
@@ -189,7 +190,7 @@ public class GameMap {
         new Vector2(16,7),
         new Vector2(16,8),
         new Vector2(16,9),
-        
+
         new Vector2(1,15), 
         new Vector2(2,15), 
         new Vector2(3,15), 
@@ -251,11 +252,10 @@ public class GameMap {
    *            the destination point.
    * @return a list of vector2 of mapUnits coordinates.
    */
-  public List<Vector2> getPath(final Vector2 source, final Vector2 dest) {
-    //System.out.println("source: " + source + ", dest: " + dest + "" + getMapUnitFromPixels(new Vector2(240,483)));
-    if (this.map.containsVertex(getMapUnitFromPixels(source)) && this.map.containsVertex(getMapUnitFromPixels(dest))) {
-      return new AStarShortestPath<MapUnit, DefaultEdge>(this.map, (src, dst) -> VectorsUtilities.euclideanDistance(src.getCoordinates(), dst.getCoordinates()))
-          .getPath(this.getMapUnitFromPixels(source), this.getMapUnitFromPixels(dest))
+  private List<Vector2> getPath(final MapUnit source, final MapUnit dest) {
+    if (this.map.containsVertex(source) && this.map.containsVertex(dest)) {
+      return new AStarShortestPath<MapUnit, DefaultEdge>(this.map, (src, dst) -> VectorsUtilities.euclideanDistance(src.getCenter(), dst.getCenter()))
+          .getPath(source, dest)
           .getVertexList()
           .stream()
           .filter(el -> !this.getTowers().contains(el.getCoordinates()))
@@ -269,42 +269,41 @@ public class GameMap {
    * find enemy method.
    * @param source
    * @param destination
-   * @param gameMap
    * @return List<Pair<Pair<Card, Card>, List<Vector2>>> 
    */
-  public List<Pair<Pair<Attackable, Attackable>, List<Vector2>>> findEnemy(final GameMap gameMap, final List<Attackable> source, final List<Attackable> destination) {
+  public List<Pair<Pair<Attackable, Attackable>, List<Vector2>>> findEnemy(final List<Attackable> source, final List<Attackable> destination) {
     final List<Pair<Pair<Attackable, Attackable>, List<Vector2>>> cardPaths = new ArrayList<>();
     Attackable dest = null;
     for (final Attackable src : source) {
       double min = Double.MAX_VALUE;
       for (final Attackable dst : destination) {
-        final double distance = VectorsUtilities.euclideanDistance(src.getCenter(), dst.getCenter());
+        final double distance = VectorsUtilities.euclideanDistance(src.getPosition(), dst.getPosition());
         if (Double.compare(min, distance) > 0) {
           dest = dst;
           min = distance;
         }
       }
-      cardPaths.add(new Pair<Pair<Attackable, Attackable>, List<Vector2>>(new Pair<Attackable, Attackable>(src, dest), gameMap.getPath(src.getCenter(), dest.getCenter())));
+      src.setCurrentTarget(dest);
+      cardPaths.add(new Pair<Pair<Attackable, Attackable>, List<Vector2>>(new Pair<Attackable, Attackable>(src, dest), this.getPath(this.getMapUnitFromPosition(src.getPosition()), this.getMapUnitFromPosition(dest.getPosition()))));
     }
+    //System.out.println(cardPaths.stream().filter(p -> p.getX().getX().getClass().equals(Wizard.class)).map(p -> p + " POSIZIONE ATTORE : " + p.getX().getX().getPosition()).collect(Collectors.toList()));
     System.out.println(cardPaths);
     return cardPaths;
   }
-  //da rimuovere.
+
   /**
    * 
-   * @return the map.
+   * @param position
+   *            the {@link Vector2} to be checked if inside the map or not.
+   * @return whether the position is contained or not in the map.
    */
-  public Graph<MapUnit, DefaultEdge> getMap() {
-    return this.map;
+  public boolean containsPosition(final Vector2 position) {
+    return this.map.containsVertex(this.getMapUnitFromPosition(position));
   }
 
-  public MapUnit getMapUnitFromPixels(final Vector2 pixels) {
+  private MapUnit getMapUnitFromPosition(final Vector2 pixels) {
     final var coords = new Vector2((float) Math.ceil((pixels.x - X_START) / MapUnit.WIDTH), (float) Math.ceil((pixels.y - Y_START) / MapUnit.HEIGHT));
-    //System.out.println(pixels + "-> " + coords);
-    // il pixel passato alla funzione � un pixel a caso all'interno del rettangolo, io ho bisogno di quello in basso a sx per creare il rettangolo, uso il metodo sotto
-    final var mapUnit = new MapUnit(coords, this.getPixelsFromUnitCoords(coords), this.getTowers().contains(coords) ? MapUnit.Type.TOWER : MapUnit.Type.TERRAIN);
-    //System.out.println(mapUnit);
-    return mapUnit;
+    return new MapUnit(coords, this.getPixelsFromUnitCoords(coords), this.getTowers().contains(coords) ? MapUnit.Type.TOWER : MapUnit.Type.TERRAIN);
   }
 
   private Vector2 getPixelsFromUnitCoords(final Vector2 coords) {

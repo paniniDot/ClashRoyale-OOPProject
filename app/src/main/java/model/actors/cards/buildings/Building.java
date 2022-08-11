@@ -2,7 +2,6 @@ package model.actors.cards.buildings;
 
 import java.util.Optional;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import model.actors.cards.Card;
 import model.actors.users.User;
 import model.actors.Attackable;
@@ -23,14 +22,16 @@ public abstract class Building extends Card implements Attackable {
   private Optional<Attackable> currentTarget;
 
   /**
-   * @param stage
-   *            {@inheritDoc}
+   * Constructor.
+   * 
    * @param cost
    *            Elixir cost.
    * @param position
    *            x, y coordinates where has been deployed.
    * @param owner
    *            the user who deployed it.
+   * @param maxHP
+   *            max health of the building.
    * @param damage
    *            hp taken per hit.
    * @param hitSpeed
@@ -44,8 +45,8 @@ public abstract class Building extends Card implements Attackable {
    * @param range
    *            the range of influence.
    */
-  protected Building(final Stage stage, final int cost, final Vector2 position, final User owner, final double maxHP, final double damage, final double hitSpeed, /*final TargetType self, final TargetType attack, final double duration,*/ final int range) {
-    super(stage, cost, position, owner);
+  protected Building(final int cost, final Vector2 position, final User owner, final double maxHP, final double damage, final double hitSpeed, /*final TargetType self, final TargetType attack, final double duration,*/ final int range) {
+    super(cost, position, owner);
     this.currentHP = maxHP;
     this.damage = damage;
     this.hitSpeed = hitSpeed;
@@ -89,7 +90,7 @@ public abstract class Building extends Card implements Attackable {
 
   @Override
   public void setPosition(final Vector2 newPos) {
-    super.setPosition(newPos.x, newPos.y);
+    super.setPosition(newPos);
   }
 
   /**
@@ -163,5 +164,6 @@ public abstract class Building extends Card implements Attackable {
   public boolean isDead() {
     return this.currentHP <= 0; //|| this.leftDuration < 0;
   }
+
 }
 

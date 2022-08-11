@@ -4,8 +4,8 @@ import model.utilities.Audio;
 
 import com.badlogic.gdx.Gdx;
 
+import control.controller.game.BotGameController;
 import model.Model;
-import view.screens.DeckScreen;
 import view.screens.MenuScreen;
 
 /**
@@ -33,9 +33,9 @@ public class MenuController extends Controller {
    * Istanciate a new GameController which takes control of the application.
    */
   public void triggerPlay() {
-    new GameController().setCurrentActiveScreen();
+    new BotGameController().setCurrentActiveScreen();
   }
-  
+
   /**
    * Istanciate a new DeckController which takes control of the application.
    */

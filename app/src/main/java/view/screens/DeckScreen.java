@@ -24,8 +24,8 @@ import com.google.gson.Gson;
 
 import control.controller.Controller;
 import control.launcher.ClashRoyale;
-import model.actors.BaseActor;
 import model.utilities.AnimationUtilities;
+import view.actors.BaseActor;
 
 /**
  * Desck screen implementation.
