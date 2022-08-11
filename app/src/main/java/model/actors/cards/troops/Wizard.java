@@ -18,7 +18,7 @@ public final class Wizard extends Troop {
 
   private static final int ELIXIR_COST = 5;
   private static final double HIT_SPEED = 1.4;
-  private static final int RANGE = 5;
+  private static final double RANGE = 0.5;
 
   private Wizard(final User owner, final Vector2 position, final double maxHP, final double damage) {
     super(Wizard.ELIXIR_COST, position, owner, maxHP, damage, /*Wizard.HIT_SPEED,*/ Speeds.MEDIUM, /*TargetType.GROUND, TargetType.BOTH,*/ Wizard.RANGE);
