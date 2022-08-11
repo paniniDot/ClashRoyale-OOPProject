@@ -137,7 +137,7 @@ public class GameMap {
         new Vector2(5,7),
         new Vector2(5,8),
         new Vector2(5,9),
-        
+
         new Vector2(8,1),
         new Vector2(8,2),
         new Vector2(8,3),
@@ -151,7 +151,7 @@ public class GameMap {
         new Vector2(11,4),
         new Vector2(11,5),
         new Vector2(11,6),
-        
+
         new Vector2(3,25),
         new Vector2(3,26),
         new Vector2(3,27),
@@ -178,7 +178,7 @@ public class GameMap {
         new Vector2(16,26), 
         new Vector2(16,27),
         new Vector2(16,28),
-        
+
         new Vector2(14,5),
         new Vector2(14,6),
         new Vector2(14,7),
@@ -190,7 +190,7 @@ public class GameMap {
         new Vector2(16,7),
         new Vector2(16,8),
         new Vector2(16,9),
-        
+
         new Vector2(1,15), 
         new Vector2(2,15), 
         new Vector2(3,15), 
@@ -283,6 +283,7 @@ public class GameMap {
           min = distance;
         }
       }
+      src.setCurrentTarget(dest);
       cardPaths.add(new Pair<Pair<Attackable, Attackable>, List<Vector2>>(new Pair<Attackable, Attackable>(src, dest), this.getPath(this.getMapUnitFromPosition(src.getPosition()), this.getMapUnitFromPosition(dest.getPosition()))));
     }
     //System.out.println(cardPaths.stream().filter(p -> p.getX().getX().getClass().equals(Wizard.class)).map(p -> p + " POSIZIONE ATTORE : " + p.getX().getX().getPosition()).collect(Collectors.toList()));
