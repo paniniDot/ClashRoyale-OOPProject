@@ -95,19 +95,17 @@ public abstract class Troop extends Card implements Attackable {
     return this.range;
   }
 
-  //verrà fatto una volta definita la meccanica in-game
-  //public void setCurrentTarget(Attackable target) {};
-
-  /**
-   * @return an optional containing an attackable entity who is targeted by this troop.
-   */
+  @Override
   public Optional<Attackable> getCurrentTarget() {
     return this.currentTarget;
   }
 
-  /**
-   * Resets the current target.
-   */
+  @Override
+  public void setCurrentTarget(final Attackable attackable) {
+    this.currentTarget = Optional.of(attackable);
+  }
+
+  @Override
   public void resetCurrentTarget() {
     this.currentTarget = Optional.empty();
   }

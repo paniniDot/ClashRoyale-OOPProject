@@ -3,6 +3,7 @@ package model.actors.towers;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 import com.badlogic.gdx.math.Vector2;
@@ -23,6 +24,7 @@ public abstract class Tower implements Attackable {
   private final double damage;
   private double currentHP;
   private final Speeds hitSpeed;
+  private Optional<Attackable> currentTarget;
 
   /**
    * Builds a new Tower.
@@ -160,6 +162,21 @@ public abstract class Tower implements Attackable {
         && Objects.equals(id, other.id) && isActive == other.isActive && Objects.equals(owner, other.owner)
         && Objects.equals(position, other.position)
         && Double.doubleToLongBits(range) == Double.doubleToLongBits(other.range);
+  }
+
+  @Override
+  public Optional<Attackable> getCurrentTarget() {
+    return this.currentTarget;
+  }
+
+  @Override
+  public void setCurrentTarget(final Attackable attackable) {
+    this.currentTarget = Optional.of(attackable);
+  }
+
+  @Override
+  public void resetCurrentTarget() {
+    this.currentTarget = Optional.empty();
   }
 
 }
