@@ -1,14 +1,13 @@
 package view.screens;
 
 import java.util.List;
-import java.util.UUID;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import control.controller.Controller;
-import control.controller.game.GameController;
+import control.controller.game.BotGameController;
 import control.launcher.ClashRoyale;
 
 import model.utilities.AnimationUtilities;
@@ -48,10 +47,10 @@ public class GameScreen extends BaseScreen {
     final var arena = new BaseActor(0, 0, super.getMainStage());
     arena.setAnimation(AnimationUtilities.loadTexture("arenas/arena1.png"));
     arena.setSize(ClashRoyale.WIDTH, ClashRoyale.HEIGHT);
-    this.playerCards = ((GameController) super.getController()).loadPlayerActors(super.getMainStage());
-    this.botCards = ((GameController) super.getController()).loadBotActors(super.getMainStage());
-    this.playerTowers = ((GameController) super.getController()).loadPlayerTowers(super.getMainStage());
-    this.botTowers = ((GameController) super.getController()).loadBotTowers(super.getMainStage());
+    this.playerCards = ((BotGameController) super.getController()).loadPlayerActors(super.getMainStage());
+    this.botCards = ((BotGameController) super.getController()).loadBotActors(super.getMainStage());
+    this.playerTowers = ((BotGameController) super.getController()).loadPlayerTowers(super.getMainStage());
+    this.botTowers = ((BotGameController) super.getController()).loadBotTowers(super.getMainStage());
   }
 
 //  private void move(final List<Pair<Pair<Attackable, Attackable>, List<Vector2>>> spots) {
@@ -77,15 +76,15 @@ public class GameScreen extends BaseScreen {
   @Override
   public void update(final float dt) {
     super.getController().update(dt);
-    ((GameController) super.getController()).updateActorPositions(playerCards, botCards);
+    ((BotGameController) super.getController()).updateActorPositions(playerCards, botCards);
   }
 
   @Override
   public void render(final float dt) {
     super.render(dt);
     sprite.begin();
-    gamefont.draw(sprite, "elisir " + ((GameController) super.getController()).getCurrentElixir(), 100, 100);
-    gamefont.draw(sprite, "durata " + ((GameController) super.getController()).getLeftTime(), 100, 200);
+    gamefont.draw(sprite, "elisir " + ((BotGameController) super.getController()).getPlayerCurrentElixir(), 100, 100);
+    gamefont.draw(sprite, "durata " + ((BotGameController) super.getController()).getLeftTime(), 100, 200);
     sprite.end();
     //RectDrawer.showDebugBoundingBoxes(this.map.getMap().vertexSet().stream().map(MapUnit::getUnitRectangle).collect(Collectors.toList()), Color.BLUE);
     //RectDrawer.showDebugBoundingBoxes(this.map.getMap().vertexSet().stream().filter(v -> v.getType().equals(MapUnit.Type.TERRAIN)).map(MapUnit::getUnitRectangle).collect(Collectors.toList()), Color.BLUE);

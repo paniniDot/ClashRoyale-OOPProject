@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
+import model.GlobalData;
 import model.actors.Attackable;
 import model.actors.users.Bot;
 import model.utilities.ElixirController;
@@ -19,15 +20,13 @@ import view.actors.TowerActor;
  */
 public class BotGameController extends GameController {
 
-  private final Bot bot;
   private final ElixirController botElixir;
 
   /**
    * Constructor.
    */
   public BotGameController() {
-    super(new BotGameModel());
-    this.bot = new Bot();
+    super(new BotGameModel(GlobalData.USER_DECK, GlobalData.BOT_DECK, GlobalData.USER, GlobalData.BOT));
     this.botElixir = new ElixirController();
   }
 

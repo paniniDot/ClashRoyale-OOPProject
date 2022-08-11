@@ -3,6 +3,9 @@ package control.controller.game;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
+
+import org.checkerframework.common.returnsreceiver.qual.This;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
@@ -40,25 +43,21 @@ public abstract class GameController extends Controller {
 
   private final ElixirController playerElixir;
   private final CountDownController timer;
-  private final User user;
   private final GameMap gameMap;
-  private final GameModel logic;
 
   /**
    * Constructor.
    * 
-   * @param logic
+   * @param model
    *            the logic followed by this controller.
    */
-  public GameController(final GameModel logic) {
+  public GameController(final GameModel model) {
     super(Audio.getBattleMusic());
     this.playerElixir = new ElixirController();
     this.timer = new CountDownController();
-    this.user = new User("panini");
     this.gameMap = new GameMap();
-    this.logic = logic;
+    super.registerModel(model);
     super.registerScreen(new GameScreen(this));
-    super.registerModel(new Model());
     Gdx.input.setInputProcessor(super.getScreen().getMainStage());
   }
 
@@ -97,7 +96,7 @@ public abstract class GameController extends Controller {
    * @return a list of the user attackable entities.
    */
   public List<Attackable> getUserAttackables() {
-    return this.logic.getPlayerAttackable();
+    return ((GameModel) super.getModel()).getPlayerAttackable();
   }
 
   /**
@@ -139,7 +138,7 @@ public abstract class GameController extends Controller {
    * @return a list of CardActors owned by the user.
    */
   public final List<CardActor> loadPlayerActors(final Stage stage) {
-    return this.loadActorsFrom(this.logic.getPlayerDeck(), stage, "SELF_MOVING");
+    return this.loadActorsFrom(((GameModel) super.getModel()).getPlayerDeck(), stage, "SELF_MOVING");
   }
 
   /**
@@ -173,7 +172,7 @@ public abstract class GameController extends Controller {
    * @return a list of the deployed towers.
    */
   public final List<TowerActor> loadPlayerTowers(final Stage stage) {
-    return this.loadTowersFrom(this.logic.getPlayerActiveTowers(), stage, "SELF");
+    return this.loadTowersFrom(((GameModel) super.getModel()).getPlayerActiveTowers(), stage, "SELF");
   }
 
   /**
