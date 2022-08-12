@@ -52,6 +52,11 @@ public interface Attackable {
    */
   void reduceHPBy(double damage);
 
+  /** 
+   * Hits one time the current target, if any.
+   */
+  void attackCurrentTarget();
+
   /**
    * @return whether the entity is dead or not.
    */
