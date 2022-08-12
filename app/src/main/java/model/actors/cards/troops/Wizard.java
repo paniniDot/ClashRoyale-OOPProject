@@ -47,8 +47,9 @@ public final class Wizard extends Troop {
   @Override
   public Map<String, List<String>> getAnimationFiles() {
     return Map.of(
-        "SELF_MOVING", List.of("wizard/selfWizard/walking/1.png", "wizard/selfWizard/walking/2.png", "wizard/selfWizard/walking/3.png", "wizard/selfWizard/walking/4.png"),
-        "SELF_FIGHTING", List.of(),
+        "SELF_MOVING", List.of("wizard/self/walking/1.png", "wizard/self/walking/2.png", "wizard/self/walking/3.png", "wizard/self/walking/4.png"),
+        "SELF_FIGHTING", List.of("wizard/self/fighting/0.png", "wizard/self/fighting/1.png", "wizard/self/fighting/2.png", "wizard/self/fighting/3.png", 
+            "wizard/self/fighting/4.png", "wizard/self/fighting/5.png", "wizard/self/fighting/6.png", "wizard/self/fighting/7.png", "wizard/self/fighting/8.png"),
         "ENEMY_MOVING", List.of(),
         "ENEMY_FIGHTING", List.of(),
         "AS_CARD", List.of());
