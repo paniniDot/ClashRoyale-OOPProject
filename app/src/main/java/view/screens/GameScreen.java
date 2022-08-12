@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import control.controller.Controller;
 import control.controller.game.BotGameController;
+import control.controller.game.GameController;
 import control.launcher.ClashRoyale;
 
 import model.utilities.AnimationUtilities;
@@ -76,7 +77,8 @@ public class GameScreen extends BaseScreen {
   @Override
   public void update(final float dt) {
     super.getController().update(dt);
-    ((BotGameController) super.getController()).updateActors(playerCards, botCards);
+    ((GameController) super.getController()).updateActors(playerCards, botCards);
+    ((GameController) super.getController()).updatePlayerAttackableAnimations(playerCards, playerTowers);
   }
 
   @Override
