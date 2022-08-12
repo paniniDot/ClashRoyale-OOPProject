@@ -140,4 +140,9 @@ public abstract class GameModel extends Model {
    * Find targets, if any, for a user attackables looking for them in the enemy attackables (whether is a bot or real player).
    */
   public abstract void findAttackableTargets();
+
+  /**
+   * Handle the attack functionality of both user and enemy attackables (whether is a bot or real player).
+   */
+  public abstract void handleAttackTargets();
 }

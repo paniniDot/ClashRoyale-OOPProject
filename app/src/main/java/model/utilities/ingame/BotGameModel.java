@@ -153,4 +153,14 @@ public class BotGameModel extends GameModel {
     this.findTargets(super.getPlayerAttackable(), this.getBotAttackable());
     this.findTargets(this.getBotAttackable(), super.getPlayerAttackable());
   }
+
+  private void attackTargets(final List<Attackable> selfAttackables) {
+    selfAttackables.forEach(Attackable::attackCurrentTarget);
+  }
+
+  @Override
+  public void handleAttackTargets() {
+    this.attackTargets(super.getPlayerAttackable());
+    this.attackTargets(this.getBotAttackable());
+  }
 }
