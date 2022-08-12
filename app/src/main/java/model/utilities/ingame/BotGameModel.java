@@ -8,7 +8,6 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import model.actors.Attackable;
 import model.actors.cards.Card;
@@ -17,7 +16,6 @@ import model.actors.towers.QueenTower;
 import model.actors.towers.Tower;
 import model.actors.users.Bot;
 import model.actors.users.User;
-import model.utilities.ElixirController;
 import model.utilities.VectorsUtilities;
 
 /**

@@ -16,8 +16,6 @@ import model.actors.towers.KingTower;
 import model.actors.towers.QueenTower;
 import model.actors.towers.Tower;
 import model.actors.users.User;
-import model.utilities.ElixirController;
-import model.utilities.VectorsUtilities;
 
 /**
  * Defines the logic to be used inside the game.
