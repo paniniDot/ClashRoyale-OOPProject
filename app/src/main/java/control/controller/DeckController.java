@@ -23,4 +23,11 @@ public class DeckController extends Controller {
   public void update(float dt) {
     // TODO Auto-generated method stub
   }
+
+  /**
+   * Istanciate a new MenuController which takes control of the application.
+   */
+  public void triggerMenu() {
+    new MenuController().setCurrentActiveScreen();
+  }
 }
