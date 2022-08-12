@@ -4,8 +4,10 @@ import model.utilities.Audio;
 
 import com.badlogic.gdx.Gdx;
 
+import control.BaseGame;
 import control.controller.game.BotGameController;
 import model.Model;
+import view.screens.BaseScreen;
 import view.screens.MenuScreen;
 
 /**
@@ -18,9 +20,7 @@ public class MenuController extends Controller {
    */
   public MenuController() {
     super(Audio.getMenuMusic());
-    super.registerScreen(new MenuScreen(this));
     super.registerModel(new Model());
-    Gdx.input.setInputProcessor(super.getScreen().getUiStage());
   }
 
   @Override
@@ -48,6 +48,11 @@ public class MenuController extends Controller {
    */
   public void triggerQuit() {
     Gdx.app.exit();
+  }
+
+  @Override
+  public void setCurrentActiveScreen() {
+   BaseGame.setActiveScreen(new MenuScreen(this));
   }
 
 }

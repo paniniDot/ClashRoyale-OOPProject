@@ -11,6 +11,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
+import control.BaseGame;
 import control.controller.Controller;
 import control.controller.MenuController;
 import model.Model;
@@ -57,8 +58,6 @@ public abstract class GameController extends Controller {
     this.timer = new CountDownController();
     this.gameMap = new GameMap();
     super.registerModel(model);
-    super.registerScreen(new GameScreen(this));
-    Gdx.input.setInputProcessor(super.getScreen().getMainStage());
   }
 
   @Override
@@ -184,5 +183,10 @@ public abstract class GameController extends Controller {
    *                  a list of CardActors owned by the enemy (whether is a bot or real player).
    */
   public abstract void updateActorPositions(List<CardActor> playerCards, List<CardActor> enemyCards);
+
+  @Override
+  public void setCurrentActiveScreen() {
+    BaseGame.setActiveScreen(new GameScreen(this));
+  }
 
 }

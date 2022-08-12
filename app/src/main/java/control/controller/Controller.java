@@ -1,5 +1,8 @@
 package control.controller;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+
 import control.BaseGame;
 
 import model.Model;
@@ -11,7 +14,6 @@ import view.screens.BaseScreen;
  */
 public abstract class Controller {
 
-  private BaseScreen screen;
   private Model model;
   private final Audio audio;
 
@@ -33,20 +35,19 @@ public abstract class Controller {
   public abstract void update(float dt);
 
   /**
-   * Register a new Screen.
-   * @param screen
-   *              the new screen observer to be registered.
+   * Set the stage passed as argument to receive all user input events.
+   * 
+   * @param stage 
+   *              the stage that will listen for input events.
    */
-  public void registerScreen(final BaseScreen screen) {
-    this.screen = screen;
+  public void setInputProcessor(final Stage stage) {
+    Gdx.input.setInputProcessor(stage);
   }
 
   /**
    * Set the registered screen as active.
    */
-  public void setCurrentActiveScreen() {
-    BaseGame.setActiveScreen(this.screen);
-  }
+  public abstract void setCurrentActiveScreen();
 
   /**
    * Register a new Model.
@@ -63,14 +64,6 @@ public abstract class Controller {
    */
   public Model getModel() {
     return this.model;
-  }
-
-  /**
-   * 
-   * @return the screen this controller pilot.
-   */
-  public BaseScreen getScreen() {
-    return this.screen;
   }
 
   /**

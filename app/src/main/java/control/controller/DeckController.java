@@ -2,6 +2,7 @@ package control.controller;
 
 import com.badlogic.gdx.Gdx;
 
+import control.BaseGame;
 import model.Model;
 import model.utilities.Audio;
 import view.screens.DeckScreen;
@@ -13,14 +14,12 @@ public class DeckController extends Controller {
    * Constructor.
    */
   public DeckController() {
-    super(Audio.getBattleMusic());
-    super.registerScreen(new DeckScreen(this));
+    super(Audio.getMenuMusic());
     super.registerModel(new Model());
-    Gdx.input.setInputProcessor(super.getScreen().getMainStage());
   }
 
   @Override
-  public void update(float dt) {
+  public void update(final float dt) {
     // TODO Auto-generated method stub
   }
 
@@ -29,5 +28,10 @@ public class DeckController extends Controller {
    */
   public void triggerMenu() {
     new MenuController().setCurrentActiveScreen();
+  }
+
+  @Override
+  public void setCurrentActiveScreen() {
+    BaseGame.setActiveScreen(new DeckScreen(this));
   }
 }

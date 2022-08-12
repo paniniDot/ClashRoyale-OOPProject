@@ -41,7 +41,7 @@ public class GameScreen extends BaseScreen {
   @Override
   public void initialize() {
     super.getController().playMusic();
-    System.out.println(super.getMainStage());
+    super.getController().setInputProcessor(super.getMainStage());
     sprite = new SpriteBatch();
     gamefont = new BitmapFont(Gdx.files.internal("Fonts/font.fnt"));
     final var arena = new BaseActor(0, 0, super.getMainStage());

@@ -62,6 +62,8 @@ public class DeckScreen extends BaseScreen {
 
   @Override
   public void initialize() {
+    super.getController().playMusic();
+    super.getController().setInputProcessor(super.getMainStage());
     final var background = new BaseActor(0, 0, super.getMainStage());
     background.setAnimation(AnimationUtilities.loadTexture("backgrounds/menuBackground.png"));
     background.setSize(ClashRoyale.WIDTH, ClashRoyale.HEIGHT);
