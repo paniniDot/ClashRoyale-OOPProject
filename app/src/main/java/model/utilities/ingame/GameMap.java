@@ -283,7 +283,6 @@ public class GameMap {
           min = distance;
         }
       }
-      src.setCurrentTarget(dest);
       cardPaths.add(new Pair<Pair<Attackable, Attackable>, List<Vector2>>(new Pair<Attackable, Attackable>(src, dest), this.getPath(this.getMapUnitFromPosition(src.getPosition()), this.getMapUnitFromPosition(dest.getPosition()))));
     }
     //System.out.println(cardPaths.stream().filter(p -> p.getX().getX().getClass().equals(Wizard.class)).map(p -> p + " POSIZIONE ATTORE : " + p.getX().getX().getPosition()).collect(Collectors.toList()));
