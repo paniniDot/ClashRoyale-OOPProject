@@ -156,6 +156,15 @@ public abstract class Tower implements Attackable {
     this.currentTarget = Optional.empty();
   }
 
+
+  @Override
+  public void attackCurrentTarget() {
+    if (this.getCurrentTarget().isPresent()) {
+      System.out.println("truppa " + this + " attacca " + this.currentTarget.get());
+    }
+    this.currentTarget.ifPresent(t -> t.reduceHPBy(this.damage));
+  }
+
   @Override
   public int hashCode() {
     return Objects.hash(currentHP, currentTarget, damage, hitSpeed, id, isActive, owner, position, range);
