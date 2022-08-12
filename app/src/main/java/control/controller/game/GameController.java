@@ -121,7 +121,7 @@ public abstract class GameController extends Controller {
    * @return 
    *            a list of CardActors.
    */
-  protected List<CardActor> loadActorsFrom(final List<Card> list, final Stage stage, final String animationName) {
+  protected final List<CardActor> loadCardActorsFrom(final List<Card> list, final Stage stage, final String animationName) {
     final var actors = new ArrayList<CardActor>();
     list.forEach(c -> {
       final var actor = new CardActor(c.getSelfId(), c.getPosition().x, c.getPosition().y, stage);
@@ -140,7 +140,7 @@ public abstract class GameController extends Controller {
    *              a list of CardActors owned by the user.
    */
   public final List<CardActor> loadPlayerActors(final Stage stage) {
-    return this.loadActorsFrom(((GameModel) super.getModel()).getPlayerDeck(), stage, "SELF_MOVING");
+    return this.loadCardActorsFrom(((GameModel) super.getModel()).getPlayerDeck(), stage, "SELF_MOVING");
   }
 
   /**
@@ -155,7 +155,7 @@ public abstract class GameController extends Controller {
    * @return
    *            a list of new Tower Actors.
    */
-  protected List<TowerActor> loadTowersFrom(final List<Tower> list, final Stage stage, final String animationName) {
+  protected final List<TowerActor> loadTowerActorsFrom(final List<Tower> list, final Stage stage, final String animationName) {
     final var towers = new ArrayList<TowerActor>();
     list.forEach(t -> {
       final var actor = new TowerActor(t.getSelfId(), t.getPosition().x, t.getPosition().y, stage);
@@ -174,7 +174,28 @@ public abstract class GameController extends Controller {
    *              a list of the deployed towers.
    */
   public final List<TowerActor> loadPlayerTowers(final Stage stage) {
-    return this.loadTowersFrom(((GameModel) super.getModel()).getPlayerActiveTowers(), stage, "SELF");
+    return this.loadTowerActorsFrom(((GameModel) super.getModel()).getPlayerActiveTowers(), stage, "SELF");
+  }
+
+  public void updatePlayerAttackableAnimations(final List<CardActor> playerCards , final List<TowerActor> playerTowers) { 
+    for (final var cardActor : playerCards) {
+      for (final var attackable : ((GameModel) super.getModel()).getPlayerAttackable()) {
+        for (final var card : ((GameModel) super.getModel()).getPlayerDeck()) {
+          if (cardActor.getSelfId().equals(attackable.getSelfId()) && cardActor.getSelfId().equals(card.getSelfId())) {
+            cardActor.setAnimation(AnimationUtilities.loadAnimationFromFiles(card.getAnimationFiles().get(attackable.getCurrentTarget().isPresent() ? "SELF_FIGHTING" : "SELF_MOVING"), ANIMATIONS_FRAME_DURATION, false));
+          }
+        }
+      }
+    }
+    for (final var towerActor : playerTowers) {
+      for (final var attackable : ((GameModel) super.getModel()).getPlayerAttackable()) {
+        for (final var card : ((GameModel) super.getModel()).getPlayerDeployedCards()) {
+            if (towerActor.getSelfId().equals(attackable.getSelfId()) && towerActor.getSelfId().equals(card.getSelfId())) {
+              towerActor.setAnimation(AnimationUtilities.loadAnimationFromFiles(card.getAnimationFiles().get(attackable.getCurrentTarget().isPresent() ? "SELF" : "ENEMY"), ANIMATIONS_FRAME_DURATION, false));
+            }
+        }
+      }
+    }
   }
 
   /**

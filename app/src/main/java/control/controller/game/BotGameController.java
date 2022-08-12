@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import model.GlobalData;
 import model.actors.Attackable;
-import model.actors.users.Bot;
 import model.utilities.ElixirController;
 import model.utilities.ingame.BotGameModel;
 import model.utilities.ingame.GameModel;
@@ -60,7 +59,7 @@ public class BotGameController extends GameController {
    * @return a list of CardActors owned by the user.
    */
   public final List<CardActor> loadBotActors(final Stage stage) {
-    return super.loadActorsFrom(((BotGameModel) super.getModel()).getBotDeck(), stage, "SELF_MOVING");
+    return super.loadCardActorsFrom(((BotGameModel) super.getModel()).getBotDeck(), stage, "SELF_MOVING");
   }
 
   /**
@@ -72,7 +71,7 @@ public class BotGameController extends GameController {
    * @return a list of the deployed towers.
    */
   public final List<TowerActor> loadBotTowers(final Stage stage) {
-    return super.loadTowersFrom(((BotGameModel) super.getModel()).getBotActiveTowers(), stage, "ENEMY");
+    return super.loadTowerActorsFrom(((BotGameModel) super.getModel()).getBotActiveTowers(), stage, "ENEMY");
   }
 
   private void updateAttackablePosition(final Attackable attackable, final List<Attackable> enemies) {
@@ -106,6 +105,10 @@ public class BotGameController extends GameController {
     return new Vector2((int) pos.x, (int) pos.y);
   }
 
+  private void updateActorAnimations(final List<CardActor> actors, final List<Attackable> attackables) {
+    
+  }
+  
   @Override
   public void updateActors(final List<CardActor> playerCards, final List<CardActor> botCards) {
     ((GameModel) super.getModel()).findAttackableTargets();
