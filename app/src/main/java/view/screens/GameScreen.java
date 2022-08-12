@@ -76,7 +76,7 @@ public class GameScreen extends BaseScreen {
   @Override
   public void update(final float dt) {
     super.getController().update(dt);
-    ((BotGameController) super.getController()).updateActorPositions(playerCards, botCards);
+    ((BotGameController) super.getController()).updateActors(playerCards, botCards);
   }
 
   @Override

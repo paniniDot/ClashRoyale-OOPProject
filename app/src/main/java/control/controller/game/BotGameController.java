@@ -84,7 +84,7 @@ public class BotGameController extends GameController {
     });
   }
 
-  private void updateActorPosition(final List<CardActor> cards, final List<Attackable> selfAttackables, final List<Attackable> enemyAttackables) {
+  private void updateActorPositions(final List<CardActor> cards, final List<Attackable> selfAttackables, final List<Attackable> enemyAttackables) {
     cards.forEach(c -> {
       selfAttackables.stream().filter(a -> a.getCurrentTarget().isEmpty()).forEach(a -> {
         if (!Gdx.input.isTouched() && c.getSelfId().equals(a.getSelfId()) && super.getGameMap().containsPosition(c.getCenter())) {
@@ -102,16 +102,15 @@ public class BotGameController extends GameController {
     });
   }
  
-  @Override
-  public void updateActorPositions(final List<CardActor> playerCards, final List<CardActor> botCards) {
-    ((GameModel) super.getModel()).findAttackableTargets();
-    ((GameModel) super.getModel()).handleAttackTargets();
-    this.updateActorPosition(playerCards, this.getUserAttackables(), this.getBotAttackables());
-    this.updateActorPosition(botCards, this.getBotAttackables(), this.getUserAttackables()); 
-  }
-
   private Vector2 castedToIntPosition(final Vector2 pos) {
     return new Vector2((int) pos.x, (int) pos.y);
   }
 
+  @Override
+  public void updateActors(final List<CardActor> playerCards, final List<CardActor> botCards) {
+    ((GameModel) super.getModel()).findAttackableTargets();
+    ((GameModel) super.getModel()).handleAttackTargets();
+    this.updateActorPositions(playerCards, this.getUserAttackables(), this.getBotAttackables());
+    this.updateActorPositions(botCards, this.getBotAttackables(), this.getUserAttackables()); 
+  }
 }

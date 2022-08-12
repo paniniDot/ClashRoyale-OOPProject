@@ -78,6 +78,7 @@ public abstract class GameController extends Controller {
   protected abstract void onUpdate();
 
   /**
+   * 
    *@return the remaining seconds before game ends.
    */
   public int getLeftTime() {
@@ -85,6 +86,7 @@ public abstract class GameController extends Controller {
   }
 
   /**
+   * 
    *@return the current elixir owned by the user.
    */
   public int getPlayerCurrentElixir() {
@@ -134,8 +136,8 @@ public abstract class GameController extends Controller {
    * 
    * @param stage 
    *              the stage where actors have to be placed.
-   *
-   * @return a list of CardActors owned by the user.
+   * @return 
+   *              a list of CardActors owned by the user.
    */
   public final List<CardActor> loadPlayerActors(final Stage stage) {
     return this.loadActorsFrom(((GameModel) super.getModel()).getPlayerDeck(), stage, "SELF_MOVING");
@@ -168,21 +170,21 @@ public abstract class GameController extends Controller {
    * 
    * @param stage 
    *              the stage where towers have to be placed.
-   *
-   * @return a list of the deployed towers.
+   * @return 
+   *              a list of the deployed towers.
    */
   public final List<TowerActor> loadPlayerTowers(final Stage stage) {
     return this.loadTowersFrom(((GameModel) super.getModel()).getPlayerActiveTowers(), stage, "SELF");
   }
 
   /**
-   * Update the positions of both actors and cards.
+   * Update both player and enemy actors, using cards informations stored inside the model.
    * 
    * @param playerCards
    *                  a list of CardActors owned by the player.
    * @param enemyCards
    *                  a list of CardActors owned by the enemy (whether is a bot or real player).
    */
-  public abstract void updateActorPositions(List<CardActor> playerCards, List<CardActor> enemyCards);
+  public abstract void updateActors(List<CardActor> playerCards, List<CardActor> enemyCards);
 
 }
