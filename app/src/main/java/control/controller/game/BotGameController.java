@@ -86,20 +86,16 @@ public class BotGameController extends GameController {
   private void updateActorPosition(final List<CardActor> cards, final List<Attackable> selfAttackables, final List<Attackable> enemyAttackables) {
     cards.forEach(c -> {
       selfAttackables.forEach(a -> {
-        if (!Gdx.input.isTouched() && c.getSelfId().equals(a.getSelfId()) && super.getGameMap().containsPosition(new Vector2(c.getPosition().x + c.getWidth() / 2, c.getPosition().y + c.getHeight() / 2))) {
+        if (!Gdx.input.isTouched() && c.getSelfId().equals(a.getSelfId()) && super.getGameMap().containsPosition(c.getPosition())) {
           System.out.println(c.getPosition() + " " + a.getPosition());
           if (c.isDraggable()) {
             c.setDraggable(false);
-            a.setPosition(new Vector2(c.getPosition().x + c.getWidth() / 2, c.getPosition().y + c.getHeight() / 2));
-          } else if (this.castedToIntPosition(new Vector2(c.getPosition().x + c.getWidth() / 2, c.getPosition().y + c.getHeight() / 2)).equals(this.castedToIntPosition(a.getPosition()))) {
+            a.setPosition(c.getPosition());
+          } else if (c.getPosition().equals(a.getPosition())) {
             this.updateAttackablePosition(a, enemyAttackables);
-            a.setPosition(new Vector2(a.getPosition().x - c.getWidth() / 2, a.getPosition().y - c.getHeight() / 2));
             c.moveTo(a.getPosition()); 
             c.setRotation(a.getPosition());
-            a.setPosition(new Vector2(a.getPosition().x + c.getWidth() / 2, a.getPosition().y + c.getHeight() / 2));
-            
           }
-          
         }
       });
     });
@@ -109,10 +105,6 @@ public class BotGameController extends GameController {
   public void updateActorPositions(final List<CardActor> playerCards, final List<CardActor> botCards) {
     this.updateActorPosition(playerCards, this.getUserAttackables(), this.getBotAttackables());
     this.updateActorPosition(botCards, this.getBotAttackables(), this.getUserAttackables()); 
-  }
-
-  private Vector2 castedToIntPosition(final Vector2 pos) {
-    return new Vector2((int) pos.x, (int) pos.y);
   }
 
 }
