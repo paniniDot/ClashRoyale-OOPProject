@@ -84,7 +84,6 @@ public class BotGameController extends GameController {
   }
 
   private void updateActorPosition(final List<CardActor> cards, final List<Attackable> selfAttackables, final List<Attackable> enemyAttackables) {
-    System.out.println("nr attackables self senza target: " + selfAttackables.stream().filter(a -> a.getCurrentTarget().isEmpty()).count());
     cards.forEach(c -> {
       selfAttackables.stream().filter(a -> a.getCurrentTarget().isEmpty()).forEach(a -> {
         if (!Gdx.input.isTouched() && c.getSelfId().equals(a.getSelfId()) && super.getGameMap().containsPosition(new Vector2(c.getPosition().x + c.getWidth() / 2, c.getPosition().y + c.getHeight() / 2))) {

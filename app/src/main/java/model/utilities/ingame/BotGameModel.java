@@ -145,17 +145,11 @@ public class BotGameModel extends GameModel {
   }
 
   private boolean isInRange(final Attackable selfAttackable, final Attackable enemyAttackable) {
-    final var distance = VectorsUtilities.euclideanDistance(selfAttackable.getPosition(), enemyAttackable.getPosition());
-    if (distance <= selfAttackable.getRange()) {
-      System.out.println("distance = " + distance + ", self attackable range = " + selfAttackable.getRange());
-    }
-    return distance <= selfAttackable.getRange();
+    return VectorsUtilities.euclideanDistance(selfAttackable.getPosition(), enemyAttackable.getPosition()) <= selfAttackable.getRange();
   }
 
   @Override
   public void findAttackableTargets() {
-    //System.out.println("Attackables amici: " + super.getPlayerAttackable());
-    //System.out.println("Attackables bot: " + this.getBotAttackable());
     this.findTargets(super.getPlayerAttackable(), this.getBotAttackable());
     this.findTargets(this.getBotAttackable(), super.getPlayerAttackable());
   }
