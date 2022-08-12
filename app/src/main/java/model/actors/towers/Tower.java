@@ -142,8 +142,23 @@ public abstract class Tower implements Attackable {
   public abstract Map<String, List<String>> getAnimationFiles();
 
   @Override
+  public Optional<Attackable> getCurrentTarget() {
+    return this.currentTarget;
+  }
+
+  @Override
+  public void setCurrentTarget(final Attackable attackable) {
+    this.currentTarget = Optional.of(attackable);
+  }
+
+  @Override
+  public void resetCurrentTarget() {
+    this.currentTarget = Optional.empty();
+  }
+
+  @Override
   public int hashCode() {
-    return Objects.hash(currentHP, damage, hitSpeed, id, isActive, owner, position, range);
+    return Objects.hash(currentHP, currentTarget, damage, hitSpeed, id, isActive, owner, position, range);
   }
 
   @Override
@@ -159,25 +174,11 @@ public abstract class Tower implements Attackable {
     }
     final Tower other = (Tower) obj;
     return Double.doubleToLongBits(currentHP) == Double.doubleToLongBits(other.currentHP)
+        && Objects.equals(currentTarget, other.currentTarget)
         && Double.doubleToLongBits(damage) == Double.doubleToLongBits(other.damage) && hitSpeed == other.hitSpeed
         && Objects.equals(id, other.id) && isActive == other.isActive && Objects.equals(owner, other.owner)
         && Objects.equals(position, other.position)
         && Double.doubleToLongBits(range) == Double.doubleToLongBits(other.range);
   }
-
-  @Override
-  public Optional<Attackable> getCurrentTarget() {
-    return this.currentTarget;
-  }
-
-  @Override
-  public void setCurrentTarget(final Attackable attackable) {
-    this.currentTarget = Optional.of(attackable);
-  }
-
-  @Override
-  public void resetCurrentTarget() {
-    this.currentTarget = Optional.empty();
-  }
-
+ 
 }
