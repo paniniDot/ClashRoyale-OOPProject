@@ -11,6 +11,7 @@ import model.actors.Attackable;
 import model.actors.users.Bot;
 import model.utilities.ElixirController;
 import model.utilities.ingame.BotGameModel;
+import model.utilities.ingame.GameModel;
 import view.actors.CardActor;
 import view.actors.TowerActor;
 
@@ -86,12 +87,11 @@ public class BotGameController extends GameController {
   private void updateActorPosition(final List<CardActor> cards, final List<Attackable> selfAttackables, final List<Attackable> enemyAttackables) {
     cards.forEach(c -> {
       selfAttackables.stream().filter(a -> a.getCurrentTarget().isEmpty()).forEach(a -> {
-        if (!Gdx.input.isTouched() && c.getSelfId().equals(a.getSelfId()) && super.getGameMap().containsPosition(new Vector2(c.getPosition().x + c.getWidth() / 2, c.getPosition().y + c.getHeight() / 2))) {
-          System.out.println(c.getPosition() + " " + a.getPosition());
+        if (!Gdx.input.isTouched() && c.getSelfId().equals(a.getSelfId()) && super.getGameMap().containsPosition(c.getCenter())) {
           if (c.isDraggable()) {
             c.setDraggable(false);
-            a.setPosition(new Vector2(c.getPosition().x + c.getWidth() / 2, c.getPosition().y + c.getHeight() / 2));
-          } else if (this.castedToIntPosition(new Vector2(c.getPosition().x + c.getWidth() / 2, c.getPosition().y + c.getHeight() / 2)).equals(this.castedToIntPosition(a.getPosition()))) {
+            a.setPosition(c.getCenter());
+          } else if (this.castedToIntPosition(c.getCenter()).equals(this.castedToIntPosition(a.getPosition()))) {
             this.updateAttackablePosition(a, enemyAttackables);
             a.setPosition(new Vector2(a.getPosition().x - c.getWidth() / 2, a.getPosition().y - c.getHeight() / 2));
             c.moveTo(a.getPosition());
@@ -104,7 +104,8 @@ public class BotGameController extends GameController {
  
   @Override
   public void updateActorPositions(final List<CardActor> playerCards, final List<CardActor> botCards) {
-    ((BotGameModel) super.getModel()).findAttackableTargets();
+    ((GameModel) super.getModel()).findAttackableTargets();
+    ((GameModel) super.getModel()).handleAttackTargets();
     this.updateActorPosition(playerCards, this.getUserAttackables(), this.getBotAttackables());
     this.updateActorPosition(botCards, this.getBotAttackables(), this.getUserAttackables()); 
   }
