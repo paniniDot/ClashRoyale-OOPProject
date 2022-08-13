@@ -1,6 +1,5 @@
 package model.utilities.ingame;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,8 +11,6 @@ import org.jgrapht.graph.builder.GraphTypeBuilder;
 import com.badlogic.gdx.math.Vector2;
 
 import model.actors.Attackable;
-import model.actors.cards.troops.Wizard;
-import model.utilities.Pair;
 import model.utilities.VectorsUtilities;
 
 /**
@@ -266,28 +263,26 @@ public class GameMap {
   }
 
   /**
-   * find enemy method.
+   * Get the next position {@link Vector2} in the path of an attackable, choosing the destinations in a list passed as argument.
    * @param source
-   * @param destination
-   * @return List<Pair<Pair<Card, Card>, List<Vector2>>> 
+   *              the {@link Attackable} entity to find the next position of.
+   * @param destinations
+   *              a {@link List} of possible destinations for the source.
+   * @return
+   *              the next {@link Vector2} inside the path of the source.
    */
-  public List<Pair<Pair<Attackable, Attackable>, List<Vector2>>> findEnemy(final List<Attackable> source, final List<Attackable> destination) {
-    final List<Pair<Pair<Attackable, Attackable>, List<Vector2>>> cardPaths = new ArrayList<>();
+  public Vector2 getNextPosition(final Attackable source, final List<Attackable> destinations) {
     Attackable dest = null;
-    for (final Attackable src : source) {
-      double min = Double.MAX_VALUE;
-      for (final Attackable dst : destination) {
-        final double distance = VectorsUtilities.euclideanDistance(src.getPosition(), dst.getPosition());
-        if (Double.compare(min, distance) > 0) {
-          dest = dst;
-          min = distance;
-        }
+    double min = Double.MAX_VALUE;
+    for (final var dst : destinations) {
+      final double distance = VectorsUtilities.euclideanDistance(source.getPosition(), dst.getPosition());
+      if (Double.compare(min, distance) > 0) {
+        dest = dst;
+        min = distance;
       }
-      cardPaths.add(new Pair<Pair<Attackable, Attackable>, List<Vector2>>(new Pair<Attackable, Attackable>(src, dest), this.getPath(this.getMapUnitFromPosition(src.getPosition()), this.getMapUnitFromPosition(dest.getPosition()))));
     }
-    //System.out.println(cardPaths.stream().filter(p -> p.getX().getX().getClass().equals(Wizard.class)).map(p -> p + " POSIZIONE ATTORE : " + p.getX().getX().getPosition()).collect(Collectors.toList()));
-    System.out.println(cardPaths);
-    return cardPaths;
+    final var path = this.getPath(this.getMapUnitFromPosition(source.getPosition()), this.getMapUnitFromPosition(dest.getPosition()));
+    return path.size() > 1 ? path.get(1) : path.get(0);
   }
 
   /**

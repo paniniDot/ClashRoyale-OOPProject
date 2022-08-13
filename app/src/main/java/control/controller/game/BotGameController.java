@@ -72,12 +72,7 @@ public class BotGameController extends GameController {
   }
 
   private void updateAttackablePosition(final Attackable attackable, final List<Attackable> enemies) {
-    final var playerAttackablePos = super.getGameMap().findEnemy(List.of(attackable), enemies);
-    playerAttackablePos.forEach(a -> {
-      if (a.getY().size() > 1) {
-        attackable.setPosition(a.getY().get(1));
-      }
-    });
+    attackable.setPosition(this.getGameMap().getNextPosition(attackable, enemies));
   }
 
   private void updateActorPositions(final List<CardActor> cards, final List<Attackable> selfAttackables, final List<Attackable> enemyAttackables) {
