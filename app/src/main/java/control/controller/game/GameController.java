@@ -1,30 +1,21 @@
 package control.controller.game;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
-
-import org.checkerframework.common.returnsreceiver.qual.This;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import control.controller.Controller;
 import control.controller.MenuController;
-import model.Model;
 import model.actors.Attackable;
 import model.actors.cards.Card;
-import model.actors.cards.troops.Wizard;
 import model.actors.towers.Tower;
-import model.actors.users.Bot;
-import model.actors.users.User;
 import model.utilities.AnimationUtilities;
 import model.utilities.Audio;
 import model.utilities.CountDownController;
 import model.utilities.ElixirController;
-import model.utilities.ingame.BotGameModel;
 import model.utilities.ingame.GameModel;
 import model.utilities.ingame.GameMap;
 import view.actors.CardActor;
@@ -36,14 +27,13 @@ import view.screens.GameScreen;
  */
 public abstract class GameController extends Controller {
 
-  /**
-   * Used by GameController implementations to load animations. 
-   */
-  public static final float ANIMATIONS_FRAME_DURATION = (float) 0.017_24 * 10;
+  private static final float ANIMATIONS_FRAME_DURATION = (float) 0.017_24 * 10;
 
   private final ElixirController playerElixir;
   private final CountDownController timer;
   private final GameMap gameMap;
+  private List<CardActor> playerCards;
+  private List<TowerActor> playerTowers;
 
   /**
    * Constructor.
@@ -56,6 +46,8 @@ public abstract class GameController extends Controller {
     this.playerElixir = new ElixirController();
     this.timer = new CountDownController();
     this.gameMap = new GameMap();
+    this.playerCards = new ArrayList<>();
+    this.playerTowers = new ArrayList<>();
     super.registerModel(model);
     super.registerScreen(new GameScreen(this));
     Gdx.input.setInputProcessor(super.getScreen().getMainStage());
@@ -136,12 +128,19 @@ public abstract class GameController extends Controller {
    * 
    * @param stage 
    *              the stage where actors have to be placed.
-   * @return 
-   *              a list of CardActors owned by the user.
    */
-  public final List<CardActor> loadPlayerActors(final Stage stage) {
-    return this.loadCardActorsFrom(((GameModel) super.getModel()).getPlayerDeck(), stage, "SELF_MOVING");
+  public final void loadActors(final Stage stage) {
+    this.playerCards = this.loadCardActorsFrom(((GameModel) super.getModel()).getPlayerDeck(), stage, "SELF_MOVING");
+    this.onLoadActors(stage);
   }
+
+  /**
+   * Template method used to allow subclasses to load their actors.
+   * 
+   * @param stage
+   *             where actors have to be placed.
+   */
+  protected abstract void onLoadActors(Stage stage);
 
   /**
    * Load new tower actors in the stage passed as argument, picking them informations from the list passed as argument.
@@ -170,42 +169,104 @@ public abstract class GameController extends Controller {
    * 
    * @param stage 
    *              the stage where towers have to be placed.
-   * @return 
-   *              a list of the deployed towers.
    */
-  public final List<TowerActor> loadPlayerTowers(final Stage stage) {
-    return this.loadTowerActorsFrom(((GameModel) super.getModel()).getPlayerActiveTowers(), stage, "SELF");
+  public final void loadTowers(final Stage stage) {
+    this.playerTowers = this.loadTowerActorsFrom(((GameModel) super.getModel()).getPlayerActiveTowers(), stage, "SELF");
+    this.onLoadTowers(stage);
   }
 
-  public void updatePlayerAttackableAnimations(final List<CardActor> playerCards , final List<TowerActor> playerTowers) { 
+  /**
+   * Template method used to allow subclasses to load their actors.
+   * 
+   * @param stage
+   *              where towers have to be laced.
+   */
+  protected abstract void onLoadTowers(Stage stage);
+
+  /**
+   * Update a user (whether is a bot or real player) card actor animations based on their status.
+   * 
+   * @param playerCards
+   *                    a list of user cards.
+   * @param playerAttackables
+   *                    a list of user attackables.
+   * @param moving 
+   *                    the name of the files used for moving animations.
+   * @param fighting
+   *                    the name of the files used for fighting animations.
+   */
+  protected void updateCardAnimations(final List<CardActor> playerCards, final List<Attackable> playerAttackables, final String moving, final String fighting) { 
     for (final var cardActor : playerCards) {
       for (final var attackable : ((GameModel) super.getModel()).getPlayerAttackable()) {
-        for (final var card : ((GameModel) super.getModel()).getPlayerDeck()) {
-          if (cardActor.getSelfId().equals(attackable.getSelfId()) && cardActor.getSelfId().equals(card.getSelfId())) {
-            cardActor.setAnimation(AnimationUtilities.loadAnimationFromFiles(card.getAnimationFiles().get(attackable.getCurrentTarget().isPresent() ? "SELF_FIGHTING" : "SELF_MOVING"), ANIMATIONS_FRAME_DURATION, false));
-          }
-        }
-      }
-    }
-    for (final var towerActor : playerTowers) {
-      for (final var attackable : ((GameModel) super.getModel()).getPlayerAttackable()) {
-        for (final var card : ((GameModel) super.getModel()).getPlayerDeployedCards()) {
-            if (towerActor.getSelfId().equals(attackable.getSelfId()) && towerActor.getSelfId().equals(card.getSelfId())) {
-              towerActor.setAnimation(AnimationUtilities.loadAnimationFromFiles(card.getAnimationFiles().get(attackable.getCurrentTarget().isPresent() ? "SELF" : "ENEMY"), ANIMATIONS_FRAME_DURATION, false));
-            }
+        if (cardActor.getSelfId().equals(attackable.getSelfId()) && attackable instanceof Card) {
+            cardActor.setAnimation(AnimationUtilities.loadAnimationFromFiles(((Card) attackable).getAnimationFiles().get(attackable.getCurrentTarget().isPresent() ? fighting : moving), ANIMATIONS_FRAME_DURATION, true));
         }
       }
     }
   }
 
   /**
+   * Update a user (whether is a bot or real player) tower actor animations based on their status.
+   * 
+   * @param playerTowers
+   *                    a list of user towers.
+   * @param playerAttackables
+   *                    a list of user attackables.
+   * @param standing
+   *                    the name of files used for standing animation.
+   * @param fighting
+   *                    the name of files used for fighting animation.
+   */
+  protected void updateTowerAnimations(final List<TowerActor> playerTowers, final List<Attackable> playerAttackables, final String standing, final String fighting) {
+    for (final var towerActor : playerTowers) {
+      for (final var attackable : ((GameModel) super.getModel()).getPlayerAttackable()) {
+        if (towerActor.getSelfId().equals(attackable.getSelfId()) && attackable instanceof Tower) {
+            towerActor.setAnimation(AnimationUtilities.loadAnimationFromFiles(((Tower) attackable).getAnimationFiles().get(attackable.getCurrentTarget().isPresent() ? "SELF" : "SELF"), ANIMATIONS_FRAME_DURATION, true));
+        }
+      }
+    }
+  }
+
+  /**
+   * Update both card and tower actors animations of the player.
+   */
+  public void updateActorAnimations() {
+    this.updateCardAnimations(this.playerCards, this.getUserAttackables(), "SELF_MOVING", "SELF_FIGHTING");
+    this.updateTowerAnimations(this.playerTowers, this.getUserAttackables(), "SELF", "SELF");
+    this.onUpdateActorAnimations();
+  }
+
+  /**
+   * Template method used to allow subclasses update their actor animations.
+   */
+  protected abstract void onUpdateActorAnimations();
+
+  /**
    * Update both player and enemy actors, using cards informations stored inside the model.
    * 
-   * @param playerCards
-   *                  a list of CardActors owned by the player.
-   * @param enemyCards
-   *                  a list of CardActors owned by the enemy (whether is a bot or real player).
    */
-  public abstract void updateActors(List<CardActor> playerCards, List<CardActor> enemyCards);
+  public void updateActors() {
+    ((GameModel) super.getModel()).findAttackableTargets();
+    ((GameModel) super.getModel()).handleAttackTargets();
+    this.onUpdateActors();
+  }
 
+  /**
+   * Template method implemented by subclasses to update actor positions.
+   */
+  protected abstract void onUpdateActors();
+
+  /**
+   * @return a copy of player card actors.
+   */
+  protected List<CardActor> getPlayerActors() {
+    return Collections.unmodifiableList(this.playerCards);
+  }
+
+  /**
+   * @return a copy of player tower actors.
+   */
+  protected List<TowerActor> getPlayerTowers() {
+    return Collections.unmodifiableList(this.playerTowers);
+  }
 }

@@ -1,6 +1,9 @@
 package control.controller.game;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import org.checkerframework.common.returnsreceiver.qual.This;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
@@ -10,7 +13,6 @@ import model.GlobalData;
 import model.actors.Attackable;
 import model.utilities.ElixirController;
 import model.utilities.ingame.BotGameModel;
-import model.utilities.ingame.GameModel;
 import view.actors.CardActor;
 import view.actors.TowerActor;
 
@@ -21,6 +23,8 @@ import view.actors.TowerActor;
 public class BotGameController extends GameController {
 
   private final ElixirController botElixir;
+  private List<CardActor> botActors;
+  private List<TowerActor> botTowers;
 
   /**
    * Constructor.
@@ -28,6 +32,8 @@ public class BotGameController extends GameController {
   public BotGameController() {
     super(new BotGameModel(GlobalData.USER_DECK, GlobalData.BOT_DECK, GlobalData.USER, GlobalData.BOT));
     this.botElixir = new ElixirController();
+    this.botActors = new ArrayList<>();
+    this.botTowers = new ArrayList<>();
   }
 
   @Override
@@ -50,28 +56,25 @@ public class BotGameController extends GameController {
     return ((BotGameModel) super.getModel()).getBotAttackable();
   }
 
-  /**
-   * Load card actors in the main stage of the screen driven by this controller.
-   * 
-   * @param stage 
-   *              the stage where actors have to be placed.
-   *
-   * @return a list of CardActors owned by the user.
-   */
-  public final List<CardActor> loadBotActors(final Stage stage) {
-    return super.loadCardActorsFrom(((BotGameModel) super.getModel()).getBotDeck(), stage, "SELF_MOVING");
+  @Override
+  protected void onLoadActors(final Stage stage) {
+    this.botActors = super.loadCardActorsFrom(((BotGameModel) super.getModel()).getBotDeck(), stage, "ENEMY_MOVING");
+    System.out.println(this.botActors);
   }
 
-  /**
-   * Load tower actors in the main stage of the screen driven by this controller.
-   * 
-   * @param stage 
-   *              the stage where towers have to be placed.
-   *
-   * @return a list of the deployed towers.
-   */
-  public final List<TowerActor> loadBotTowers(final Stage stage) {
-    return super.loadTowerActorsFrom(((BotGameModel) super.getModel()).getBotActiveTowers(), stage, "ENEMY");
+  @Override
+  protected void onLoadTowers(final Stage stage) {
+    this.botTowers = super.loadTowerActorsFrom(((BotGameModel) super.getModel()).getBotActiveTowers(), stage, "ENEMY");
+  }
+ 
+  private Vector2 castedToIntPosition(final Vector2 pos) {
+    return new Vector2((int) pos.x, (int) pos.y);
+  }
+
+  @Override
+  protected void onUpdateActorAnimations() {
+    super.updateCardAnimations(this.botActors, this.getBotAttackables(), "ENEMY_MOVING", "ENEMY_FIGHTING");
+    super.updateTowerAnimations(this.botTowers, this.getBotAttackables(), "ENEMY", "ENEMY");
   }
 
   private void updateAttackablePosition(final Attackable attackable, final List<Attackable> enemies) {
@@ -100,20 +103,12 @@ public class BotGameController extends GameController {
       });
     });
   }
- 
-  private Vector2 castedToIntPosition(final Vector2 pos) {
-    return new Vector2((int) pos.x, (int) pos.y);
-  }
 
-  private void updateActorAnimations(final List<CardActor> actors, final List<Attackable> attackables) {
-    
-  }
-  
   @Override
-  public void updateActors(final List<CardActor> playerCards, final List<CardActor> botCards) {
-    ((GameModel) super.getModel()).findAttackableTargets();
-    ((GameModel) super.getModel()).handleAttackTargets();
-    this.updateActorPositions(playerCards, this.getUserAttackables(), this.getBotAttackables());
-    this.updateActorPositions(botCards, this.getBotAttackables(), this.getUserAttackables()); 
+  protected void onUpdateActors() {
+    System.out.println("Player = " + super.getUserAttackables() + ", Bot = " + this.getBotAttackables());
+    System.out.println("Player actors = " + super.getPlayerActors() + ", Bot actors = " + this.botActors);
+    this.updateActorPositions(super.getPlayerActors(), super.getUserAttackables(), this.getBotAttackables());
+    this.updateActorPositions(this.botActors, this.getBotAttackables(), super.getUserAttackables());
   }
 }
