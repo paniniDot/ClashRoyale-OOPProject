@@ -8,7 +8,6 @@ import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import model.actors.Attackable;
 import model.actors.cards.Card;
@@ -17,7 +16,7 @@ import model.actors.towers.QueenTower;
 import model.actors.towers.Tower;
 import model.actors.users.Bot;
 import model.actors.users.User;
-import model.utilities.ElixirController;
+import model.utilities.VectorsUtilities;
 
 /**
  * An implementation of GameController in which the user plays 
@@ -130,5 +129,36 @@ public class BotGameModel extends GameModel {
   public List<Attackable> getBotAttackable() {
     /* ricorda di sostituire con botDeployedCards */
     return Stream.concat(this.botCards.stream().map(c -> (Attackable) c), this.botActiveTowers.stream().map(t -> (Attackable) t)).collect(Collectors.toList());
+  }
+
+  private void findTargets(final List<Attackable> selfAttackables, final List<Attackable> enemyAttackables) {
+    selfAttackables
+      .stream()
+      .filter(selfAttackable -> selfAttackable.getCurrentTarget().isEmpty())
+      .forEach(selfAttackable -> enemyAttackables
+          .stream()
+          .filter(enemyAttackable -> this.isInRange(selfAttackable, enemyAttackable))
+          .findAny()
+          .ifPresent(enemyAttackable -> selfAttackable.setCurrentTarget(enemyAttackable)));
+  }
+
+  private boolean isInRange(final Attackable selfAttackable, final Attackable enemyAttackable) {
+    return VectorsUtilities.euclideanDistance(selfAttackable.getPosition(), enemyAttackable.getPosition()) <= selfAttackable.getRange();
+  }
+
+  @Override
+  public void findAttackableTargets() {
+    this.findTargets(super.getPlayerAttackable(), this.getBotAttackable());
+    this.findTargets(this.getBotAttackable(), super.getPlayerAttackable());
+  }
+
+  private void attackTargets(final List<Attackable> selfAttackables) {
+    selfAttackables.forEach(Attackable::attackCurrentTarget);
+  }
+
+  @Override
+  public void handleAttackTargets() {
+    this.attackTargets(super.getPlayerAttackable());
+    this.attackTargets(this.getBotAttackable());
   }
 }

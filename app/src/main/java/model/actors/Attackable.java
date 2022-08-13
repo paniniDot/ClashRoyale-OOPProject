@@ -22,8 +22,14 @@ public interface Attackable {
    */
   void setPosition(Vector2 newPos);
 
+  /**
+   * 
+   * @return the range of action of the entity.
+   */
+  double getRange();
+
   /** 
-   * @return the current target of the entity that implements this interface.
+   * @return the current target, if any, of the entity that implements this interface.
    */
   Optional<Attackable> getCurrentTarget();
 
@@ -45,6 +51,11 @@ public interface Attackable {
    *              the amount of life to be taken.
    */
   void reduceHPBy(double damage);
+
+  /** 
+   * Hits one time the current target, if any.
+   */
+  void attackCurrentTarget();
 
   /**
    * @return whether the entity is dead or not.

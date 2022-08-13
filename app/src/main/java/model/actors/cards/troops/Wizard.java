@@ -18,7 +18,7 @@ public final class Wizard extends Troop {
 
   private static final int ELIXIR_COST = 5;
   private static final double HIT_SPEED = 1.4;
-  private static final int RANGE = 5;
+  private static final double RANGE = 40;
 
   private Wizard(final User owner, final Vector2 position, final double maxHP, final double damage) {
     super(Wizard.ELIXIR_COST, position, owner, maxHP, damage, /*Wizard.HIT_SPEED,*/ Speeds.MEDIUM, /*TargetType.GROUND, TargetType.BOTH,*/ Wizard.RANGE);
@@ -47,9 +47,10 @@ public final class Wizard extends Troop {
   @Override
   public Map<String, List<String>> getAnimationFiles() {
     return Map.of(
-        "SELF_MOVING", List.of("wizard/selfWizard/walking/1.png", "wizard/selfWizard/walking/2.png", "wizard/selfWizard/walking/3.png", "wizard/selfWizard/walking/4.png"),
-        "SELF_FIGHTING", List.of(),
-        "ENEMY_MOVING", List.of(),
+        "SELF_MOVING", List.of("wizard/self/walking/1.png", "wizard/self/walking/2.png", "wizard/self/walking/3.png", "wizard/self/walking/4.png"),
+        "SELF_FIGHTING", List.of("wizard/self/fighting/0.png", "wizard/self/fighting/1.png", "wizard/self/fighting/2.png", "wizard/self/fighting/3.png", 
+            "wizard/self/fighting/4.png", "wizard/self/fighting/5.png", "wizard/self/fighting/6.png", "wizard/self/fighting/7.png", "wizard/self/fighting/8.png"),
+        "ENEMY_MOVING", List.of("wizard/enemy/walking/0.png", "wizard/enemy/walking/1.png", "wizard/enemy/walking/2.png"),
         "ENEMY_FIGHTING", List.of(),
         "AS_CARD", List.of());
   }

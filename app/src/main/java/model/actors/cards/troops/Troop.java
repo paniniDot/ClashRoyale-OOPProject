@@ -114,6 +114,9 @@ public abstract class Troop extends Card implements Attackable {
    * Hits one time the current target, if any.
    */
   public void attackCurrentTarget() {
+    if (this.getCurrentTarget().isPresent()) {
+      System.out.println("truppa " + this + " attacca " + this.currentTarget.get());
+    }
     this.currentTarget.ifPresent(target -> target.reduceHPBy(this.damage));
   }
 

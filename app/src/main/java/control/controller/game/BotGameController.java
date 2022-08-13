@@ -1,6 +1,8 @@
 package control.controller.game;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
@@ -8,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import model.GlobalData;
 import model.actors.Attackable;
-import model.actors.users.Bot;
 import model.utilities.ElixirController;
 import model.utilities.ingame.BotGameModel;
 import view.actors.CardActor;
@@ -21,6 +22,8 @@ import view.actors.TowerActor;
 public class BotGameController extends GameController {
 
   private final ElixirController botElixir;
+  private List<CardActor> botCards;
+  private List<TowerActor> botTowers;
 
   /**
    * Constructor.
@@ -28,6 +31,8 @@ public class BotGameController extends GameController {
   public BotGameController() {
     super(new BotGameModel(GlobalData.USER_DECK, GlobalData.BOT_DECK, GlobalData.USER, GlobalData.BOT));
     this.botElixir = new ElixirController();
+    this.botCards = new ArrayList<>();
+    this.botTowers = new ArrayList<>();
   }
 
   @Override
@@ -50,28 +55,20 @@ public class BotGameController extends GameController {
     return ((BotGameModel) super.getModel()).getBotAttackable();
   }
 
-  /**
-   * Load card actors in the main stage of the screen driven by this controller.
-   * 
-   * @param stage 
-   *              the stage where actors have to be placed.
-   *
-   * @return a list of CardActors owned by the user.
-   */
-  public final List<CardActor> loadBotActors(final Stage stage) {
-    return super.loadActorsFrom(((BotGameModel) super.getModel()).getBotDeck(), stage, "SELF_MOVING");
+  @Override
+  protected void onLoadActors(final Stage stage) {
+    this.botCards = super.loadCardActorsFrom(((BotGameModel) super.getModel()).getBotDeck(), stage, "ENEMY_MOVING");
   }
 
-  /**
-   * Load tower actors in the main stage of the screen driven by this controller.
-   * 
-   * @param stage 
-   *              the stage where towers have to be placed.
-   *
-   * @return a list of the deployed towers.
-   */
-  public final List<TowerActor> loadBotTowers(final Stage stage) {
-    return super.loadTowersFrom(((BotGameModel) super.getModel()).getBotActiveTowers(), stage, "ENEMY");
+  @Override
+  protected void onLoadTowers(final Stage stage) {
+    this.botTowers = super.loadTowerActorsFrom(((BotGameModel) super.getModel()).getBotActiveTowers(), stage, "ENEMY");
+  }
+
+  @Override
+  protected void onUpdateActorAnimations() {
+    super.updateCardAnimations(this.botCards, this.getBotAttackables(), "ENEMY_MOVING", "ENEMY_FIGHTING");
+    super.updateTowerAnimations(this.botTowers, this.getBotAttackables(), "ENEMY", "ENEMY");
   }
 
   private void updateAttackablePosition(final Attackable attackable, final List<Attackable> enemies) {
@@ -83,15 +80,14 @@ public class BotGameController extends GameController {
     });
   }
 
-  private void updateActorPosition(final List<CardActor> cards, final List<Attackable> selfAttackables, final List<Attackable> enemyAttackables) {
+  private void updateActorPositions(final List<CardActor> cards, final List<Attackable> selfAttackables, final List<Attackable> enemyAttackables) {
     cards.forEach(c -> {
-      selfAttackables.forEach(a -> {
-        if (!Gdx.input.isTouched() && c.getSelfId().equals(a.getSelfId()) && super.getGameMap().containsPosition((new Vector2(c.getPosition().x + c.getWidth() / 2, c.getPosition().y + c.getHeight() / 2)))) {
-          System.out.println(c.getPosition() + " " + a.getPosition());
+      selfAttackables.stream().filter(a -> a.getCurrentTarget().isEmpty()).forEach(a -> {
+        if (!Gdx.input.isTouched() && c.getSelfId().equals(a.getSelfId()) && super.getGameMap().containsPosition(c.getCenter())) {
           if (c.isDraggable()) {
             c.setDraggable(false);
-            a.setPosition(new Vector2(c.getPosition().x + c.getWidth() / 2, c.getPosition().y + c.getHeight() / 2));
-          } else if (new Vector2(c.getPosition().x + c.getWidth() / 2, c.getPosition().y + c.getHeight() / 2).equals(a.getPosition())) {
+            a.setPosition(c.getCenter());
+          } else if (this.castedToIntPosition(c.getCenter()).equals(this.castedToIntPosition(a.getPosition()))) {
             this.updateAttackablePosition(a, enemyAttackables);
             c.setRotation(new Vector2(a.getPosition().x - c.getWidth() / 2, a.getPosition().y - c.getHeight() / 2));
             c.moveTo(new Vector2(a.getPosition().x - c.getWidth() / 2, a.getPosition().y - c.getHeight() / 2));
@@ -100,11 +96,15 @@ public class BotGameController extends GameController {
       });
     });
   }
- 
+
+  private Vector2 castedToIntPosition(final Vector2 pos) {
+    return new Vector2((int) pos.x, (int) pos.y);
+  }
+
   @Override
-  public void updateActorPositions(final List<CardActor> playerCards, final List<CardActor> botCards) {
-    this.updateActorPosition(playerCards, this.getUserAttackables(), this.getBotAttackables());
-    this.updateActorPosition(botCards, this.getBotAttackables(), this.getUserAttackables()); 
+  protected void onUpdateActors() {
+    this.updateActorPositions(super.getPlayerActors(), super.getUserAttackables(), this.getBotAttackables());
+    this.updateActorPositions(this.botCards, this.getBotAttackables(), super.getUserAttackables());
   }
 
 }

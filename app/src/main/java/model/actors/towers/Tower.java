@@ -53,6 +53,7 @@ public abstract class Tower implements Attackable {
     this.damage = damage;
     this.currentHP = hp;
     this.hitSpeed = hitSpeed;
+    this.currentTarget = Optional.empty();
   }
 
   @Override
@@ -141,8 +142,32 @@ public abstract class Tower implements Attackable {
   public abstract Map<String, List<String>> getAnimationFiles();
 
   @Override
+  public Optional<Attackable> getCurrentTarget() {
+    return this.currentTarget;
+  }
+
+  @Override
+  public void setCurrentTarget(final Attackable attackable) {
+    this.currentTarget = Optional.of(attackable);
+  }
+
+  @Override
+  public void resetCurrentTarget() {
+    this.currentTarget = Optional.empty();
+  }
+
+
+  @Override
+  public void attackCurrentTarget() {
+    if (this.getCurrentTarget().isPresent()) {
+      System.out.println("truppa " + this + " attacca " + this.currentTarget.get());
+    }
+    this.currentTarget.ifPresent(t -> t.reduceHPBy(this.damage));
+  }
+
+  @Override
   public int hashCode() {
-    return Objects.hash(currentHP, damage, hitSpeed, id, isActive, owner, position, range);
+    return Objects.hash(currentHP, currentTarget, damage, hitSpeed, id, isActive, owner, position, range);
   }
 
   @Override
@@ -158,25 +183,11 @@ public abstract class Tower implements Attackable {
     }
     final Tower other = (Tower) obj;
     return Double.doubleToLongBits(currentHP) == Double.doubleToLongBits(other.currentHP)
+        && Objects.equals(currentTarget, other.currentTarget)
         && Double.doubleToLongBits(damage) == Double.doubleToLongBits(other.damage) && hitSpeed == other.hitSpeed
         && Objects.equals(id, other.id) && isActive == other.isActive && Objects.equals(owner, other.owner)
         && Objects.equals(position, other.position)
         && Double.doubleToLongBits(range) == Double.doubleToLongBits(other.range);
   }
-
-  @Override
-  public Optional<Attackable> getCurrentTarget() {
-    return this.currentTarget;
-  }
-
-  @Override
-  public void setCurrentTarget(final Attackable attackable) {
-    this.currentTarget = Optional.of(attackable);
-  }
-
-  @Override
-  public void resetCurrentTarget() {
-    this.currentTarget = Optional.empty();
-  }
-
+ 
 }

@@ -16,7 +16,6 @@ import model.actors.towers.KingTower;
 import model.actors.towers.QueenTower;
 import model.actors.towers.Tower;
 import model.actors.users.User;
-import model.utilities.ElixirController;
 
 /**
  * Defines the logic to be used inside the game.
@@ -135,4 +134,13 @@ public abstract class GameModel extends Model {
     return Stream.concat(this.playerCards.stream().map(c -> (Attackable) c), this.playerActiveTowers.stream().map(t -> (Attackable) t)).collect(Collectors.toList());
   }
 
+  /**
+   * Find targets, if any, for a user attackables looking for them in the enemy attackables (whether is a bot or real player).
+   */
+  public abstract void findAttackableTargets();
+
+  /**
+   * Handle the attack functionality of both user and enemy attackables (whether is a bot or real player).
+   */
+  public abstract void handleAttackTargets();
 }
