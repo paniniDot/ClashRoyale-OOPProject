@@ -7,7 +7,6 @@ import com.badlogic.gdx.Gdx;
 import control.BaseGame;
 import control.controller.game.BotGameController;
 import model.Model;
-import view.screens.BaseScreen;
 import view.screens.MenuScreen;
 
 /**
