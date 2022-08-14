@@ -8,6 +8,7 @@ import java.util.UUID;
 import com.badlogic.gdx.math.Vector2;
 
 import model.actors.users.User;
+
 /**
  * Defines a game card.
  */

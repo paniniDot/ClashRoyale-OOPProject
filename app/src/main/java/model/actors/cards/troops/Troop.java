@@ -130,16 +130,6 @@ public abstract class Troop extends Card implements Attackable {
     return this.currentHP <= 0;
   }
 
-  @Override
-  public Vector2 getPosition() {
-    return super.getPosition();
-  }
-
-  @Override
-  public void setPosition(final Vector2 newPos) {
-    super.setPosition(newPos);
-  }
-
 /*
   @Override
   public TargetType getSelfType() {

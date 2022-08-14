@@ -7,6 +7,9 @@ import com.badlogic.gdx.audio.Music;
  * Utility class for music.
  */
 public final class Audio {
+
+  private static final float VOLUME = 0.1f;
+
   private final Music music;
 
   private Audio(final String name) {
@@ -18,7 +21,7 @@ public final class Audio {
    */
   public void play() {
     this.music.play();
-    this.music.setVolume(0.1f);
+    this.music.setVolume(VOLUME);
   }
   /**
    * stops music.

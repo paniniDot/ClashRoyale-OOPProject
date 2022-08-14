@@ -92,7 +92,7 @@ public class MapUnit {
   public Vector2 getPosition() {
     return new Vector2(this.rect.x, this.rect.y);
   }
-  
+
   /**
    * 
    * @return whether is TERRAIN or OBSTACLE.

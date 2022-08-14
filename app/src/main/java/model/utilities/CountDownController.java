@@ -22,7 +22,8 @@ public class CountDownController {
     this.time = DEFAULT_TIME;
     this.run = true;
     this.timer = new Timer();
-    TimerTask task = new TimerTask() {
+    final var task = new TimerTask() {
+      @Override
       public void run() {
         //System.out.println(time);
         if (time > 0 && run) {

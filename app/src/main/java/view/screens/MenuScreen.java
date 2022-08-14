@@ -135,7 +135,7 @@ public class MenuScreen extends BaseScreen {
    * @param user
    */
   public void save(final User user) {
-    final Writer writer;
+    final FileWriter writer;
     try {
       writer = new FileWriter(file.file());
       gson.toJson(user, writer);

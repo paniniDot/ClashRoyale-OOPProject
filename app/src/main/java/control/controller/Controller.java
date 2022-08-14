@@ -3,11 +3,8 @@ package control.controller;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
-import control.BaseGame;
-
 import model.Model;
 import model.utilities.Audio;
-import view.screens.BaseScreen;
 
 /**
  * The controller for the game.

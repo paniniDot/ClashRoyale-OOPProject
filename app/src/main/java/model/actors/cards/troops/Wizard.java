@@ -3,7 +3,6 @@ package model.actors.cards.troops;
 import java.util.List;
 import java.util.Map;
 
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.Vector2;
 
 import model.actors.Speeds;

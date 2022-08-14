@@ -132,26 +132,11 @@ public class BaseActor extends Actor {
 
   /**
    * update angle of the actor.
+   * 
+   * @param dst
+   *            the destination position of this actor. Used to evaluate its rotation.
    */
   public void rotate(final Vector2 dst) {
-    Vector2 src = this.getPosition();
-    this.rotate = (float) Math.toDegrees(Math.atan2(dst.y - src.y, dst.x - src.x)) - 90;
-//    if (src.x < dst.x + 10 && src.x > dst.x - 10 && src.y < dst.y) {
-//      this.rotate = 0;
-//    } else if (src.x < dst.x + 10 && src.x > dst.x - 10 && src.y > dst.y) {
-//      this.rotate = 180;
-//    } else if (src.y < dst.y + 10 && src.y > dst.y - 10 && src.x < dst.x) {
-//      this.rotate = -90;
-//    } else if (src.y < dst.y + 10 && src.y > dst.y - 10 && src.x > dst.x) {
-//      this.rotate = 90;
-//    } else if (src.x < dst.x && src.y < dst.y) {
-//      this.rotate = -45;
-//    } else if (src.x > dst.x && src.y < dst.y) {
-//      this.rotate = 45;
-//    } else if (src.x < dst.x && src.y > dst.y) {
-//      this.rotate = 225;
-//    } else if (src.x > dst.x && src.y > dst.y) {
-//      this.rotate = 135;
-//    } 
+    this.rotate = (float) Math.toDegrees(Math.atan2(dst.y - this.getY(), dst.x - this.getX())) - 90;
   }
 }

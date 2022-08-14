@@ -18,7 +18,8 @@ public class ElixirController {
     this.elixir = 0;
     this.run = true;
     this.timer = new Timer();
-    TimerTask task = new TimerTask() {
+    final var task = new TimerTask() {
+      @Override
       public void run() {
         //System.out.println(elixir);
         if (elixir < 10 && run) {

@@ -1,8 +1,5 @@
 package view.actors;
 
-import java.util.UUID;
-
-import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -23,8 +20,6 @@ public class DragAndDropActor extends BaseActor {
   /**
    * Constructor.
    * 
-   * @param id 
-   *        {@inheritDoc}.
    * @param x
    *        x coordinate where the actor is placed.
    * @param y
@@ -46,8 +41,6 @@ public class DragAndDropActor extends BaseActor {
         self.grabOffsetX = eventOffsetX;
         self.grabOffsetY = eventOffsetY;
         self.toFront();
-        // increase size; object appears larger when lifted by player
-        self.addAction(Actions.scaleTo(1.1f, 1.1f, 0.25f));
         self.onDragStart();
         return true; // returning true indicates other touch methods are called
       }
@@ -62,7 +55,6 @@ public class DragAndDropActor extends BaseActor {
       @Override
       public void touchUp(final InputEvent event, final float eventOffsetX, final float eventOffsetY, final int pointer, final int button) {
         // return object to original size when dropped by player
-        self.addAction(Actions.scaleTo(1.00f, 1.00f, 0.25f));
         self.onDrop();
       }
     });
@@ -115,6 +107,9 @@ public class DragAndDropActor extends BaseActor {
 
   /**
    * update angle of the troop.
+   * 
+   * @param dst
+   *          the destination position of this actor, used to evaluate the rotation of the animation. 
    */
   public void setRotation(final Vector2 dst) {
     super.rotate(dst);

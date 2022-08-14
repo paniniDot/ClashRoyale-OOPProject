@@ -1,11 +1,7 @@
 package control.launcher;
 
-import com.badlogic.gdx.Gdx;
-
 import control.BaseGame;
 import control.controller.MenuController;
-import model.Model;
-import view.screens.MenuScreen;
 
 /**
  * Implementation of BaseGame class.

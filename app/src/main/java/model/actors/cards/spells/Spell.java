@@ -4,8 +4,6 @@ import java.util.Collections;
 import java.util.List;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-
 import model.actors.Attackable;
 //import model.actors.TargetType;
 import model.actors.cards.Card;
