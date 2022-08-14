@@ -37,7 +37,6 @@ public class DeckScreen extends BaseScreen {
   private Skin skin;
   private Table table, tableDeck, tableCards; 
   private List list, cards, deck;
-  private ArrayList<String> cardsList, deckList; 
   private ScrollPane scrollPaneDeck, scrollPaneCards;
   private TextButton buttonAdd, buttonRemove, buttonReturn;
   private Label heading, headingDeck, headingCards;
@@ -45,10 +44,8 @@ public class DeckScreen extends BaseScreen {
   private static final int SPACE = 15;
   private static final int HEIGHTSCROLLPANE = 350;
   private static final int WIDTHSCROLLPANE = 400;
-  private static final int DIMDECK = 4;
   private Texture texture1;
   private Dialog  endDialog;
-  private JFrame frame;
 
   /**
    * Constructor.
@@ -67,10 +64,6 @@ public class DeckScreen extends BaseScreen {
     final var background = new BaseActor(0, 0, super.getMainStage());
     background.setAnimation(AnimationUtilities.loadTexture("backgrounds/menuBackground.png"));
     background.setSize(ClashRoyale.WIDTH, ClashRoyale.HEIGHT);
-    cardsList = new ArrayList<>();
-    deckList = new ArrayList<>();
-
-
   }
   @Override
   public void show() {
@@ -83,26 +76,12 @@ public class DeckScreen extends BaseScreen {
     this.tableCards = new Table(skin);
     this.table.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-    cardsList.add("Archer Queen");
-    cardsList.add("Golden Knight");
-    cardsList.add("Skeleton King");
-    cardsList.add("Mighty Miner");
-    cardsList.add("Miner");
-    cardsList.add("Princess");
-    deckList.add("Mega Knight");
-    deckList.add("Ice Wizard");
-    deckList.add("Inferno Dragon");
-    deckList.add("Ram Rider");
 
     this.heading = new Label("Scelta Deck", this.skin);
     this.headingDeck = new Label("Deck", this.skin);
     this.headingCards = new Label("Mazzo", this.skin);
-    this.cards = new List<String>(skin);
-    Object[] objectArray = cardsList.toArray();
-    cards.setItems(objectArray);
-    this.deck = new List<String>(skin);
-    objectArray = deckList.toArray();
-    deck.setItems(objectArray);
+    this.cards = ((DeckController) getController()).setCards();
+    this.deck = ((DeckController) getController()).setDeck();
 
     this.scrollPaneDeck = new ScrollPane(deck);
     this.scrollPaneCards = new ScrollPane(cards);
@@ -111,20 +90,8 @@ public class DeckScreen extends BaseScreen {
     this.buttonAdd.addListener(new ClickListener() {
       @Override
       public void clicked(final InputEvent event, final float x, final float y) {
-        if (deckList.size() < DIMDECK) {
-          Object[] objectArray;
-          String tmp = (String) cards.getSelected();
-          cardsList.remove(cards.getSelected());
-          objectArray = cardsList.toArray();
-          cards.setItems(objectArray);
-          deckList.add(tmp);
-          objectArray = deckList.toArray();
-          deck.setItems(objectArray);
+        ((DeckController) getController()).addDeck(cards, deck);
         }
-        else {
-          JOptionPane.showMessageDialog(frame, "DECK PIENO(MAX 4 CARTE), RIMUOVERE PRIMA UNA CARTA");
-        }
-      }
     });
 
     this.buttonRemove = new TextButton("REMOVE", skin);
@@ -132,16 +99,7 @@ public class DeckScreen extends BaseScreen {
     this.buttonRemove.addListener(new ClickListener() {
       @Override
       public void clicked(final InputEvent event, final float x, final float y) {
-        if (!deckList.isEmpty()) {
-        Object[] objectArray;
-        String tmp = (String) deck.getSelected();
-        deckList.remove(deck.getSelected());
-        objectArray = deckList.toArray();
-        deck.setItems(objectArray);
-        cardsList.add(tmp);
-        objectArray = cardsList.toArray();
-        cards.setItems(objectArray);
-        }
+        ((DeckController) getController()).removeDeck(cards, deck);
       }
     });
     buttonReturn = new TextButton("RETURN", skin);
