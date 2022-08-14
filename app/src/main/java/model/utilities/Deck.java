@@ -1,8 +1,7 @@
 package model.utilities;
 
-import java.util.ArrayList;
-
-import com.badlogic.gdx.scenes.scene2d.ui.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 
@@ -11,70 +10,77 @@ import com.badlogic.gdx.scenes.scene2d.ui.List;
  */
 public class Deck {
 
-  private ArrayList<String> deckList;
-  private ArrayList<String> cardsList;
+  private Set<String> deckSet;
+  private Set<String> cardsSet;
 
-  /**
-   * 
-   */
+
   public Deck() {
-    this.deckList = new ArrayList<String>();   //dovrà essere caricato dal file
-    this.deckList.add("Mega Knight");
-    this.deckList.add("Ice Wizard");
-    this.deckList.add("Inferno Dragon");
-    this.deckList.add("Ram Rider");
-    this.cardsList = new ArrayList<String>();  //idem
-    this.cardsList.add("Archer Queen");
-    this.cardsList.add("Golden Knight");
-    this.cardsList.add("Skeleton King");
-    this.cardsList.add("Mighty Miner");
-    this.cardsList.add("Miner");
-    this.cardsList.add("Princess");
+    this.deckSet = new HashSet<String>();   //dovrà essere caricato dal file
+    this.deckSet.add("Mega Knight");
+    this.deckSet.add("Ice Wizard");
+    this.deckSet.add("Inferno Dragon");
+    this.deckSet.add("Ram Rider");
+    this.cardsSet = new HashSet<String>();  //idem
+    this.cardsSet.add("Archer Queen");
+    this.cardsSet.add("Golden Knight");
+    this.cardsSet.add("Skeleton King");
+    this.cardsSet.add("Mighty Miner");
+    this.cardsSet.add("Miner");
+    this.cardsSet.add("Princess");
   }
+ 
   /**
    * 
-   * @return
+   * @return getDeckSet
    */
-  public ArrayList<String> getDeckList() {
-    return deckList;
+  public Set<String> getDeckSet() {
+    return deckSet;
   }
-  /**
-   * 
-   * @param deckList
-   */
-  public void setDeckList(ArrayList<String> deckList) {
-    this.deckList = deckList;
-  }
-  /**
-   * 
-   * @return
-   */
-  public ArrayList<String> getCardsList() {
-    return cardsList;
-  }
-  /**
-   * 
-   * @param cardsList
-   */
-  public void setCardsList(ArrayList<String> cardsList) {
-    this.cardsList = cardsList;
-  }
-  /**
-   * 
-   * @param selected
-   * @param cardsGame 
-   */
-  public void remove(List deckGame, List cardsGame) {
-    this.deckList.remove((String)deckGame.getSelected());
-    this.cardsList.add((String) deckGame.getSelected());
-  }
-  /**
-   * 
-   * @param selected
-   */
-  public void add(List deckGame, List cardsGame) {
-    this.deckList.add((String) cardsGame.getSelected());
-    this.cardsList.remove((String)cardsGame.getSelected());
 
+  /**
+   * 
+   * @return getCardsSet
+   */
+  public Set<String> getCardsSet() {
+    return cardsSet;
+  }
+
+  /**
+   * 
+   * @param addCard to the Deck
+   * @return 
+   */
+  public Set<String> addDeck(String select) {
+    this.deckSet.add(select);
+    return deckSet;
+  }
+  
+  /**
+   * 
+   * @param add card to the cardSet
+   * @return 
+   */
+  public Set<String> addCardSet(String select) {
+    this.cardsSet.add(select);
+    return cardsSet;
+  }
+
+  /**
+   * 
+   * @param remove card in cardSet 
+   */
+  public Set<String> removeCardSet(String select) {
+    cardsSet.remove(select);
+    return cardsSet;
+  }
+
+  /**
+   * 
+   * @param remove card in deckSet
+   * @return
+   */
+  public Set<String> removeDeckCard(String select) {
+    deckSet.remove(select);
+    return deckSet;
   }
 }

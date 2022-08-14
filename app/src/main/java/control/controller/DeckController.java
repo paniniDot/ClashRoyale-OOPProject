@@ -1,5 +1,7 @@
 package control.controller;
 
+import java.util.ArrayList;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -16,11 +18,15 @@ import view.screens.DeckScreen;
  * Controller implementation for the game screen.
  */
 public class DeckController extends Controller {
-  private static final int DIMDECK = 4;
-  private JFrame frame;
-  private Deck deck = new Deck();
+  private Deck deck;
   private TextureAtlas atlas;
   private Skin skin;
+  private List decklist;
+  private List cards;
+  private static final int DIMDECK = 4;
+  private JFrame frame;
+
+
 
   /**
    * Constructor.
@@ -30,7 +36,19 @@ public class DeckController extends Controller {
     super.registerModel(new Model());
     this.atlas = new TextureAtlas("buttons/atlas.pack");
     this.skin = new Skin(Gdx.files.internal("buttons/menuSkin.json"), atlas);
+    this.decklist = new List<String>(skin);
+    this.cards = new List<String>(skin);
+    this.deck = new Deck();
+
   }
+/**
+ * 
+ * @return getDeck
+ */
+  public Deck getDeck() {
+    return deck;
+  }
+
 
   @Override
   public void update(final float dt) {
@@ -54,8 +72,7 @@ public class DeckController extends Controller {
    * setCard in DeckScreen
    */
   public List<String> setCards() {
-    List cards = new List<String>(skin);
-    cards.setItems(deck.getCardsList().toArray());
+    this.cards.setItems(deck.getCardsSet().toArray());
     return cards;
   }
 
@@ -64,33 +81,65 @@ public class DeckController extends Controller {
    * setDeck in DeckScreen
    */
   public List<String> setDeck() {
-    List decklist = new List<String>(skin);
-    decklist.setItems(deck.getDeckList().toArray());
+    this.decklist.setItems(deck.getDeckSet().toArray());
     return decklist;
   }
   
   /**
    * 
    * add card in DeckScreen and remove in CardList
+   * @return 
    */
-  public void addDeck(List deckGame, List cardsGame) {
-    if (((java.util.List<Object>) deck).size() < DIMDECK) {
-      deck.add(deckGame, cardsGame);
-      deckGame.setItems(deck.getDeckList());
-      cardsGame.setItems(deck.getCardsList());
+  public List<String> addDeck(String select) {
+    decklist.setItems(deck.addDeck(select).toArray());
+      return decklist;
     }
-    else 
-      JOptionPane.showMessageDialog(frame, "DECK PIENO(MAX 4 CARTE), RIMUOVERE PRIMA UNA CARTA");
+  
+  /**
+   * 
+   * add card in DeckScreen and remove in CardList
+   * @return 
+   */
+  public List<String> addCard(String select) {
+    cards.setItems(deck.addCardSet(select).toArray());
+      return cards;
+    }
+  
+  /**
+   * 
+   * remove card in DeckScreen and add in CardList
+   * @return 
+   */
+  public List<String> removeCard(String card) {
+    this.cards.setItems(deck.removeCardSet(card).toArray());
+    return cards;    
   }
   
   /**
    * 
    * remove card in DeckScreen and add in CardList
+   * @return 
    */
-  public void removeDeck(List deckGame, List cardsGame) {
-    deck.remove(deckGame, cardsGame);
-    deckGame = this.setDeck();
-    cardsGame = this.setCards();
+  public List<String> removeDeckCard(String card) {
+    this.decklist.setItems(deck.removeDeckCard(card).toArray());
+    return decklist;    
+  }
+
+  /**
+   * check dim deck < 4 for inserct new card
+   * @return
+   */
+  public boolean full() {
+    if (deck.getDeckSet().size() < DIMDECK)
+      return true;
+    JOptionPane.showMessageDialog(frame, "DECK PIENO(MAX 4 CARTE), RIMUOVERE PRIMA UNA CARTA");
+    return false;
   }
   
+  public boolean empty() {
+    if (!deck.getDeckSet().isEmpty())
+      return true;
+    JOptionPane.showMessageDialog(frame, "DECK VUOTO");
+    return false;
+  }
 }

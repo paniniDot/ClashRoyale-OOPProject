@@ -36,7 +36,7 @@ public class DeckScreen extends BaseScreen {
   private TextureAtlas atlas;
   private Skin skin;
   private Table table, tableDeck, tableCards; 
-  private List list, cards, deck;
+  private List cards, deck;
   private ScrollPane scrollPaneDeck, scrollPaneCards;
   private TextButton buttonAdd, buttonRemove, buttonReturn;
   private Label heading, headingDeck, headingCards;
@@ -44,8 +44,8 @@ public class DeckScreen extends BaseScreen {
   private static final int SPACE = 15;
   private static final int HEIGHTSCROLLPANE = 350;
   private static final int WIDTHSCROLLPANE = 400;
-  private Texture texture1;
-  private Dialog  endDialog;
+  private DeckController deckController;
+
 
   /**
    * Constructor.
@@ -75,14 +75,12 @@ public class DeckScreen extends BaseScreen {
     this.tableDeck = new Table(skin);
     this.tableCards = new Table(skin);
     this.table.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
-
+    this.deckController = new DeckController();
     this.heading = new Label("Scelta Deck", this.skin);
     this.headingDeck = new Label("Deck", this.skin);
     this.headingCards = new Label("Mazzo", this.skin);
-    this.cards = ((DeckController) getController()).setCards();
-    this.deck = ((DeckController) getController()).setDeck();
-
+    this.cards = this.deckController.setCards();
+    this.deck = this.deckController.setDeck();
     this.scrollPaneDeck = new ScrollPane(deck);
     this.scrollPaneCards = new ScrollPane(cards);
     this.buttonAdd = new TextButton("ADD", skin);
@@ -90,8 +88,12 @@ public class DeckScreen extends BaseScreen {
     this.buttonAdd.addListener(new ClickListener() {
       @Override
       public void clicked(final InputEvent event, final float x, final float y) {
-        ((DeckController) getController()).addDeck(cards, deck);
+        if (deckController.full()) {
+        final String select = (String) cards.getSelected();
+        cards = deckController.removeCard(select);
+        deck = deckController.addDeck(select);
         }
+      }
     });
 
     this.buttonRemove = new TextButton("REMOVE", skin);
@@ -99,7 +101,11 @@ public class DeckScreen extends BaseScreen {
     this.buttonRemove.addListener(new ClickListener() {
       @Override
       public void clicked(final InputEvent event, final float x, final float y) {
-        ((DeckController) getController()).removeDeck(cards, deck);
+        if (deckController.empty()) {
+        final String select = (String) deck.getSelected();
+        deck = deckController.removeDeckCard(select);
+        cards = deckController.addCard(select);
+        }
       }
     });
     buttonReturn = new TextButton("RETURN", skin);
