@@ -1,14 +1,19 @@
 package control.controller;
 
-import java.util.ArrayList;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import control.BaseGame;
 import model.Model;
 import model.utilities.Audio;
@@ -25,6 +30,8 @@ public class DeckController extends Controller {
   private List cards;
   private static final int DIMDECK = 4;
   private JFrame frame;
+  private Gson gson;
+  private FileHandle file;
 
 
 
@@ -38,8 +45,14 @@ public class DeckController extends Controller {
     this.skin = new Skin(Gdx.files.internal("buttons/menuSkin.json"), atlas);
     this.decklist = new List<String>(skin);
     this.cards = new List<String>(skin);
-    this.deck = new Deck();
-
+    this.gson = new GsonBuilder().setPrettyPrinting().create();
+    this.file = Gdx.files.internal("saves/deck.json");
+    if (!this.file.exists()) {
+      this.deck = new Deck();
+      save(this.deck);
+    } else {
+      this.deck = load();
+    }
   }
 /**
  * 
@@ -141,5 +154,42 @@ public class DeckController extends Controller {
       return true;
     JOptionPane.showMessageDialog(frame, "DECK VUOTO");
     return false;
+  }
+  
+  /**
+   * 
+   * @param user
+   */
+  public void save(final Deck deck) {
+    final FileWriter writer;
+    try {
+      writer = new FileWriter(file.file());
+      gson.toJson(deck, writer);
+      writer.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * 
+   * @return User
+   */
+  public Deck load() {
+    try {
+      return this.gson.fromJson(new FileReader(this.file.file()), Deck.class);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+  public void returnButton() {
+    if (getDeck().getDeckSet().size() == DIMDECK) {
+    save(getDeck());
+    triggerMenu();    
+    }
+    else
+      JOptionPane.showMessageDialog(frame, "INSERIRE 4 CARTE NEL DECK PER POTER GIOCARE");
+ 
   }
 }
