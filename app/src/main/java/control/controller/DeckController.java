@@ -3,10 +3,8 @@ package control.controller;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -32,7 +30,6 @@ public class DeckController extends Controller {
   private JFrame frame;
   private Gson gson;
   private FileHandle file;
-
 
 
   /**
@@ -81,7 +78,6 @@ public class DeckController extends Controller {
   }
 
   /**
-   * 
    * setCard in DeckScreen
    */
   public List<String> setCards() {
@@ -139,7 +135,7 @@ public class DeckController extends Controller {
   }
 
   /**
-   * check dim deck < 4 for inserct new card
+   * check dim deck < 4 for insert new card
    * @return
    */
   public boolean full() {
@@ -190,6 +186,5 @@ public class DeckController extends Controller {
     }
     else
       JOptionPane.showMessageDialog(frame, "INSERIRE 4 CARTE NEL DECK PER POTER GIOCARE");
- 
   }
 }
