@@ -3,6 +3,8 @@ package model.actors.users;
 import java.util.Map;
 import java.util.Objects;
 
+import model.utilities.Deck;
+
 
 /**
  * Users that play the game.
@@ -19,6 +21,7 @@ public class User {
   private final String name;
   private int currentXP;
   private UserLevel currentLevel;
+  private Deck deck;
 
   /**
    * @param name
@@ -28,6 +31,7 @@ public class User {
     this.name = name;
     this.currentXP = 0;
     this.currentLevel = UserLevel.LVL1;
+    this.deck = new Deck();
   }
 
   /**
@@ -49,6 +53,13 @@ public class User {
    */
   public UserLevel getCurrentLevel() {
     return this.currentLevel;
+  }
+
+  /**
+   * @return Deck for User
+   */
+  public Deck getDeck() {
+    return deck;
   }
 
   /**
