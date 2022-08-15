@@ -112,7 +112,7 @@ public class DeckScreen extends BaseScreen {
     this.buttonReturn.addListener(new ClickListener() {
       @Override
       public void clicked(final InputEvent event, final float x, final float y) {
-        ((DeckController) getController()).triggerMenu();
+        deckController.returnButton();
       }
     });
     buttonReturn.pad(10);

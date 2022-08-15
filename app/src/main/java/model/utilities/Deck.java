@@ -64,7 +64,6 @@ public class Deck {
     this.cardsSet.add(select);
     return cardsSet;
   }
-
   /**
    * 
    * @param remove card in cardSet 
