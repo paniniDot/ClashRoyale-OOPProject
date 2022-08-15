@@ -2,6 +2,8 @@ package view.actors;
 
 import java.util.UUID;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 /**
@@ -23,8 +25,8 @@ public class CardActor extends DragAndDropActor {
    * @param s
    *          the stage in which the actor has to be deployed.
    */
-  public CardActor(final UUID id, final float x, final float y, final Stage s) {
-    super(x, y, s);
+  public CardActor(final UUID id, final float x, final float y, final Stage s, final Animation<TextureRegion> animation){
+    super(x, y, s, animation);
     this.id = id;
   }
 

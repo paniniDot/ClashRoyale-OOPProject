@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import control.BaseGame;
@@ -114,8 +115,7 @@ public abstract class GameController extends Controller {
   protected final List<CardActor> loadCardActorsFrom(final List<Card> list, final Stage stage, final String animationName) {
     final var actors = new ArrayList<CardActor>();
     list.forEach(c -> {
-      final var actor = new CardActor(c.getSelfId(), c.getPosition().x, c.getPosition().y, stage);
-      actor.setAnimation(AnimationUtilities.loadAnimationFromFiles(c.getAnimationFiles().get(animationName), ANIMATIONS_FRAME_DURATION, true));
+      final var actor = new CardActor(c.getSelfId(), c.getPosition().x, c.getPosition().y, stage, AnimationUtilities.loadAnimationFromFiles(c.getAnimationFiles().get(animationName), ANIMATIONS_FRAME_DURATION, true));
       actors.add(actor);
     });
     return actors;
@@ -155,8 +155,8 @@ public abstract class GameController extends Controller {
   protected final List<TowerActor> loadTowerActorsFrom(final List<Tower> list, final Stage stage, final String animationName) {
     final var towers = new ArrayList<TowerActor>();
     list.forEach(t -> {
-      final var actor = new TowerActor(t.getSelfId(), t.getPosition().x, t.getPosition().y, stage);
-      actor.setAnimation(AnimationUtilities.loadAnimationFromFiles(t.getAnimationFiles().get(animationName), ANIMATIONS_FRAME_DURATION, true));
+      final var actor = new TowerActor(t.getSelfId(), t.getPosition().x, t.getPosition().y, stage, AnimationUtilities.loadAnimationFromFiles(t.getAnimationFiles().get(animationName), ANIMATIONS_FRAME_DURATION, true));
+      actor.setPosition(actor.getPosition().x, actor.getPosition().y);
       towers.add(actor);
     });
     return towers;

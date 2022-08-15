@@ -110,12 +110,12 @@ public class GameMap {
    */
   private List<Vector2> getPath(final MapUnit source, final MapUnit dest) {
     if (this.map.containsVertex(source) && this.map.containsVertex(dest)) {
-      return new AStarShortestPath<MapUnit, DefaultEdge>(this.map, (src, dst) -> VectorsUtilities.euclideanDistance(src.getPosition(), dst.getPosition()))
+      return new AStarShortestPath<MapUnit, DefaultEdge>(this.map, (src, dst) -> VectorsUtilities.euclideanDistance(src.getCenter(), dst.getCenter()))
           .getPath(source, dest)
           .getVertexList()
           .stream()
           .filter(el -> !this.towerPositions.contains(el.getCoordinates()))
-          .map(MapUnit::getPosition)
+          .map(MapUnit::getCenter)
           .collect(Collectors.toList());
     }
     return List.of();
@@ -155,7 +155,7 @@ public class GameMap {
   }
 
   private MapUnit getMapUnitFromPosition(final Vector2 pixels) {
-    final var coords = new Vector2((float) Math.ceil((pixels.x - X_START + 1) / MapUnit.WIDTH), (float) Math.ceil((pixels.y - Y_START + 1) / MapUnit.HEIGHT));
+    final var coords = new Vector2((float) Math.ceil((pixels.x - X_START) / MapUnit.WIDTH), (float) Math.ceil((pixels.y - Y_START) / MapUnit.HEIGHT));
     return new MapUnit(coords, this.getPixelsFromUnitCoords(coords), this.towerPositions.contains(coords) ? MapUnit.Type.TOWER : MapUnit.Type.TERRAIN);
   }
 

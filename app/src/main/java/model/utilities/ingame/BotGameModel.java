@@ -48,9 +48,9 @@ public class BotGameModel extends GameModel {
   /* logica per la posizione delle torri mancante */
   private List<Tower> getBotTowers(final Bot bot) {
     final List<Tower> towers = new ArrayList<>();
-    towers.add(QueenTower.create(bot, new Vector2(205, 613)));
-    towers.add(QueenTower.create(bot, new Vector2(415, 613)));
-    towers.add(KingTower.create(bot, new Vector2(300, 640)));
+    towers.add(QueenTower.create(bot, new Vector2(205 + 33, 613 + 44)));
+    towers.add(QueenTower.create(bot, new Vector2(415 + 33, 613 + 44)));
+    towers.add(KingTower.create(bot, new Vector2(300 + 44, 640 + 66)));
     return towers;
   }
 

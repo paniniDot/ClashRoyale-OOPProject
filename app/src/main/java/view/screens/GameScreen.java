@@ -37,8 +37,7 @@ public class GameScreen extends BaseScreen {
     super.getController().setInputProcessor(super.getMainStage());
     sprite = new SpriteBatch();
     gamefont = new BitmapFont(Gdx.files.internal("Fonts/font.fnt"));
-    final var arena = new BaseActor(0, 0, super.getMainStage());
-    arena.setAnimation(AnimationUtilities.loadTexture("arenas/arena1.png"));
+    final var arena = new BaseActor(0, 0, super.getMainStage(), AnimationUtilities.loadTexture("arenas/arena1.png"));
     arena.setSize(ClashRoyale.WIDTH, ClashRoyale.HEIGHT);
     ((GameController) super.getController()).loadActors(super.getMainStage());
     ((GameController) super.getController()).loadTowers(super.getMainStage());

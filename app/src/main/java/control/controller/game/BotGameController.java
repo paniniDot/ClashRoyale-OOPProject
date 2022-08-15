@@ -77,14 +77,18 @@ public class BotGameController extends GameController {
   private void updateActorPositions(final List<CardActor> cards, final List<Attackable> selfAttackables, final List<Attackable> enemyAttackables) {
     cards.forEach(c -> {
       selfAttackables.stream().filter(a -> a.getCurrentTarget().isEmpty()).forEach(a -> {
-        if (!Gdx.input.isTouched() && c.getSelfId().equals(a.getSelfId()) && super.getGameMap().containsPosition(c.getCenter())) {
-          if (c.isDraggable()) {
-            c.setDraggable(false);
-            a.setPosition(c.getCenter());
-          } else if (this.castedToIntPosition(c.getCenter()).equals(this.castedToIntPosition(a.getPosition()))) {
-            this.updateAttackablePosition(a, enemyAttackables);
-            c.setRotation(new Vector2(a.getPosition().x - c.getWidth() / 2, a.getPosition().y - c.getHeight() / 2));
-            c.moveTo(new Vector2(a.getPosition().x - c.getWidth() / 2, a.getPosition().y - c.getHeight() / 2));
+        if (!Gdx.input.isTouched() && c.getSelfId().equals(a.getSelfId())) {
+          if (super.getGameMap().containsPosition(c.getCenter())) {
+            if (c.isDraggable()) {
+              c.setDraggable(false);
+              a.setPosition(c.getCenter());
+            } else if (this.castedToIntPosition(c.getCenter()).equals(this.castedToIntPosition(a.getPosition()))) {
+              this.updateAttackablePosition(a, enemyAttackables);
+              c.setRotation(a.getPosition());
+              c.moveTo(a.getPosition());
+            }
+          } else {
+            c.setPosition(c.getOrigin().x, c.getOrigin().y);
           }
         }
       });

@@ -54,8 +54,7 @@ public class MenuScreen extends BaseScreen {
   public void initialize() {
     super.getController().playMusic();
     super.getController().setInputProcessor(super.getUiStage());
-    final var background = new BaseActor(0, 0, super.getMainStage());
-    background.setAnimation(AnimationUtilities.loadTexture("backgrounds/menuBackground.png"));
+    final var background = new BaseActor(0, 0, super.getMainStage(), AnimationUtilities.loadTexture("backgrounds/menuBackground.png"));
     background.setSize(ClashRoyale.WIDTH, ClashRoyale.HEIGHT);
     this.atlas = new TextureAtlas("buttons/atlas.pack");
     this.skin = new Skin(Gdx.files.internal("buttons/menuSkin.json"), this.atlas);

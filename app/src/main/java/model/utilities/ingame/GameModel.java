@@ -50,9 +50,9 @@ public abstract class GameModel extends Model {
   /* logica per la posizione delle torri nella mappa mancante */
   private List<Tower> getPlayerTowers(final User user) {
     final List<Tower> towers = new ArrayList<>();
-    towers.add(QueenTower.create(user, new Vector2(205, 312)));
-    towers.add(QueenTower.create(user, new Vector2(415, 312)));
-    towers.add(KingTower.create(user, new Vector2(300, 255)));
+    towers.add(QueenTower.create(user, new Vector2(205 + 33, 312 + 44)));
+    towers.add(QueenTower.create(user, new Vector2(415 + 33, 312 + 44)));
+    towers.add(KingTower.create(user, new Vector2(300 + 44, 255 + 55)));
     return towers;
   }
 

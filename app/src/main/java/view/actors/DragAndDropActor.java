@@ -1,5 +1,7 @@
 package view.actors;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -15,6 +17,9 @@ public class DragAndDropActor extends BaseActor {
   private float grabOffsetX;
   private float grabOffsetY;
   private boolean isDraggable;
+  private TextureRegion region;
+  private float w;
+  private float h;
 
 
   /**
@@ -27,10 +32,13 @@ public class DragAndDropActor extends BaseActor {
    * @param s
    *        {@inheritDoc}.
    */
-  public DragAndDropActor(final float x, final float y, final Stage s) {
-    super(x, y, s);
+  public DragAndDropActor(final float x, final float y, final Stage s, final Animation<TextureRegion> animation) {
+    super(x, y, s, animation);
     self = this;
     isDraggable = true;
+    this.region = animation.getKeyFrame(0);
+    this.w = region.getRegionWidth();
+    this.h = region.getRegionHeight();
     this.addListener(new InputListener() {
 
       @Override
@@ -90,7 +98,7 @@ public class DragAndDropActor extends BaseActor {
    * Called when drop occurs; extending classes may override this method.
    */
   public void onDrop() {
-    super.setPosition(this.getPosition().x, this.getPosition().y);
+    super.setPosition(this.getPosition().x + (w / 2), this.getPosition().y + (h / 2));
     System.out.println("Screen: " + super.getX() + ", " + super.getY());
   }
 
@@ -101,7 +109,7 @@ public class DragAndDropActor extends BaseActor {
    *            new coordinates.
    */
   public void moveTo(final Vector2 spot) {
-    this.addAction(Actions.moveTo(spot.x, spot.y, 2f));
+    this.addAction(Actions.moveTo(spot.x - (w / 2), spot.y - (h / 2), 2f));
     System.out.println("Posizione da dragAndDropScreen :" + super.getPosition());
   }
 

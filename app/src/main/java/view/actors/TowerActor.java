@@ -2,6 +2,8 @@ package view.actors;
 
 import java.util.UUID;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 /**
@@ -23,8 +25,8 @@ public class TowerActor extends BaseActor {
    * @param stage
    *          the stage where the tower has to be deployed.
    */
-  public TowerActor(final UUID id, final float x, final float y, final Stage stage) {
-    super(x, y, stage);
+  public TowerActor(final UUID id, final float x, final float y, final Stage stage, final Animation<TextureRegion> animation) {
+    super(x, y, stage, animation);
     this.id = id;
   }
 

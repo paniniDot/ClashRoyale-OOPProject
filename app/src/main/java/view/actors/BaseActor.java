@@ -19,6 +19,9 @@ public class BaseActor extends Actor {
   private float elapsedTime;
   private float rotate;
   private final Vector2 origin;
+  private TextureRegion region;
+  private float w;
+  private float h;
 
   /**
    * Constructor.
@@ -29,13 +32,17 @@ public class BaseActor extends Actor {
    *          y coordinate where the actor is placed.
    * @param stage
    *          {@inheritDoc}
-   */
-  public BaseActor(final float x, final float y, final Stage stage) {
-    super.setPosition(x, y);
+   */ 
+  public BaseActor(final float x, final float y, final Stage stage, final Animation<TextureRegion> animation) {
+    this.animation = Optional.of(animation);
+    this.region = animation.getKeyFrame(0);
+    this.w = region.getRegionWidth();
+    this.h = region.getRegionHeight();
+    super.setSize(w, h);
     this.origin = new Vector2(x, y);
-    this.animation = Optional.empty();
     stage.addActor(this);
     this.elapsedTime = 0;
+    super.setPosition(x, y);
   }
 
   /**
@@ -45,9 +52,9 @@ public class BaseActor extends Actor {
    */
   public void setAnimation(final Animation<TextureRegion> animation) {
     this.animation = Optional.of(animation);
-    final TextureRegion region = this.animation.get().getKeyFrame(0);
-    final float w = region.getRegionWidth();
-    final float h = region.getRegionHeight();
+    this.region = this.animation.get().getKeyFrame(0);
+    this.w = region.getRegionWidth();
+    this.h = region.getRegionHeight();
     super.setSize(w, h);
   }
 
@@ -119,7 +126,7 @@ public class BaseActor extends Actor {
    *        the new y coordinate. 
    */
   public void setPosition(final float x, final float y) {
-    super.setPosition(x, y);
+    super.setPosition(x - (w / 2), y - (h / 2));
   }
 
   /**
@@ -137,6 +144,6 @@ public class BaseActor extends Actor {
    *            the destination position of this actor. Used to evaluate its rotation.
    */
   public void rotate(final Vector2 dst) {
-    this.rotate = (float) Math.toDegrees(Math.atan2(dst.y - this.getY(), dst.x - this.getX())) - 90;
+    this.rotate = (float) Math.toDegrees(Math.atan2(dst.y - this.getY() - (h / 2), dst.x - this.getX() - (w / 2))) - 90;
   }
 }
