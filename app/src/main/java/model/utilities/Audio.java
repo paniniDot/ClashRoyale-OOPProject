@@ -14,6 +14,7 @@ public final class Audio {
 
   private Audio(final String name) {
     this.music = Gdx.audio.newMusic(Gdx.files.internal(name));
+    this.music.setLooping(true);
   }
 
   /**
