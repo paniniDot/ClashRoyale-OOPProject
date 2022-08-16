@@ -42,10 +42,10 @@ public final class Barbarian extends Troop {
   @Override
   public Map<String, List<String>> getAnimationFiles() {
     return Map.of(
-        "SELF_MOVING", List.of("wizard/selfWizard/walking/1.png", "wizard/selfWizard/walking/2.png", "wizard/selfWizard/walking/3.png", "wizard/selfWizard/walking/4.png"),
-        "SELF_FIGHTING", List.of(),
-        "ENEMY_MOVING", List.of(),
-        "ENEMY_FIGHTING", List.of(),
+        "SELF_MOVING", List.of("barbarian/self/walking/0.png", "barbarian/self/walking/1.png", "barbarian/self/walking/2.png", "barbarian/self/walking/3.png", "barbarian/self/walking/4.png", "barbarian/self/walking/5.png", "barbarian/self/walking/6.png"),
+        "SELF_FIGHTING", List.of("barbarian/self/attacking/0.png", "barbarian/self/attacking/1.png", "barbarian/self/attacking/2.png", "barbarian/self/attacking/3.png"),
+        "ENEMY_MOVING", List.of("barbarian/bot/walking/0.png", "barbarian/bot/walking/1.png"),
+        "ENEMY_FIGHTING", List.of("barbarian/bot/attacking/0.png", "barbarian/bot/attacking/1.png", "barbarian/bot/attacking/2.png", "barbarian/bot/attacking/3.png"),
         "AS_CARD", List.of());
   }
 }
