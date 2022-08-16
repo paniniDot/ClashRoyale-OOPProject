@@ -62,8 +62,12 @@ public final class FireBall extends Spell {
 
   @Override
   public Map<String, List<String>> getAnimationFiles() {
-    // TODO Auto-generated method stub
-    return null;
+    return Map.of(
+        "SELF", List.of("fireball/self/0.png", "fireball/self/1.png", "fireball/self/2.png", "fireball/self/3.png", "fireball/self/4.png", "fireball/self/5.png", "fireball/self/6.png", "fireball/self/7.png", "fireball/self/8.png", 
+            "fireball/self/9.png", "fireball/self/10.png", "fireball/self/11.png", "fireball/self/12.png", "fireball/self/13.png", "fireball/self/14.png", "fireball/self/15.png", "fireball/self/16.png", "fireball/self/17.png"),
+        "ENEMY", List.of("fireball/bot/0.png", "fireball/bot/1.png", "fireball/bot/2.png", "fireball/bot/3.png", "fireball/bot/4.png", "fireball/bot/5.png", "fireball/bot/6.png", "fireball/bot/7.png", "fireball/bot/8.png", 
+            "fireball/bot/9.png", "fireball/bot/10.png", "fireball/bot/11.png", "fireball/bot/12.png", "fireball/bot/13.png", "fireball/bot/14.png", "fireball/bot/15.png", "fireball/bot/16.png", "fireball/bot/17.png"),
+        "AS_CARD", List.of());
   }
 
 }
