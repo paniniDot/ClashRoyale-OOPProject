@@ -25,6 +25,7 @@ import model.utilities.VectorsUtilities;
 public class BotGameModel extends GameModel {
 
   private final List<Card> botCards;
+  private final List<Card> botCardQueue;
   private final List<Card> botDeployedCards;
   private final List<Card> botChoosableCards;
   private final List<Tower> botActiveTowers;
@@ -39,9 +40,10 @@ public class BotGameModel extends GameModel {
   public BotGameModel(final List<Card> playerCards, final List<Card> botCards, final User player, final Bot bot) {
     super(playerCards, player);
     this.botCards = botCards.stream().collect(Collectors.toList());
+    this.botCardQueue = botCards.stream().collect(Collectors.toList());
     this.botDeployedCards = new ArrayList<>();
     this.botChoosableCards = new ArrayList<>();
-    IntStream.range(0, GameModel.CHOOSABLE_CARDS).forEach(i -> this.botChoosableCards.add(this.botCards.remove(0)));
+    IntStream.range(0, GameModel.CHOOSABLE_CARDS).forEach(i -> this.botChoosableCards.add(this.botCardQueue.remove(0)));
     this.botActiveTowers = this.getBotTowers(bot);
   }
 
@@ -60,6 +62,14 @@ public class BotGameModel extends GameModel {
    */
   public List<Card> getBotDeck() {
     return Collections.unmodifiableList(this.botCards);
+  }
+
+  /**
+   * 
+   * @return the queued cards of the bot.
+   */
+  public List<Card> getBotCardQueue() {
+    return Collections.unmodifiableList(this.botCardQueue);
   }
 
   /**
@@ -85,9 +95,10 @@ public class BotGameModel extends GameModel {
    */
   public void deployBotCard(final Card card) {
     if (this.botChoosableCards.contains(card)) {
+      System.out.println("Carta bot piazata");
       this.botChoosableCards.remove(card);
       this.botDeployedCards.add(card);
-      this.botCards.add(card);
+      this.botCardQueue.add(card);
     }
   }
 
