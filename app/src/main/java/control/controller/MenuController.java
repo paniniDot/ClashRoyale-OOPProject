@@ -21,29 +21,15 @@ import view.screens.MenuScreen;
  * Controller implementation for the Menu Screen.
  */
 public class MenuController extends Controller {
-  private FileHandle file;
-  private User user;
-  private Gson gson;
+
   /**
    * Constructor.
    */
   public MenuController() {
     super(Audio.getMenuMusic());
     super.registerModel(new Model());
-    this.gson = new GsonBuilder().setPrettyPrinting().create();
-    this.file = Gdx.files.internal("saves/user.json");
-      if (!this.file.exists()) {
-        this.user = new User("P"); 
-        save();
-      } else {
-        this.user = load();
-      }
   }
 
-  
-  public User getUser() {
-    return user;
-  }
 
 
   @Override
@@ -77,33 +63,4 @@ public class MenuController extends Controller {
   public void setCurrentActiveScreen() {
    BaseGame.setActiveScreen(new MenuScreen(this));
   }
-  
-  /**
-   * 
-   * @param user
-   */
-  public void save() {
-    final FileWriter writer;
-    try {
-      writer = new FileWriter(file.file());
-      gson.toJson(this.user, writer);
-      writer.close();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-
-  /**
-   * 
-   * @return User
-   */
-  public User load() {
-    try {
-      return this.gson.fromJson(new FileReader(this.file.file()), User.class);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return null;
-  }
-
 }

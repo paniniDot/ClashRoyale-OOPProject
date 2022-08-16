@@ -1,36 +1,26 @@
 package control.controller;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import control.BaseGame;
 import model.Model;
 import model.utilities.Audio;
-import model.utilities.Deck;
 import view.screens.DeckScreen;
 /**
  * Controller implementation for the game screen.
  */
 public class DeckController extends Controller {
-  private Deck deck;
   private TextureAtlas atlas;
   private Skin skin;
   private List decklist;
   private List cards;
   private static final int DIMDECK = 4;
   private JFrame frame;
-  private Gson gson;
-  private FileHandle file;
-
 
   /**
    * Constructor.
@@ -42,21 +32,6 @@ public class DeckController extends Controller {
     this.skin = new Skin(Gdx.files.internal("buttons/menuSkin.json"), atlas);
     this.decklist = new List<String>(skin);
     this.cards = new List<String>(skin);
-    this.gson = new GsonBuilder().setPrettyPrinting().create();
-    this.file = Gdx.files.internal("saves/deck.json");
-    if (!this.file.exists()) {
-      this.deck = new Deck();
-      save(this.deck);
-    } else {
-      this.deck = load();
-    }
-  }
-/**
- * 
- * @return getDeck
- */
-  public Deck getDeck() {
-    return deck;
   }
 
 
@@ -81,7 +56,7 @@ public class DeckController extends Controller {
    * setCard in DeckScreen
    */
   public List<String> setCards() {
-    this.cards.setItems(deck.getCardsSet().toArray());
+    this.cards.setItems(getUDeck().getCardsSet().toArray());
     return cards;
   }
 
@@ -90,7 +65,7 @@ public class DeckController extends Controller {
    * setDeck in DeckScreen
    */
   public List<String> setDeck() {
-    this.decklist.setItems(deck.getDeckSet().toArray());
+    this.decklist.setItems(getUDeck().getDeckSet().toArray());
     return decklist;
   }
   
@@ -100,7 +75,7 @@ public class DeckController extends Controller {
    * @return 
    */
   public List<String> addDeck(String select) {
-    decklist.setItems(deck.addDeck(select).toArray());
+    decklist.setItems(getUDeck().addDeck(select).toArray());
       return decklist;
     }
   
@@ -110,7 +85,7 @@ public class DeckController extends Controller {
    * @return 
    */
   public List<String> addCard(String select) {
-    cards.setItems(deck.addCardSet(select).toArray());
+    cards.setItems(getUDeck().addCardSet(select).toArray());
       return cards;
     }
   
@@ -120,7 +95,7 @@ public class DeckController extends Controller {
    * @return 
    */
   public List<String> removeCard(String card) {
-    this.cards.setItems(deck.removeCardSet(card).toArray());
+    this.cards.setItems(getUDeck().removeCardSet(card).toArray());
     return cards;    
   }
   
@@ -130,7 +105,7 @@ public class DeckController extends Controller {
    * @return 
    */
   public List<String> removeDeckCard(String card) {
-    this.decklist.setItems(deck.removeDeckCard(card).toArray());
+    this.decklist.setItems(getUDeck().removeDeckCard(card).toArray());
     return decklist;    
   }
 
@@ -139,49 +114,22 @@ public class DeckController extends Controller {
    * @return
    */
   public boolean full() {
-    if (deck.getDeckSet().size() < DIMDECK)
+    if (getUDeck().getDeckSet().size() < DIMDECK)
       return true;
     JOptionPane.showMessageDialog(frame, "DECK PIENO(MAX 4 CARTE), RIMUOVERE PRIMA UNA CARTA");
     return false;
   }
   
   public boolean empty() {
-    if (!deck.getDeckSet().isEmpty())
+    if (!getUDeck().getDeckSet().isEmpty())
       return true;
     JOptionPane.showMessageDialog(frame, "DECK VUOTO");
     return false;
   }
-  
-  /**
-   * 
-   * @param user
-   */
-  public void save(final Deck deck) {
-    final FileWriter writer;
-    try {
-      writer = new FileWriter(file.file());
-      gson.toJson(deck, writer);
-      writer.close();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
 
-  /**
-   * 
-   * @return User
-   */
-  public Deck load() {
-    try {
-      return this.gson.fromJson(new FileReader(this.file.file()), Deck.class);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return null;
-  }
   public void returnButton() {
-    if (getDeck().getDeckSet().size() == DIMDECK) {
-    save(getDeck());
+    if (getUDeck().getDeckSet().size() == DIMDECK) {
+    save();
     triggerMenu();    
     }
     else

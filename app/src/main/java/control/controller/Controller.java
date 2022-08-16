@@ -1,10 +1,19 @@
 package control.controller;
 
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import model.Model;
+import model.actors.users.User;
 import model.utilities.Audio;
+import model.utilities.Deck;
 
 /**
  * The controller for the game.
@@ -13,7 +22,10 @@ public abstract class Controller {
 
   private Model model;
   private final Audio audio;
-
+  private static Gson gson;
+  private static FileHandle file;
+  private static User user;
+  private Deck deck;
   /**
    * Constructor.
    * 
@@ -22,6 +34,15 @@ public abstract class Controller {
    */
   public Controller(final Audio audio) {
     this.audio = audio;
+    this.gson = new GsonBuilder().setPrettyPrinting().create();
+    this.file = Gdx.files.internal("saves/user.json");
+    if (!this.file.exists()) {
+      this.user = new User("P");
+      save();
+    } else {
+      this.user = load();
+    }
+    this.deck = this.user.getDeck();
   }
 
   /**
@@ -76,4 +97,44 @@ public abstract class Controller {
   public void stopMusic() {
     this.audio.stop();
   }
+  
+  /**
+   * 
+   * @param user
+   */
+  public static void save() {
+    final FileWriter writer;
+    try {
+      writer = new FileWriter(file.file());
+      gson.toJson(user, writer);
+      writer.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  /**
+   * 
+   * @return User
+   */
+  public User load() {
+    try {
+      return this.gson.fromJson(new FileReader(this.file.file()), User.class);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+  
+  /**
+   * 
+   * @return getDeck
+   */
+    public User getUser() {
+      return user;
+    }
+
+    public Deck getUDeck() {
+      return user.getDeck();
+    }
 }

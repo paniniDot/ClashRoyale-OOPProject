@@ -40,7 +40,6 @@ public class DeckScreen extends BaseScreen {
   private ScrollPane scrollPaneDeck, scrollPaneCards;
   private TextButton buttonAdd, buttonRemove, buttonReturn;
   private Label heading, headingDeck, headingCards;
-  private Gson gson;
   private static final int SPACE = 15;
   private static final int HEIGHTSCROLLPANE = 350;
   private static final int WIDTHSCROLLPANE = 400;

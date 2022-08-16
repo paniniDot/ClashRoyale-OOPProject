@@ -75,7 +75,7 @@ public class MenuScreen extends BaseScreen {
     this.buttonExit.addListener(new ClickListener() {
       @Override
       public void clicked(final InputEvent event, final float x, final float y) {
-        menuController.save();
+        Controller.save();
         Gdx.app.exit();
       }
     });
