@@ -86,11 +86,14 @@ public class BotGameController extends GameController {
               this.updateAttackablePosition(a, enemyAttackables);
               c.setRotation(a.getPosition());
               c.moveTo(a.getPosition());
-            }
+            } 
           } else {
             c.setPosition(c.getOrigin().x, c.getOrigin().y);
           }
         }
+      });
+      selfAttackables.stream().filter(a -> a.getCurrentTarget().isPresent()).forEach(a -> {
+        c.setRotation(a.getCurrentTarget().get().getPosition());
       });
     });
   }

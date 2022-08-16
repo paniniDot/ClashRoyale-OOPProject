@@ -3,7 +3,6 @@ package view.actors;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -54,19 +53,12 @@ public class BaseActor extends Actor {
   }
 
   /**
-   * @return a rectangle defining the boundaries of the actor.
-   */
-  public Rectangle getBoundaries() {
-    return new Rectangle(super.getX(), super.getY(), super.getWidth(), super.getHeight());
-  }
-
-  /**
    * 
    * @return the center of the actor.
    */
   public Vector2 getCenter() {
     //System.out.println("Rettangolo = " + this.getBoundaries() + " Centro del rettangolo = " + this.getBoundaries().getCenter(new Vector2()));
-    return this.getBoundaries().getCenter(new Vector2());
+    return new Vector2(super.getX() + (this.w / 2), super.getY() + (this.h / 2));
   }
 
   /**
@@ -75,15 +67,6 @@ public class BaseActor extends Actor {
    */
   public Vector2 getOrigin() {
     return this.origin;
-  }
-
-  /**
-   * @param other
-   *        {@inheritDoc}
-   * @return whether this actor overlaps with the one passed as argument.
-   */
-  public boolean overlaps(final BaseActor other) {
-    return this.getBoundaries().overlaps(other.getBoundaries());
   }
 
   /**
@@ -106,7 +89,7 @@ public class BaseActor extends Actor {
       batch.draw(this.animation.getKeyFrame(this.elapsedTime), 
           super.getX(), super.getY(), 
           this.w / 2, this.h / 2,
-          this.getWidth(), this.getHeight(), 
+          super.getWidth(), super.getHeight(), 
           1.0f, 1.0f,
           this.rotate);
     }
@@ -139,6 +122,6 @@ public class BaseActor extends Actor {
    *            the destination position of this actor. Used to evaluate its rotation.
    */
   public void setRotation(final Vector2 dst) {
-    this.rotate = (float) Math.toDegrees(Math.atan2(dst.y - this.getY() - (this.h / 2), dst.x - this.getX() - (this.w / 2))) - 90;
+    this.rotate = (float) Math.toDegrees(Math.atan2(dst.y - super.getY() - (this.h / 2), dst.x - super.getX()- (this.w / 2))) - 90;
   }
 }
