@@ -1,7 +1,5 @@
 package view.actors;
 
-import java.util.Optional;
-
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -15,13 +13,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
  */
 public class BaseActor extends Actor {
 
-  private Optional<Animation<TextureRegion>> animation;
+  private Animation<TextureRegion> animation;
   private float elapsedTime;
   private float rotate;
   private final Vector2 origin;
-  private TextureRegion region;
-  private float w;
-  private float h;
+  private final float w;
+  private final float h;
 
   /**
    * Constructor.
@@ -34,15 +31,15 @@ public class BaseActor extends Actor {
    *          {@inheritDoc}
    */ 
   public BaseActor(final float x, final float y, final Stage stage, final Animation<TextureRegion> animation) {
-    this.animation = Optional.of(animation);
-    this.region = animation.getKeyFrame(0);
+    this.animation = animation;
+    final TextureRegion region = animation.getKeyFrame(0);
     this.w = region.getRegionWidth();
     this.h = region.getRegionHeight();
     super.setSize(w, h);
     this.origin = new Vector2(x, y);
-    stage.addActor(this);
     this.elapsedTime = 0;
     super.setPosition(x, y);
+    stage.addActor(this);
   }
 
   /**
@@ -51,11 +48,9 @@ public class BaseActor extends Actor {
    *          {@inheritDoc}
    */
   public void setAnimation(final Animation<TextureRegion> animation) {
-    this.animation = Optional.of(animation);
-    this.region = this.animation.get().getKeyFrame(0);
-    this.w = region.getRegionWidth();
-    this.h = region.getRegionHeight();
-    super.setSize(w, h);
+    this.animation = animation;
+    final TextureRegion region = animation.getKeyFrame(0);
+    super.setSize(region.getRegionWidth(), region.getRegionHeight());
   }
 
   /**
@@ -95,7 +90,7 @@ public class BaseActor extends Actor {
    * @return whether the animation is finished or not.
    */
   public boolean isAnimationFinished() {
-    return this.animation.get().isAnimationFinished(this.elapsedTime);
+    return this.animation.isAnimationFinished(this.elapsedTime);
   }
 
   @Override
@@ -108,10 +103,10 @@ public class BaseActor extends Actor {
   public void draw(final Batch batch, final float parentAlpha) {
     super.draw(batch, parentAlpha);
     if (super.isVisible()) {
-      batch.draw(this.animation.get().getKeyFrame(this.elapsedTime), 
+      batch.draw(this.animation.getKeyFrame(this.elapsedTime), 
           super.getX(), super.getY(), 
-          this.getWidth() / 2, this.getHeight() / 2,
-          super.getWidth(), super.getHeight(), 
+          this.w / 2, this.h / 2,
+          this.getWidth(), this.getHeight(), 
           1.0f, 1.0f,
           this.rotate);
     }
@@ -126,7 +121,7 @@ public class BaseActor extends Actor {
    *        the new y coordinate. 
    */
   public void setPosition(final float x, final float y) {
-    super.setPosition(x - (w / 2), y - (h / 2));
+    super.setPosition(x - (this.w / 2), y - (this.h / 2));
   }
 
   /**
@@ -143,7 +138,7 @@ public class BaseActor extends Actor {
    * @param dst
    *            the destination position of this actor. Used to evaluate its rotation.
    */
-  public void rotate(final Vector2 dst) {
-    this.rotate = (float) Math.toDegrees(Math.atan2(dst.y - this.getY() - (h / 2), dst.x - this.getX() - (w / 2))) - 90;
+  public void setRotation(final Vector2 dst) {
+    this.rotate = (float) Math.toDegrees(Math.atan2(dst.y - this.getY() - (this.h / 2), dst.x - this.getX() - (this.w / 2))) - 90;
   }
 }

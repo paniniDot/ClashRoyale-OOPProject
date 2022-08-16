@@ -24,6 +24,8 @@ public class TowerActor extends BaseActor {
    *          y coordinate of the tower.
    * @param stage
    *          the stage where the tower has to be deployed.
+   * @param animation
+   *          {@inheritDoc}
    */
   public TowerActor(final UUID id, final float x, final float y, final Stage stage, final Animation<TextureRegion> animation) {
     super(x, y, stage, animation);

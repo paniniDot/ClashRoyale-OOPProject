@@ -17,9 +17,8 @@ public class DragAndDropActor extends BaseActor {
   private float grabOffsetX;
   private float grabOffsetY;
   private boolean isDraggable;
-  private TextureRegion region;
-  private float w;
-  private float h;
+  private final float w;
+  private final float h;
 
 
   /**
@@ -34,9 +33,9 @@ public class DragAndDropActor extends BaseActor {
    */
   public DragAndDropActor(final float x, final float y, final Stage s, final Animation<TextureRegion> animation) {
     super(x, y, s, animation);
-    self = this;
-    isDraggable = true;
-    this.region = animation.getKeyFrame(0);
+    this.self = this;
+    this.isDraggable = true;
+    final TextureRegion region = animation.getKeyFrame(0);
     this.w = region.getRegionWidth();
     this.h = region.getRegionHeight();
     this.addListener(new InputListener() {
@@ -98,8 +97,7 @@ public class DragAndDropActor extends BaseActor {
    * Called when drop occurs; extending classes may override this method.
    */
   public void onDrop() {
-    super.setPosition(this.getPosition().x + (w / 2), this.getPosition().y + (h / 2));
-    System.out.println("Screen: " + super.getX() + ", " + super.getY());
+    super.setPosition(this.getPosition().x + (this.w / 2), this.getPosition().y + (this.h / 2));
   }
 
   /**
@@ -109,18 +107,7 @@ public class DragAndDropActor extends BaseActor {
    *            new coordinates.
    */
   public void moveTo(final Vector2 spot) {
-    this.addAction(Actions.moveTo(spot.x - (w / 2), spot.y - (h / 2), 2f));
-    System.out.println("Posizione da dragAndDropScreen :" + super.getPosition());
-  }
-
-  /**
-   * update angle of the troop.
-   * 
-   * @param dst
-   *          the destination position of this actor, used to evaluate the rotation of the animation. 
-   */
-  public void setRotation(final Vector2 dst) {
-    super.rotate(dst);
+    this.addAction(Actions.moveTo(spot.x - (this.w / 2), spot.y - (this.h / 2), 2f));
   }
 
 }
