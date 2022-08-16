@@ -43,10 +43,10 @@ public final class Giant extends Troop {
   @Override
   public Map<String, List<String>> getAnimationFiles() {
     return Map.of(
-        "SELF_MOVING", List.of("wizard/selfWizard/walking/1.png", "wizard/selfWizard/walking/2.png", "wizard/selfWizard/walking/3.png", "wizard/selfWizard/walking/4.png"),
-        "SELF_FIGHTING", List.of(),
-        "ENEMY_MOVING", List.of(),
-        "ENEMY_FIGHTING", List.of(),
+        "SELF_MOVING", List.of("giant/self/walking/0.png", "giant/self/walking/1.png"),
+        "SELF_FIGHTING", List.of("giant/self/attacking/0.png", "giant/self/attacking/1.png", "giant/self/attacking/2.png"),
+        "ENEMY_MOVING", List.of("giant/bot/walking/0.png", "giant/bot/walking/1.png"),
+        "ENEMY_FIGHTING", List.of("giant/bot/attacking/0.png", "giant/bot/attacking/1.png", "giant/bot/attacking/2.png"),
         "AS_CARD", List.of());
   }
 }
