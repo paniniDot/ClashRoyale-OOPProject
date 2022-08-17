@@ -28,6 +28,7 @@ public abstract class GameModel extends Model {
   protected static final int CHOOSABLE_CARDS = 4;
 
   private final List<Card> playerCards;
+  private final List<Card> playerCardQueue;
   private final List<Card> playerDeployedCards;
   private final List<Card> playerChoosableCards;
   private final List<Tower> playerActiveTowers;
@@ -41,9 +42,10 @@ public abstract class GameModel extends Model {
    */
   public GameModel(final List<Card> playerCards, final User user) {
     this.playerCards = playerCards.stream().collect(Collectors.toList());
+    this.playerCardQueue = playerCards.stream().collect(Collectors.toList());
     this.playerDeployedCards = new ArrayList<>();
     this.playerChoosableCards = new ArrayList<>();
-    IntStream.range(0, CHOOSABLE_CARDS).forEach(i -> this.playerChoosableCards.add(this.playerCards.remove(0)));
+    IntStream.range(0, CHOOSABLE_CARDS).forEach(i -> this.playerChoosableCards.add(this.playerCardQueue.remove(0)));
     this.playerActiveTowers = this.getPlayerTowers(user);
   }
 
@@ -63,6 +65,14 @@ public abstract class GameModel extends Model {
    */
   public List<Card> getPlayerDeck() {
     return Collections.unmodifiableList(this.playerCards);
+  }
+
+  /**
+   * 
+   * @return the queued cards of the player.
+   */
+  public List<Card> getPlayerCardQueue() {
+    return Collections.unmodifiableList(this.playerCardQueue);
   }
 
   /**
@@ -88,9 +98,10 @@ public abstract class GameModel extends Model {
    */
   public void deployPlayerCard(final Card card) {
     if (this.playerChoosableCards.contains(card)) {
+      System.out.println("Carta user piazata");
       this.playerChoosableCards.remove(card);
       this.playerDeployedCards.add(card);
-      this.playerCards.add(card);
+      this.playerCardQueue.add(card);
     }
   }
 
