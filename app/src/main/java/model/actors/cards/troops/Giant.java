@@ -47,6 +47,6 @@ public final class Giant extends Troop {
         "SELF_FIGHTING", List.of("giant/self/attacking/0.png", "giant/self/attacking/1.png", "giant/self/attacking/2.png"),
         "ENEMY_MOVING", List.of("giant/bot/walking/0.png", "giant/bot/walking/1.png"),
         "ENEMY_FIGHTING", List.of("giant/bot/attacking/0.png", "giant/bot/attacking/1.png", "giant/bot/attacking/2.png"),
-        "AS_CARD", List.of());
+        "AS_CARD", List.of("cards/GiantCard.png"));
   }
 }

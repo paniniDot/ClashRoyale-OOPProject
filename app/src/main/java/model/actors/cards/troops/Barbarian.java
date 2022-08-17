@@ -46,6 +46,6 @@ public final class Barbarian extends Troop {
         "SELF_FIGHTING", List.of("barbarian/self/attacking/0.png", "barbarian/self/attacking/1.png", "barbarian/self/attacking/2.png", "barbarian/self/attacking/3.png"),
         "ENEMY_MOVING", List.of("barbarian/bot/walking/0.png", "barbarian/bot/walking/1.png"),
         "ENEMY_FIGHTING", List.of("barbarian/bot/attacking/0.png", "barbarian/bot/attacking/1.png", "barbarian/bot/attacking/2.png", "barbarian/bot/attacking/3.png"),
-        "AS_CARD", List.of());
+        "AS_CARD", List.of("cards/BarbariansCard.png"));
   }
 }
