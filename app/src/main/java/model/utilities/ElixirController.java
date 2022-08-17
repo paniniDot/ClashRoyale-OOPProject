@@ -27,10 +27,10 @@ public class ElixirController {
         } else {
           timer.cancel();
           timer.purge();
-       }
-     }
-     };
-     this.timer.schedule(task, 0, 1000);
+        }
+      }
+    };
+    this.timer.schedule(task, 0, 1000);
   }
 
    /**
