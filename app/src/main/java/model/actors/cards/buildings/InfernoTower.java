@@ -14,7 +14,10 @@ import model.actors.Attackable;
  */
 public final class InfernoTower extends Building {
 
-  private static final int ELIXIR_COST = 3;
+  /**
+   * Elixir cost of the card.
+   */
+  public static final int ELIXIR_COST = 3;
   private static final int RANGE = 3;
   private static final double HIT_SPEED = 0.4;
 

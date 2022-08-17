@@ -15,7 +15,10 @@ import model.actors.users.User;
  */
 public final class Wizard extends Troop {
 
-  private static final int ELIXIR_COST = 5;
+  /**
+   * Elixir cost of the card.
+   */
+  public static final int ELIXIR_COST = 5;
   private static final double HIT_SPEED = 1.4;
   private static final double RANGE = 80;
 

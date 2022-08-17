@@ -15,7 +15,10 @@ public final class FireBall extends Spell {
 
   private final double damage;
 
-  private static final int ELIXIR_COST = 4;
+  /**
+   * Elixir cost of the card.
+   */
+  public static final int ELIXIR_COST = 4;
   private static final int RANGE = 3;
   private static final double DURATION = 0.1;
 

@@ -13,7 +13,10 @@ import model.actors.users.User;
  */
 public final class Barbarian extends Troop {
 
-  private static final int ELIXIR_COST = 5;
+  /**
+   * Elixir cost of the card.
+   */
+  public static final int ELIXIR_COST = 5;
   private static final int RANGE = 1;
 
   private Barbarian(final User owner, final Vector2 position, final double maxHP, final double damage) {
@@ -29,6 +32,7 @@ public final class Barbarian extends Troop {
    * @return the barbarian itself.
    */
   public static Troop create(final User user, final Vector2 position) {
+    
       switch (user.getCurrentLevel()) {
           case LVL1: return new Barbarian(user, position, 300, 75);
           case LVL2: return new Barbarian(user, position, 330, 82);
