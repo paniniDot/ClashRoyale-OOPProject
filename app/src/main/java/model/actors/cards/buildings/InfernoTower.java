@@ -14,7 +14,10 @@ import model.actors.Attackable;
  */
 public final class InfernoTower extends Building {
 
-  private static final int ELIXIR_COST = 3;
+  /**
+   * Elixir cost of the card.
+   */
+  public static final int ELIXIR_COST = 3;
   private static final int RANGE = 3;
   private static final double HIT_SPEED = 0.4;
 
@@ -65,7 +68,11 @@ public final class InfernoTower extends Building {
 
   @Override
   public Map<String, List<String>> getAnimationFiles() {
-    // TODO Auto-generated method stub
-    return null;
+    return  Map.of(
+        "SELF_MOVING", List.of("infernoTower/self/staying/0.png", "infernoTower/self/staying/1.png", "infernoTower/self/staying/2.png", "infernoTower/self/staying/3.png"),
+        "SELF_FIGHTING", List.of("infernoTower/self/attacking/0.png", "infernoTower/self/attacking/1.png", "infernoTower/self/attacking/2.png", "infernoTower/self/attacking/3.png"),
+        "ENEMY_MOVING", List.of("infernoTower/bot/staying/0.png", "infernoTower/bot/staying/1.png", "infernoTower/bot/staying/2.png", "infernoTower/bot/staying/3.png"),
+        "ENEMY_FIGHTING", List.of("infernoTower/bot/attacking/0.png", "infernoTower/bot/attacking/1.png", "infernoTower/bot/attacking/2.png", "infernoTower/bot/attacking/3.png"),
+        "AS_CARD", List.of("cards/InfernoTowerCard.png"));
   }
 }

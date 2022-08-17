@@ -80,4 +80,9 @@ public interface Attackable {
    */
   User getOwner();
 
+  /**
+   * @return the remaining Health Point
+   */
+  double getCurrentHP();
+
 }
