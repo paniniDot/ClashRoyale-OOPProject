@@ -1,11 +1,13 @@
 package model.actors.cards.spells;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
+import model.actors.Attackable;
 import model.actors.users.User;
 
 /**
@@ -14,7 +16,7 @@ import model.actors.users.User;
 public final class FireBall extends Spell {
 
   private final double damage;
-
+  private final List<Attackable> targets;
   /**
    * Elixir cost of the card.
    */
@@ -25,6 +27,7 @@ public final class FireBall extends Spell {
   private FireBall(final User owner, final Vector2 position, final double damage) {
     super(FireBall.ELIXIR_COST, position, owner, FireBall.DURATION, FireBall.RANGE);
     this.damage = damage;
+    this.targets = new ArrayList<>();
   }
 
   /**
@@ -34,13 +37,26 @@ public final class FireBall extends Spell {
   public double getDamage() {
     return this.damage;
   }
+
   /**
    * Start the action of Fireball. 
    */
   @Override
   public void start() {
-    //TODO
+    this.targets.forEach(target -> target.reduceHPBy(this.getDamage()));
   }
+
+  /**
+   * Add target.
+   *
+   * @param target the target
+   */
+  public void addTarget(final Attackable target) {
+      if (!this.targets.contains(target)) {
+          this.targets.add(target);
+      }
+  }
+
 
   /**
    * Create a fireball card based on the user level.
