@@ -16,18 +16,49 @@ import view.screens.StatScreen;
  */
 public class StatController extends Controller {
 
-/*  private TextureAtlas atlas;
-  private Skin skin;
-  private JFrame frame;
-*/
+  private final int plays;
+  private final int wins;
+  private final int towers;
+  
   /**
    * Constructor.
    */
   public StatController() {
     super(Audio.getMenuMusic());
     super.registerModel(new Model());
+    this.plays = 5;
+    this.wins = 5;
+    this.towers = 5;
     /*this.atlas = new TextureAtlas("buttons/atlas.pack");
     this.skin = new Skin(Gdx.files.internal("buttons/menuSkin.json"), atlas);*/
+  }
+
+  /**
+   * @return matches played.
+   */
+  public int getPlays() {
+    return plays;
+  }
+
+/**
+ * @return matches win.
+ */
+  public int getWins() {
+    return wins;
+  }
+
+/**
+ * @return towers destroyed.
+ */
+  public int getTowers() {
+    return towers;
+  }
+
+  /**
+   * @return win/lose rateo.
+   */
+  public float getRateo() {
+    return wins / ((plays - wins) == 0 ? 1 : plays - wins);
   }
 
   /**

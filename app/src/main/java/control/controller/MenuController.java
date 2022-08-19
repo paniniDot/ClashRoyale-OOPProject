@@ -30,12 +30,8 @@ public class MenuController extends Controller {
     super.registerModel(new Model());
   }
 
-
-
   @Override
   public void update(final float dt) {
-    // TODO Auto-generated method stub
-
   }
 
   /**
