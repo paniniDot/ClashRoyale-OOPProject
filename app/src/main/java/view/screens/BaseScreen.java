@@ -30,7 +30,6 @@ public abstract class BaseScreen implements Screen {
   }
 
   /**
-   * 
    * @return the main stage.
    */
   public Stage getMainStage() {
@@ -38,7 +37,6 @@ public abstract class BaseScreen implements Screen {
   }
 
   /**
-   * 
    * @return a secondary stage.
    */
   public Stage getUiStage() {
@@ -46,7 +44,6 @@ public abstract class BaseScreen implements Screen {
   }
 
   /**
-   * 
    * @return the controller this screen has subscribed to.
    */
   public Controller getController() {
@@ -60,6 +57,7 @@ public abstract class BaseScreen implements Screen {
 
   /**
    * Update all components and stages once each dt.
+   * 
    * @param dt
    *          delta time how often a screen have to be updated.
    */
@@ -67,6 +65,7 @@ public abstract class BaseScreen implements Screen {
 
   @Override
   public void render(final float dt) {
+
     // act methods
     this.uiStage.act(dt);
     this.mainStage.act(dt);
