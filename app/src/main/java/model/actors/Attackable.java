@@ -5,8 +5,6 @@ import java.util.UUID;
 
 import com.badlogic.gdx.math.Vector2;
 
-import model.actors.users.User;
-
 /**
  * Defines entities which are allowed to be attacked from others.
  */
@@ -73,12 +71,6 @@ public interface Attackable {
    * @return self unique identifier.
    */
   UUID getSelfId();
-
-  /**
-   * 
-   * @return the owner of this attackable.
-   */
-  User getOwner();
 
   /**
    * @return the remaining Health Point

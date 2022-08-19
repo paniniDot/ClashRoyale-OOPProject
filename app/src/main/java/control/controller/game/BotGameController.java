@@ -9,8 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import model.GlobalData;
 import model.actors.Attackable;
-import model.actors.cards.Card;
-import model.actors.users.Bot;
 import model.utilities.ElixirController;
 import model.utilities.ingame.BotGameModel;
 import view.actors.CardActor;
@@ -82,11 +80,6 @@ public class BotGameController extends GameController {
         if (!Gdx.input.isTouched() && c.getSelfId().equals(a.getSelfId())) {
           if (super.getGameMap().containsPosition(c.getCenter())) {
             if (c.isDraggable()) {
-              if (a.getOwner() instanceof Bot) {
-                ((BotGameModel) super.getModel()).deployBotCard((Card) a);
-              } else {
-                ((BotGameModel) super.getModel()).deployPlayerCard((Card) a);
-              }
               c.setDraggable(false);
               a.setPosition(c.getCenter());
             } else if (this.castedToIntPosition(c.getCenter()).equals(this.castedToIntPosition(a.getPosition()))) {
@@ -101,9 +94,6 @@ public class BotGameController extends GameController {
       });
       selfAttackables.stream().filter(a -> a.getCurrentTarget().isPresent()).forEach(a -> {
         c.setRotation(a.getCurrentTarget().get().getPosition());
-      if (a.isDead()) {
-        c.remove();
-      }
       });
     });
   }
