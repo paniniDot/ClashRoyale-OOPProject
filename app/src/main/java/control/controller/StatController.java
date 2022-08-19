@@ -1,11 +1,5 @@
 package control.controller;
 
-import javax.swing.JFrame;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-
 import control.BaseGame;
 import model.Model;
 import model.utilities.Audio;
@@ -19,7 +13,7 @@ public class StatController extends Controller {
   private final int plays;
   private final int wins;
   private final int towers;
-  
+
   /**
    * Constructor.
    */
@@ -29,8 +23,6 @@ public class StatController extends Controller {
     this.plays = 5;
     this.wins = 5;
     this.towers = 5;
-    /*this.atlas = new TextureAtlas("buttons/atlas.pack");
-    this.skin = new Skin(Gdx.files.internal("buttons/menuSkin.json"), atlas);*/
   }
 
   /**
@@ -55,9 +47,9 @@ public class StatController extends Controller {
   }
 
   /**
-   * @return win/lose rateo.
+   * @return win/lose ratio.
    */
-  public float getRateo() {
+  public float getRatio() {
     return wins / ((plays - wins) == 0 ? 1 : plays - wins);
   }
 

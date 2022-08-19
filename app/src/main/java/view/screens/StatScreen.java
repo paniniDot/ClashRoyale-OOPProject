@@ -22,14 +22,9 @@ public class StatScreen extends BaseScreen {
 
   private TextureAtlas atlas;
   private Skin skin;
-  /*private Table table; 
-  private TextButton buttonReturn;
-  private Label heading;*/
   private StatController statController;
   private static final int SPACE = 15;
- /* private static final int HEIGHTSCROLLPANE = 350;
-  private static final int WIDTHSCROLLPANE = 400;
-*/
+ 
   /**
    * Constructor.
    * 
@@ -77,7 +72,7 @@ public class StatScreen extends BaseScreen {
     table.row();
     table.add("Vittorie: " + statController.getWins());
     table.row();
-    table.add("W/L: " + statController.getRateo());
+    table.add("W/L: " + statController.getRatio());
     table.row();
     table.add("Torri abbattute: " + statController.getTowers());
     table.row();
