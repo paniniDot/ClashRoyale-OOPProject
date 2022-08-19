@@ -17,21 +17,18 @@ import model.utilities.AnimationUtilities;
 import view.actors.BaseActor;
 
 /**
- * Desck screen implementation.
+ * Deck screen implementation.
  */
 public class DeckScreen extends BaseScreen {
 
   private TextureAtlas atlas;
   private Skin skin;
-  private Table table, tableDeck, tableCards; 
-  private List cards, deck;
-  private ScrollPane scrollPaneDeck, scrollPaneCards;
-  private TextButton buttonAdd, buttonRemove, buttonReturn;
-  private Label heading, headingDeck, headingCards;
+  private List<String> cards, deck;
+  private DeckController deckController;
+
   private static final int SPACE = 15;
   private static final int HEIGHTSCROLLPANE = 350;
   private static final int WIDTHSCROLLPANE = 400;
-  private DeckController deckController;
 
 
   /**
@@ -53,38 +50,45 @@ public class DeckScreen extends BaseScreen {
   }
   @Override
   public void show() {
+    Table table, tableDeck, tableCards;
+    ScrollPane scrollPaneDeck, scrollPaneCards;
+    TextButton buttonAdd, buttonRemove, buttonReturn;
+    Label heading, headingDeck, headingCards;
+
     super.show();
     Gdx.input.setInputProcessor(super.getUiStage());
     this.atlas = new TextureAtlas("buttons/atlas.pack");
     this.skin = new Skin(Gdx.files.internal("buttons/menuSkin.json"), atlas);
-    this.table = new Table(skin);
-    this.tableDeck = new Table(skin);
-    this.tableCards = new Table(skin);
-    this.table.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     this.deckController = new DeckController();
-    this.heading = new Label("Scelta Deck", this.skin);
-    this.headingDeck = new Label("Deck", this.skin);
-    this.headingCards = new Label("Mazzo", this.skin);
     this.cards = this.deckController.setCards();
     this.deck = this.deckController.setDeck();
-    this.scrollPaneDeck = new ScrollPane(deck);
-    this.scrollPaneCards = new ScrollPane(cards);
-    this.buttonAdd = new TextButton("ADD", skin);
-    this.buttonAdd.pad(SPACE);
-    this.buttonAdd.addListener(new ClickListener() {
+
+    table = new Table(skin);
+    table.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    tableDeck = new Table(skin);
+    tableCards = new Table(skin);
+    heading = new Label("Scelta Deck", this.skin);
+    headingDeck = new Label("Deck", this.skin);
+    headingCards = new Label("Mazzo", this.skin);
+    scrollPaneDeck = new ScrollPane(deck);
+    scrollPaneCards = new ScrollPane(cards);
+
+    buttonAdd = new TextButton("ADD", skin);
+    buttonAdd.pad(SPACE);
+    buttonAdd.addListener(new ClickListener() {
       @Override
       public void clicked(final InputEvent event, final float x, final float y) {
         if (deckController.full()) {
-        final String select = (String) cards.getSelected();
+        final String select = cards.getSelected();
         cards = deckController.removeCard(select);
         deck = deckController.addDeck(select);
         }
       }
     });
 
-    this.buttonRemove = new TextButton("REMOVE", skin);
-    this.buttonRemove.pad(SPACE);
-    this.buttonRemove.addListener(new ClickListener() {
+    buttonRemove = new TextButton("REMOVE", skin);
+    buttonRemove.pad(SPACE);
+    buttonRemove.addListener(new ClickListener() {
       @Override
       public void clicked(final InputEvent event, final float x, final float y) {
         if (deckController.empty()) {
@@ -94,8 +98,9 @@ public class DeckScreen extends BaseScreen {
         }
       }
     });
+
     buttonReturn = new TextButton("RETURN", skin);
-    this.buttonReturn.addListener(new ClickListener() {
+    buttonReturn.addListener(new ClickListener() {
       @Override
       public void clicked(final InputEvent event, final float x, final float y) {
         getController().stopMusic();
@@ -104,20 +109,20 @@ public class DeckScreen extends BaseScreen {
     });
     buttonReturn.pad(10);
 
-    this.tableDeck.add(headingDeck).row();
-    this.tableDeck.add(scrollPaneDeck).height(HEIGHTSCROLLPANE).width(WIDTHSCROLLPANE).left().expandY().expandX();
-    this.tableDeck.add(buttonRemove).right();
-    this.tableCards.add(headingCards).row();
-    this.tableCards.add(scrollPaneCards).height(HEIGHTSCROLLPANE).width(WIDTHSCROLLPANE).left().expandY().expandX();
-    this.tableCards.add(buttonAdd).right();
-    this.table.add().spaceBottom(SPACE).row();
-    this.table.add(heading);
-    this.table.getCell(this.heading).spaceBottom(100).row();
-    this.table.add(tableDeck).left().row();
-    this.table.add(tableCards).left().row();
-    this.table.add(this.buttonReturn).right();
+    tableDeck.add(headingDeck).row();
+    tableDeck.add(scrollPaneDeck).height(HEIGHTSCROLLPANE).width(WIDTHSCROLLPANE).left().expandY().expandX();
+    tableDeck.add(buttonRemove).right();
+    tableCards.add(headingCards).row();
+    tableCards.add(scrollPaneCards).height(HEIGHTSCROLLPANE).width(WIDTHSCROLLPANE).left().expandY().expandX();
+    tableCards.add(buttonAdd).right();
+    table.add().spaceBottom(SPACE).row();
+    table.add(heading);
+    table.getCell(heading).spaceBottom(100).row();
+    table.add(tableDeck).left().row();
+    table.add(tableCards).left().row();
+    table.add(buttonReturn).right();
 
-    super.getUiStage().addActor(this.table);
+    super.getUiStage().addActor(table);
   }
 
   @Override
@@ -129,8 +134,6 @@ public class DeckScreen extends BaseScreen {
 
   @Override
   public void update(final float dt) {
-    // TODO Auto-generated method stub
-
   }
 
 }
