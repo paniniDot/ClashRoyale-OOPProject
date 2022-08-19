@@ -34,9 +34,7 @@ public abstract class Troop extends Card implements Attackable {
    * @param maxHP
    *          maximum health of the troop.
    * @param damage
-   *          hp per hit taken by this troop. 
-   * @param hitSpeed
-   *          number of hits per second.
+   *          hp per hit taken by this troop.
    * @param speed
    *          {@inheritDoc}
    * @param range
@@ -111,6 +109,11 @@ public abstract class Troop extends Card implements Attackable {
       System.out.println("truppa " + this + " attacca " + this.currentTarget.get());
     }
     this.currentTarget.ifPresent(target -> target.reduceHPBy(this.damage));
+    /*if(this.currentTarget.isPresent()) {
+      if(this.currentTarget.get().isDead()) {
+        this.currentTarget.get().
+      }
+    }*/
   }
 
   @Override
