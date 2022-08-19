@@ -37,7 +37,6 @@ public class DeckController extends Controller {
 
   @Override
   public void update(final float dt) {
-    // TODO Auto-generated method stub
   }
 
   /**
@@ -130,7 +129,7 @@ public class DeckController extends Controller {
   public void returnButton() {
     if (getUDeck().getDeckSet().size() == DIMDECK) {
     save();
-    triggerMenu();    
+    triggerMenu();
     }
     else
       JOptionPane.showMessageDialog(frame, "INSERIRE 4 CARTE NEL DECK PER POTER GIOCARE");

@@ -53,6 +53,12 @@ public class MenuController extends Controller {
   }
 
   /**
+   * Istanciate a new StatController which takes control of the application. 
+   */
+  public void triggerStat() {
+    new StatController().setCurrentActiveScreen();
+  }
+  /**
    * Close the application.
    */
   public void triggerQuit() {

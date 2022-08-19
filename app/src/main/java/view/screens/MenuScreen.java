@@ -23,7 +23,7 @@ public class MenuScreen extends BaseScreen {
   private TextureAtlas atlas, atlasLabel;
   private Skin skin, skinLabel;
   private Table table;
-  private TextButton buttonPlay, buttonExit, buttonLevel, buttonScore, buttonDeck;
+  private TextButton buttonPlay, buttonExit, buttonLevel, buttonScore, buttonDeck, buttonStat;
   private Label heading;
   private MenuController menuController;
   private static final int SPACE = 15;
@@ -52,6 +52,7 @@ public class MenuScreen extends BaseScreen {
     this.heading = new Label(ClashRoyale.TITLE, this.skin);
     this.atlasLabel = new TextureAtlas("buttons/scoreLabel.pack");
     this.skinLabel = new Skin(Gdx.files.internal("buttons/menuSkinLabel.json"), this.atlasLabel);
+
     this.buttonPlay = new TextButton("Play", skin);
     this.buttonPlay.addListener(new ClickListener() {
       @Override
@@ -61,6 +62,7 @@ public class MenuScreen extends BaseScreen {
       }
     });
     this.buttonPlay.pad(SPACE);
+
     this.buttonDeck = new TextButton("Deck", skin);
     this.buttonDeck.addListener(new ClickListener() {
       @Override
@@ -70,6 +72,17 @@ public class MenuScreen extends BaseScreen {
         }
     });
     this.buttonDeck.pad(SPACE);
+
+    this.buttonStat = new TextButton("Stat", skin);
+    this.buttonStat.addListener(new ClickListener() {
+      @Override
+      public void clicked(final InputEvent event, final float x, final float y) {
+        getController().stopMusic();
+        menuController.triggerStat();
+        }
+    });
+    this.buttonStat.pad(SPACE);
+
 
     this.buttonExit = new TextButton("Exit", skin);
     this.buttonExit.addListener(new ClickListener() {
@@ -90,6 +103,8 @@ public class MenuScreen extends BaseScreen {
     this.table.add(this.buttonPlay);
     this.table.row();
     this.table.add(this.buttonDeck);
+    this.table.row();
+    this.table.add(this.buttonStat);
     this.table.row();
     this.table.add(this.buttonExit);
     super.getUiStage().addActor(this.table);
