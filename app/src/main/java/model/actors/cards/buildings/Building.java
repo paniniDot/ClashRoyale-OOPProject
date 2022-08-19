@@ -11,13 +11,9 @@ import model.actors.Attackable;
  */
 public abstract class Building extends Card implements Attackable {
 
-  private double currentHP; //Equals to the remaining duration
+  private double currentHP; //Equals to the remaining duration.   NECESSARY?
   private final double damage;
   private final double hitSpeed;
-  /*private final TargetType selfType;
-  private final TargetType attackType;
-  */
-  //private double leftDuration;
   private final double range;
   private Optional<Attackable> currentTarget;
 
@@ -36,24 +32,14 @@ public abstract class Building extends Card implements Attackable {
    *            hp taken per hit.
    * @param hitSpeed
    *            hits per second.
-   * @param self
-   *            self target type.
-   * @param attack
-   *            enemy target type.
-   * @param duration
-   *            how long does it last.
    * @param range
    *            the range of influence.
    */
-  protected Building(final int cost, final Vector2 position, final User owner, final double maxHP, final double damage, final double hitSpeed, /*final TargetType self, final TargetType attack, final double duration,*/ final double range) {
+  protected Building(final int cost, final Vector2 position, final User owner, final double maxHP, final double damage, final double hitSpeed, final double range) {
     super(cost, position, owner);
     this.currentHP = maxHP;
     this.damage = damage;
     this.hitSpeed = hitSpeed;
-    /*this.selfType = self;
-    this.attackType = attack;
-    */
-    //this.leftDuration = duration;
     this.range = range;
     this.currentTarget = Optional.empty();
   }
@@ -92,22 +78,6 @@ public abstract class Building extends Card implements Attackable {
   public void setPosition(final Vector2 newPos) {
     super.setPosition(newPos);
   }
-
-  /**
-   * @return self type.
-   */
-/*  public TargetType getSelfType() {
-    return selfType;
-  }
-
-*/
-  /**
-   * @return enemy type.
-   */
-  /*public TargetType getAttackType() {
-    return attackType;
-  }
-*/
 
   @Override
   public double getRange() {
@@ -151,16 +121,9 @@ public abstract class Building extends Card implements Attackable {
     this.currentHP = this.currentHP < damage ? 0 : this.currentHP - damage;
   }
 
-  /**
-   * @param value the amount of time to be reduced the left duration.
-   */
-  /*public void reduceDurationByValue(final int value) {
-    this.leftDuration -= value;
-  }*/
-
   @Override
   public boolean isDead() {
-    return this.currentHP <= 0; //|| this.leftDuration < 0;
+    return this.currentHP <= 0;
   }
 
 }

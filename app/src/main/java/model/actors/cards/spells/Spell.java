@@ -16,7 +16,6 @@ public abstract class Spell extends Card {
 
   private double leftDuration;
   private final int range;
-//  private final TargetType targetType;
   private final List<Attackable> targets;
 
   /**
@@ -38,7 +37,6 @@ public abstract class Spell extends Card {
     this.leftDuration = duration;
     this.range = range;
     this.targets = Collections.emptyList();
-//    this.targetType = targetType;
   }
 
   /**
@@ -62,13 +60,6 @@ public abstract class Spell extends Card {
     return range;
   }
 
-  /**
-   * @return the entities which are affected from it.
-   */
-/*  public TargetType getTargetType() {
-    return targetType;
-  }
-*/
   /**
    * Add a target.
    * @param target
@@ -108,7 +99,6 @@ public abstract class Spell extends Card {
   /**
    * Start the action of spell. 
    */
-
   public abstract void start();
 
 }

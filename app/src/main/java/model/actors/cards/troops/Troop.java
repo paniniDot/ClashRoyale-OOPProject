@@ -18,10 +18,6 @@ public abstract class Troop extends Card implements Attackable {
   private final double damage;
   //private final double hitSpeed;
   private final Speeds speed;  //movement and hit speed
-/*
- *private final TargetType selfType;
-  private final TargetType enemyType;
-  */
   private final double range;
   private Optional<Attackable> currentTarget;
 
@@ -46,15 +42,12 @@ public abstract class Troop extends Card implements Attackable {
    * @param range
    *          the distance between this troop and other entities to being targeted by it.
    */
-  protected Troop(final int cost, final Vector2 position, final User owner, final double maxHP, final double damage, /*final double hitSpeed,*/ final Speeds speed, /*final TargetType selfType, final TargetType enemyType,*/ final double range) {
+  protected Troop(final int cost, final Vector2 position, final User owner, final double maxHP, final double damage, /*final double hitSpeed,*/ final Speeds speed, final double range) {
     super(cost, position, owner);
     this.currentHP = maxHP; 
     this.damage = damage;
     //this.hitSpeed = hitSpeed;
     this.speed = speed;
-    /*this.selfType = selfType;
-    this.enemyType = enemyType;
-    */
     this.range = range;
     this.currentTarget = Optional.empty();
 
@@ -129,18 +122,5 @@ public abstract class Troop extends Card implements Attackable {
   public boolean isDead() {
     return this.currentHP <= 0;
   }
-
-/*
-  @Override
-  public TargetType getSelfType() {
-    return this.selfType;
-  }
-*/
-  /**
-   * @return the type of enemies that this troop can target.
-   */
-  /*public TargetType getEnemyType() {
-    return this.enemyType;
-  }*/
 }
 

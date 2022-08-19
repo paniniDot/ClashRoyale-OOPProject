@@ -65,7 +65,6 @@ public interface Attackable {
   /**
    * @return the type of the entity (i.e. air troop, ground troop).
    */
-  //TargetType getSelfType();
 
   /**
    * @return self unique identifier.
