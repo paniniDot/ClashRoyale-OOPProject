@@ -64,14 +64,6 @@ public class BotGameModel extends GameModel {
     return Collections.unmodifiableList(this.botCards);
   }
 
-//  /**
-//   * 
-//   * @return the queued cards of the bot.
-//   */
-//  public List<Card> getBotCardQueue() {
-//    return Collections.unmodifiableList(this.botCardQueue);
-//  }
-
   /**
    * 
    * @return a list of bot currently deployed cards.
@@ -95,7 +87,6 @@ public class BotGameModel extends GameModel {
    */
   public void deployBotCard(final Card card) {
     if (this.botChoosableCards.contains(card)) {
- //     System.out.println("Carta bot piazata");
       this.botChoosableCards.remove(card);
       this.botDeployedCards.add(card);
       this.botCards.add(card);
