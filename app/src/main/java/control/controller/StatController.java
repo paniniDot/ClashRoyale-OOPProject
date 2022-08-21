@@ -11,9 +11,6 @@ import view.screens.StatScreen;
  */
 public class StatController extends Controller {
 
-  private final int plays;
-  private final int wins;
-  private final int towers;
   private final FileManager fileManager;
 
   /**
@@ -22,39 +19,38 @@ public class StatController extends Controller {
   public StatController() {
     super(Audio.getMenuMusic());
     super.registerModel(new Model());
-    this.fileManager = new FileManager(5, 5, 5);
-    this.fileManager.save();
-
-    this.plays = this.fileManager.getPlays();
-    this.wins = this.fileManager.getWins();
-    this.towers = this.fileManager.getTowersDestroyed();
+    this.fileManager = new FileManager();
+    this.fileManager.read();
+    //this.towers = 
   }
 
   /**
    * @return matches played.
    */
   public int getPlays() {
-    return plays;
+    return this.fileManager.getPlays();
   }
 
 /**
  * @return matches win.
  */
   public int getWins() {
-    return wins;
+    return this.fileManager.getWins();
   }
 
 /**
  * @return towers destroyed.
  */
   public int getTowers() {
-    return towers;
+    return this.fileManager.getTowersDestroyed();
   }
 
   /**
    * @return win/lose ratio.
    */
   public float getRatio() {
+    final var wins = this.getWins();
+    final var plays = this.getPlays();
     return wins / ((plays - wins) == 0 ? 1 : plays - wins);
   }
 
