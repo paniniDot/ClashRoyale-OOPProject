@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -12,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import control.BaseGame;
 import control.controller.Controller;
 import control.controller.MenuController;
+import control.utilities.FileManager;
 import model.actors.Attackable;
 import model.actors.cards.Card;
 import model.actors.towers.Tower;
@@ -20,6 +20,7 @@ import model.utilities.Audio;
 import model.utilities.CountDownController;
 import model.utilities.ElixirController;
 import model.utilities.ingame.GameModel;
+import model.utilities.ingame.BotGameModel;
 import model.utilities.ingame.GameMap;
 import view.actors.CardActor;
 import view.actors.TowerActor;
@@ -31,6 +32,7 @@ import view.screens.GameScreen;
 public abstract class GameController extends Controller {
 
   private static final float ANIMATIONS_FRAME_DURATION = (float) 0.017_24 * 10;
+  private static final String SELF = "SELF";
 
   private final ElixirController playerElixir;
   private final CountDownController timer;
@@ -38,6 +40,7 @@ public abstract class GameController extends Controller {
   private List<CardActor> playerCards;
   private List<TowerActor> playerTowers;
   private GameScreen gameScreen;
+  private final BotGameModel botGM;
 
   /**
    * Constructor.
@@ -52,6 +55,7 @@ public abstract class GameController extends Controller {
     this.gameMap = new GameMap();
     this.playerCards = new ArrayList<>();
     this.playerTowers = new ArrayList<>();
+    this.botGM = (BotGameModel) model;
     super.registerModel(model);
   }
 
@@ -61,13 +65,27 @@ public abstract class GameController extends Controller {
       this.playerElixir.setRunFalse();
       this.timer.setRunFalse();
       super.stopMusic();
+
       //Rimozione attori dallo stage (non funziona)
       for (final Actor actor : this.gameScreen.getMainStage().getActors()) {
         actor.addAction(Actions.removeActor());
       }
+
+      //Aggiorno le stat
+      final var fileManager = new FileManager();
+      fileManager.addPlays();
+      fileManager.addTowersDestroyed(3 - this.botGM.getBotActiveTowers().size());
+      if (hasWin()) {
+        fileManager.addWin();
+      }
+
       this.onUpdate();
       new MenuController().setCurrentActiveScreen();
     }
+  }
+
+  private boolean hasWin() {
+    return this.botGM.getPlayerActiveTowers().size() > this.botGM.getBotActiveTowers().size();
   }
 
   /**
@@ -96,7 +114,7 @@ public abstract class GameController extends Controller {
    * @return a list of the user attackable entities.
    */
   public List<Attackable> getUserAttackables() {
-    return ((GameModel) super.getModel()).getPlayerAttackable();
+    return this.botGM.getPlayerAttackable();
   }
 
   /**
@@ -135,7 +153,7 @@ public abstract class GameController extends Controller {
    *              the stage where actors have to be placed.
    */
   public final void loadActors(final Stage stage) {
-    this.playerCards = this.loadCardActorsFrom(((GameModel) super.getModel()).getPlayerDeck(), stage, "SELF_MOVING");
+    this.playerCards = this.loadCardActorsFrom(this.botGM.getPlayerDeck(), stage, "SELF_MOVING");
     this.onLoadActors(stage);
   }
 
@@ -176,7 +194,7 @@ public abstract class GameController extends Controller {
    *              the stage where towers have to be placed.
    */
   public final void loadTowers(final Stage stage) {
-    this.playerTowers = this.loadTowerActorsFrom(((GameModel) super.getModel()).getPlayerActiveTowers(), stage, "SELF");
+    this.playerTowers = this.loadTowerActorsFrom(this.botGM.getPlayerActiveTowers(), stage, GameController.SELF);
     this.onLoadTowers(stage);
   }
 
@@ -202,7 +220,7 @@ public abstract class GameController extends Controller {
    */
   protected void updateCardAnimations(final List<CardActor> playerCards, final List<Attackable> playerAttackables, final String moving, final String fighting) { 
     for (final var cardActor : playerCards) {
-      for (final var attackable : ((GameModel) super.getModel()).getPlayerAttackable()) {
+      for (final var attackable : this.botGM.getPlayerAttackable()) {
         if (cardActor.getSelfId().equals(attackable.getSelfId()) && attackable instanceof Card) {
             cardActor.setAnimation(AnimationUtilities.loadAnimationFromFiles(((Card) attackable).getAnimationFiles().get(attackable.getCurrentTarget().isPresent() ? fighting : moving), ANIMATIONS_FRAME_DURATION, true));
         }
@@ -230,9 +248,9 @@ public abstract class GameController extends Controller {
    */
   protected void updateTowerAnimations(final List<TowerActor> playerTowers, final List<Attackable> playerAttackables, final String standing, final String fighting) {
     for (final var towerActor : playerTowers) {
-      for (final var attackable : ((GameModel) super.getModel()).getPlayerAttackable()) {
+      for (final var attackable : this.botGM.getPlayerAttackable()) {
         if (towerActor.getSelfId().equals(attackable.getSelfId()) && attackable instanceof Tower) {
-            towerActor.setAnimation(AnimationUtilities.loadAnimationFromFiles(((Tower) attackable).getAnimationFiles().get(attackable.getCurrentTarget().isPresent() ? "SELF" : "SELF"), ANIMATIONS_FRAME_DURATION, true));
+            towerActor.setAnimation(AnimationUtilities.loadAnimationFromFiles(((Tower) attackable).getAnimationFiles().get(attackable.getCurrentTarget().isPresent() ? GameController.SELF : GameController.SELF), ANIMATIONS_FRAME_DURATION, true));
         }
       }
     }
@@ -243,7 +261,7 @@ public abstract class GameController extends Controller {
    */
   public void updateActorAnimations() {
     this.updateCardAnimations(this.playerCards, this.getUserAttackables(), "SELF_MOVING", "SELF_FIGHTING");
-    this.updateTowerAnimations(this.playerTowers, this.getUserAttackables(), "SELF", "SELF");
+    this.updateTowerAnimations(this.playerTowers, this.getUserAttackables(), GameController.SELF, GameController.SELF);
     this.onUpdateActorAnimations();
   }
 
@@ -257,8 +275,8 @@ public abstract class GameController extends Controller {
    * 
    */
   public void updateActors() {
-    ((GameModel) super.getModel()).findAttackableTargets();
-    ((GameModel) super.getModel()).handleAttackTargets();
+    this.botGM.findAttackableTargets();
+    this.botGM.handleAttackTargets();
     this.onUpdateActors();
   }
 

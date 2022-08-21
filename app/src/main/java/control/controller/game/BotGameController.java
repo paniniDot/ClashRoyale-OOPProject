@@ -7,12 +7,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
-import control.utilities.FileManager;
 import model.GlobalData;
 import model.actors.Attackable;
 import model.utilities.ElixirController;
 import model.utilities.ingame.BotGameModel;
-import model.utilities.ingame.GameModel;
 import view.actors.CardActor;
 import view.actors.TowerActor;
 
@@ -25,12 +23,13 @@ public class BotGameController extends GameController {
   private final ElixirController botElixir;
   private List<CardActor> botCards;
   private List<TowerActor> botTowers;
+  private static final BotGameModel BOT_GAME_MODEL = new BotGameModel(GlobalData.USER_DECK, GlobalData.BOT_DECK, GlobalData.USER, GlobalData.BOT);;
 
   /**
    * Constructor.
    */
-  public BotGameController() {
-    super(new BotGameModel(GlobalData.USER_DECK, GlobalData.BOT_DECK, GlobalData.USER, GlobalData.BOT));
+  public BotGameController() { 
+    super(BOT_GAME_MODEL);
     this.botElixir = new ElixirController();
     this.botCards = new ArrayList<>();
     this.botTowers = new ArrayList<>();
@@ -39,18 +38,6 @@ public class BotGameController extends GameController {
   @Override
   protected void onUpdate() {
     this.botElixir.setRunFalse();
-
-  //Aggiorno le stat
-    final var fileManager = new FileManager();
-    fileManager.addPlays();
-    fileManager.addTowersDestroyed(3 - ((BotGameModel) super.getModel()).getBotActiveTowers().size());
-    if (hasWin()) {
-      fileManager.addWin();
-    }
-  }
-
-  private boolean hasWin() {
-    return false;
   }
 
   /**
