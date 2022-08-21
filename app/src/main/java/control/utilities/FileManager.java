@@ -1,5 +1,10 @@
 package control.utilities;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 /**
  * Used to save/read stats into/from a file.
  */
@@ -22,6 +27,7 @@ public class FileManager {
     this.plays = plays;
     this.wins = wins;
     this.towersDestroyed = towersDestroyed;
+    this.save();
   }
 
   /**
@@ -70,7 +76,20 @@ public class FileManager {
    * Save the data on file.
    */
   public void save() {
+    final var absolutePath = "saves" + File.separator + "PROVA.txt";
+    try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(absolutePath))) {
 
+      bufferedWriter.write(this.getPlays());
+      bufferedWriter.newLine();
+      bufferedWriter.write(this.getWins());
+      bufferedWriter.newLine();
+      bufferedWriter.write(this.getTowersDestroyed());
+      bufferedWriter.newLine();
+
+    } catch (IOException e) {
+      System.err.println("IOException from FileManager.save()");
+      e.printStackTrace();
+    }
   }
 
   /**

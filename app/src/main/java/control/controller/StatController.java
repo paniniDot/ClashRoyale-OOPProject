@@ -1,6 +1,7 @@
 package control.controller;
 
 import control.BaseGame;
+import control.utilities.FileManager;
 import model.Model;
 import model.utilities.Audio;
 import view.screens.StatScreen;
@@ -13,6 +14,7 @@ public class StatController extends Controller {
   private final int plays;
   private final int wins;
   private final int towers;
+  private final FileManager fileManager;
 
   /**
    * Constructor.
@@ -20,9 +22,12 @@ public class StatController extends Controller {
   public StatController() {
     super(Audio.getMenuMusic());
     super.registerModel(new Model());
-    this.plays = 5;
-    this.wins = 5;
-    this.towers = 5;
+    this.fileManager = new FileManager(5, 5, 5);
+    this.fileManager.save();
+
+    this.plays = this.fileManager.getPlays();
+    this.wins = this.fileManager.getWins();
+    this.towers = this.fileManager.getTowersDestroyed();
   }
 
   /**
