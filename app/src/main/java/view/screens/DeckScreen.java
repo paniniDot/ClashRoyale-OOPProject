@@ -24,7 +24,7 @@ public class DeckScreen extends BaseScreen {
   private TextureAtlas atlas;
   private Skin skin;
   private List<String> cards, deck;
-  private DeckController deckController;
+  private final DeckController deckController;
 
   private static final int SPACE = 15;
   private static final int HEIGHTSCROLLPANE = 350;
@@ -39,6 +39,7 @@ public class DeckScreen extends BaseScreen {
    */
   public DeckScreen(final Controller controller) {
     super(controller);
+    this.deckController = (DeckController) controller;
   }
 
   @Override
@@ -59,7 +60,6 @@ public class DeckScreen extends BaseScreen {
     Gdx.input.setInputProcessor(super.getUiStage());
     this.atlas = new TextureAtlas("buttons/atlas.pack");
     this.skin = new Skin(Gdx.files.internal("buttons/menuSkin.json"), atlas);
-    this.deckController = new DeckController();
     this.cards = this.deckController.setCards();
     this.deck = this.deckController.setDeck();
 
