@@ -1,7 +1,10 @@
 package control.utilities;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -14,20 +17,13 @@ public class FileManager {
   private int wins;
   private int towersDestroyed;
 
+  private static final String ABSOLUTEPATH = "saves" + File.separator + "stats.txt";
+
   /**
    * Constructor. 
-   * 
-   * @param plays the number of game played.
-   * 
-   * @param wins the number of game won.
-   * 
-   * @param towersDestroyed the number of towers destroyed.
    */
-  public FileManager(final int plays, final int wins, final int towersDestroyed) {
-    this.plays = plays;
-    this.wins = wins;
-    this.towersDestroyed = towersDestroyed;
-    this.save();
+  public FileManager() {
+    this.read();
   }
 
   /**
@@ -38,10 +34,10 @@ public class FileManager {
   }
 
   /**
-   * @param plays the number of game played
+   * Increment the games played counter.
    */
-  public void addPlays(final int plays) {
-    this.plays += plays;
+  public void addPlays() {
+    this.plays++;
   }
 
   /**
@@ -52,10 +48,10 @@ public class FileManager {
   }
 
   /**
-   * @param wins the number of game won.
+   * Increment the games played counter.
    */
-  public void addWins(final int wins) {
-    this.wins += wins;
+  public void addWin() {
+    this.wins++;
   }
 
   /**
@@ -76,15 +72,13 @@ public class FileManager {
    * Save the data on file.
    */
   public void save() {
-    final var absolutePath = "saves" + File.separator + "PROVA.txt";
-    try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(absolutePath))) {
+    try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(FileManager.ABSOLUTEPATH))) {
 
       bufferedWriter.write(this.getPlays());
-      bufferedWriter.newLine();
       bufferedWriter.write(this.getWins());
-      bufferedWriter.newLine();
       bufferedWriter.write(this.getTowersDestroyed());
-      bufferedWriter.newLine();
+
+      //System.out.println(this.getPlays() +" "+ this.getTowersDestroyed() +" "+ this.getWins());
 
     } catch (IOException e) {
       System.err.println("IOException from FileManager.save()");
@@ -96,6 +90,33 @@ public class FileManager {
    * Read the data from file and updates the field.
    */
   public void read() {
+    try (BufferedReader bufferedReader = new BufferedReader(new FileReader(FileManager.ABSOLUTEPATH))) {
 
+      var temp = bufferedReader.read();
+      this.plays = temp;
+      temp = bufferedReader.read();
+      this.wins = temp;
+      temp = bufferedReader.read();
+      this.towersDestroyed = temp;
+
+    } catch (FileNotFoundException e) {
+      this.initialize();
+      this.read();
+    } catch (IOException e) {
+      System.err.println("IOException from FileManager.read()");
+      e.printStackTrace();
+    }
   }
+
+  private void initialize() {
+    try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(FileManager.ABSOLUTEPATH))) {
+      for (var t = 0; t < 3; t++) {
+        bufferedWriter.write(0);
+      }
+    } catch (IOException e) {
+      System.err.println("IOException from FileManager.save()");
+      e.printStackTrace();
+    }
+  }
+
 }
