@@ -5,7 +5,9 @@ import java.util.Collections;
 import java.util.List;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 import control.BaseGame;
 import control.controller.Controller;
@@ -35,6 +37,7 @@ public abstract class GameController extends Controller {
   private final GameMap gameMap;
   private List<CardActor> playerCards;
   private List<TowerActor> playerTowers;
+  private GameScreen gameScreen;
 
   /**
    * Constructor.
@@ -56,9 +59,13 @@ public abstract class GameController extends Controller {
   public void update(final float dt) {
     if (this.timer.getTime() == 0) {
       this.playerElixir.setRunFalse();
-      this.onUpdate();
       this.timer.setRunFalse();
       super.stopMusic();
+      //Rimozione attori dallo stage (non funziona)
+      for (final Actor actor : this.gameScreen.getMainStage().getActors()) {
+        actor.addAction(Actions.removeActor());
+      }
+      this.onUpdate();
       new MenuController().setCurrentActiveScreen();
     }
   }
@@ -205,7 +212,8 @@ public abstract class GameController extends Controller {
 
   @Override
   public void setCurrentActiveScreen() {
-    BaseGame.setActiveScreen(new GameScreen(this));
+    this.gameScreen = new GameScreen(this);
+    BaseGame.setActiveScreen(this.gameScreen);
   }
 
   /**
