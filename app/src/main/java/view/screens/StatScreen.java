@@ -22,7 +22,8 @@ public class StatScreen extends BaseScreen {
 
   private TextureAtlas atlas;
   private Skin skin;
-  private StatController statController;
+  private final StatController statController;
+
   private static final int SPACE = 15;
  
   /**
@@ -33,6 +34,7 @@ public class StatScreen extends BaseScreen {
    */
   public StatScreen(final Controller controller) {
     super(controller);
+    this.statController = (StatController) controller;
   }
 
   @Override
@@ -52,7 +54,6 @@ public class StatScreen extends BaseScreen {
     final var table = new Table(skin);
     table.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     final var heading = new Label("Statistiche", this.skin);
-    this.statController = new StatController();
 
     final var buttonReturn = new TextButton("RETURN", skin);
     buttonReturn.addListener(new ClickListener() {
