@@ -37,13 +37,13 @@ public class GameScreen extends BaseScreen {
   @Override
   public void initialize() {
     super.getController().playMusic();
-    super.getController().setInputProcessor(super.getMainStage());
+    super.getController().setInputProcessor(getMainStage());
     sprite = new SpriteBatch();
     gamefont = new BitmapFont(Gdx.files.internal("Fonts/font.fnt"));
-    final var arena = new BaseActor(0, 0, super.getMainStage(), AnimationUtilities.loadTexture("arenas/arena1.png"));
+    final var arena = new BaseActor(0, 0, getMainStage(), AnimationUtilities.loadTexture("arenas/arena1.png"));
     arena.setSize(ClashRoyale.WIDTH, ClashRoyale.HEIGHT);
-    ((GameController) super.getController()).loadActors(super.getMainStage());
-    ((GameController) super.getController()).loadTowers(super.getMainStage());
+    ((GameController) super.getController()).loadActors(getMainStage());
+    ((GameController) super.getController()).loadTowers(getMainStage());
   }
 
   @Override
@@ -64,6 +64,7 @@ public class GameScreen extends BaseScreen {
     //RectDrawer.showDebugBoundingBoxes(this.map.getMap().vertexSet().stream().filter(v -> v.getType().equals(MapUnit.Type.TERRAIN)).map(MapUnit::getUnitRectangle).collect(Collectors.toList()), Color.BLUE);
     //RectDrawer.showDebugBoundingBoxes(this.map.getMap().vertexSet().stream().filter(v -> v.getType().equals(MapUnit.Type.TOWER)).map(MapUnit::getUnitRectangle).collect(Collectors.toList()), Color.RED);
   }
+
 
   /**
    * Show a dialog message telling you win.
