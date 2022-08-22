@@ -68,7 +68,7 @@ public final class FireBall extends Spell {
    *          x,y coordinates.
    * @return the fireball itself.
    */
-  public static Spell create(final User user, final Stage stage, final Vector2 position) {
+  public static Spell create(final User user, final Vector2 position) {
     switch (user.getCurrentLevel()) {
       case LVL1: return new FireBall(user, position, 325);
       case LVL2: return new FireBall(user, position, 357);
