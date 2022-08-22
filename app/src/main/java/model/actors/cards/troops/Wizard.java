@@ -55,7 +55,7 @@ public final class Wizard extends Troop {
         "ENEMY_MOVING", List.of("wizard/enemy/walking/0.png", "wizard/enemy/walking/1.png", "wizard/enemy/walking/2.png"),
         "ENEMY_FIGHTING", List.of("wizard/enemy/fighting/0.png", "wizard/enemy/fighting/1.png", "wizard/enemy/fighting/2.png", "wizard/enemy/fighting/3.png", 
             "wizard/enemy/fighting/4.png", "wizard/enemy/fighting/5.png", "wizard/enemy/fighting/6.png"),
-        "AS_CARD", List.of());
+        "AS_CARD", List.of("cards/WizardCard.png"));
   }
 
 
