@@ -84,6 +84,7 @@ public abstract class GameController extends Controller {
       if (hasWin()) {
         fileManager.addWin();
       }
+      fileManager.save();
 
       this.onUpdate();
 

@@ -21,7 +21,6 @@ public class StatController extends Controller {
     super.registerModel(new Model());
     this.fileManager = new FileManager();
     this.fileManager.read();
-    //this.towers = 
   }
 
   /**
