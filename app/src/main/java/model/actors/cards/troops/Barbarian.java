@@ -6,6 +6,7 @@ import java.util.Map;
 import com.badlogic.gdx.math.Vector2;
 
 import model.actors.Speeds;
+import model.actors.cards.Card;
 import model.actors.users.User;
 
 /**
@@ -32,7 +33,6 @@ public final class Barbarian extends Troop {
    * @return the barbarian itself.
    */
   public static Troop create(final User user, final Vector2 position) {
-    
       switch (user.getCurrentLevel()) {
           case LVL1: return new Barbarian(user, position, 300, 75);
           case LVL2: return new Barbarian(user, position, 330, 82);
@@ -51,5 +51,12 @@ public final class Barbarian extends Troop {
         "ENEMY_MOVING", List.of("barbarian/bot/walking/0.png", "barbarian/bot/walking/1.png"),
         "ENEMY_FIGHTING", List.of("barbarian/bot/attacking/0.png", "barbarian/bot/attacking/1.png", "barbarian/bot/attacking/2.png", "barbarian/bot/attacking/3.png"),
         "AS_CARD", List.of("cards/BarbariansCard.png"));
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public Card createAnother(final Vector2 position, final User owner) {
+    return create(owner, position);
   }
 }

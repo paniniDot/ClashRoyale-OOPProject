@@ -103,6 +103,15 @@ public abstract class Card {
         && Objects.equals(position, other.position);
   }
 
-
+  /**
+   * Create another card of the same type.
+   * 
+   * @param position the position of the card.
+   * 
+   * @param owner the card owner.
+   * 
+   * @return the card created
+   */
+  public abstract Card createAnother(Vector2 position, User owner);
 
 }

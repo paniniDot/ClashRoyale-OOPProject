@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import model.actors.Attackable;
+import model.actors.cards.Card;
 import model.actors.users.User;
 
 /**
@@ -62,8 +63,6 @@ public final class FireBall extends Spell {
    * Create a fireball card based on the user level.
    * @param user
    *          who wants to deploy the fireball.
-   * @param stage
-   *          {@inheritDoc}
    * @param position
    *          x,y coordinates.
    * @return the fireball itself.
@@ -89,4 +88,10 @@ public final class FireBall extends Spell {
         "AS_CARD", List.of("cards/FireballCard.png"));
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  public Card createAnother(final Vector2 position, final User owner) {
+    return create(owner, position);
+  }
 }

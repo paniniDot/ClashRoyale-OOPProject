@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import model.actors.users.User;
 import model.actors.Attackable;
+import model.actors.cards.Card;
 
 /**
  * Inferno Tower building.
@@ -74,5 +75,12 @@ public final class InfernoTower extends Building {
         "ENEMY_MOVING", List.of("infernoTower/bot/staying/0.png", "infernoTower/bot/staying/1.png", "infernoTower/bot/staying/2.png", "infernoTower/bot/staying/3.png"),
         "ENEMY_FIGHTING", List.of("infernoTower/bot/attacking/0.png", "infernoTower/bot/attacking/1.png", "infernoTower/bot/attacking/2.png", "infernoTower/bot/attacking/3.png"),
         "AS_CARD", List.of("cards/InfernoTowerCard.png"));
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public Card createAnother(final Vector2 position, final User owner) {
+    return create(owner, position);
   }
 }

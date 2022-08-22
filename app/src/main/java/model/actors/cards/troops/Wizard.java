@@ -6,6 +6,7 @@ import java.util.Map;
 import com.badlogic.gdx.math.Vector2;
 
 import model.actors.Speeds;
+import model.actors.cards.Card;
 //import model.actors.TargetType;
 //import model.actors.TargetType;
 import model.actors.users.User;
@@ -58,6 +59,11 @@ public final class Wizard extends Troop {
         "AS_CARD", List.of("cards/WizardCard.png"));
   }
 
-
+  /**
+   * {@inheritDoc}
+   */
+  public Card createAnother(final Vector2 position, final User owner) {
+    return create(owner, position);
+  }
 
 }

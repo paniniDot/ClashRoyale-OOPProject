@@ -6,6 +6,7 @@ import java.util.Map;
 import com.badlogic.gdx.math.Vector2;
 
 import model.actors.Speeds;
+import model.actors.cards.Card;
 import model.actors.users.User;
 
 /**
@@ -51,5 +52,12 @@ public final class Giant extends Troop {
         "ENEMY_MOVING", List.of("giant/bot/walking/0.png", "giant/bot/walking/1.png"),
         "ENEMY_FIGHTING", List.of("giant/bot/attacking/0.png", "giant/bot/attacking/1.png", "giant/bot/attacking/2.png"),
         "AS_CARD", List.of("cards/GiantCard.png"));
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public Card createAnother(final Vector2 position, final User owner) {
+    return create(owner, position);
   }
 }
