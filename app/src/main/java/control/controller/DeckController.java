@@ -19,7 +19,7 @@ public class DeckController extends Controller {
   private Skin skin;
   private List cards, decklist;
   private static final int DIMDECK = 4;
-  private JFrame frame;
+  private final JFrame frame;
 
   /**
    * Constructor.
@@ -31,6 +31,7 @@ public class DeckController extends Controller {
     this.skin = new Skin(Gdx.files.internal("buttons/menuSkin.json"), atlas);
     this.decklist = new List<>(skin);
     this.cards = new List<>(skin);
+    this.frame = new JFrame();
   }
 
 
@@ -73,7 +74,7 @@ public class DeckController extends Controller {
   /**
    * Add card in DeckScreen and remove from CardList.
    * 
-   * @param
+   * @param select the card to move
    * 
    * @return List of deck. 
    */
@@ -85,7 +86,9 @@ public class DeckController extends Controller {
   /**
    * Add card in DeckScreen and remove in CardList.
    * 
-   * @return 
+   * @param select the card to move.
+   * 
+   * @return the list of cards updated.
    */
   public List<String> addCard(final String select) {
     cards.setItems(getUDeck().addCardSet(select).toArray());
@@ -95,17 +98,21 @@ public class DeckController extends Controller {
   /**
    * Remove card in DeckScreen and add in CardList.
    * 
-   * @return 
+   * @param card the card to remove.
+   * 
+   * @return the list of cards updated. 
    */
   public List<String> removeCard(final String card) {
     this.cards.setItems(getUDeck().removeCardSet(card).toArray());
-    return cards;    
+    return cards;
   }
 
   /**
    * Remove card in DeckScreen and add in CardList.
    * 
-   * @return 
+   * @param card the card to remove.
+   * 
+   * @return the deckList updated.
    */
   public List<String> removeDeckCard(final String card) {
     this.decklist.setItems(getUDeck().removeDeckCard(card).toArray());

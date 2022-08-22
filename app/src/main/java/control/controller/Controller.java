@@ -22,10 +22,10 @@ public abstract class Controller {
 
   private Model model;
   private final Audio audio;
-  private static Gson gson;
-  private static FileHandle file;
+  private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+  private static final FileHandle FILE = Gdx.files.internal("saves/user.json");
   private static User user;
-  private Deck deck;
+
   /**
    * Constructor.
    * 
@@ -34,15 +34,12 @@ public abstract class Controller {
    */
   public Controller(final Audio audio) {
     this.audio = audio;
-    this.gson = new GsonBuilder().setPrettyPrinting().create();
-    this.file = Gdx.files.internal("saves/user.json");
-    if (!this.file.exists()) {
-      this.user = new User("P");
+    if (!Controller.FILE.exists()) {
+      Controller.user = new User("P");
       save();
     } else {
-      this.user = load();
+      Controller.user = load();
     }
-    this.deck = this.user.getDeck();
   }
 
   /**
@@ -97,16 +94,15 @@ public abstract class Controller {
   public void stopMusic() {
     this.audio.stop();
   }
-  
+
   /**
-   * 
-   * @param user
+   * Save the Gson file.
    */
   public static void save() {
     final FileWriter writer;
     try {
-      writer = new FileWriter(file.file());
-      gson.toJson(user, writer);
+      writer = new FileWriter(FILE.file());
+      GSON.toJson(user, writer);
       writer.close();
     } catch (IOException e) {
       e.printStackTrace();
@@ -114,27 +110,30 @@ public abstract class Controller {
   }
 
   /**
+   * Load the user from the Json file.
    * 
    * @return User
    */
   public User load() {
     try {
-      return this.gson.fromJson(new FileReader(this.file.file()), User.class);
+      return Controller.GSON.fromJson(new FileReader(Controller.FILE.file()), User.class);
     } catch (IOException e) {
       e.printStackTrace();
     }
     return null;
   }
-  
-  /**
-   * 
-   * @return getDeck
-   */
-    public User getUser() {
-      return user;
-    }
 
-    public Deck getUDeck() {
-      return user.getDeck();
-    }
+  /**
+   * @return the user.
+   */
+  public User getUser() {
+    return user;
+  }
+
+  /**
+   * @return the deck used.
+   */
+  public Deck getUDeck() {
+    return user.getDeck();
+  }
 }
