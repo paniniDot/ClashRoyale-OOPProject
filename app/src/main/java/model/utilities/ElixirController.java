@@ -67,6 +67,7 @@ public class ElixirController {
     if (this.elixir >= n) {
       this.elixir -= n;
       return true;
-    } return false;
+    } 
+    return false;
   }
 }
