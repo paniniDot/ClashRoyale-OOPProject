@@ -1,5 +1,8 @@
 package view.screens;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -60,5 +63,27 @@ public class GameScreen extends BaseScreen {
     //RectDrawer.showDebugBoundingBoxes(this.map.getMap().vertexSet().stream().map(MapUnit::getUnitRectangle).collect(Collectors.toList()), Color.BLUE);
     //RectDrawer.showDebugBoundingBoxes(this.map.getMap().vertexSet().stream().filter(v -> v.getType().equals(MapUnit.Type.TERRAIN)).map(MapUnit::getUnitRectangle).collect(Collectors.toList()), Color.BLUE);
     //RectDrawer.showDebugBoundingBoxes(this.map.getMap().vertexSet().stream().filter(v -> v.getType().equals(MapUnit.Type.TOWER)).map(MapUnit::getUnitRectangle).collect(Collectors.toList()), Color.RED);
+  }
+
+  /**
+   * Show a dialog message telling you win.
+   * 
+   * @param playerPoints the points made by the player.
+   * 
+   * @param botPoints the points made by the bot.
+   */
+  public void winDialog(final int playerPoints, final int botPoints) {
+    JOptionPane.showMessageDialog(new JFrame(), "HAI VINTO: " + playerPoints + " - " + botPoints);
+  }
+
+  /**
+   * Show a dialog message telling you loose.
+   * 
+   * @param playerPoints the points made by the player.
+   * 
+   * @param botPoints the points made by the bot.
+   */
+  public void looseDialog(final int playerPoints, final int botPoints) {
+    JOptionPane.showMessageDialog(new JFrame(), "HAI PERSO: " + playerPoints + " - " + botPoints);
   }
 }

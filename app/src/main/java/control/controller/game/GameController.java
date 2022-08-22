@@ -66,7 +66,7 @@ public abstract class GameController extends Controller {
 
   @Override
   public void update(final float dt) {
-    if (this.timer.getTime() == 0) {
+    if (this.timer.getTime() == 0 || this.botGM.getBotActiveTowers().size() == 0 || this.botGM.getPlayerActiveTowers().size() == 0) {
       this.playerElixir.setRunFalse();
       this.timer.setRunFalse();
       super.stopMusic();
@@ -75,6 +75,7 @@ public abstract class GameController extends Controller {
       for (final Actor actor : this.gameScreen.getMainStage().getActors()) {
         actor.addAction(Actions.removeActor());
       }
+      this.gameScreen.dispose();
 
       //Aggiorno le stat
       final var fileManager = new FileManager();
@@ -85,6 +86,12 @@ public abstract class GameController extends Controller {
       }
 
       this.onUpdate();
+
+      if (hasWin()) {
+        this.gameScreen.winDialog(3 - this.botGM.getBotActiveTowers().size(), 3 - this.botGM.getPlayerActiveTowers().size());
+      } else {
+        this.gameScreen.looseDialog(3 - this.botGM.getBotActiveTowers().size(), 3 - this.botGM.getPlayerActiveTowers().size());
+      }
       new MenuController().setCurrentActiveScreen();
     }
   }
