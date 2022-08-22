@@ -166,6 +166,21 @@ public abstract class GameController extends Controller {
   }
 
   /**
+   * Load card actor in a stage of the screen driven by this controller.
+   * 
+   * @param card
+   *              the card to load.
+   * 
+   * @param stage 
+   *              the stage where actors have to be placed.
+   */
+  protected final void loadSingularActor(final Card card, final Stage stage) {
+    final var actor = new CardActor(card.getSelfId(), card.getPosition().x, card.getPosition().y, stage, AnimationUtilities.loadAnimationFromFiles(card.getAnimationFiles().get("SELF_MOVING"), ANIMATIONS_FRAME_DURATION, true));
+    actorMap.put(actor, card);
+    this.playerCards.add(actor);
+  }
+
+  /**
    * Load card actors in a stage of the screen driven by this controller.
    * 
    * @param stage 
@@ -308,7 +323,7 @@ public abstract class GameController extends Controller {
    * @return a copy of player card actors.
    */
   protected List<CardActor> getPlayerActors() {
-    return Collections.unmodifiableList(this.playerCards);
+    return this.playerCards;
   }
 
   /**
@@ -323,5 +338,12 @@ public abstract class GameController extends Controller {
    */
   public Map<CardActor, Card> getActorMap() {
     return this.actorMap;
+  }
+
+  /**
+   * @return the gameScreen.
+   */
+  public GameScreen getGameScreen() {
+    return this.gameScreen;
   }
 }

@@ -81,9 +81,13 @@ public class BotGameController extends GameController {
       selfAttackables.stream().filter(a -> a.getCurrentTarget().isEmpty()).forEach(a -> {
         if (!Gdx.input.isTouched() && c.getSelfId().equals(a.getSelfId())) {
           if (super.getGameMap().containsPosition(c.getCenter())) {
-            if (c.isDraggable() && super.getPlayerElixirController().decrementElixir(super.getActorMap().get(c).getCost())) { //Piazzo la carta
-              c.setDraggable(false);
-              a.setPosition(c.getCenter());
+            if (c.isDraggable()) { //Carta non schierata
+              if (super.getPlayerElixirController().decrementElixir(super.getActorMap().get(c).getCost())) { //Carta schierata
+                c.setDraggable(false);
+                a.setPosition(c.getCenter());
+                final var card = super.getActorMap().get(c).createAnother(c.getOrigin(), super.getActorMap().get(c).getOwner());
+                //super.loadSingularActor(card, super.getGameScreen().getMainStage());
+              }
             } else if (this.castedToIntPosition(c.getCenter()).equals(this.castedToIntPosition(a.getPosition()))) {
               this.updateAttackablePosition(a, enemyAttackables);
               c.setRotation(a.getPosition());
