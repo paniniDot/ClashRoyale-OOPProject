@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import model.GlobalData;
 import model.actors.Attackable;
+import model.actors.cards.Card;
 import model.utilities.ElixirController;
 import model.utilities.ingame.BotGameModel;
 import view.actors.CardActor;
@@ -80,7 +81,7 @@ public class BotGameController extends GameController {
       selfAttackables.stream().filter(a -> a.getCurrentTarget().isEmpty()).forEach(a -> {
         if (!Gdx.input.isTouched() && c.getSelfId().equals(a.getSelfId())) {
           if (super.getGameMap().containsPosition(c.getCenter())) {
-            if (c.isDraggable()) {
+            if (c.isDraggable() && super.getPlayerElixirController().decrementElixir(super.getActorMap().get(c).getCost())) { //Piazzo la carta
               c.setDraggable(false);
               a.setPosition(c.getCenter());
             } else if (this.castedToIntPosition(c.getCenter()).equals(this.castedToIntPosition(a.getPosition()))) {

@@ -56,12 +56,17 @@ public class ElixirController {
   }
 
   /**
-   * decrement elixir.
+   * decrement elixir if enough.
    * 
    * @param n
    *        the amount of elixir to be taken.
+   *
+   * @return true if decremented.
    */
-  public void decrementElixir(final int n) {
-    this.elixir -= n;
+  public boolean decrementElixir(final int n) {
+    if (this.elixir >= n) {
+      this.elixir -= n;
+      return true;
+    } return false;
   }
 }

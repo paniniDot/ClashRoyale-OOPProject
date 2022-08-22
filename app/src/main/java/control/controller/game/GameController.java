@@ -2,11 +2,14 @@ package control.controller.game;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.utils.ArrayMap;
 
 import control.BaseGame;
 import control.controller.Controller;
@@ -41,6 +44,7 @@ public abstract class GameController extends Controller {
   private List<TowerActor> playerTowers;
   private GameScreen gameScreen;
   private final BotGameModel botGM;
+  private final Map<CardActor, Card> actorMap;
 
   /**
    * Constructor.
@@ -56,6 +60,7 @@ public abstract class GameController extends Controller {
     this.playerCards = new ArrayList<>();
     this.playerTowers = new ArrayList<>();
     this.botGM = (BotGameModel) model;
+    this.actorMap = new HashMap<>();
     super.registerModel(model);
   }
 
@@ -110,6 +115,12 @@ public abstract class GameController extends Controller {
   }
 
   /**
+   * @return the player ElixirController.
+   */
+  public ElixirController getPlayerElixirController() {
+    return this.playerElixir;
+  }
+  /**
    * 
    * @return a list of the user attackable entities.
    */
@@ -141,6 +152,7 @@ public abstract class GameController extends Controller {
     final var actors = new ArrayList<CardActor>();
     list.forEach(c -> {
       final var actor = new CardActor(c.getSelfId(), c.getPosition().x, c.getPosition().y, stage, AnimationUtilities.loadAnimationFromFiles(c.getAnimationFiles().get(animationName), ANIMATIONS_FRAME_DURATION, true));
+      actorMap.put(actor, c);
       actors.add(actor);
     });
     return actors;
@@ -297,5 +309,12 @@ public abstract class GameController extends Controller {
    */
   protected List<TowerActor> getPlayerTowers() {
     return Collections.unmodifiableList(this.playerTowers);
+  }
+
+  /**
+   * @return a map of cardActor and his Cards.
+   */
+  public Map<CardActor, Card> getActorMap() {
+    return this.actorMap;
   }
 }
