@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 import model.Model;
 import model.actors.Attackable;
 import model.actors.cards.Card;
+import model.actors.cards.spells.FireBall;
 import model.actors.towers.KingTower;
 import model.actors.towers.QueenTower;
 import model.actors.towers.Tower;
@@ -132,7 +133,7 @@ public abstract class GameModel extends Model {
    */
   public List<Attackable> getPlayerAttackable() {
     /* ricorda di sostituire con playerDeployedCards */
-    return Stream.concat(this.playerCards.stream().map(c -> (Attackable) c), this.playerActiveTowers.stream().map(t -> (Attackable) t)).collect(Collectors.toList());
+    return Stream.concat(this.playerCards.stream().filter(c -> !c.getClass().equals(FireBall.class)).map(c -> (Attackable) c), this.playerActiveTowers.stream().map(t -> (Attackable) t)).collect(Collectors.toList());
   }
 
   /**
