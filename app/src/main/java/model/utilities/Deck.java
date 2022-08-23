@@ -10,25 +10,20 @@ import java.util.Set;
  */
 public class Deck {
 
-  private Set<String> deckSet;
-  private Set<String> cardsSet;
+  private final Set<String> deckSet;
+  private final Set<String> cardsSet;
 
 /**
  * initialize basic cards and decks.
  */
   public Deck() {
     this.deckSet = new HashSet<>();
-    this.deckSet.add("Mega Knight");
-    this.deckSet.add("Ice Wizard");
-    this.deckSet.add("Inferno Dragon");
-    this.deckSet.add("Ram Rider");
+    this.deckSet.add("Barbarian");
+    this.deckSet.add("Wizard");
+    this.deckSet.add("InfernoTower");
+    this.deckSet.add("Giant");
     this.cardsSet = new HashSet<>();
-    this.cardsSet.add("Archer Queen");
-    this.cardsSet.add("Golden Knight");
-    this.cardsSet.add("Skeleton King");
-    this.cardsSet.add("Mighty Miner");
-    this.cardsSet.add("Miner");
-    this.cardsSet.add("Princess");
+    this.cardsSet.add("Fireball");
   }
  
   /**
@@ -52,7 +47,7 @@ public class Deck {
    * @param select
    * @return deckSet
    */
-  public Set<String> addDeck(String select) {
+  public Set<String> addDeck(final String select) {
     this.deckSet.add(select);
     return deckSet;
   }
@@ -61,7 +56,7 @@ public class Deck {
    * @param select
    * @return cardSset
    */
-  public Set<String> addCardSet(String select) {
+  public Set<String> addCardSet(final String select) {
     this.cardsSet.add(select);
     return cardsSet;
   }
@@ -70,7 +65,7 @@ public class Deck {
   * @param select
   * @return cardsSet
   */
-  public Set<String> removeCardSet(String select) {
+  public Set<String> removeCardSet(final String select) {
     cardsSet.remove(select);
     return cardsSet;
   }
@@ -80,7 +75,7 @@ public class Deck {
    * @param select
    * @return deckSet
    */
-  public Set<String> removeDeckCard(String select) {
+  public Set<String> removeDeckCard(final String select) {
     deckSet.remove(select);
     return deckSet;
   }
