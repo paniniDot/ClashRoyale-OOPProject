@@ -10,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import model.GlobalData;
 import model.actors.Attackable;
 import model.actors.cards.Card;
+import model.actors.cards.buildings.Building;
+import model.actors.cards.buildings.InfernoTower;
 import model.utilities.ElixirController;
 import model.utilities.ingame.BotGameModel;
 import view.actors.CardActor;
@@ -82,16 +84,20 @@ public class BotGameController extends GameController {
         if (!Gdx.input.isTouched() && c.getSelfId().equals(a.getSelfId())) {
           if (super.getGameMap().containsPosition(c.getCenter())) {
             if (c.isDraggable()) { //Carta non schierata
-              if (super.getPlayerElixirController().decrementElixir(super.getActorMap().get(c).getCost())) { //Carta schierata
+              if (getActorMap().get(c).getOwner().equals(GlobalData.USER)
+                  ? getPlayerElixirController().decrementElixir(getActorMap().get(c).getCost())
+                  : getBotElixirController().decrementElixir(getActorMap().get(c).getCost())) { //Carta schierata
                 c.setDraggable(false);
                 a.setPosition(c.getCenter());
-                final var card = super.getActorMap().get(c).createAnother(c.getOrigin(), super.getActorMap().get(c).getOwner());
+                final var card = getActorMap().get(c).createAnother(c.getOrigin(), getActorMap().get(c).getOwner());
                 //super.loadSingularActor(card, super.getGameScreen().getMainStage());
               }
             } else if (this.castedToIntPosition(c.getCenter()).equals(this.castedToIntPosition(a.getPosition()))) {
               this.updateAttackablePosition(a, enemyAttackables);
               c.setRotation(a.getPosition());
-              c.moveTo(a.getPosition());
+              if (!getActorMap().get(c).getClass().equals(InfernoTower.class)) {
+                c.moveTo(a.getPosition());
+              }
             } 
           } else {
             c.setPosition(c.getOrigin().x, c.getOrigin().y);
@@ -102,6 +108,10 @@ public class BotGameController extends GameController {
         c.setRotation(a.getCurrentTarget().get().getPosition());
       });
     });
+  }
+
+  private ElixirController getBotElixirController() {
+    return this.botElixir;
   }
 
   private Vector2 castedToIntPosition(final Vector2 pos) {
