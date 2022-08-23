@@ -69,7 +69,7 @@ public class BotGameModel extends GameModel {
    * 
    * @return a list of bot currently deployed cards.
    */
-  public List<Card> getPlayerDeployedCards() {
+  public List<Card> getBotDeployedCards() {
     return Collections.unmodifiableList(this.botDeployedCards);
   }
 

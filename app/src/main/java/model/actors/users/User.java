@@ -21,7 +21,7 @@ public class User {
   private final String name;
   private int currentXP;
   private UserLevel currentLevel;
-  private Deck deck;
+  private final Deck deck;
 
   /**
    * @param name
