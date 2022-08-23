@@ -161,9 +161,10 @@ public abstract class GameController extends Controller {
   protected final List<CardActor> loadCardActorsFrom(final List<Card> list, final Stage stage, final String animationName) {
     final var actors = new ArrayList<CardActor>();
     list.forEach(c -> {
-      final var actor = new CardActor(c.getSelfId(), c.getPosition().x, c.getPosition().y, stage, AnimationUtilities.loadAnimationFromFiles(c.getAnimationFiles().get(animationName), ANIMATIONS_FRAME_DURATION, true));
+      /*final var actor = new CardActor(c.getSelfId(), c.getPosition().x, c.getPosition().y, stage, AnimationUtilities.loadAnimationFromFiles(c.getAnimationFiles().get(animationName), ANIMATIONS_FRAME_DURATION, true));
       actorMap.put(actor, c);
-      actors.add(actor);
+      actors.add(actor);*/
+      actors.add(loadSingularActor(c, stage, animationName));
     });
     return actors;
   }
@@ -176,11 +177,17 @@ public abstract class GameController extends Controller {
    * 
    * @param stage 
    *              the stage where actors have to be placed.
+   * 
+   *  @param animationName
+   *            the animation of the actor.
+   * 
+   * @return the CardActor created.
    */
-  protected final void loadSingularActor(final Card card, final Stage stage) {
-    final var actor = new CardActor(card.getSelfId(), card.getPosition().x, card.getPosition().y, stage, AnimationUtilities.loadAnimationFromFiles(card.getAnimationFiles().get("SELF_MOVING"), ANIMATIONS_FRAME_DURATION, true));
+  protected final CardActor loadSingularActor(final Card card, final Stage stage, final String animationName) {
+    final var actor = new CardActor(card.getSelfId(), card.getPosition().x, card.getPosition().y, stage, AnimationUtilities.loadAnimationFromFiles(card.getAnimationFiles().get(animationName), ANIMATIONS_FRAME_DURATION, true));
     actorMap.put(actor, card);
-    this.playerCards.add(actor);
+    //this.playerCards.add(actor);
+    return actor;
   }
 
   /**
@@ -326,7 +333,7 @@ public abstract class GameController extends Controller {
    * @return a copy of player card actors.
    */
   protected List<CardActor> getPlayerActors() {
-    return this.playerCards;
+    return Collections.unmodifiableList(this.playerCards);
   }
 
   /**
@@ -355,5 +362,12 @@ public abstract class GameController extends Controller {
    */
   protected BotGameModel getGameModel() {
     return this.botGM;
+  }
+
+  /**
+   * @param card the card to add.
+   */
+  protected void addPlayerCard(final CardActor card) {
+    this.playerCards.add(card);
   }
 }

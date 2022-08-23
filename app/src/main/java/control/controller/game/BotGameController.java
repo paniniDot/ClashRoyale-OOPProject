@@ -26,7 +26,7 @@ public class BotGameController extends GameController {
   private final ElixirController botElixir;
   private List<CardActor> botCards;
   private List<TowerActor> botTowers;
-  private static final BotGameModel BOT_GAME_MODEL = new BotGameModel(GlobalData.USER_DECK, GlobalData.BOT_DECK, GlobalData.USER, GlobalData.BOT);;
+  private static final BotGameModel BOT_GAME_MODEL = new BotGameModel(new GlobalData().getUserDeck(), GlobalData.BOT_DECK, GlobalData.USER, GlobalData.BOT);;
 
   /**
    * Constructor.
@@ -79,18 +79,25 @@ public class BotGameController extends GameController {
   }
 
   private void updateActorPositions(final List<CardActor> cards, final List<Attackable> selfAttackables, final List<Attackable> enemyAttackables) {
+    final List<CardActor> cardsToAdd = new ArrayList<>();
     cards.forEach(c -> {
       selfAttackables.stream().filter(a -> a.getCurrentTarget().isEmpty()).forEach(a -> {
         if (!Gdx.input.isTouched() && c.getSelfId().equals(a.getSelfId())) {
           if (super.getGameMap().containsPosition(c.getCenter())) {
             if (c.isDraggable()) { //Carta non schierata
-              if (getActorMap().get(c).getOwner().equals(GlobalData.USER)
-                  ? getPlayerElixirController().decrementElixir(getActorMap().get(c).getCost())
-                  : getBotElixirController().decrementElixir(getActorMap().get(c).getCost())) { //Carta schierata
+              final var depCard = getActorMap().get(c);
+              if (depCard.getOwner().equals(GlobalData.USER)
+                  ? getPlayerElixirController().decrementElixir(depCard.getCost())
+                  : getBotElixirController().decrementElixir(depCard.getCost())) { //Carta schierata
+                if (depCard.getOwner().equals(GlobalData.USER)) {
+                  this.getGameModel().deployPlayerCard(depCard);
+                } else {
+                  this.getGameModel().deployBotCard(depCard);
+                }
                 c.setDraggable(false);
                 a.setPosition(c.getCenter());
                 final var card = getActorMap().get(c).createAnother(c.getOrigin(), getActorMap().get(c).getOwner());
-                //super.loadSingularActor(card, super.getGameScreen().getMainStage());
+                cardsToAdd.add(loadSingularActor(card, getGameScreen().getMainStage(), "SELF_MOVING"));
               }
             } else if (this.castedToIntPosition(c.getCenter()).equals(this.castedToIntPosition(a.getPosition()))) {
               this.updateAttackablePosition(a, enemyAttackables);
@@ -108,6 +115,7 @@ public class BotGameController extends GameController {
         c.setRotation(a.getCurrentTarget().get().getPosition());
       });
     });
+    cardsToAdd.forEach(c -> addPlayerCard(c));
   }
 
   private ElixirController getBotElixirController() {
