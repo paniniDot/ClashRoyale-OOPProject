@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 
 import com.badlogic.gdx.math.Vector2;
 
+import model.GlobalData;
 import model.actors.Attackable;
 import model.actors.cards.Card;
 import model.actors.towers.KingTower;
@@ -155,7 +156,28 @@ public class BotGameModel extends GameModel {
   }
 
   private void attackTargets(final List<Attackable> selfAttackables) {
-    selfAttackables.forEach(Attackable::attackCurrentTarget);
+//    selfAttackables.forEach(Attackable::attackCurrentTarget);
+    selfAttackables.forEach(attackable -> {
+      attackable.attackCurrentTarget();
+      if (attackable.getCurrentTarget().isPresent()) {
+        final var currentTarget = attackable.getCurrentTarget().get();
+        if (currentTarget.isDead()) {
+          if (currentTarget.getOwner().equals(GlobalData.USER)) {
+            if (currentTarget.getClass().equals(Tower.class)) {
+              this.destroyUserTower((Tower) currentTarget);
+            } else {
+              this.removePlayerCardFromMap((Card) currentTarget);
+            }
+          } else {
+            if (currentTarget.getClass().equals(Tower.class)) {
+              this.destroyBotTower((Tower) currentTarget);
+            } else {
+              this.removeBotCardFromMap((Card) currentTarget);
+            }
+          }
+        }
+      }
+    });
   }
 
   @Override
