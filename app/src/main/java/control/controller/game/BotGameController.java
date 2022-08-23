@@ -9,8 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import model.GlobalData;
 import model.actors.Attackable;
-import model.actors.cards.Card;
-import model.actors.cards.buildings.Building;
 import model.actors.cards.buildings.InfernoTower;
 import model.utilities.ElixirController;
 import model.utilities.ingame.BotGameModel;

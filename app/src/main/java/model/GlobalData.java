@@ -78,8 +78,6 @@ public final class GlobalData {
     //Switch per ogni elemento caricato e creare l'apposita truppa
     //es: case "Barbarian": this.userDeck.add(Barbarian.create(User, position.get(i));
     //      i++; break;
-
-    //Al momento aggiungiamo 3 truppe a caso
   }
 
   /**

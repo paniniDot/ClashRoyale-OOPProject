@@ -8,8 +8,6 @@ import java.util.Map;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.utils.ArrayMap;
 import com.badlogic.gdx.utils.SnapshotArray;
 
 import control.BaseGame;

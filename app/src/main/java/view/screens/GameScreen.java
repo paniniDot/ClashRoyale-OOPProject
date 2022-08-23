@@ -21,6 +21,11 @@ import view.actors.BaseActor;
  */
 public class GameScreen extends BaseScreen {
 
+  private static final int TIMER_X = 100;
+  private static final int TIMER_Y = 200;
+  private static final int ELISIR_X = 100;
+  private static final int ELISIR_Y = 100;
+
   private SpriteBatch sprite;
   private BitmapFont gamefont;
 
@@ -57,8 +62,8 @@ public class GameScreen extends BaseScreen {
   public void render(final float dt) {
     super.render(dt);
     sprite.begin();
-    gamefont.draw(sprite, "elisir " + ((BotGameController) super.getController()).getPlayerCurrentElixir(), 100, 100);
-    gamefont.draw(sprite, "durata " + ((BotGameController) super.getController()).getLeftTime(), 100, 200);
+    gamefont.draw(sprite, "elisir " + ((BotGameController) super.getController()).getPlayerCurrentElixir(), GameScreen.ELISIR_X, GameScreen.ELISIR_Y);
+    gamefont.draw(sprite, "durata " + ((BotGameController) super.getController()).getLeftTime(), GameScreen.TIMER_X, GameScreen.TIMER_Y);
     sprite.end();
     //RectDrawer.showDebugBoundingBoxes(this.map.getMap().vertexSet().stream().map(MapUnit::getUnitRectangle).collect(Collectors.toList()), Color.BLUE);
     //RectDrawer.showDebugBoundingBoxes(this.map.getMap().vertexSet().stream().filter(v -> v.getType().equals(MapUnit.Type.TERRAIN)).map(MapUnit::getUnitRectangle).collect(Collectors.toList()), Color.BLUE);
