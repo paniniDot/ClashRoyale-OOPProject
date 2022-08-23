@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.utils.ArrayMap;
+import com.badlogic.gdx.utils.SnapshotArray;
 
 import control.BaseGame;
 import control.controller.Controller;
@@ -72,8 +73,9 @@ public abstract class GameController extends Controller {
       super.stopMusic();
 
       //Rimozione attori dallo stage (non funziona)
-      for (final Actor actor : this.gameScreen.getMainStage().getActors()) {
-        actor.addAction(Actions.removeActor());
+      final SnapshotArray<Actor> actors = new SnapshotArray<>(this.gameScreen.getMainStage().getActors());
+      for (final Actor actor : actors) {
+          actor.remove();
       }
       this.gameScreen.dispose();
 
@@ -346,5 +348,12 @@ public abstract class GameController extends Controller {
    */
   public GameScreen getGameScreen() {
     return this.gameScreen;
+  }
+
+  /**
+   *  @return the BotGameModel used by this controller.
+   */
+  protected BotGameModel getGameModel() {
+    return this.botGM;
   }
 }
