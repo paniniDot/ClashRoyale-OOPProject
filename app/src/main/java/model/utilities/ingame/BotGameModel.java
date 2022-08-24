@@ -156,20 +156,19 @@ public class BotGameModel extends GameModel {
   }
 
   private void attackTargets(final List<Attackable> selfAttackables) {
-//    selfAttackables.forEach(Attackable::attackCurrentTarget);
     selfAttackables.forEach(attackable -> {
       attackable.attackCurrentTarget();
       if (attackable.getCurrentTarget().isPresent()) {
         final var currentTarget = attackable.getCurrentTarget().get();
         if (currentTarget.isDead()) {
-          if (currentTarget.getOwner().equals(GlobalData.USER)) {
-            if (currentTarget.getClass().equals(Tower.class)) {
+          if (isUserTheOwner(currentTarget)) {
+            if (isTower(currentTarget)) {
               this.destroyUserTower((Tower) currentTarget);
             } else {
               this.removePlayerCardFromMap((Card) currentTarget);
             }
           } else {
-            if (currentTarget.getClass().equals(Tower.class)) {
+            if (isTower(currentTarget)) {
               this.destroyBotTower((Tower) currentTarget);
             } else {
               this.removeBotCardFromMap((Card) currentTarget);
@@ -178,6 +177,14 @@ public class BotGameModel extends GameModel {
         }
       }
     });
+  }
+
+  private boolean isTower(final Attackable target) {
+    return target.getClass().equals(QueenTower.class) || target.getClass().equals(KingTower.class);
+  }
+
+  private boolean isUserTheOwner(final Attackable target) {
+    return target.getOwner().equals(GlobalData.USER);
   }
 
   @Override
