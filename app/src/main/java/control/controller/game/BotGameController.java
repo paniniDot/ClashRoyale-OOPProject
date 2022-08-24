@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import model.GlobalData;
 import model.actors.Attackable;
+import model.actors.cards.Card;
 import model.actors.cards.buildings.InfernoTower;
 import model.utilities.ElixirController;
 import model.utilities.ingame.BotGameModel;
@@ -77,30 +78,35 @@ public class BotGameController extends GameController {
   }
 
   private void updateActorPositions(final List<CardActor> cards, final List<Attackable> selfAttackables, final List<Attackable> enemyAttackables) {
-    final List<CardActor> cardsToAdd = new ArrayList<>();
+    //Lista di carte appena create da aggiungere alla lista finito il forEach()
+    final List<CardActor> cardsToAdd = new ArrayList<>(); 
+    
     cards.forEach(c -> {
       selfAttackables.stream().filter(a -> a.getCurrentTarget().isEmpty()).forEach(a -> {
         if (!Gdx.input.isTouched() && c.getSelfId().equals(a.getSelfId())) {
           if (super.getGameMap().containsPosition(c.getCenter())) {
             if (c.isDraggable()) { //Carta non schierata
+              
               final var depCard = getActorMap().get(c);
-              if (depCard.getOwner().equals(GlobalData.USER)
+              if (isUserTheOwner(depCard)
                   ? getPlayerElixirController().decrementElixir(depCard.getCost())
-                  : getBotElixirController().decrementElixir(depCard.getCost())) { //Carta schierata
-                if (depCard.getOwner().equals(GlobalData.USER)) {
-                  this.getGameModel().deployPlayerCard(depCard);
+                  : getBotElixirController().decrementElixir(depCard.getCost())) { //Scalo Elixir e schiero la carta
+                if (isUserTheOwner(depCard)) {
+                  deployUserCard(depCard);
                 } else {
-                  this.getGameModel().deployBotCard(depCard);
+                  deployBotCard(depCard);
                 }
                 c.setDraggable(false);
                 a.setPosition(c.getCenter());
-                final var card = getActorMap().get(c).createAnother(c.getOrigin(), getActorMap().get(c).getOwner());
+                
+                //Creo un'altra carta dello stesso tipo, la faccio attore e la aggiungo alla lista di carte da aggiungere
+                final var card = depCard.createAnother(c.getOrigin(), depCard.getOwner());
                 cardsToAdd.add(loadSingularActor(card, getGameScreen().getMainStage(), "SELF_MOVING"));
               }
             } else if (this.castedToIntPosition(c.getCenter()).equals(this.castedToIntPosition(a.getPosition()))) {
               this.updateAttackablePosition(a, enemyAttackables);
               c.setRotation(a.getPosition());
-              if (!getActorMap().get(c).getClass().equals(InfernoTower.class)) {
+              if (isNotBuilding(c)) {
                 c.moveTo(a.getPosition());
               }
             } 
@@ -113,7 +119,24 @@ public class BotGameController extends GameController {
         c.setRotation(a.getCurrentTarget().get().getPosition());
       });
     });
+    //Aggiungo le carte create alla lista delle carte del giocatore.
     cardsToAdd.forEach(c -> addPlayerCard(c));
+  }
+
+  private boolean isNotBuilding(final CardActor c) {
+    return !getActorMap().get(c).getClass().equals(InfernoTower.class);
+  }
+
+  private void deployUserCard(final Card card) {
+    this.getGameModel().deployPlayerCard(card);
+  }
+
+  private void deployBotCard(final Card card) {
+    this.getGameModel().deployBotCard(card);
+  }
+ 
+  private boolean isUserTheOwner(final Card card) {
+    return card.getOwner().equals(GlobalData.USER);
   }
 
   private ElixirController getBotElixirController() {
