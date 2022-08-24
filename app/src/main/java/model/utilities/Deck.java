@@ -1,7 +1,20 @@
 package model.utilities;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import com.badlogic.gdx.math.Vector2;
+
+import model.GlobalData;
+import model.actors.cards.Card;
+import model.actors.cards.spells.FireBall;
+import model.actors.cards.troops.Barbarian;
+import model.actors.cards.troops.Giant;
+import model.actors.cards.troops.Wizard;
+import model.actors.users.User;
 
 /**
  * 
@@ -10,73 +23,91 @@ import java.util.Set;
  */
 public class Deck {
 
-  private final Set<String> deckSet;
-  private final Set<String> cardsSet;
+  private final Map<String, Card> deckMap;
+  private final Map<String, Card> cardsMap;
 
 /**
  * initialize basic cards and decks.
  */
   public Deck() {
-    this.deckSet = new HashSet<>();
-    this.deckSet.add("Barbarian");
-    this.deckSet.add("Wizard");
-    this.deckSet.add("InfernoTower");
-    this.deckSet.add("Giant");
-    this.cardsSet = new HashSet<>();
-    this.cardsSet.add("Fireball");
+    
+    this.deckMap = new HashMap<>();
+  //  this.deckMap.put("Barbarian", Barbarian.create(GlobalData.USER, new Vector2(100, 100)));
+    //this.deckMap.put("Wizard", Wizard.create(GlobalData.USER, new Vector2(200, 100))); 
+    //this.deckMap.put("FireBall", FireBall.create(GlobalData.USER, new Vector2(300, 100)));
+    //this.deckMap.put("Giant", Giant.create(GlobalData.USER, new Vector2(400, 100)));
+    this.cardsMap = new HashMap<>();
+    //this.cardsMap.put("Giant", Giant.create(GlobalData.USER, new Vector2(400, 100)));
+
+    
+    
   }
  
   /**
    * 
-   * @return getDeckSet
+   * @return getDeckMap
    */
-  public Set<String> getDeckSet() {
-    return deckSet;
+  public Map<String,Card> getDeckSet() {
+    return deckMap;
+  }
+  
+  public List<String> namesCardsDeck() {
+    return deckMap.entrySet().stream()
+        .flatMap(e -> Stream.of(e.getKey()))
+        .collect(Collectors.toList());
+  }
+  
+  public List<String> namesCardsCard() {
+    return cardsMap.entrySet().stream()
+        .flatMap(e -> Stream.of(e.getKey()))
+        .collect(Collectors.toList());
   }
 
   /**
    * 
-   * @return getCardsSet
+   * @return getCardsMap
    */
-  public Set<String> getCardsSet() {
-    return cardsSet;
+  public Map<String,Card> getCardsSet() {
+    return cardsMap;
   }
 
   /**
    * 
    * @param select
-   * @return deckSet
+   * @return deckMap
    */
-  public Set<String> addDeck(final String select) {
-    this.deckSet.add(select);
-    return deckSet;
+  public Map<String,Card> addDeck(final String select) {
+    final Card c = cardsMap.get(select);
+    this.deckMap.put(select, c);
+    return deckMap;
   }
   /**
    * 
    * @param select
-   * @return cardSset
+   * @return cardsMap
    */
-  public Set<String> addCardSet(final String select) {
-    this.cardsSet.add(select);
-    return cardsSet;
+  public Map<String,Card> addCardSet(final String select) {
+    final Card c = deckMap.get(select);
+    this.deckMap.put(select, c);
+    return cardsMap;
   }
  /**
   * 
   * @param select
-  * @return cardsSet
+  * @return cardsMap
   */
-  public Set<String> removeCardSet(final String select) {
-    cardsSet.remove(select);
-    return cardsSet;
+  public Map<String,Card> removeCardSet(final String select) {
+    cardsMap.remove(select);
+    return cardsMap;
   }
 
   /**
    * 
    * @param select
-   * @return deckSet
+   * @return deckMap
    */
-  public Set<String> removeDeckCard(final String select) {
-    deckSet.remove(select);
-    return deckSet;
+  public Map<String,Card> removeDeckCard(final String select) {
+    deckMap.remove(select);
+    return deckMap;
   }
 }

@@ -57,7 +57,7 @@ public class DeckController extends Controller {
    * @return the List of cards.
    */
   public List<String> setCards() {
-    this.cards.setItems(getUDeck().getCardsSet().toArray());
+    this.cards.setItems(getUDeck().namesCardsCard().toArray());
     return cards;
   }
 
@@ -67,7 +67,7 @@ public class DeckController extends Controller {
    * @return the List of deck.
    */
   public List<String> setDeck() {
-    this.decklist.setItems(getUDeck().getDeckSet().toArray());
+    this.decklist.setItems(getUDeck().namesCardsDeck().toArray());
     return decklist;
   }
 
@@ -79,8 +79,8 @@ public class DeckController extends Controller {
    * @return List of deck. 
    */
   public List<String> addDeck(final String select) {
-    decklist.setItems(getUDeck().addDeck(select).toArray());
-      return decklist;
+    getUDeck().addDeck(select);
+      return setDeck();
     }
 
   /**
@@ -91,8 +91,8 @@ public class DeckController extends Controller {
    * @return the list of cards updated.
    */
   public List<String> addCard(final String select) {
-    cards.setItems(getUDeck().addCardSet(select).toArray());
-      return cards;
+    getUDeck().addCardSet(select);
+      return setCards();
     }
 
   /**
@@ -103,8 +103,8 @@ public class DeckController extends Controller {
    * @return the list of cards updated. 
    */
   public List<String> removeCard(final String card) {
-    this.cards.setItems(getUDeck().removeCardSet(card).toArray());
-    return cards;
+    getUDeck().removeCardSet(card);    
+    return setCards();
   }
 
   /**
@@ -115,8 +115,8 @@ public class DeckController extends Controller {
    * @return the deckList updated.
    */
   public List<String> removeDeckCard(final String card) {
-    this.decklist.setItems(getUDeck().removeDeckCard(card).toArray());
-    return decklist;
+    getUDeck().removeDeckCard(card);
+    return setDeck();
   }
 
   /**
