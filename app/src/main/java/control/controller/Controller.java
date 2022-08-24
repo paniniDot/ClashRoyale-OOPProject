@@ -126,7 +126,7 @@ public abstract class Controller {
   /**
    * @return the user.
    */
-  public User getUser() {
+  public static User getUser() {
     return user;
   }
 

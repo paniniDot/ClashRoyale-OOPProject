@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.badlogic.gdx.math.Vector2;
 
+import control.controller.Controller;
 import model.actors.cards.Card;
 import model.actors.cards.buildings.InfernoTower;
 import model.actors.cards.spells.FireBall;
@@ -23,7 +24,7 @@ public final class GlobalData {
   /**
    * Provides a user instance.
    */
-  public static final User USER = new User("Panini");
+  public static final User USER = Controller.getUser();
 
   /**
    * Provides a bot.
@@ -90,5 +91,6 @@ public final class GlobalData {
       return this.userDeck;
     }
   }
+
 
 }

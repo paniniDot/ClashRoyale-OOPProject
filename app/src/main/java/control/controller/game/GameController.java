@@ -58,7 +58,7 @@ public abstract class GameController extends Controller {
     super(Audio.getBattleMusic());
     this.playerElixir = new ElixirController();
     this.timer = new CountDownController();
-    this.score = new ScoreController(0);
+    this.score = new ScoreController(GlobalData.USER.getCurrentXP());
     this.gameMap = new GameMap();
     this.playerCards = new ArrayList<>();
     this.playerTowers = new ArrayList<>();
