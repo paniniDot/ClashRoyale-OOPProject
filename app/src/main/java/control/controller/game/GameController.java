@@ -14,6 +14,7 @@ import control.BaseGame;
 import control.controller.Controller;
 import control.controller.MenuController;
 import control.utilities.FileManager;
+import model.GlobalData;
 import model.actors.Attackable;
 import model.actors.cards.Card;
 import model.actors.towers.Tower;
@@ -171,10 +172,10 @@ public abstract class GameController extends Controller {
   protected final List<CardActor> loadCardActorsFrom(final List<Card> list, final Stage stage, final String animationName) {
     final var actors = new ArrayList<CardActor>();
     list.forEach(c -> {
-      /*final var actor = new CardActor(c.getSelfId(), c.getPosition().x, c.getPosition().y, stage, AnimationUtilities.loadAnimationFromFiles(c.getAnimationFiles().get(animationName), ANIMATIONS_FRAME_DURATION, true));
+      final var actor = new CardActor(c.getSelfId(), c.getPosition().x, c.getPosition().y, stage, AnimationUtilities.loadAnimationFromFiles(c.getAnimationFiles().get(animationName), ANIMATIONS_FRAME_DURATION, true));
       actorMap.put(actor, c);
-      actors.add(actor);*/
-      actors.add(loadSingularActor(c, stage, animationName));
+      actors.add(actor);
+      //actors.add(loadSingularActor(c, stage, animationName));
     });
     return actors;
   }
@@ -196,7 +197,11 @@ public abstract class GameController extends Controller {
   protected final CardActor loadSingularActor(final Card card, final Stage stage, final String animationName) {
     final var actor = new CardActor(card.getSelfId(), card.getPosition().x, card.getPosition().y, stage, AnimationUtilities.loadAnimationFromFiles(card.getAnimationFiles().get(animationName), ANIMATIONS_FRAME_DURATION, true));
     actorMap.put(actor, card);
-    //this.playerCards.add(actor);
+    if (card.getOwner().equals(GlobalData.USER)) {
+      this.botGM.deployPlayerCard(card);
+    } else {
+      this.botGM.deployBotCard(card);
+    }
     return actor;
   }
 
@@ -314,7 +319,7 @@ public abstract class GameController extends Controller {
    * Update both card and tower actors animations of the player.
    */
   public void updateActorAnimations() {
-    this.updateCardAnimations(this.playerCards, this.getUserAttackables(), "SELF_MOVING", "SELF_FIGHTING");
+    this.updateCardAnimations(this.getPlayerActors(), this.getUserAttackables(), "SELF_MOVING", "SELF_FIGHTING");
     this.updateTowerAnimations(this.playerTowers, this.getUserAttackables(), GameController.SELF, GameController.SELF);
     this.onUpdateActorAnimations();
   }
@@ -343,7 +348,7 @@ public abstract class GameController extends Controller {
    * @return a copy of player card actors.
    */
   protected List<CardActor> getPlayerActors() {
-    return Collections.unmodifiableList(this.playerCards);
+    return this.playerCards;
   }
 
   /**

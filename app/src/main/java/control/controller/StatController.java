@@ -50,7 +50,7 @@ public class StatController extends Controller {
   public float getRatio() {
     final var wins = this.getWins();
     final var plays = this.getPlays();
-    return wins / ((plays - wins) == 0 ? 1 : plays - wins);
+    return  (float) wins / ((plays - wins) == 0 ? 1 : plays - wins);
   }
 
   /**
