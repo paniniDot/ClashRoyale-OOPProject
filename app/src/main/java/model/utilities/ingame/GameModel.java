@@ -89,11 +89,13 @@ public abstract class GameModel extends Model {
    *           the card to be deployed.
    */
   public void deployPlayerCard(final Card card) {
-    if (this.playerChoosableCards.contains(card)) {
+    /*if (this.playerChoosableCards.contains(card)) {
       this.playerChoosableCards.remove(card);
       this.playerDeployedCards.add(card);
       this.playerCards.add(card);
-    }
+    }*/
+    this.playerCards.add(card);
+    this.playerDeployedCards.add(card);
   }
 
   /**

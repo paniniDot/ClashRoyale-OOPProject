@@ -80,25 +80,20 @@ public class BotGameController extends GameController {
   private void updateActorPositions(final List<CardActor> cards, final List<Attackable> selfAttackables, final List<Attackable> enemyAttackables) {
     //Lista di carte appena create da aggiungere alla lista finito il forEach()
     final List<CardActor> cardsToAdd = new ArrayList<>(); 
-    
+
     cards.forEach(c -> {
       selfAttackables.stream().filter(a -> a.getCurrentTarget().isEmpty()).forEach(a -> {
         if (!Gdx.input.isTouched() && c.getSelfId().equals(a.getSelfId())) {
           if (super.getGameMap().containsPosition(c.getCenter())) {
             if (c.isDraggable()) { //Carta non schierata
-              
+
               final var depCard = getActorMap().get(c);
               if (isUserTheOwner(depCard)
                   ? getPlayerElixirController().decrementElixir(depCard.getCost())
                   : getBotElixirController().decrementElixir(depCard.getCost())) { //Scalo Elixir e schiero la carta
-                if (isUserTheOwner(depCard)) {
-                  deployUserCard(depCard);
-                } else {
-                  deployBotCard(depCard);
-                }
                 c.setDraggable(false);
                 a.setPosition(c.getCenter());
-                
+
                 //Creo un'altra carta dello stesso tipo, la faccio attore e la aggiungo alla lista di carte da aggiungere
                 final var card = depCard.createAnother(c.getOrigin(), depCard.getOwner());
                 cardsToAdd.add(loadSingularActor(card, getGameScreen().getMainStage(), "SELF_MOVING"));
@@ -120,19 +115,13 @@ public class BotGameController extends GameController {
       });
     });
     //Aggiungo le carte create alla lista delle carte del giocatore.
-    cardsToAdd.forEach(c -> addPlayerCard(c));
+    if (!cardsToAdd.isEmpty()) {
+      cardsToAdd.forEach(c -> addPlayerCard(c));
+    }
   }
 
   private boolean isNotBuilding(final CardActor c) {
     return !getActorMap().get(c).getClass().equals(InfernoTower.class);
-  }
-
-  private void deployUserCard(final Card card) {
-    this.getGameModel().deployPlayerCard(card);
-  }
-
-  private void deployBotCard(final Card card) {
-    this.getGameModel().deployBotCard(card);
   }
  
   private boolean isUserTheOwner(final Card card) {
@@ -149,7 +138,7 @@ public class BotGameController extends GameController {
 
   @Override
   protected void onUpdateActors() {
-    this.updateActorPositions(super.getPlayerActors(), super.getUserAttackables(), this.getBotAttackables());
+    this.updateActorPositions(getPlayerActors(), super.getUserAttackables(), this.getBotAttackables());
     this.updateActorPositions(this.botCards, this.getBotAttackables(), super.getUserAttackables());
   }
 
