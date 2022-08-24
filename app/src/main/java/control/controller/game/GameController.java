@@ -21,6 +21,7 @@ import model.utilities.AnimationUtilities;
 import model.utilities.Audio;
 import model.utilities.CountDownController;
 import model.utilities.ElixirController;
+import model.utilities.ScoreController;
 import model.utilities.ingame.GameModel;
 import model.utilities.ingame.BotGameModel;
 import model.utilities.ingame.GameMap;
@@ -38,6 +39,7 @@ public abstract class GameController extends Controller {
 
   private final ElixirController playerElixir;
   private final CountDownController timer;
+  private final ScoreController score;
   private final GameMap gameMap;
   private List<CardActor> playerCards;
   private List<TowerActor> playerTowers;
@@ -55,6 +57,7 @@ public abstract class GameController extends Controller {
     super(Audio.getBattleMusic());
     this.playerElixir = new ElixirController();
     this.timer = new CountDownController();
+    this.score = new ScoreController(0);
     this.gameMap = new GameMap();
     this.playerCards = new ArrayList<>();
     this.playerTowers = new ArrayList<>();
@@ -120,6 +123,15 @@ public abstract class GameController extends Controller {
    */
   public int getPlayerCurrentElixir() {
     return this.playerElixir.getElixirCount();
+  }
+  
+  
+  /**
+   * 
+   *@return the current score.
+   */
+  public int getScore() {
+    return this.score.getScore();
   }
 
   /**
