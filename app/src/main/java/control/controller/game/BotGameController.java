@@ -1,7 +1,8 @@
 package control.controller.game;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
@@ -10,8 +11,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import model.GlobalData;
 import model.actors.Attackable;
 import model.actors.cards.Card;
-import model.actors.cards.buildings.InfernoTower;
+import model.actors.cards.spells.Spell;
+import model.actors.towers.Tower;
+import model.actors.users.Bot;
 import model.utilities.ElixirController;
+import model.utilities.ScoreController;
 import model.utilities.ingame.BotGameModel;
 import view.actors.CardActor;
 import view.actors.TowerActor;
@@ -23,18 +27,24 @@ import view.actors.TowerActor;
 public class BotGameController extends GameController {
 
   private final ElixirController botElixir;
-  private List<CardActor> botCards;
-  private List<TowerActor> botTowers;
-  private static final BotGameModel BOT_GAME_MODEL = new BotGameModel(new GlobalData().getUserDeck(), GlobalData.BOT_DECK, GlobalData.USER, GlobalData.BOT);;
+  private final ScoreController botScore;
+  private Map<CardActor, Card> botCardsMap;
+  private Map<TowerActor, Tower> botTowersMap;
 
   /**
    * Constructor.
    */
-  public BotGameController() { 
-    super(BOT_GAME_MODEL);
+  public BotGameController() {
+    super(new BotGameModel(new GlobalData().getUserDeck(), GlobalData.BOT_DECK, GlobalData.USER, GlobalData.BOT));
     this.botElixir = new ElixirController();
-    this.botCards = new ArrayList<>();
-    this.botTowers = new ArrayList<>();
+    this.botScore = new ScoreController();
+    this.botCardsMap = new HashMap<>();
+    this.botTowersMap = new HashMap<>();
+  }
+
+  @Override 
+  protected boolean checkEnemyLose() {
+    return ((BotGameModel) super.getModel()).getBotActiveTowers().size() == 0;
   }
 
   @Override
@@ -59,77 +69,61 @@ public class BotGameController extends GameController {
 
   @Override
   protected void onLoadActors(final Stage stage) {
-    this.botCards = super.loadCardActorsFrom(((BotGameModel) super.getModel()).getBotDeck(), stage, "ENEMY_MOVING");
+    this.botCardsMap = super.loadCardActorsFrom(((BotGameModel) super.getModel()).getBotDeck(), stage, "ENEMY_MOVING");
   }
 
   @Override
   protected void onLoadTowers(final Stage stage) {
-    this.botTowers = super.loadTowerActorsFrom(((BotGameModel) super.getModel()).getBotActiveTowers(), stage, "ENEMY");
+    this.botTowersMap = super.loadTowerActorsFrom(((BotGameModel) super.getModel()).getBotActiveTowers(), stage, "ENEMY");
   }
 
   @Override
   protected void onUpdateActorAnimations() {
-    super.updateCardAnimations(this.botCards, this.getBotAttackables(), "ENEMY_MOVING", "ENEMY_FIGHTING");
-    super.updateTowerAnimations(this.botTowers, this.getBotAttackables(), "ENEMY", "ENEMY");
+    super.updateCardAnimations(this.botCardsMap, "ENEMY_MOVING", "ENEMY_FIGHTING");
+    super.updateTowerAnimations(this.botTowersMap, "ENEMY", "ENEMY");
   }
 
   private void updateAttackablePosition(final Attackable attackable, final List<Attackable> enemies) {
     attackable.setPosition(this.getGameMap().getNextPosition(attackable, enemies));
   }
 
-  private void updateActorPositions(final List<CardActor> cards, final List<Attackable> selfAttackables, final List<Attackable> enemyAttackables) {
-    //Lista di carte appena create da aggiungere alla lista finito il forEach()
-    final List<CardActor> cardsToAdd = new ArrayList<>(); 
-
-    cards.forEach(c -> {
-      selfAttackables.stream().filter(a -> a.getCurrentTarget().isEmpty()).forEach(a -> {
-        if (!Gdx.input.isTouched() && c.getSelfId().equals(a.getSelfId())) {
-          if (super.getGameMap().containsPosition(c.getCenter())) {
-            if (c.isDraggable()) { //Carta non schierata
-
-              final var depCard = getActorMap().get(c);
-              if (isUserTheOwner(depCard)
-                  ? getPlayerElixirController().decrementElixir(depCard.getCost())
-                  : getBotElixirController().decrementElixir(depCard.getCost())) { //Scalo Elixir e schiero la carta
-                c.setDraggable(false);
-                a.setPosition(c.getCenter());
-
-                //Creo un'altra carta dello stesso tipo, la faccio attore e la aggiungo alla lista di carte da aggiungere
-                final var card = depCard.createAnother(c.getOrigin(), depCard.getOwner());
-                cardsToAdd.add(loadSingularActor(card, getGameScreen().getMainStage(), "SELF_MOVING"));
+  private void updateActorPositions(final Map<CardActor, Card> cardActors, final List<Attackable> enemyAttackables) {
+    cardActors.entrySet().stream()
+      .filter(e -> !e.getValue().getClass().equals(Spell.class))
+      .filter(e -> ((Attackable) e.getValue()).getCurrentTarget().isEmpty())
+      .forEach(e -> {
+        if (!Gdx.input.isTouched()) {
+          if (super.getGameMap().containsPosition(e.getKey().getCenter())) {
+            if (e.getKey().isDraggable()) { //Carta non schierata
+              if (e.getValue().getOwner() instanceof Bot && e.getValue().getCost() <= botElixir.getElixirCount()) {
+                this.deployBotCard(e.getValue());
+                e.getKey().setDraggable(false);
+                e.getValue().setPosition(e.getKey().getCenter());
+              } else if (e.getValue().getCost() <= getPlayerElixirController().getElixirCount()) {
+                super.deployPlayerCard(e.getValue());
+                e.getKey().setDraggable(false);
+                e.getValue().setPosition(e.getKey().getCenter());
+              } else {
+                e.getKey().setPosition(e.getKey().getOrigin().x, e.getKey().getOrigin().y);
               }
-            } else if (this.castedToIntPosition(c.getCenter()).equals(this.castedToIntPosition(a.getPosition()))) {
-              this.updateAttackablePosition(a, enemyAttackables);
-              c.setRotation(a.getPosition());
-              if (isNotBuilding(c)) {
-                c.moveTo(a.getPosition());
-              }
-            } 
+            } else if (this.castedToIntPosition(e.getKey().getCenter()).equals(this.castedToIntPosition(e.getValue().getPosition()))) {
+              this.updateAttackablePosition((Attackable) e.getValue(), enemyAttackables);
+              e.getKey().setRotation(e.getValue().getPosition());
+              e.getKey().moveTo(e.getValue().getPosition());
+            }
           } else {
-            c.setPosition(c.getOrigin().x, c.getOrigin().y);
+            e.getKey().setPosition(e.getKey().getOrigin().x, e.getKey().getOrigin().y);
           }
-        }
+        } 
       });
-      selfAttackables.stream().filter(a -> a.getCurrentTarget().isPresent()).forEach(a -> {
-        c.setRotation(a.getCurrentTarget().get().getPosition());
-      });
-    });
-    //Aggiungo le carte create alla lista delle carte del giocatore.
-    if (!cardsToAdd.isEmpty()) {
-      cardsToAdd.forEach(c -> addPlayerCard(c));
-    }
+    cardActors.entrySet().stream()
+      .filter(e -> ((Attackable) e.getValue()).getCurrentTarget().isPresent())
+      .forEach(e -> e.getKey().setRotation(((Attackable) e.getValue()).getCurrentTarget().get().getPosition()));
   }
 
-  private boolean isNotBuilding(final CardActor c) {
-    return !getActorMap().get(c).getClass().equals(InfernoTower.class);
-  }
- 
-  private boolean isUserTheOwner(final Card card) {
-    return card.getOwner().equals(GlobalData.USER);
-  }
-
-  private ElixirController getBotElixirController() {
-    return this.botElixir;
+  private void deployBotCard(final Card card) {
+    ((BotGameModel) super.getModel()).deployBotCard(card);
+    this.botElixir.decrementElixir(card.getCost());
   }
 
   private Vector2 castedToIntPosition(final Vector2 pos) {
@@ -138,8 +132,15 @@ public class BotGameController extends GameController {
 
   @Override
   protected void onUpdateActors() {
-    this.updateActorPositions(getPlayerActors(), super.getUserAttackables(), this.getBotAttackables());
-    this.updateActorPositions(this.botCards, this.getBotAttackables(), super.getUserAttackables());
+    this.updateActorPositions(super.getPlayerActorsMap(), this.getBotAttackables());
+    this.updateActorPositions(this.botCardsMap, super.getUserAttackables());
   }
 
+  /**
+   * 
+   * @return the current towers destroyed by the user.
+   */
+  public int getBotScore() {
+    return this.botScore.getScore();
+  }
 }

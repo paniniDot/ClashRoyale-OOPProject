@@ -6,17 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.SnapshotArray;
 
 import control.BaseGame;
 import control.controller.Controller;
 import control.controller.MenuController;
-import control.utilities.FileManager;
-import model.GlobalData;
 import model.actors.Attackable;
 import model.actors.cards.Card;
+import model.actors.cards.spells.Spell;
 import model.actors.towers.Tower;
 import model.utilities.AnimationUtilities;
 import model.utilities.Audio;
@@ -24,7 +21,6 @@ import model.utilities.CountDownController;
 import model.utilities.ElixirController;
 import model.utilities.ScoreController;
 import model.utilities.ingame.GameModel;
-import model.utilities.ingame.BotGameModel;
 import model.utilities.ingame.GameMap;
 import view.actors.CardActor;
 import view.actors.TowerActor;
@@ -36,17 +32,13 @@ import view.screens.GameScreen;
 public abstract class GameController extends Controller {
 
   private static final float ANIMATIONS_FRAME_DURATION = (float) 0.017_24 * 10;
-  private static final String SELF = "SELF";
 
   private final ElixirController playerElixir;
   private final CountDownController timer;
-  private final ScoreController score;
+  private final ScoreController playerScore;
+  private Map<CardActor, Card> playerCardsMap;
+  private Map<TowerActor, Tower> playerTowersMap;
   private final GameMap gameMap;
-  private List<CardActor> playerCards;
-  private List<TowerActor> playerTowers;
-  private GameScreen gameScreen;
-  private final BotGameModel botGM;
-  private final Map<CardActor, Card> actorMap;
 
   /**
    * Constructor.
@@ -58,52 +50,43 @@ public abstract class GameController extends Controller {
     super(Audio.getBattleMusic());
     this.playerElixir = new ElixirController();
     this.timer = new CountDownController();
-    this.score = new ScoreController(GlobalData.USER.getCurrentXP());
+    this.playerScore = new ScoreController();
+    this.playerCardsMap = new HashMap<>();
+    this.playerTowersMap = new HashMap<>();
     this.gameMap = new GameMap();
-    this.playerCards = new ArrayList<>();
-    this.playerTowers = new ArrayList<>();
-    this.botGM = (BotGameModel) model;
-    this.actorMap = new HashMap<>();
     super.registerModel(model);
+  }
+
+  /**
+   * 
+   * @return the current game map.
+   */
+  protected GameMap getGameMap() {
+    return this.gameMap;
   }
 
   @Override
   public void update(final float dt) {
-    if (this.timer.getTime() == 0 || this.botGM.getBotActiveTowers().size() == 0 || this.botGM.getPlayerActiveTowers().size() == 0) {
+    if (this.timer.getTime() == 0 || this.checkUserLose() || this.checkEnemyLose()) {
       this.playerElixir.setRunFalse();
+      this.onUpdate();
       this.timer.setRunFalse();
       super.stopMusic();
-
-      //Rimozione attori dallo stage (non funziona)
-      final SnapshotArray<Actor> actors = new SnapshotArray<>(this.gameScreen.getMainStage().getActors());
-      for (final Actor actor : actors) {
-          actor.remove();
-      }
-      this.gameScreen.dispose();
-
-      //Aggiorno le stat
-      final var fileManager = new FileManager();
-      fileManager.addPlays();
-      fileManager.addTowersDestroyed(3 - this.botGM.getBotActiveTowers().size());
-      if (hasWin()) {
-        fileManager.addWin();
-      }
-      fileManager.save();
-
-      this.onUpdate();
-
-      if (hasWin()) {
-        this.gameScreen.winDialog(3 - this.botGM.getBotActiveTowers().size(), 3 - this.botGM.getPlayerActiveTowers().size());
-      } else {
-        this.gameScreen.looseDialog(3 - this.botGM.getBotActiveTowers().size(), 3 - this.botGM.getPlayerActiveTowers().size());
-      }
       new MenuController().setCurrentActiveScreen();
     }
+    this.updateActors();
+    this.updateActorAnimations();
+  } 
+
+  private boolean checkUserLose() {
+    return ((GameModel) super.getModel()).getPlayerActiveTowers().size() == 0;
   }
 
-  private boolean hasWin() {
-    return this.botGM.getPlayerActiveTowers().size() > this.botGM.getBotActiveTowers().size();
-  }
+  /**
+   * 
+   * @return if the enemy, whether is a bot or a real player, lost the match.
+   */
+  protected abstract boolean checkEnemyLose();
 
   /**
    * Called from subclasses to extend functionalities when the match is over.
@@ -125,36 +108,13 @@ public abstract class GameController extends Controller {
   public int getPlayerCurrentElixir() {
     return this.playerElixir.getElixirCount();
   }
-  
-  
-  /**
-   * 
-   *@return the current score.
-   */
-  public int getScore() {
-    return this.score.getScore();
-  }
 
-  /**
-   * @return the player ElixirController.
-   */
-  public ElixirController getPlayerElixirController() {
-    return this.playerElixir;
-  }
   /**
    * 
    * @return a list of the user attackable entities.
    */
   public List<Attackable> getUserAttackables() {
-    return this.botGM.getPlayerAttackable();
-  }
-
-  /**
-   * 
-   * @return the current game map.
-   */
-  protected GameMap getGameMap() {
-    return this.gameMap;
+    return ((GameModel) super.getModel()).getPlayerAttackable();
   }
 
   /**
@@ -169,40 +129,13 @@ public abstract class GameController extends Controller {
    * @return 
    *            a list of CardActors.
    */
-  protected final List<CardActor> loadCardActorsFrom(final List<Card> list, final Stage stage, final String animationName) {
-    final var actors = new ArrayList<CardActor>();
+  protected final Map<CardActor, Card> loadCardActorsFrom(final List<Card> list, final Stage stage, final String animationName) {
+    final var actors = new HashMap<CardActor, Card>();
     list.forEach(c -> {
       final var actor = new CardActor(c.getSelfId(), c.getPosition().x, c.getPosition().y, stage, AnimationUtilities.loadAnimationFromFiles(c.getAnimationFiles().get(animationName), ANIMATIONS_FRAME_DURATION, true));
-      actorMap.put(actor, c);
-      actors.add(actor);
-      //actors.add(loadSingularActor(c, stage, animationName));
+      actors.put(actor, c);
     });
     return actors;
-  }
-
-  /**
-   * Load card actor in a stage of the screen driven by this controller.
-   * 
-   * @param card
-   *              the card to load.
-   * 
-   * @param stage 
-   *              the stage where actors have to be placed.
-   * 
-   *  @param animationName
-   *            the animation of the actor.
-   * 
-   * @return the CardActor created.
-   */
-  protected final CardActor loadSingularActor(final Card card, final Stage stage, final String animationName) {
-    final var actor = new CardActor(card.getSelfId(), card.getPosition().x, card.getPosition().y, stage, AnimationUtilities.loadAnimationFromFiles(card.getAnimationFiles().get(animationName), ANIMATIONS_FRAME_DURATION, true));
-    actorMap.put(actor, card);
-    if (card.getOwner().equals(GlobalData.USER)) {
-      this.botGM.deployPlayerCard(card);
-    } else {
-      this.botGM.deployBotCard(card);
-    }
-    return actor;
   }
 
   /**
@@ -212,7 +145,7 @@ public abstract class GameController extends Controller {
    *              the stage where actors have to be placed.
    */
   public final void loadActors(final Stage stage) {
-    this.playerCards = this.loadCardActorsFrom(this.botGM.getPlayerDeck(), stage, "SELF_MOVING");
+    this.playerCardsMap = this.loadCardActorsFrom(((GameModel) super.getModel()).getPlayerChoosableCards(), stage, "SELF_MOVING");
     this.onLoadActors(stage);
   }
 
@@ -236,12 +169,12 @@ public abstract class GameController extends Controller {
    * @return
    *            a list of new Tower Actors.
    */
-  protected final List<TowerActor> loadTowerActorsFrom(final List<Tower> list, final Stage stage, final String animationName) {
-    final var towers = new ArrayList<TowerActor>();
+  protected final Map<TowerActor, Tower> loadTowerActorsFrom(final List<Tower> list, final Stage stage, final String animationName) {
+    final var towers = new HashMap<TowerActor, Tower>();
     list.forEach(t -> {
       final var actor = new TowerActor(t.getSelfId(), t.getPosition().x, t.getPosition().y, stage, AnimationUtilities.loadAnimationFromFiles(t.getAnimationFiles().get(animationName), ANIMATIONS_FRAME_DURATION, true));
       actor.setPosition(actor.getPosition().x, actor.getPosition().y);
-      towers.add(actor);
+      towers.put(actor, t);
     });
     return towers;
   }
@@ -253,7 +186,7 @@ public abstract class GameController extends Controller {
    *              the stage where towers have to be placed.
    */
   public final void loadTowers(final Stage stage) {
-    this.playerTowers = this.loadTowerActorsFrom(this.botGM.getPlayerActiveTowers(), stage, GameController.SELF);
+    this.playerTowersMap = this.loadTowerActorsFrom(((GameModel) super.getModel()).getPlayerActiveTowers(), stage, "SELF");
     this.onLoadTowers(stage);
   }
 
@@ -268,59 +201,47 @@ public abstract class GameController extends Controller {
   /**
    * Update a user (whether is a bot or real player) card actor animations based on their status.
    * 
-   * @param playerCards
-   *                    a list of user cards.
-   * @param playerAttackables
-   *                    a list of user attackables.
+   * @param playerCardsMap
+   *                    a map that associate each card actor to its own card.
    * @param moving 
    *                    the name of the files used for moving animations.
    * @param fighting
    *                    the name of the files used for fighting animations.
    */
-  protected void updateCardAnimations(final List<CardActor> playerCards, final List<Attackable> playerAttackables, final String moving, final String fighting) { 
-    for (final var cardActor : playerCards) {
-      for (final var attackable : this.botGM.getPlayerAttackable()) {
-        if (cardActor.getSelfId().equals(attackable.getSelfId()) && attackable instanceof Card) {
-            cardActor.setAnimation(AnimationUtilities.loadAnimationFromFiles(((Card) attackable).getAnimationFiles().get(attackable.getCurrentTarget().isPresent() ? fighting : moving), ANIMATIONS_FRAME_DURATION, true));
-        }
-      }
-    }
+  protected void updateCardAnimations(final Map<CardActor, Card> playerCardsMap, final String moving, final String fighting) { 
+    playerCardsMap.entrySet()
+      .stream()
+      .filter(e -> !e.getValue().getClass().equals(Spell.class))
+      .forEach(e -> e.getKey().setAnimation(AnimationUtilities.loadAnimationFromFiles(e.getValue().getAnimationFiles().get(((Attackable) e.getValue()).getCurrentTarget().isPresent() ? fighting : moving), ANIMATIONS_FRAME_DURATION, true)));
   }
 
   @Override
   public void setCurrentActiveScreen() {
-    this.gameScreen = new GameScreen(this);
-    BaseGame.setActiveScreen(this.gameScreen);
+    BaseGame.setActiveScreen(new GameScreen(this));
   }
 
   /**
    * Update a user (whether is a bot or real player) tower actor animations based on their status.
    * 
-   * @param playerTowers
-   *                    a list of user towers.
-   * @param playerAttackables
-   *                    a list of user attackables.
+   * @param playerTowersMap
+   *                    a map that associate each tower actor to its own tower.
    * @param standing
    *                    the name of files used for standing animation.
    * @param fighting
    *                    the name of files used for fighting animation.
    */
-  protected void updateTowerAnimations(final List<TowerActor> playerTowers, final List<Attackable> playerAttackables, final String standing, final String fighting) {
-    for (final var towerActor : playerTowers) {
-      for (final var attackable : this.botGM.getPlayerAttackable()) {
-        if (towerActor.getSelfId().equals(attackable.getSelfId()) && attackable instanceof Tower) {
-            towerActor.setAnimation(AnimationUtilities.loadAnimationFromFiles(((Tower) attackable).getAnimationFiles().get(attackable.getCurrentTarget().isPresent() ? GameController.SELF : GameController.SELF), ANIMATIONS_FRAME_DURATION, true));
-        }
-      }
-    }
+  protected void updateTowerAnimations(final Map<TowerActor, Tower> playerTowersMap, final String standing, final String fighting) {
+    playerTowersMap.entrySet()
+    .stream()
+    .forEach(e -> e.getKey().setAnimation(AnimationUtilities.loadAnimationFromFiles(e.getValue().getAnimationFiles().get(e.getValue().getCurrentTarget().isPresent() ? standing : fighting), ANIMATIONS_FRAME_DURATION, true)));
   }
 
   /**
    * Update both card and tower actors animations of the player.
    */
   public void updateActorAnimations() {
-    this.updateCardAnimations(this.getPlayerActors(), this.getUserAttackables(), "SELF_MOVING", "SELF_FIGHTING");
-    this.updateTowerAnimations(this.playerTowers, this.getUserAttackables(), GameController.SELF, GameController.SELF);
+    this.updateCardAnimations(this.playerCardsMap, "SELF_MOVING", "SELF_FIGHTING");
+    this.updateTowerAnimations(this.playerTowersMap, "SELF", "SELF");
     this.onUpdateActorAnimations();
   }
 
@@ -334,9 +255,18 @@ public abstract class GameController extends Controller {
    * 
    */
   public void updateActors() {
-    this.botGM.findAttackableTargets();
-    this.botGM.handleAttackTargets();
+    ((GameModel) super.getModel()).findAttackableTargets();
+    ((GameModel) super.getModel()).handleAttackTargets();
     this.onUpdateActors();
+  }
+
+  /**
+   * Perform an update of both model and elixir controller after a card has been deployed.
+   * @param card
+   */
+  protected void deployPlayerCard(final Card card) {
+    ((GameModel) super.getModel()).deployPlayerCard(card);
+    this.playerElixir.decrementElixir(card.getCost());
   }
 
   /**
@@ -347,42 +277,47 @@ public abstract class GameController extends Controller {
   /**
    * @return a copy of player card actors.
    */
-  protected List<CardActor> getPlayerActors() {
-    return this.playerCards;
+  protected Map<CardActor, Card> getPlayerActorsMap() {
+    return Collections.unmodifiableMap(this.playerCardsMap);
   }
 
   /**
    * @return a copy of player tower actors.
    */
-  protected List<TowerActor> getPlayerTowers() {
-    return Collections.unmodifiableList(this.playerTowers);
+  protected Map<TowerActor, Tower> getPlayerTowersMap() {
+    return Collections.unmodifiableMap(this.playerTowersMap);
   }
 
   /**
-   * @return a map of cardActor and his Cards.
+   * 
+   * @return the current towers destroyed by the user.
    */
-  public Map<CardActor, Card> getActorMap() {
-    return this.actorMap;
+  public int getPlayerScore() {
+    return this.playerScore.getScore();
   }
 
   /**
-   * @return the gameScreen.
+   * 
+   * @return the current elixir left to the player.
    */
-  public GameScreen getGameScreen() {
-    return this.gameScreen;
+  protected ElixirController getPlayerElixirController() {
+    return this.playerElixir;
   }
 
-  /**
-   *  @return the BotGameModel used by this controller.
-   */
-  protected BotGameModel getGameModel() {
-    return this.botGM;
-  }
-
-  /**
-   * @param card the card to add.
-   */
-  protected void addPlayerCard(final CardActor card) {
-    this.playerCards.add(card);
+  private void updateCardsMap(final Stage stage) {
+    ((GameModel) super.getModel()).getPlayerChoosableCards().forEach(c -> { 
+      if (!this.playerCardsMap.containsValue(c)) {
+        this.playerCardsMap.put(this.loadSingularActor(c, stage, "SELF_MOVING"), c);
+      }
+    });
+    final var elements = new ArrayList<CardActor>();
+    this.playerCardsMap.entrySet().forEach(e -> {
+      if (!cards.contains(e.getValue())) {
+        elements.add(e.getKey());
+        System.out.println("Attore rimosso dalla mappa " + this.playerCardsMap);
+      }
+    });
+    elements.forEach(e -> this.playerCardsMap.remove(e));
   }
 }
+

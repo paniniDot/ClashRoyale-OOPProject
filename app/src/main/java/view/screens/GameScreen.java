@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import control.controller.Controller;
-import control.controller.game.BotGameController;
 import control.controller.game.GameController;
 import control.launcher.ClashRoyale;
 
@@ -56,17 +55,15 @@ public class GameScreen extends BaseScreen {
   @Override
   public void update(final float dt) {
     super.getController().update(dt);
-    ((GameController) super.getController()).updateActors();
-    ((GameController) super.getController()).updateActorAnimations();
   }
 
   @Override
   public void render(final float dt) {
     super.render(dt);
     sprite.begin();
-    gamefont.draw(sprite, "elisir " + ((BotGameController) super.getController()).getPlayerCurrentElixir(), GameScreen.ELISIR_X, GameScreen.ELISIR_Y);
-    gamefont.draw(sprite, "durata " + ((BotGameController) super.getController()).getLeftTime(), GameScreen.TIMER_X, GameScreen.TIMER_Y);
-    gamefont.draw(sprite, "punteggio " + ((BotGameController) super.getController()).getScore() , GameScreen.POINT_X, GameScreen.POINT_Y);
+    gamefont.draw(sprite, "elisir " + ((GameController) super.getController()).getPlayerCurrentElixir(), GameScreen.ELISIR_X, GameScreen.ELISIR_Y);
+    gamefont.draw(sprite, "durata " + ((GameController) super.getController()).getLeftTime(), GameScreen.TIMER_X, GameScreen.TIMER_Y);
+    gamefont.draw(sprite, "punteggio " + ((GameController) super.getController()).getPlayerScore(), GameScreen.POINT_X, GameScreen.POINT_Y);
     sprite.end();
     //RectDrawer.showDebugBoundingBoxes(this.map.getMap().vertexSet().stream().map(MapUnit::getUnitRectangle).collect(Collectors.toList()), Color.BLUE);
     //RectDrawer.showDebugBoundingBoxes(this.map.getMap().vertexSet().stream().filter(v -> v.getType().equals(MapUnit.Type.TERRAIN)).map(MapUnit::getUnitRectangle).collect(Collectors.toList()), Color.BLUE);
