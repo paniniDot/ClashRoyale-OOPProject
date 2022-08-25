@@ -31,8 +31,7 @@ public class BotGameModel extends GameModel {
   private final List<Card> botDeployedCards;
   private final List<Card> botChoosableCards;
   private final List<Tower> botActiveTowers;
-  private final ScoreController score;
-
+ 
   /**
    * 
    * @param playerCards
@@ -48,7 +47,6 @@ public class BotGameModel extends GameModel {
     this.botChoosableCards = new ArrayList<>();
     IntStream.range(0, GameModel.CHOOSABLE_CARDS).forEach(i -> this.botChoosableCards.add(this.botCardQueue.remove(0)));
     this.botActiveTowers = this.getBotTowers(bot);
-    this.score = new ScoreController(GlobalData.USER.getCurrentXP());
   }
 
   /* logica per la posizione delle torri mancante */
@@ -162,8 +160,6 @@ public class BotGameModel extends GameModel {
     selfAttackables.forEach(attackable -> {
       attackable.attackCurrentTarget();
       if (attackable.getCurrentTarget().isPresent()) {
-        score.increaseScore();
-        System.out.println(score.getScore());
         final var currentTarget = attackable.getCurrentTarget().get();
         if (currentTarget.isDead()) {
           if (isUserTheOwner(currentTarget)) {
@@ -182,10 +178,6 @@ public class BotGameModel extends GameModel {
         }
       }
     });
-  }
-
-  public ScoreController getScore() {
-    return score;
   }
 
   private boolean isTower(final Attackable target) {
