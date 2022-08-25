@@ -85,7 +85,7 @@ public final class FireBall extends Spell {
   @Override
   public Map<String, List<String>> getAnimationFiles() {
     return Map.of(
-        "SELF_MOVING", List.of("0.png", FireBall.SELF + "1.png", FireBall.SELF + "2.png", FireBall.SELF + "3.png", FireBall.SELF + "4.png", FireBall.SELF + "5.png", 
+        "SELF_MOVING", List.of(FireBall.SELF + "0.png", FireBall.SELF + "1.png", FireBall.SELF + "2.png", FireBall.SELF + "3.png", FireBall.SELF + "4.png", FireBall.SELF + "5.png", 
             FireBall.SELF + "6.png", FireBall.SELF + "7.png", FireBall.SELF + "8.png", FireBall.SELF + "9.png", FireBall.SELF + "10.png", FireBall.SELF + "11.png", 
             FireBall.SELF + "12.png", FireBall.SELF + "13.png", FireBall.SELF + "14.png", FireBall.SELF + "15.png", FireBall.SELF + "16.png", FireBall.SELF + "17.png"),
         "ENEMY", List.of(FireBall.BOT + "0.png", FireBall.BOT + "1.png", FireBall.BOT + "2.png", FireBall.BOT + "3.png", FireBall.BOT + "4.png", FireBall.BOT + "5.png", 
