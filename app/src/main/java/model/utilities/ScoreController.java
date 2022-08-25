@@ -4,15 +4,16 @@ package model.utilities;
  * Utility class for score progress in game.
  */
 public class ScoreController {
-  private int score = 0;
+
+  private int score;
 
   /**
    * build an score controller .
    */
-  public ScoreController(final int score) {
-    this.score = score;
+  public ScoreController() {
+    this.score = 0;
   }
-  
+
   /**
    * 
    * @return the current score.
@@ -21,13 +22,12 @@ public class ScoreController {
     return score;
   }
 
-
-
   /**
-  * @param point
-   * increase current score.
+   * Increment the current score by a parameter.
+   * @param points
+   *               the increment of the score.
    */
-  public void increaseScore(final int point) {
-    this.score = score + point;
+  public void increaseScore(final int points) {
+    this.score = score + points;
   }
 }
