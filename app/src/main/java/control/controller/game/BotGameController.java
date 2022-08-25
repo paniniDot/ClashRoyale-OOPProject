@@ -11,8 +11,11 @@ import model.GlobalData;
 import model.actors.Attackable;
 import model.actors.cards.Card;
 import model.actors.cards.buildings.InfernoTower;
+import model.actors.cards.spells.FireBall;
+import model.actors.cards.spells.Spell;
 import model.actors.users.Bot;
 import model.utilities.ElixirController;
+import model.utilities.VectorsUtilities;
 import model.utilities.ingame.BotGameModel;
 import view.actors.CardActor;
 import view.actors.TowerActor;
@@ -110,6 +113,19 @@ public class BotGameController extends GameController {
         c.setRotation(a.getCurrentTarget().get().getPosition());
       });
     });
+  }
+
+  private boolean isInRange(final Spell card, final Attackable attackable) {
+    return VectorsUtilities.euclideanDistance(card.getPosition(), attackable.getPosition()) <= card.getRange();
+  }
+
+  private boolean isNotBuilding(final CardActor c) {
+    return !getActorMap().get(c).getClass().equals(InfernoTower.class);
+  }
+ 
+  private boolean isUserTheOwner(final Card card) {
+    return card.getOwner().equals(GlobalData.USER);
+>>>>>>> 008b4756572ceb49742a01e5d449419cb8191fd9
   }
 
   private ElixirController getBotElixirController() {
