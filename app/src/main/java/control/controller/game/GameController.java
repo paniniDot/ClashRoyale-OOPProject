@@ -285,6 +285,11 @@ public abstract class GameController extends Controller {
             cardActor.setAnimation(AnimationUtilities.loadAnimationFromFiles(((Card) attackable).getAnimationFiles().get(attackable.getCurrentTarget().isPresent() ? fighting : moving), ANIMATIONS_FRAME_DURATION, true));
         }
       }
+      for (final var attackable : this.botGM.getBotAttackable()) {
+        if (cardActor.getSelfId().equals(attackable.getSelfId()) && attackable instanceof Card) {
+            cardActor.setAnimation(AnimationUtilities.loadAnimationFromFiles(((Card) attackable).getAnimationFiles().get(attackable.getCurrentTarget().isPresent() ? fighting : moving), ANIMATIONS_FRAME_DURATION, true));
+        }
+      }
     }
   }
 
