@@ -78,32 +78,28 @@ public class BotGameController extends GameController {
   }
 
   private void updateActorPositions(final List<CardActor> cards, final List<Attackable> selfAttackables, final List<Attackable> enemyAttackables) {
-    //Lista di carte appena create da aggiungere alla lista finito il forEach()
-    final List<CardActor> cardsToAdd = new ArrayList<>(); 
-
     cards.forEach(c -> {
       selfAttackables.stream().filter(a -> a.getCurrentTarget().isEmpty()).forEach(a -> {
         if (!Gdx.input.isTouched() && c.getSelfId().equals(a.getSelfId())) {
           if (super.getGameMap().containsPosition(c.getCenter())) {
             if (c.isDraggable()) { //Carta non schierata
-              final var card = ((Card) a).createAnother(c.getOrigin(), ((Card) a).getOwner());
-              if (a.getOwner() instanceof Bot) {
+              if (a.getOwner() instanceof Bot && getBotElixirController().getElixirCount() > ((Card) a).getCost()) {
                 ((BotGameModel) super.getModel()).deployBotCard((Card) a);
                 getBotElixirController().decrementElixir(((Card) a).getCost());
-                cardsToAdd.add(loadSingularActor(card, getGameScreen().getMainStage(), "ENEMY_MOVING"));
-              } else {
-                ((BotGameModel) super.getModel()).deployPlayerCard((Card) a);
-                getPlayerElixirController().decrementElixir(((Card) a).getCost());
-                cardsToAdd.add(loadSingularActor(card, getGameScreen().getMainStage(), "SELF_MOVING"));
-              }
                 c.setDraggable(false);
                 a.setPosition(c.getCenter());
+              } else if (getPlayerElixirController().getElixirCount() > ((Card) a).getCost()) {
+                ((BotGameModel) super.getModel()).deployPlayerCard((Card) a);
+                getPlayerElixirController().decrementElixir(((Card) a).getCost());
+                c.setDraggable(false);
+                a.setPosition(c.getCenter());
+              } else {
+                c.setPosition(c.getOrigin().x, c.getOrigin().y);
+              }
             } else if (this.castedToIntPosition(c.getCenter()).equals(this.castedToIntPosition(a.getPosition()))) {
               this.updateAttackablePosition(a, enemyAttackables);
               c.setRotation(a.getPosition());
-              if (isNotBuilding(c)) {
-                c.moveTo(a.getPosition());
-              }
+              c.moveTo(a.getPosition());
             } 
           } else {
             c.setPosition(c.getOrigin().x, c.getOrigin().y);
@@ -114,18 +110,6 @@ public class BotGameController extends GameController {
         c.setRotation(a.getCurrentTarget().get().getPosition());
       });
     });
-    //Aggiungo le carte create alla lista delle carte del giocatore.
-    if (!cardsToAdd.isEmpty()) {
-      cardsToAdd.forEach(c -> addPlayerCard(c));
-    }
-  }
-
-  private boolean isNotBuilding(final CardActor c) {
-    return !getActorMap().get(c).getClass().equals(InfernoTower.class);
-  }
- 
-  private boolean isUserTheOwner(final Card card) {
-    return card.getOwner().equals(GlobalData.USER);
   }
 
   private ElixirController getBotElixirController() {
