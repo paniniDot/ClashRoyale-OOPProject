@@ -12,7 +12,6 @@ import com.badlogic.gdx.math.Vector2;
 import model.Model;
 import model.actors.Attackable;
 import model.actors.cards.Card;
-import model.actors.cards.spells.FireBall;
 import model.actors.towers.KingTower;
 import model.actors.towers.QueenTower;
 import model.actors.towers.Tower;
