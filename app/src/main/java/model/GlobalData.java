@@ -38,7 +38,7 @@ public final class GlobalData {
       Wizard.create(USER, new Vector2(100, 100)), 
       Giant.create(USER, new Vector2(200, 100)), 
       Barbarian.create(USER, new Vector2(300, 100)), 
-      Wizard.create(USER, new Vector2(400, 100)), 
+      FireBall.create(USER, new Vector2(400, 100)), 
       Wizard.create(USER, new Vector2(500, 100)),
       Wizard.create(USER, new Vector2(600, 100)));
 

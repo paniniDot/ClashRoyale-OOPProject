@@ -11,8 +11,11 @@ import model.GlobalData;
 import model.actors.Attackable;
 import model.actors.cards.Card;
 import model.actors.cards.buildings.InfernoTower;
+import model.actors.cards.spells.FireBall;
+import model.actors.cards.spells.Spell;
 import model.actors.users.Bot;
 import model.utilities.ElixirController;
+import model.utilities.VectorsUtilities;
 import model.utilities.ingame.BotGameModel;
 import view.actors.CardActor;
 import view.actors.TowerActor;
@@ -98,6 +101,24 @@ public class BotGameController extends GameController {
               }
                 c.setDraggable(false);
                 a.setPosition(c.getCenter());
+
+                if (getActorMap().get(c).getClass().equals(FireBall.class)) {
+                  if (getActorMap().get(c).getOwner().equals(GlobalData.BOT)) {
+                    super.getGameModel().getPlayerAttackable().forEach(attackable -> {
+                      if (isInRange((FireBall) getActorMap().get(c), attackable)) {
+                        ((FireBall) getActorMap().get(c)).addTarget(attackable);
+                      }
+                    });
+                  } else {
+                    super.getGameModel().getBotAttackable().forEach(attackable -> {
+                      if (isInRange((FireBall) getActorMap().get(c), attackable)) {
+                        ((FireBall) getActorMap().get(c)).addTarget(attackable);
+                      }
+                    });
+                  }
+                  ((FireBall) getActorMap().get(c)).start();
+                }
+
             } else if (this.castedToIntPosition(c.getCenter()).equals(this.castedToIntPosition(a.getPosition()))) {
               this.updateAttackablePosition(a, enemyAttackables);
               c.setRotation(a.getPosition());
@@ -118,6 +139,10 @@ public class BotGameController extends GameController {
     if (!cardsToAdd.isEmpty()) {
       cardsToAdd.forEach(c -> addPlayerCard(c));
     }
+  }
+
+  private boolean isInRange(final Spell card, final Attackable attackable) {
+    return VectorsUtilities.euclideanDistance(card.getPosition(), attackable.getPosition()) <= card.getRange();
   }
 
   private boolean isNotBuilding(final CardActor c) {

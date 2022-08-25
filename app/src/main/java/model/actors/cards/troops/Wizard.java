@@ -22,7 +22,7 @@ public final class Wizard extends Troop {
    */
   public static final int ELIXIR_COST = 5;
   private static final double HIT_SPEED = 1.4;
-  private static final double RANGE = 80;
+  private static final double RANGE = 8;
 
   private static final String WIZARD_WORD = "wizard";
 
