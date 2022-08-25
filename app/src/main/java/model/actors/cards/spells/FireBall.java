@@ -1,12 +1,11 @@
 package model.actors.cards.spells;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-
 import model.actors.Attackable;
 import model.actors.cards.Card;
 import model.actors.users.User;
@@ -15,6 +14,11 @@ import model.actors.users.User;
  * Fireball spell.
  */
 public final class FireBall extends Spell {
+
+  private static final String FIREBALL_WORD = "fireball";
+
+  private static final String SELF = FIREBALL_WORD + File.separator + "self" + File.separator;
+  private static final String BOT = FIREBALL_WORD + File.separator + "bot" + File.separator;
 
   private final double damage;
   private final List<Attackable> targets;
@@ -81,10 +85,12 @@ public final class FireBall extends Spell {
   @Override
   public Map<String, List<String>> getAnimationFiles() {
     return Map.of(
-        "SELF_MOVING", List.of("fireball/self/0.png", "fireball/self/1.png", "fireball/self/2.png", "fireball/self/3.png", "fireball/self/4.png", "fireball/self/5.png", "fireball/self/6.png", "fireball/self/7.png", "fireball/self/8.png", 
-            "fireball/self/9.png", "fireball/self/10.png", "fireball/self/11.png", "fireball/self/12.png", "fireball/self/13.png", "fireball/self/14.png", "fireball/self/15.png", "fireball/self/16.png", "fireball/self/17.png"),
-        "ENEMY", List.of("fireball/bot/0.png", "fireball/bot/1.png", "fireball/bot/2.png", "fireball/bot/3.png", "fireball/bot/4.png", "fireball/bot/5.png", "fireball/bot/6.png", "fireball/bot/7.png", "fireball/bot/8.png", 
-            "fireball/bot/9.png", "fireball/bot/10.png", "fireball/bot/11.png", "fireball/bot/12.png", "fireball/bot/13.png", "fireball/bot/14.png", "fireball/bot/15.png", "fireball/bot/16.png", "fireball/bot/17.png"),
+        "SELF_MOVING", List.of("0.png", FireBall.SELF + "1.png", FireBall.SELF + "2.png", FireBall.SELF + "3.png", FireBall.SELF + "4.png", FireBall.SELF + "5.png", 
+            FireBall.SELF + "6.png", FireBall.SELF + "7.png", FireBall.SELF + "8.png", FireBall.SELF + "9.png", FireBall.SELF + "10.png", FireBall.SELF + "11.png", 
+            FireBall.SELF + "12.png", FireBall.SELF + "13.png", FireBall.SELF + "14.png", FireBall.SELF + "15.png", FireBall.SELF + "16.png", FireBall.SELF + "17.png"),
+        "ENEMY", List.of(FireBall.BOT + "0.png", FireBall.BOT + "1.png", FireBall.BOT + "2.png", FireBall.BOT + "3.png", FireBall.BOT + "4.png", FireBall.BOT + "5.png", 
+            FireBall.BOT + "6.png", FireBall.BOT + "7.png", FireBall.BOT + "8.png", FireBall.BOT + "9.png", FireBall.BOT + "10.png", FireBall.BOT + "11.png", 
+            FireBall.BOT + "12.png", FireBall.BOT + "13.png", FireBall.BOT + "14.png", FireBall.BOT + "15.png", FireBall.BOT + "16.png", FireBall.BOT + "17.png"),
         "AS_CARD", List.of("cards/FireballCard.png"));
   }
 

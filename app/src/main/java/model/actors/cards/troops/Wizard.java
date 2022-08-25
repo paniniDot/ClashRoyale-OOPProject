@@ -1,5 +1,6 @@
 package model.actors.cards.troops;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +23,13 @@ public final class Wizard extends Troop {
   public static final int ELIXIR_COST = 5;
   private static final double HIT_SPEED = 1.4;
   private static final double RANGE = 80;
+
+  private static final String WIZARD_WORD = "wizard";
+
+  private static final String SELF_WALK = WIZARD_WORD + File.separator + "self" + File.separator + "walking" + File.separator;
+  private static final String SELF_ATT = WIZARD_WORD + File.separator + "self" + File.separator + "attacking" + File.separator;
+  private static final String BOT_WALK = WIZARD_WORD + File.separator + "bot" + File.separator + "walking" + File.separator;
+  private static final String BOT_ATT = WIZARD_WORD + File.separator + "bot" + File.separator + "attacking" + File.separator;
 
   private Wizard(final User owner, final Vector2 position, final double maxHP, final double damage) {
     super(Wizard.ELIXIR_COST, position, owner, maxHP, damage, /*Wizard.HIT_SPEED,*/ Speeds.MEDIUM, Wizard.RANGE);
@@ -50,12 +58,12 @@ public final class Wizard extends Troop {
   @Override
   public Map<String, List<String>> getAnimationFiles() {
     return Map.of(
-        "SELF_MOVING", List.of("wizard/self/walking/1.png", "wizard/self/walking/2.png", "wizard/self/walking/3.png", "wizard/self/walking/4.png"),
-        "SELF_FIGHTING", List.of("wizard/self/fighting/0.png", "wizard/self/fighting/1.png", "wizard/self/fighting/2.png", "wizard/self/fighting/3.png", 
-            "wizard/self/fighting/4.png", "wizard/self/fighting/5.png", "wizard/self/fighting/6.png", "wizard/self/fighting/7.png", "wizard/self/fighting/8.png"),
-        "ENEMY_MOVING", List.of("wizard/enemy/walking/0.png", "wizard/enemy/walking/1.png", "wizard/enemy/walking/2.png"),
-        "ENEMY_FIGHTING", List.of("wizard/enemy/fighting/0.png", "wizard/enemy/fighting/1.png", "wizard/enemy/fighting/2.png", "wizard/enemy/fighting/3.png", 
-            "wizard/enemy/fighting/4.png", "wizard/enemy/fighting/5.png", "wizard/enemy/fighting/6.png"),
+        "SELF_MOVING", List.of(Wizard.SELF_WALK + "1.png", Wizard.SELF_WALK + "2.png", Wizard.SELF_WALK + "3.png", Wizard.SELF_WALK + "4.png"),
+        "SELF_FIGHTING", List.of(Wizard.SELF_ATT + "0.png", Wizard.SELF_ATT + "1.png", Wizard.SELF_ATT + "2.png", Wizard.SELF_ATT + "3.png", 
+            Wizard.SELF_ATT + "4.png", Wizard.SELF_ATT + "5.png", Wizard.SELF_ATT + "6.png", Wizard.SELF_ATT + "7.png", Wizard.SELF_ATT + "8.png"),
+        "ENEMY_MOVING", List.of(Wizard.BOT_WALK + "0.png", Wizard.BOT_WALK + "1.png", Wizard.BOT_WALK + "2.png"),
+        "ENEMY_FIGHTING", List.of(Wizard.BOT_ATT + "0.png", Wizard.BOT_ATT + "1.png", Wizard.BOT_ATT + "2.png", Wizard.BOT_ATT + "3.png", 
+            Wizard.BOT_ATT + "4.png", Wizard.BOT_ATT + "5.png", Wizard.BOT_ATT + "6.png"),
         "AS_CARD", List.of("cards/WizardCard.png"));
   }
 
