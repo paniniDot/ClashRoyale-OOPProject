@@ -2,15 +2,12 @@ package model;
 
 import model.actors.users.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.math.Vector2;
 
 import control.controller.Controller;
 import model.actors.cards.Card;
-import model.actors.cards.buildings.InfernoTower;
-import model.actors.cards.spells.FireBall;
 import model.actors.cards.troops.Barbarian;
 import model.actors.cards.troops.Giant;
 import model.actors.cards.troops.Wizard;
