@@ -115,19 +115,6 @@ public class BotGameController extends GameController {
     });
   }
 
-  private boolean isInRange(final Spell card, final Attackable attackable) {
-    return VectorsUtilities.euclideanDistance(card.getPosition(), attackable.getPosition()) <= card.getRange();
-  }
-
-  private boolean isNotBuilding(final CardActor c) {
-    return !getActorMap().get(c).getClass().equals(InfernoTower.class);
-  }
- 
-  private boolean isUserTheOwner(final Card card) {
-    return card.getOwner().equals(GlobalData.USER);
->>>>>>> 008b4756572ceb49742a01e5d449419cb8191fd9
-  }
-
   private ElixirController getBotElixirController() {
     return this.botElixir;
   }
