@@ -58,11 +58,11 @@ public abstract class GameController extends Controller {
     super(Audio.getBattleMusic());
     this.playerElixir = new ElixirController();
     this.timer = new CountDownController();
-    this.score = new ScoreController(GlobalData.USER.getCurrentXP());
     this.gameMap = new GameMap();
     this.playerCards = new ArrayList<>();
     this.playerTowers = new ArrayList<>();
     this.botGM = (BotGameModel) model;
+    this.score = botGM.getScore();
     this.actorMap = new HashMap<>();
     super.registerModel(model);
   }
@@ -73,6 +73,7 @@ public abstract class GameController extends Controller {
       this.playerElixir.setRunFalse();
       this.timer.setRunFalse();
       super.stopMusic();
+      this.score.resetScore();
 
       //Rimozione attori dallo stage (non funziona)
       final SnapshotArray<Actor> actors = new SnapshotArray<>(this.gameScreen.getMainStage().getActors());
