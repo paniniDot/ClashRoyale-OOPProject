@@ -11,6 +11,7 @@ import model.GlobalData;
 import model.actors.Attackable;
 import model.actors.cards.Card;
 import model.actors.cards.buildings.InfernoTower;
+import model.actors.users.Bot;
 import model.utilities.ElixirController;
 import model.utilities.ingame.BotGameModel;
 import view.actors.CardActor;
@@ -25,13 +26,12 @@ public class BotGameController extends GameController {
   private final ElixirController botElixir;
   private List<CardActor> botCards;
   private List<TowerActor> botTowers;
-  private static final BotGameModel BOT_GAME_MODEL = new BotGameModel(new GlobalData().getUserDeck(), GlobalData.BOT_DECK, GlobalData.USER, GlobalData.BOT);;
 
   /**
    * Constructor.
    */
   public BotGameController() { 
-    super(BOT_GAME_MODEL);
+    super(new BotGameModel(GlobalData.USER_DECK, GlobalData.BOT_DECK, GlobalData.USER, GlobalData.BOT));
     this.botElixir = new ElixirController();
     this.botCards = new ArrayList<>();
     this.botTowers = new ArrayList<>();
@@ -86,18 +86,18 @@ public class BotGameController extends GameController {
         if (!Gdx.input.isTouched() && c.getSelfId().equals(a.getSelfId())) {
           if (super.getGameMap().containsPosition(c.getCenter())) {
             if (c.isDraggable()) { //Carta non schierata
-
-              final var depCard = getActorMap().get(c);
-              if (isUserTheOwner(depCard)
-                  ? getPlayerElixirController().decrementElixir(depCard.getCost())
-                  : getBotElixirController().decrementElixir(depCard.getCost())) { //Scalo Elixir e schiero la carta
-                c.setDraggable(false);
-                a.setPosition(c.getCenter());
-
-                //Creo un'altra carta dello stesso tipo, la faccio attore e la aggiungo alla lista di carte da aggiungere
-                final var card = depCard.createAnother(c.getOrigin(), depCard.getOwner());
+              final var card = ((Card) a).createAnother(c.getOrigin(), ((Card) a).getOwner());
+              if (a.getOwner() instanceof Bot) {
+                ((BotGameModel) super.getModel()).deployBotCard((Card) a);
+                getBotElixirController().decrementElixir(((Card) a).getCost());
+                cardsToAdd.add(loadSingularActor(card, getGameScreen().getMainStage(), "ENEMY_MOVING"));
+              } else {
+                ((BotGameModel) super.getModel()).deployPlayerCard((Card) a);
+                getPlayerElixirController().decrementElixir(((Card) a).getCost());
                 cardsToAdd.add(loadSingularActor(card, getGameScreen().getMainStage(), "SELF_MOVING"));
               }
+                c.setDraggable(false);
+                a.setPosition(c.getCenter());
             } else if (this.castedToIntPosition(c.getCenter()).equals(this.castedToIntPosition(a.getPosition()))) {
               this.updateAttackablePosition(a, enemyAttackables);
               c.setRotation(a.getPosition());
