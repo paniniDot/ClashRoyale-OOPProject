@@ -122,6 +122,6 @@ public class BaseActor extends Actor {
    *            the destination position of this actor. Used to evaluate its rotation.
    */
   public void setRotation(final Vector2 dst) {
-    this.rotate = (float) Math.toDegrees(Math.atan2(dst.y - super.getY() - (this.h / 2), dst.x - super.getX()- (this.w / 2))) - 90;
+    this.rotate = (float) Math.toDegrees(Math.atan2(dst.y - super.getY() - (this.h / 2), dst.x - super.getX() - (this.w / 2))) - 90;
   }
 }
