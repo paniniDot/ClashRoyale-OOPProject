@@ -30,4 +30,11 @@ public class ScoreController {
   public void increaseScore(final int points) {
     this.score = score + points;
   }
+
+/**
+ * reset score at the end of the game.
+ */
+  public void resetScore() {
+    this.score = 0;
+  }
 }

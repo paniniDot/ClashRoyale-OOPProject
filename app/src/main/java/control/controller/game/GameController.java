@@ -213,6 +213,7 @@ public abstract class GameController extends Controller {
       .stream()
       .filter(e -> !e.getValue().getClass().equals(Spell.class))
       .forEach(e -> e.getKey().setAnimation(AnimationUtilities.loadAnimationFromFiles(e.getValue().getAnimationFiles().get(((Attackable) e.getValue()).getCurrentTarget().isPresent() ? fighting : moving), ANIMATIONS_FRAME_DURATION, true)));
+
   }
 
   @Override
