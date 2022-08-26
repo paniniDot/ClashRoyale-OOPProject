@@ -126,7 +126,7 @@ public class BotGameController extends GameController {
         elements.add(e.getKey());
       }
     });
-    if (elements.isEmpty()) {
+    if (!elements.isEmpty()) {
     super.updateCardsMap(elements);
     }
   }

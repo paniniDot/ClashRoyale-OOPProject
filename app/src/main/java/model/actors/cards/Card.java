@@ -21,7 +21,6 @@ public abstract class Card implements Attackable {
   private Vector2 position;
   private double currentHP;
   private final double damage;
-  //private final double hitSpeed;
   private final Speeds speed;  //movement and hit speed
   private final double range;
   private Optional<Attackable> currentTarget;
@@ -52,7 +51,6 @@ public abstract class Card implements Attackable {
     this.position = position;
     this.currentHP = maxHP; 
     this.damage = damage;
-    //this.hitSpeed = hitSpeed;
     this.speed = speed;
     this.range = range;
     this.currentTarget = Optional.empty();

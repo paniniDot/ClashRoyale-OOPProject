@@ -20,11 +20,10 @@ public final class Wizard extends Troop {
    * Elixir cost of the card.
    */
   public static final int ELIXIR_COST = 5;
-  private static final double HIT_SPEED = 1.4;
   private static final double RANGE = 80;
 
   private Wizard(final User owner, final Vector2 position, final double maxHP, final double damage) {
-    super(Wizard.ELIXIR_COST, position, owner, maxHP, damage, /*Wizard.HIT_SPEED,*/ Speeds.MEDIUM, Wizard.RANGE);
+    super(Wizard.ELIXIR_COST, position, owner, maxHP, damage, Speeds.MEDIUM, Wizard.RANGE);
   } 
 
   /**
