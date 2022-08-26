@@ -1,9 +1,6 @@
 package model.actors.cards.troops;
 
-import java.util.Optional;
-
 import com.badlogic.gdx.math.Vector2;
-import model.actors.Attackable;
 import model.actors.Speeds;
 //import model.actors.TargetType;
 import model.actors.cards.Card;
@@ -12,14 +9,8 @@ import model.actors.users.User;
 /**
  * Defines a troop. 
  */
-public abstract class Troop extends Card implements Attackable {
+public abstract class Troop extends Card {
 
-  private double currentHP;
-  private final double damage;
-  //private final double hitSpeed;
-  private final Speeds speed;  //movement and hit speed
-  private final double range;
-  private Optional<Attackable> currentTarget;
 
 
   /**
@@ -41,89 +32,9 @@ public abstract class Troop extends Card implements Attackable {
    *          the distance between this troop and other entities to being targeted by it.
    */
   protected Troop(final int cost, final Vector2 position, final User owner, final double maxHP, final double damage, /*final double hitSpeed,*/ final Speeds speed, final double range) {
-    super(cost, position, owner);
-    this.currentHP = maxHP; 
-    this.damage = damage;
-    //this.hitSpeed = hitSpeed;
-    this.speed = speed;
-    this.range = range;
-    this.currentTarget = Optional.empty();
-
+    super(cost, position, owner, maxHP, damage, speed, range);
   }
 
-  /**
-   * @return the current health of the troop.
-   */
-  public double getCurrentHP() {
-    return this.currentHP;
-  }
 
-  /**
-   * @return how the damage given from this troop.
-   */
-  public double getDamage() {
-    return this.damage;
-  }
-
-  /**
-   * @return the hit speed.
-   */
- /* public double getHitSpeed() {
-    return this.hitSpeed;
-  }
-*/
-  /**
-   * @return the movement speed of this troop.
-   */
-  public Speeds getSpeed() {
-    return this.speed;
-  }
-
-  /**
-   * @return the distance before this troop targets other entities.
-   */
-  public double getRange() {
-    return this.range;
-  }
-
-  @Override
-  public Optional<Attackable> getCurrentTarget() {
-    return this.currentTarget;
-  }
-
-  @Override
-  public void setCurrentTarget(final Attackable attackable) {
-    this.currentTarget = Optional.of(attackable);
-  }
-
-  @Override
-  public void resetCurrentTarget() {
-    this.currentTarget = Optional.empty();
-  }
-
-  /** 
-   * Hits one time the current target, if any.
-   */
-  public void attackCurrentTarget() {
-    if (this.getCurrentTarget().isPresent()) {
-      System.out.println("truppa " + this + " attacca " + this.currentTarget.get());
-    }
-    this.currentTarget.ifPresent(target -> target.reduceHPBy(this.damage));
-    /*if(this.currentTarget.isPresent()) {
-      if(this.currentTarget.get().isDead()) {
-        this.currentTarget.get().
-      }
-    }*/
-  }
-
-  @Override
-  public void reduceHPBy(final double damage) {
-    this.currentHP = this.currentHP < damage ? 0 : this.currentHP - damage;
-  }
-
-  @Override
-  public boolean isDead() {
-    return this.currentHP <= 0;
-  }
 }
 

@@ -1,11 +1,10 @@
 package control.controller.game;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import control.BaseGame;
@@ -13,12 +12,8 @@ import control.controller.Controller;
 import control.controller.MenuController;
 import model.actors.Attackable;
 import model.actors.cards.Card;
-import model.actors.cards.spells.Spell;
 import model.actors.towers.Tower;
 import model.utilities.AnimationUtilities;
-import model.utilities.Audio;
-import model.utilities.CountDownController;
-import model.utilities.ElixirController;
 import model.utilities.ScoreController;
 import model.utilities.ingame.GameModel;
 import model.utilities.ingame.GameMap;
@@ -47,7 +42,7 @@ public abstract class GameController extends Controller {
    *            the logic followed by this controller.
    */
   public GameController(final GameModel model) {
-    super(Audio.getBattleMusic());
+    super(AudioController.getBattleMusic());
     this.playerElixir = new ElixirController();
     this.timer = new CountDownController();
     this.playerScore = new ScoreController();
@@ -113,7 +108,7 @@ public abstract class GameController extends Controller {
    * 
    * @return a list of the user attackable entities.
    */
-  public List<Attackable> getUserAttackables() {
+  protected List<Attackable> getUserAttackables() {
     return ((GameModel) super.getModel()).getPlayerAttackable();
   }
 
@@ -211,7 +206,6 @@ public abstract class GameController extends Controller {
   protected void updateCardAnimations(final Map<CardActor, Card> playerCardsMap, final String moving, final String fighting) { 
     playerCardsMap.entrySet()
       .stream()
-      .filter(e -> !e.getValue().getClass().equals(Spell.class))
       .forEach(e -> e.getKey().setAnimation(AnimationUtilities.loadAnimationFromFiles(e.getValue().getAnimationFiles().get(((Attackable) e.getValue()).getCurrentTarget().isPresent() ? fighting : moving), ANIMATIONS_FRAME_DURATION, true)));
 
   }
@@ -272,14 +266,14 @@ public abstract class GameController extends Controller {
    * @return a copy of player card actors.
    */
   protected Map<CardActor, Card> getPlayerActorsMap() {
-    return Collections.unmodifiableMap(this.playerCardsMap);
+    return this.playerCardsMap;
   }
 
   /**
    * @return a copy of player tower actors.
    */
   protected Map<TowerActor, Tower> getPlayerTowersMap() {
-    return Collections.unmodifiableMap(this.playerTowersMap);
+    return this.playerTowersMap;
   }
 
   /**
@@ -292,26 +286,14 @@ public abstract class GameController extends Controller {
 
   /**
    * 
-   * @return the current elixir left to the player.
+   * update Cards Map.
+   * @param elements
    */
-  protected ElixirController getPlayerElixirController() {
-    return this.playerElixir;
+  protected void updateCardsMap(final List<CardActor> elements) {
+    elements.stream()
+      .peek(Actor::remove)
+      .forEach(e -> this.playerCardsMap.remove(e));
+    System.out.println(playerCardsMap);
   }
-
-//  private void updateCardsMap(final Stage stage) {
-//    ((GameModel) super.getModel()).getPlayerChoosableCards().forEach(c -> { 
-//      if (!this.playerCardsMap.containsValue(c)) {
-//        this.playerCardsMap.put(this.loadSingularActor(c, stage, "SELF_MOVING"), c);
-//      }
-//    });
-//    final var elements = new ArrayList<CardActor>();
-//    this.playerCardsMap.entrySet().forEach(e -> {
-//      if (!cards.contains(e.getValue())) {
-//        elements.add(e.getKey());
-//        System.out.println("Attore rimosso dalla mappa " + this.playerCardsMap);
-//      }
-//    });
-//    elements.forEach(e -> this.playerCardsMap.remove(e));
-//  }
 }
 

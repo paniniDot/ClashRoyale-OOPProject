@@ -10,9 +10,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import control.controller.game.AudioController;
 import model.Model;
 import model.actors.users.User;
-import model.utilities.Audio;
 import model.utilities.Deck;
 
 /**
@@ -21,7 +21,7 @@ import model.utilities.Deck;
 public abstract class Controller {
 
   private Model model;
-  private final Audio audio;
+  private final AudioController audio;
   private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
   private static final FileHandle FILE = Gdx.files.internal("saves/user.json");
   private static User user;
@@ -32,13 +32,13 @@ public abstract class Controller {
    * @param audio
    *              the audio for the screen subscribed to this controller.
    */
-  public Controller(final Audio audio) {
+  public Controller(final AudioController audio) {
     this.audio = audio;
     if (!Controller.FILE.exists()) {
       Controller.user = new User("P");
       save();
     } else {
-      Controller.user = load();
+      Controller.user = new User("P"); //= load();
     }
   }
 

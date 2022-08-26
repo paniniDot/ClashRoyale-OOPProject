@@ -1,5 +1,6 @@
 package control.controller.game;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,10 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import model.GlobalData;
 import model.actors.Attackable;
 import model.actors.cards.Card;
-import model.actors.cards.spells.Spell;
 import model.actors.towers.Tower;
 import model.actors.users.Bot;
-import model.utilities.ElixirController;
 import model.utilities.ScoreController;
 import model.utilities.ingame.BotGameModel;
 import view.actors.CardActor;
@@ -89,7 +88,6 @@ public class BotGameController extends GameController {
 
   private void updateActorPositions(final Map<CardActor, Card> cardActors, final List<Attackable> enemyAttackables) {
     cardActors.entrySet().stream()
-      .filter(e -> !e.getValue().getClass().equals(Spell.class))
       .filter(e -> ((Attackable) e.getValue()).getCurrentTarget().isEmpty())
       .forEach(e -> {
         if (!Gdx.input.isTouched()) {
@@ -116,9 +114,21 @@ public class BotGameController extends GameController {
           }
         } 
       });
+    final var elements = new ArrayList<CardActor>();
     cardActors.entrySet().stream()
       .filter(e -> ((Attackable) e.getValue()).getCurrentTarget().isPresent())
-      .forEach(e -> e.getKey().setRotation(((Attackable) e.getValue()).getCurrentTarget().get().getPosition()));
+      .forEach(e -> {
+        e.getKey().setRotation(((Attackable) e.getValue()).getCurrentTarget().get().getPosition());
+      });
+    cardActors.entrySet().stream()
+    .forEach(e -> {
+      if (((Attackable) e.getValue()).isDead()) {
+        elements.add(e.getKey());
+      }
+    });
+    if (!elements.isEmpty()) {
+    super.updateCardsMap(elements);
+    }
   }
 
   private void deployBotCard(final Card card) {
