@@ -1,9 +1,9 @@
 package control.controller;
 
 import control.BaseGame;
+import control.controller.game.AudioController;
 import control.utilities.FileManager;
 import model.Model;
-import model.utilities.Audio;
 import view.screens.StatScreen;
 
 /**
@@ -17,7 +17,7 @@ public class StatController extends Controller {
    * Constructor.
    */
   public StatController() {
-    super(Audio.getMenuMusic());
+    super(AudioController.getMenuMusic());
     super.registerModel(new Model());
     this.fileManager = new FileManager();
     this.fileManager.read();

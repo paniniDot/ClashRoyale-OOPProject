@@ -1,7 +1,5 @@
 package control.controller.game;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,9 +14,6 @@ import model.actors.Attackable;
 import model.actors.cards.Card;
 import model.actors.towers.Tower;
 import model.utilities.AnimationUtilities;
-import model.utilities.Audio;
-import model.utilities.CountDownController;
-import model.utilities.ElixirController;
 import model.utilities.ScoreController;
 import model.utilities.ingame.GameModel;
 import model.utilities.ingame.GameMap;
@@ -47,7 +42,7 @@ public abstract class GameController extends Controller {
    *            the logic followed by this controller.
    */
   public GameController(final GameModel model) {
-    super(Audio.getBattleMusic());
+    super(AudioController.getBattleMusic());
     this.playerElixir = new ElixirController();
     this.timer = new CountDownController();
     this.playerScore = new ScoreController();
@@ -303,8 +298,12 @@ public abstract class GameController extends Controller {
   protected ElixirController getPlayerElixirController() {
     return this.playerElixir;
   }
-
-  protected void updateCardsMap(List<CardActor> elements) {
+  /**
+   * 
+   * update Cards Map.
+   * @param elements
+   */
+  protected void updateCardsMap(final List<CardActor> elements) {
     elements.stream()
       .peek(Actor::remove)
       .forEach(e -> this.playerCardsMap.remove(e));

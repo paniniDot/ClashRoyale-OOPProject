@@ -1,7 +1,5 @@
 package control.controller;
 
-import model.utilities.Audio;
-
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,6 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import control.BaseGame;
+import control.controller.game.AudioController;
 import control.controller.game.BotGameController;
 import model.Model;
 import model.actors.users.User;
@@ -26,7 +25,7 @@ public class MenuController extends Controller {
    * Constructor.
    */
   public MenuController() {
-    super(Audio.getMenuMusic());
+    super(AudioController.getMenuMusic());
     super.registerModel(new Model());
   }
 

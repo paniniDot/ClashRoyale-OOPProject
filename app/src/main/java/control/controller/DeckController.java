@@ -8,8 +8,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import control.BaseGame;
+import control.controller.game.AudioController;
 import model.Model;
-import model.utilities.Audio;
 import view.screens.DeckScreen;
 /**
  * Controller implementation for the game screen.
@@ -25,7 +25,7 @@ public class DeckController extends Controller {
    * Constructor.
    */
   public DeckController() {
-    super(Audio.getMenuMusic());
+    super(AudioController.getMenuMusic());
     super.registerModel(new Model());
     this.atlas = new TextureAtlas("buttons/atlas.pack");
     this.skin = new Skin(Gdx.files.internal("buttons/menuSkin.json"), atlas);

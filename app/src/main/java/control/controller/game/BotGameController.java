@@ -14,7 +14,6 @@ import model.actors.Attackable;
 import model.actors.cards.Card;
 import model.actors.towers.Tower;
 import model.actors.users.Bot;
-import model.utilities.ElixirController;
 import model.utilities.ScoreController;
 import model.utilities.ingame.BotGameModel;
 import view.actors.CardActor;
@@ -127,7 +126,7 @@ public class BotGameController extends GameController {
         elements.add(e.getKey());
       }
     });
-    if (elements.size() > 0) {
+    if (elements.isEmpty()) {
     super.updateCardsMap(elements);
     }
   }
