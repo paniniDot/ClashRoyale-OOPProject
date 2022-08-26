@@ -237,10 +237,7 @@ public abstract class GameController extends Controller {
     .forEach(e -> e.getKey().setAnimation(AnimationUtilities.loadAnimationFromFiles(e.getValue().getAnimationFiles().get(e.getValue().getCurrentTarget().isPresent() ? standing : fighting), ANIMATIONS_FRAME_DURATION, true)));
   }
 
-  /**
-   * Update both card and tower actors animations of the player.
-   */
-  public void updateActorAnimations() {
+  private void updateActorAnimations() {
     this.updateCardAnimations(this.playerCardsMap, "SELF_MOVING", "SELF_FIGHTING");
     this.updateTowerAnimations(this.playerTowersMap, "SELF", "SELF");
     this.onUpdateActorAnimations();
@@ -251,11 +248,7 @@ public abstract class GameController extends Controller {
    */
   protected abstract void onUpdateActorAnimations();
 
-  /**
-   * Update both player and enemy actors, using cards informations stored inside the model.
-   * 
-   */
-  public void updateActors() {
+  private void updateActors() {
     ((GameModel) super.getModel()).findAttackableTargets();
     ((GameModel) super.getModel()).handleAttackTargets();
     this.onUpdateActors();
@@ -305,20 +298,20 @@ public abstract class GameController extends Controller {
     return this.playerElixir;
   }
 
-  private void updateCardsMap(final Stage stage) {
-    ((GameModel) super.getModel()).getPlayerChoosableCards().forEach(c -> { 
-      if (!this.playerCardsMap.containsValue(c)) {
-        this.playerCardsMap.put(this.loadSingularActor(c, stage, "SELF_MOVING"), c);
-      }
-    });
-    final var elements = new ArrayList<CardActor>();
-    this.playerCardsMap.entrySet().forEach(e -> {
-      if (!cards.contains(e.getValue())) {
-        elements.add(e.getKey());
-        System.out.println("Attore rimosso dalla mappa " + this.playerCardsMap);
-      }
-    });
-    elements.forEach(e -> this.playerCardsMap.remove(e));
-  }
+//  private void updateCardsMap(final Stage stage) {
+//    ((GameModel) super.getModel()).getPlayerChoosableCards().forEach(c -> { 
+//      if (!this.playerCardsMap.containsValue(c)) {
+//        this.playerCardsMap.put(this.loadSingularActor(c, stage, "SELF_MOVING"), c);
+//      }
+//    });
+//    final var elements = new ArrayList<CardActor>();
+//    this.playerCardsMap.entrySet().forEach(e -> {
+//      if (!cards.contains(e.getValue())) {
+//        elements.add(e.getKey());
+//        System.out.println("Attore rimosso dalla mappa " + this.playerCardsMap);
+//      }
+//    });
+//    elements.forEach(e -> this.playerCardsMap.remove(e));
+//  }
 }
 
