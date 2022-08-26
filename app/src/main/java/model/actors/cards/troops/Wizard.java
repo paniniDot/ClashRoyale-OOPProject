@@ -38,12 +38,12 @@ public final class Wizard extends Troop {
    */
   public static Troop create(final User user, final Vector2 position) {
     switch (user.getCurrentLevel()) {
-        case LVL1: return new Wizard(user, position, 340, 130);
-        case LVL2: return new Wizard(user, position, 374, 143);
-        case LVL3: return new Wizard(user, position, 411, 157);
-        case LVL4: return new Wizard(user, position, 452, 172);
-        case LVL5: return new Wizard(user, position, 496, 189);
-        default: return new Wizard(user, position, 340, 130);
+        case LVL1: return new Wizard(user, position, 200 * 60, 100);
+        case LVL2: return new Wizard(user, position, 300 * 60, 200);
+        case LVL3: return new Wizard(user, position, 400 * 60, 300);
+        case LVL4: return new Wizard(user, position, 500 * 60, 400);
+        case LVL5: return new Wizard(user, position, 600 * 60, 500);
+        default: return new Wizard(user, position, 200 * 60, 100);
         }
   }
 

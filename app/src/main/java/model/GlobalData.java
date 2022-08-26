@@ -35,9 +35,7 @@ public final class GlobalData {
       Wizard.create(USER, new Vector2(100, 100)), 
       Giant.create(USER, new Vector2(200, 100)), 
       Barbarian.create(USER, new Vector2(300, 100)), 
-      Wizard.create(USER, new Vector2(400, 100)), 
-      Wizard.create(USER, new Vector2(500, 100)),
-      Wizard.create(USER, new Vector2(600, 100)));
+      Wizard.create(USER, new Vector2(400, 100)));
 
   /**
    * Provides the Bot deck.
@@ -46,9 +44,7 @@ public final class GlobalData {
       Wizard.create(BOT, new Vector2(100, 800)), 
       Giant.create(BOT, new Vector2(200, 800)), 
       Barbarian.create(BOT, new Vector2(300, 800)), 
-      Wizard.create(BOT, new Vector2(400, 800)), 
-      Wizard.create(BOT, new Vector2(500, 800)),
-      Wizard.create(BOT, new Vector2(600, 800)));
+      Wizard.create(BOT, new Vector2(400, 800)));
 
   private GlobalData() {
   }

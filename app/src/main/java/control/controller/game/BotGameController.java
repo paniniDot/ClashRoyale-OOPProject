@@ -1,5 +1,6 @@
 package control.controller.game;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -116,9 +117,21 @@ public class BotGameController extends GameController {
           }
         } 
       });
+    final var elements = new ArrayList<CardActor>();
     cardActors.entrySet().stream()
       .filter(e -> ((Attackable) e.getValue()).getCurrentTarget().isPresent())
-      .forEach(e -> e.getKey().setRotation(((Attackable) e.getValue()).getCurrentTarget().get().getPosition()));
+      .forEach(e -> {
+        e.getKey().setRotation(((Attackable) e.getValue()).getCurrentTarget().get().getPosition());
+      });
+    cardActors.entrySet().stream()
+    .forEach(e -> {
+      if (((Attackable) e.getValue()).isDead()) {
+        elements.add(e.getKey());
+      }
+    });
+    if (elements.size() > 0) {
+    super.updateCardsMap(elements);
+    }
   }
 
   private void deployBotCard(final Card card) {

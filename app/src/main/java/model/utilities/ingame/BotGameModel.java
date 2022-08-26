@@ -130,7 +130,7 @@ public class BotGameModel extends GameModel {
    */
   public List<Attackable> getBotAttackable() {
     /* ricorda di sostituire con botDeployedCards */
-    return Stream.concat(this.botCards.stream().map(c -> (Attackable) c), this.botActiveTowers.stream().map(t -> (Attackable) t)).collect(Collectors.toList());
+    return Stream.concat(this.botDeployedCards.stream().map(c -> (Attackable) c), this.botActiveTowers.stream().map(t -> (Attackable) t)).collect(Collectors.toList());
   }
 
   private void findTargets(final List<Attackable> selfAttackables, final List<Attackable> enemyAttackables) {

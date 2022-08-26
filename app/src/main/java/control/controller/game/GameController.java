@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import control.BaseGame;
@@ -279,14 +280,14 @@ public abstract class GameController extends Controller {
    * @return a copy of player card actors.
    */
   protected Map<CardActor, Card> getPlayerActorsMap() {
-    return Collections.unmodifiableMap(this.playerCardsMap);
+    return this.playerCardsMap;
   }
 
   /**
    * @return a copy of player tower actors.
    */
   protected Map<TowerActor, Tower> getPlayerTowersMap() {
-    return Collections.unmodifiableMap(this.playerTowersMap);
+    return this.playerTowersMap;
   }
 
   /**
@@ -305,20 +306,11 @@ public abstract class GameController extends Controller {
     return this.playerElixir;
   }
 
-  private void updateCardsMap(final Stage stage) {
-    ((GameModel) super.getModel()).getPlayerChoosableCards().forEach(c -> { 
-      if (!this.playerCardsMap.containsValue(c)) {
-        this.playerCardsMap.put(this.loadSingularActor(c, stage, "SELF_MOVING"), c);
-      }
-    });
-    final var elements = new ArrayList<CardActor>();
-    this.playerCardsMap.entrySet().forEach(e -> {
-      if (!cards.contains(e.getValue())) {
-        elements.add(e.getKey());
-        System.out.println("Attore rimosso dalla mappa " + this.playerCardsMap);
-      }
-    });
-    elements.forEach(e -> this.playerCardsMap.remove(e));
+  protected void updateCardsMap(List<CardActor> elements) {
+    elements.stream()
+      .peek(Actor::remove)
+      .forEach(e -> this.playerCardsMap.remove(e));
+    System.out.println(playerCardsMap);
   }
 }
 
