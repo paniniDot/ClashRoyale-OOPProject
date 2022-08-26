@@ -97,7 +97,7 @@ public class BotGameController extends GameController {
                 this.deployBotCard(e.getValue());
                 e.getKey().setDraggable(false);
                 e.getValue().setPosition(e.getKey().getCenter());
-              } else if (e.getValue().getCost() <= getPlayerElixirController().getElixirCount()) {
+              } else if (e.getValue().getCost() <= super.getPlayerCurrentElixir()) {
                 super.deployPlayerCard(e.getValue());
                 e.getKey().setDraggable(false);
                 e.getValue().setPosition(e.getKey().getCenter());
