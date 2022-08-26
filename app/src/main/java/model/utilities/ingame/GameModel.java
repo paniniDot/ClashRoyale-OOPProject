@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 
 import com.badlogic.gdx.math.Vector2;
 
+import model.GlobalData;
 import model.Model;
 import model.actors.Attackable;
 import model.actors.cards.Card;
@@ -110,7 +111,7 @@ public abstract class GameModel extends Model {
    * @param card
    *           the card to be removed.
    */
-  public void removePlayerCardFromMap(final Card card) {
+  public void removeUserCardFromMap(final Card card) {
     if (this.playerDeployedCards.contains(card)) {
       this.playerDeployedCards.remove(card);
     }
@@ -134,6 +135,42 @@ public abstract class GameModel extends Model {
     if (this.playerActiveTowers.contains(tower)) {
       this.playerActiveTowers.remove(tower);
     }
+  }
+
+  /**
+   * Remove a player attackable from the arena, whether is a tower or a card.
+   * 
+   * @param target
+   *              the attackable to be removed.
+   */
+  protected void removeUserAttackableFromArena(final Attackable target) {
+    if (this.isTower(target)) {
+      this.destroyUserTower((Tower) target);
+    } else {
+      this.removeUserCardFromMap((Card) target);
+    }
+  }
+
+  /**
+   * 
+   * @param target
+   *              the attackable to find if is tower or not.
+   * @return
+   *              whether the target is a tower or not.
+   */
+  protected boolean isTower(final Attackable target) {
+    return target.getClass().equals(QueenTower.class) || target.getClass().equals(KingTower.class);
+  }
+
+  /**
+   * 
+   * @param target
+   *               the attackable to find if the user is the owner.
+   * @return
+   *               whether the user is the owner of this target or not.
+   */
+  protected boolean isUserTheOwner(final Attackable target) {
+    return target.getOwner().equals(GlobalData.USER);
   }
 
   /**

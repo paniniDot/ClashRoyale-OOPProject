@@ -9,7 +9,6 @@ import java.util.stream.Stream;
 
 import com.badlogic.gdx.math.Vector2;
 
-import model.GlobalData;
 import model.actors.Attackable;
 import model.actors.cards.Card;
 import model.actors.towers.KingTower;
@@ -17,7 +16,6 @@ import model.actors.towers.QueenTower;
 import model.actors.towers.Tower;
 import model.actors.users.Bot;
 import model.actors.users.User;
-import model.utilities.ScoreController;
 import model.utilities.VectorsUtilities;
 
 /**
@@ -163,29 +161,22 @@ public class BotGameModel extends GameModel {
         final var currentTarget = attackable.getCurrentTarget().get();
         if (currentTarget.isDead()) {
           if (isUserTheOwner(currentTarget)) {
-            if (isTower(currentTarget)) {
-              this.destroyUserTower((Tower) currentTarget);
-            } else {
-              this.removePlayerCardFromMap((Card) currentTarget);
-            }
+            super.removeUserAttackableFromArena(currentTarget);
           } else {
-            if (isTower(currentTarget)) {
-              this.destroyBotTower((Tower) currentTarget);
-            } else {
-              this.removeBotCardFromMap((Card) currentTarget);
-            }
+            this.removeBotAttackableFromArena(currentTarget);
           }
+          attackable.resetCurrentTarget();
         }
       }
     });
   }
 
-  private boolean isTower(final Attackable target) {
-    return target.getClass().equals(QueenTower.class) || target.getClass().equals(KingTower.class);
-  }
-
-  private boolean isUserTheOwner(final Attackable target) {
-    return target.getOwner().equals(GlobalData.USER);
+  private void removeBotAttackableFromArena(final Attackable target) {
+    if (super.isTower(target)) {
+      this.destroyBotTower((Tower) target);
+    } else {
+      this.removeBotCardFromMap((Card) target);
+    }
   }
 
   @Override
