@@ -38,7 +38,7 @@ public abstract class Controller {
       Controller.user = new User("P");
       save();
     } else {
-      Controller.user = load();
+      Controller.user = new User("P"); //= load();
     }
   }
 

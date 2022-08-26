@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import model.actors.users.User;
 import model.actors.Attackable;
+import model.actors.Speeds;
 import model.actors.cards.Card;
 
 /**
@@ -20,12 +21,11 @@ public final class InfernoTower extends Building {
    */
   public static final int ELIXIR_COST = 3;
   private static final int RANGE = 3;
-  private static final double HIT_SPEED = 0.4;
 
   private final List<Attackable> targets;
 
   private InfernoTower(final User owner, final Vector2 position, final double maxHP, final double damage) {
-    super(InfernoTower.ELIXIR_COST, position, owner, maxHP, damage, InfernoTower.HIT_SPEED, InfernoTower.RANGE);
+    super(InfernoTower.ELIXIR_COST, position, owner, maxHP, damage, Speeds.MEDIUM, InfernoTower.RANGE);
     this.targets = Collections.emptyList();
   }
 

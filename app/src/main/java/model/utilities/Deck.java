@@ -5,16 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import com.badlogic.gdx.math.Vector2;
-
-import model.GlobalData;
 import model.actors.cards.Card;
-import model.actors.cards.spells.FireBall;
-import model.actors.cards.troops.Barbarian;
-import model.actors.cards.troops.Giant;
-import model.actors.cards.troops.Wizard;
-import model.actors.users.User;
 
 /**
  * 
@@ -30,7 +21,6 @@ public class Deck {
  * initialize basic cards and decks.
  */
   public Deck() {
-    
     this.deckMap = new HashMap<>();
   //  this.deckMap.put("Barbarian", Barbarian.create(GlobalData.USER, new Vector2(100, 100)));
     //this.deckMap.put("Wizard", Wizard.create(GlobalData.USER, new Vector2(200, 100))); 
@@ -38,25 +28,22 @@ public class Deck {
     //this.deckMap.put("Giant", Giant.create(GlobalData.USER, new Vector2(400, 100)));
     this.cardsMap = new HashMap<>();
     //this.cardsMap.put("Giant", Giant.create(GlobalData.USER, new Vector2(400, 100)));
-
-    
-    
   }
  
   /**
    * 
    * @return getDeckMap
    */
-  public Map<String,Card> getDeckSet() {
+  public Map<String, Card> getDeckSet() {
     return deckMap;
   }
-  
+
   public List<String> namesCardsDeck() {
     return deckMap.entrySet().stream()
         .flatMap(e -> Stream.of(e.getKey()))
         .collect(Collectors.toList());
   }
-  
+
   public List<String> namesCardsCard() {
     return cardsMap.entrySet().stream()
         .flatMap(e -> Stream.of(e.getKey()))
@@ -67,7 +54,7 @@ public class Deck {
    * 
    * @return getCardsMap
    */
-  public Map<String,Card> getCardsSet() {
+  public Map<String, Card> getCardsSet() {
     return cardsMap;
   }
 
@@ -76,7 +63,7 @@ public class Deck {
    * @param select
    * @return deckMap
    */
-  public Map<String,Card> addDeck(final String select) {
+  public Map<String, Card> addDeck(final String select) {
     final Card c = cardsMap.get(select);
     this.deckMap.put(select, c);
     return deckMap;
@@ -86,7 +73,7 @@ public class Deck {
    * @param select
    * @return cardsMap
    */
-  public Map<String,Card> addCardSet(final String select) {
+  public Map<String, Card> addCardSet(final String select) {
     final Card c = deckMap.get(select);
     this.deckMap.put(select, c);
     return cardsMap;
@@ -96,7 +83,7 @@ public class Deck {
   * @param select
   * @return cardsMap
   */
-  public Map<String,Card> removeCardSet(final String select) {
+  public Map<String, Card> removeCardSet(final String select) {
     cardsMap.remove(select);
     return cardsMap;
   }
@@ -106,7 +93,7 @@ public class Deck {
    * @param select
    * @return deckMap
    */
-  public Map<String,Card> removeDeckCard(final String select) {
+  public Map<String, Card> removeDeckCard(final String select) {
     deckMap.remove(select);
     return deckMap;
   }

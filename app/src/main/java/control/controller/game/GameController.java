@@ -14,7 +14,6 @@ import control.controller.Controller;
 import control.controller.MenuController;
 import model.actors.Attackable;
 import model.actors.cards.Card;
-import model.actors.cards.spells.Spell;
 import model.actors.towers.Tower;
 import model.utilities.AnimationUtilities;
 import model.utilities.Audio;
@@ -212,7 +211,6 @@ public abstract class GameController extends Controller {
   protected void updateCardAnimations(final Map<CardActor, Card> playerCardsMap, final String moving, final String fighting) { 
     playerCardsMap.entrySet()
       .stream()
-      .filter(e -> !e.getValue().getClass().equals(Spell.class))
       .forEach(e -> e.getKey().setAnimation(AnimationUtilities.loadAnimationFromFiles(e.getValue().getAnimationFiles().get(((Attackable) e.getValue()).getCurrentTarget().isPresent() ? fighting : moving), ANIMATIONS_FRAME_DURATION, true)));
 
   }

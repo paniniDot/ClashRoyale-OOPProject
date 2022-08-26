@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import model.GlobalData;
 import model.actors.Attackable;
 import model.actors.cards.Card;
-import model.actors.cards.spells.Spell;
 import model.actors.towers.Tower;
 import model.actors.users.Bot;
 import model.utilities.ElixirController;
@@ -90,7 +89,6 @@ public class BotGameController extends GameController {
 
   private void updateActorPositions(final Map<CardActor, Card> cardActors, final List<Attackable> enemyAttackables) {
     cardActors.entrySet().stream()
-      .filter(e -> !e.getValue().getClass().equals(Spell.class))
       .filter(e -> ((Attackable) e.getValue()).getCurrentTarget().isEmpty())
       .forEach(e -> {
         if (!Gdx.input.isTouched()) {
