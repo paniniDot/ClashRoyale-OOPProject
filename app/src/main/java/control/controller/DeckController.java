@@ -1,6 +1,5 @@
 package control.controller;
 
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import com.badlogic.gdx.Gdx;
@@ -8,8 +7,9 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import control.BaseGame;
-import control.controller.game.AudioController;
+import model.GlobalData;
 import model.Model;
+import control.controller.game.AudioController;
 import view.screens.DeckScreen;
 /**
  * Controller implementation for the game screen.
@@ -57,7 +57,7 @@ public class DeckController extends Controller {
    * @return the List of cards.
    */
   public List<String> setCards() {
-    this.cards.setItems(getUDeck().namesCardsCard().toArray());
+    this.cards.setItems(GlobalData.DECK.namesCardsCard().toArray());
     return cards;
   }
 
@@ -67,7 +67,7 @@ public class DeckController extends Controller {
    * @return the List of deck.
    */
   public List<String> setDeck() {
-    this.decklist.setItems(getUDeck().namesCardsDeck().toArray());
+    this.decklist.setItems(GlobalData.DECK.namesCardsDeck().toArray());
     return decklist;
   }
 
@@ -79,7 +79,7 @@ public class DeckController extends Controller {
    * @return List of deck. 
    */
   public List<String> addDeck(final String select) {
-    getUDeck().addDeck(select);
+    GlobalData.DECK.addDeck(select);
       return setDeck();
     }
 
@@ -91,7 +91,7 @@ public class DeckController extends Controller {
    * @return the list of cards updated.
    */
   public List<String> addCard(final String select) {
-    getUDeck().addCardSet(select);
+    GlobalData.DECK.addCardSet(select);
       return setCards();
     }
 
@@ -103,7 +103,7 @@ public class DeckController extends Controller {
    * @return the list of cards updated. 
    */
   public List<String> removeCard(final String card) {
-    getUDeck().removeCardSet(card);    
+    GlobalData.DECK.removeCardSet(card);
     return setCards();
   }
 
@@ -115,7 +115,7 @@ public class DeckController extends Controller {
    * @return the deckList updated.
    */
   public List<String> removeDeckCard(final String card) {
-    getUDeck().removeDeckCard(card);
+    GlobalData.DECK.removeDeckCard(card);
     return setDeck();
   }
 
@@ -125,7 +125,7 @@ public class DeckController extends Controller {
    * @return true if the deck has 4 cards.
    */
   public boolean full() {
-    if (getUDeck().getDeckSet().size() < DIMDECK) {
+    if (GlobalData.DECK.getDeckSet().size() < DIMDECK) {
       return true;
     }
     JOptionPane.showMessageDialog(frame, "DECK PIENO(MAX 4 CARTE), RIMUOVERE PRIMA UNA CARTA");
@@ -138,7 +138,7 @@ public class DeckController extends Controller {
    *   @return true if the deck is empty.
    */
   public boolean empty() {
-    if (!getUDeck().getDeckSet().isEmpty()) {
+    if (!GlobalData.DECK.getDeckSet().isEmpty()) {
       return true;
     }
     JOptionPane.showMessageDialog(frame, "DECK VUOTO");
@@ -149,9 +149,9 @@ public class DeckController extends Controller {
    * Check if the deck has 4 cards, than save the deck and return to the menu. 
    */
   public void returnButton() {
-    if (getUDeck().getDeckSet().size() == DIMDECK) {
-    save();
-    triggerMenu();
+    if (GlobalData.DECK.getDeckSet().size() == DIMDECK) {
+
+      triggerMenu();
     } else {
       JOptionPane.showMessageDialog(frame, "INSERIRE 4 CARTE NEL DECK PER POTER GIOCARE");
     }

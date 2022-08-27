@@ -34,7 +34,7 @@ public class BotGameController extends GameController {
    * Constructor.
    */
   public BotGameController() { 
-    super(new BotGameModel(GlobalData.USER_DECK, GlobalData.BOT_DECK, GlobalData.USER, GlobalData.BOT));
+    super(new BotGameModel(GlobalData.DECK.cardList(), GlobalData.BOT_DECK, GlobalData.USER, GlobalData.BOT));
     this.botElixir = new ElixirController();
     this.botScore = new ScoreController();
     this.botCardsMap = new HashMap<>();

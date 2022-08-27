@@ -34,7 +34,7 @@ public class GlobalData {
   /**
    * Provides a user instance.
    */
-  public static Deck DECK = SaveController.loadDeck();
+  public static final Deck DECK = new Deck();
 
 
   /**
@@ -45,13 +45,13 @@ public class GlobalData {
 //  /**
 //   * Provides the User deck.
 //   */
-//  public static final List<Card> USER_DECK = List.of(
-//      Wizard.create(USER, new Vector2(100, 100)), 
-//      Giant.create(USER, new Vector2(200, 100)), 
-//      Barbarian.create(USER, new Vector2(300, 100)), 
+  public static final List<Card> USER_DECK = List.of(
+      Wizard.create(USER, new Vector2(100, 100)), 
+      Giant.create(USER, new Vector2(200, 100)), 
+      Barbarian.create(USER, new Vector2(300, 100)), 
 //      Wizard.create(USER, new Vector2(400, 100)), 
 //      Wizard.create(USER, new Vector2(500, 100)),
-//      Wizard.create(USER, new Vector2(600, 100)));
+      Wizard.create(USER, new Vector2(600, 100)));
 
   /**
    * Provides the Bot deck.

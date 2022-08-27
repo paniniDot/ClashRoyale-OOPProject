@@ -1,19 +1,16 @@
 package control.controller;
 
-import java.io.FileReader;
+
 import java.io.FileWriter;
 import java.io.IOException;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
-import control.controller.game.AudioController;
 import model.Model;
 import model.actors.users.User;
-import model.utilities.Deck;
+import control.controller.game.AudioController;
+import model.utilities.SaveController;
 
 /**
  * The controller for the game.
@@ -22,9 +19,7 @@ public abstract class Controller {
 
   private Model model;
   private final AudioController audio;
-  private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-  private static final FileHandle FILE = Gdx.files.internal("saves/user.json");
-  private static User user;
+
 
   /**
    * Constructor.
@@ -34,12 +29,6 @@ public abstract class Controller {
    */
   public Controller(final AudioController audio) {
     this.audio = audio;
-    if (!Controller.FILE.exists()) {
-      Controller.user = new User("P");
-      save();
-    } else {
-      Controller.user = new User("P"); //= load();
-    }
   }
 
   /**
@@ -94,46 +83,18 @@ public abstract class Controller {
   public void stopMusic() {
     this.audio.stop();
   }
-
-  /**
-   * Save the Gson file.
-   */
-  public static void save() {
+/**
+ * Save the Gson file user.
+ * @param user
+ */
+  public void saveUser(final User user) {
     final FileWriter writer;
     try {
-      writer = new FileWriter(FILE.file());
-      GSON.toJson(user, writer);
+      writer = new FileWriter(SaveController.FILEUSER.file());
+      SaveController.GSON.toJson(user, writer);
       writer.close();
     } catch (IOException e) {
       e.printStackTrace();
     }
-  }
-
-  /**
-   * Load the user from the Json file.
-   * 
-   * @return User
-   */
-  public User load() {
-    try {
-      return Controller.GSON.fromJson(new FileReader(Controller.FILE.file()), User.class);
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return null;
-  }
-
-  /**
-   * @return the user.
-   */
-  public static User getUser() {
-    return user;
-  }
-
-  /**
-   * @return the deck used.
-   */
-  public Deck getUDeck() {
-    return user.getDeck();
   }
 }
