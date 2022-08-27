@@ -80,8 +80,8 @@ public class DeckScreen extends BaseScreen {
       public void clicked(final InputEvent event, final float x, final float y) {
         if (deckController.full()) {
         final String select = cards.getSelected();
-        cards = deckController.removeCard(select);
-        deck = deckController.addDeck(select);
+        deckController.removeCard(select);
+        deckController.addDeck(select);
         }
       }
     });
@@ -92,9 +92,9 @@ public class DeckScreen extends BaseScreen {
       @Override
       public void clicked(final InputEvent event, final float x, final float y) {
         if (deckController.empty()) {
-        final String select = (String) deck.getSelected();
-        deck = deckController.removeDeckCard(select);
-        cards = deckController.addCard(select);
+        final String select = deck.getSelected();
+        deckController.removeDeckCard(select);
+        deckController.addCard(select);
         }
       }
     });

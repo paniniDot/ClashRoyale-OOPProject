@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import control.controller.Controller;
 import control.controller.MenuController;
 import control.launcher.ClashRoyale;
+import model.GlobalData;
 import model.utilities.AnimationUtilities;
 import view.actors.BaseActor;
 
@@ -93,14 +94,16 @@ public class MenuScreen extends BaseScreen {
     buttonExit.addListener(new ClickListener() {
       @Override
       public void clicked(final InputEvent event, final float x, final float y) {
-        Controller.save();
+        Controller.saveUser(GlobalData.USER);
+        Controller.saveDeck(GlobalData.DECK);
+        System.out.println(GlobalData.DECK.namesCardsDeck());
         Gdx.app.exit();
       }
     });
     buttonExit.pad(SPACE);
 
-    buttonScore = new TextButton("Score " + menuController.getUser().getCurrentXP(), skinLabel);
-    buttonLevel = new TextButton(menuController.getUser().getCurrentLevel().toString(), skinLabel);
+    buttonScore = new TextButton("Score " + GlobalData.USER.getCurrentXP(), skinLabel);
+    buttonLevel = new TextButton(GlobalData.USER.getCurrentLevel().toString(), skinLabel);
 
     table.add(heading);
     table.getCell(heading).spaceBottom(100);

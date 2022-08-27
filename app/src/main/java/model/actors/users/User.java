@@ -1,9 +1,12 @@
 package model.actors.users;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Map;
 import java.util.Objects;
 
 import model.utilities.Deck;
+import model.utilities.SaveController;
 
 
 /**
@@ -21,7 +24,6 @@ public class User {
   private final String name;
   private int currentXP;
   private UserLevel currentLevel;
-  private final Deck deck;
 
   /**
    * @param name
@@ -31,7 +33,6 @@ public class User {
     this.name = name;
     this.currentXP = 0;
     this.currentLevel = UserLevel.LVL1;
-    this.deck = new Deck();
   }
 
   /**
@@ -55,12 +56,6 @@ public class User {
     return this.currentLevel;
   }
 
-  /**
-   * @return Deck for User
-   */
-  public Deck getDeck() {
-    return deck;
-  }
 
   /**
    * Increase the current xp user owns.
@@ -127,4 +122,18 @@ public class User {
     return currentLevel == other.currentLevel && currentXP == other.currentXP && Objects.equals(name, other.name);
   }
 
+  /**
+   * Save the Gson file user.
+   */
+  public void saveUser(final User user) {
+    final FileWriter writer;
+    try {
+      writer = new FileWriter(SaveController.FILEUSER.file());
+      SaveController.GSON.toJson(user, writer);
+      writer.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+  
 }
