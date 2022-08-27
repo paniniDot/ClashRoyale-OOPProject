@@ -14,10 +14,9 @@ import model.actors.users.User;
 public final class KingTower extends Tower {
 
   private static final double RANGE = 150;
-  private static final Speeds HIT_SPEED = Speeds.SLOW;
 
   private KingTower(final Vector2 position, final User owner, final double damage, final double hp) {
-    super(position, owner, KingTower.RANGE, false, damage, hp, KingTower.HIT_SPEED);
+    super(position, owner, RANGE, false, damage, hp, Speeds.SLOW);
   }
 
   /**
@@ -31,12 +30,12 @@ public final class KingTower extends Tower {
    */
   public static KingTower create(final User owner, final Vector2 position) {
     switch (owner.getCurrentLevel()) {
-      case LVL1: return new KingTower(position, owner, 50, 2400);
-      case LVL2: return new KingTower(position, owner, 54, 2568);
-      case LVL3: return new KingTower(position, owner, 58, 2736);
-      case LVL4: return new KingTower(position, owner, 62, 2904);
-      case LVL5: return new KingTower(position, owner, 67, 3096);
-      default: return new KingTower(position, owner, 50, 2400);
+      case LVL1: return new KingTower(position, owner, 100, 200 * 60);
+      case LVL2: return new KingTower(position, owner, 100, 200 * 60);
+      case LVL3: return new KingTower(position, owner, 100, 200 * 60);
+      case LVL4: return new KingTower(position, owner, 100, 200 * 60);
+      case LVL5: return new KingTower(position, owner, 100, 200 * 60);
+      default: return new KingTower(position, owner, 100, 200 * 60);
     }
   }
 

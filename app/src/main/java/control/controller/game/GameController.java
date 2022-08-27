@@ -1,7 +1,5 @@
 package control.controller.game;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,9 +14,6 @@ import model.actors.Attackable;
 import model.actors.cards.Card;
 import model.actors.towers.Tower;
 import model.utilities.AnimationUtilities;
-import model.utilities.Audio;
-import model.utilities.CountDownController;
-import model.utilities.ElixirController;
 import model.utilities.ScoreController;
 import model.utilities.ingame.GameModel;
 import model.utilities.ingame.GameMap;
@@ -47,7 +42,7 @@ public abstract class GameController extends Controller {
    *            the logic followed by this controller.
    */
   public GameController(final GameModel model) {
-    super(Audio.getBattleMusic());
+    super(AudioController.getBattleMusic());
     this.playerElixir = new ElixirController();
     this.timer = new CountDownController();
     this.playerScore = new ScoreController();
@@ -113,7 +108,7 @@ public abstract class GameController extends Controller {
    * 
    * @return a list of the user attackable entities.
    */
-  public List<Attackable> getUserAttackables() {
+  protected List<Attackable> getUserAttackables() {
     return ((GameModel) super.getModel()).getPlayerAttackable();
   }
 
@@ -236,10 +231,7 @@ public abstract class GameController extends Controller {
     .forEach(e -> e.getKey().setAnimation(AnimationUtilities.loadAnimationFromFiles(e.getValue().getAnimationFiles().get(e.getValue().getCurrentTarget().isPresent() ? standing : fighting), ANIMATIONS_FRAME_DURATION, true)));
   }
 
-  /**
-   * Update both card and tower actors animations of the player.
-   */
-  public void updateActorAnimations() {
+  private void updateActorAnimations() {
     this.updateCardAnimations(this.playerCardsMap, "SELF_MOVING", "SELF_FIGHTING");
     this.updateTowerAnimations(this.playerTowersMap, "SELF", "SELF");
     this.onUpdateActorAnimations();
@@ -250,11 +242,7 @@ public abstract class GameController extends Controller {
    */
   protected abstract void onUpdateActorAnimations();
 
-  /**
-   * Update both player and enemy actors, using cards informations stored inside the model.
-   * 
-   */
-  public void updateActors() {
+  private void updateActors() {
     ((GameModel) super.getModel()).findAttackableTargets();
     ((GameModel) super.getModel()).handleAttackTargets();
     this.onUpdateActors();
@@ -298,13 +286,10 @@ public abstract class GameController extends Controller {
 
   /**
    * 
-   * @return the current elixir left to the player.
+   * update Cards Map.
+   * @param elements
    */
-  protected ElixirController getPlayerElixirController() {
-    return this.playerElixir;
-  }
-
-  protected void updateCardsMap(List<CardActor> elements) {
+  protected void updateCardsMap(final List<CardActor> elements) {
     elements.stream()
       .peek(Actor::remove)
       .forEach(e -> this.playerCardsMap.remove(e));

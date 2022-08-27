@@ -14,7 +14,6 @@ import model.actors.Attackable;
 import model.actors.cards.Card;
 import model.actors.towers.Tower;
 import model.actors.users.Bot;
-import model.utilities.ElixirController;
 import model.utilities.ScoreController;
 import model.utilities.ingame.BotGameModel;
 import view.actors.CardActor;
@@ -98,7 +97,7 @@ public class BotGameController extends GameController {
                 this.deployBotCard(e.getValue());
                 e.getKey().setDraggable(false);
                 e.getValue().setPosition(e.getKey().getCenter());
-              } else if (e.getValue().getCost() <= getPlayerElixirController().getElixirCount()) {
+              } else if (e.getValue().getCost() <= super.getPlayerCurrentElixir()) {
                 super.deployPlayerCard(e.getValue());
                 e.getKey().setDraggable(false);
                 e.getValue().setPosition(e.getKey().getCenter());
@@ -127,7 +126,7 @@ public class BotGameController extends GameController {
         elements.add(e.getKey());
       }
     });
-    if (elements.size() > 0) {
+    if (!elements.isEmpty()) {
     super.updateCardsMap(elements);
     }
   }

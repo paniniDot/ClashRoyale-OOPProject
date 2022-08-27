@@ -14,10 +14,9 @@ import model.actors.users.User;
 public final class QueenTower extends Tower {
 
   private static final double RANGE = 100;
-  private static final Speeds HIT_SPEED = Speeds.MEDIUM;
 
   private QueenTower(final Vector2 position, final User owner, final double damage, final double hp) {
-    super(position, owner, QueenTower.RANGE, true, damage, hp, QueenTower.HIT_SPEED);
+    super(position, owner, RANGE, true, damage, hp, Speeds.MEDIUM);
   }
 
   /**
