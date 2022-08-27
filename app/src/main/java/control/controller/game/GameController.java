@@ -140,7 +140,7 @@ public abstract class GameController extends Controller {
    *              the stage where actors have to be placed.
    */
   public final void loadActors(final Stage stage) {
-    this.playerCardsMap = this.loadCardActorsFrom(((GameModel) super.getModel()).getPlayerChoosableCards(), stage, "SELF_MOVING");
+    this.playerCardsMap = this.loadCardActorsFrom(((GameModel) super.getModel()).getPlayerChoosableCards(), stage, "AS_CARD");
     this.onLoadActors(stage);
   }
 
@@ -204,9 +204,11 @@ public abstract class GameController extends Controller {
    *                    the name of the files used for fighting animations.
    */
   protected void updateCardAnimations(final Map<CardActor, Card> playerCardsMap, final String moving, final String fighting) { 
-    playerCardsMap.entrySet()
-      .stream()
-      .forEach(e -> e.getKey().setAnimation(AnimationUtilities.loadAnimationFromFiles(e.getValue().getAnimationFiles().get(((Attackable) e.getValue()).getCurrentTarget().isPresent() ? fighting : moving), ANIMATIONS_FRAME_DURATION, true)));
+    playerCardsMap.entrySet().stream().forEach(e -> {
+      if (this.getGameMap().containsPosition(e.getKey().getCenter()) && !e.getKey().isDraggable()) {
+        e.getKey().setAnimation(AnimationUtilities.loadAnimationFromFiles(e.getValue().getAnimationFiles().get(((Attackable) e.getValue()).getCurrentTarget().isPresent() ? fighting : moving), ANIMATIONS_FRAME_DURATION, true));
+      }
+    });
 
   }
 
