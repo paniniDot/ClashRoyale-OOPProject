@@ -84,6 +84,7 @@ public class BotGameController extends GameController {
   }
 
   private void updateActorPositions(final Map<CardActor, Card> cardActors, final List<Attackable> enemyAttackables) {
+    final var card = new ArrayList<Card>();
     cardActors.entrySet().stream()
       .filter(e -> ((Attackable) e.getValue()).getCurrentTarget().isEmpty())
       .forEach(e -> {
@@ -95,6 +96,7 @@ public class BotGameController extends GameController {
                 e.getKey().setDraggable(false);
                 e.getValue().setPosition(e.getKey().getCenter());
               } else if (e.getValue().getCost() <= super.getPlayerCurrentElixir()) {
+                card.add(e.getValue());
                 super.deployPlayerCard(e.getValue());
                 e.getKey().setDraggable(false);
                 e.getValue().setPosition(e.getKey().getCenter());
@@ -111,7 +113,10 @@ public class BotGameController extends GameController {
           }
         } 
       });
-    final var elements = new ArrayList<CardActor>();
+    if (!card.isEmpty()) {
+    card.forEach(e ->  super.deployPlayerActor(e));
+    }
+    final var actor = new ArrayList<CardActor>();
     cardActors.entrySet().stream()
       .filter(e -> ((Attackable) e.getValue()).getCurrentTarget().isPresent())
       .forEach(e -> {
@@ -120,12 +125,24 @@ public class BotGameController extends GameController {
     cardActors.entrySet().stream()
     .forEach(e -> {
       if (((Attackable) e.getValue()).isDead()) {
-        elements.add(e.getKey());
+        actor.add(e.getKey());
       }
     });
-    if (!elements.isEmpty()) {
-    super.updateCardsMap(elements);
+    if (!actor.isEmpty()) {
+    super.updateCardsMap(actor);
     }
+  }
+  private void placeBotActor() {
+    Vector2 v = new Vector2(350, 550);
+    this.botCardsMap.entrySet().stream().forEach(e -> {
+      if (super.getGameMap().containsPosition(v) && e.getKey().isDraggable() && e.getValue().getOwner() instanceof Bot
+          && e.getValue().getCost() <= botElixir.getElixirCount()) {
+        this.deployBotCard(e.getValue());
+        e.getKey().setDraggable(false);
+        e.getValue().setPosition(v);
+        e.getKey().setPosition(v.x, v.y);
+      }
+    });
   }
 
   private void deployBotCard(final Card card) {
@@ -139,6 +156,7 @@ public class BotGameController extends GameController {
 
   @Override
   protected void onUpdateActors() {
+    this.placeBotActor();
     this.updateActorPositions(super.getPlayerActorsMap(), this.getBotAttackables());
     this.updateActorPositions(this.botCardsMap, super.getUserAttackables());
   }
