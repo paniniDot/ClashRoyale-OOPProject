@@ -34,6 +34,7 @@ public class Deck {
     this.deckMap.put("Barbarian", Barbarian.create(GlobalData.USER, new Vector2(100, 100)));
     this.deckMap.put("Giant", Giant.create(GlobalData.USER, new Vector2(200, 100)));
     this.cardsMap = new HashMap<>();
+    this.cardsMap.put("Giants", Giant.create(GlobalData.USER, new Vector2(200, 100)));
     this.deckMap.put("InfernoTower", InfernoTower.create(GlobalData.USER, new Vector2(300, 100)));
     this.deckMap.put("Wizard", Wizard.create(GlobalData.USER, new Vector2(400, 100))); 
   }
@@ -42,33 +43,15 @@ public class Deck {
    * 
    * @return getDeckMap
    */
-  public Map<String, Card> getDeckSet() {
+  public Map<String, Card> getDeck() {
     return deckMap;
-  }
-  /**
-   * 
-   * @return
-   */
-  public List<String> namesCardsDeck() {
-    return deckMap.entrySet().stream()
-        .flatMap(e -> Stream.of(e.getKey()))
-        .collect(Collectors.toList());
-  }
-  /**
-   * 
-   * @return
-   */
-  public List<String> namesCardsCard() {
-    return cardsMap.entrySet().stream()
-        .flatMap(e -> Stream.of(e.getKey()))
-        .collect(Collectors.toList());
   }
 
   /**
    * 
    * @return getCardsMap
    */
-  public Map<String,Card> getCardsSet() {
+  public Map<String,Card> getCards() {
     return cardsMap;
   }
 
@@ -78,8 +61,8 @@ public class Deck {
    * @return deckMap
    */
   public Map<String, Card> addDeck(final String select) {
-    final Card c = (Card) cardsMap.get(select);
-    this.deckMap.put(select, c);
+    
+    deckMap.put(select, cardsMap.get(select));
     return deckMap;
   }
   /**
@@ -87,9 +70,8 @@ public class Deck {
    * @param select
    * @return cardsMap
    */
-  public Map<String, Card> addCardSet(final String select) {
-    final Card c = (Card) deckMap.get(select);
-    this.deckMap.put(select, c);
+  public Map<String, Card> addCard(final String select) {
+    cardsMap.put(select, deckMap.get(select));
     return cardsMap;
   }
   /**
@@ -97,7 +79,7 @@ public class Deck {
    * @param select
    * @return cardsMap
    */
-  public Map<String, Card> removeCardSet(final String select) {
+  public Map<String, Card> removeCard(final String select) {
     cardsMap.remove(select);
     return cardsMap;
   }
@@ -108,17 +90,39 @@ public class Deck {
    * @return deckMap
    */
   public Map<String, Card> removeDeckCard(final String select) {
+    System.out.println(deckMap);
     deckMap.remove(select);
+    System.out.println("rimossa" + select + deckMap);
     return deckMap;
   }
 
   /**
    * 
-   * @return
+   * @return List<Card> from map
    */
   public List<Card> cardList() {
     return deckMap.entrySet().stream()
         .map(e -> e.getValue())
         .collect(Collectors.toList());
   }
+  
+  /**
+   * 
+   * @return List<String> from key deckmap
+   */
+  public List<String> namesCardsDeck() {
+    return deckMap.entrySet().stream()
+        .map(e -> e.getKey())
+        .collect(Collectors.toList());
+  }
+  /**
+   * 
+   * @return List<String> from key cardsmap
+   */
+  public List<String> namesCardsCard() {
+    return cardsMap.entrySet().stream()
+        .map(e -> e.getKey())
+        .collect(Collectors.toList());
+  }
+  
 }

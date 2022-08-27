@@ -60,8 +60,8 @@ public class DeckScreen extends BaseScreen {
     Gdx.input.setInputProcessor(super.getUiStage());
     this.atlas = new TextureAtlas("buttons/atlas.pack");
     this.skin = new Skin(Gdx.files.internal("buttons/menuSkin.json"), atlas);
-    this.cards = this.deckController.setCards();
-    this.deck = this.deckController.setDeck();
+    this.cards = this.deckController.listGDXCard();
+    this.deck = this.deckController.listGDXDeck();
 
     table = new Table(skin);
     table.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -80,8 +80,8 @@ public class DeckScreen extends BaseScreen {
       public void clicked(final InputEvent event, final float x, final float y) {
         if (deckController.full()) {
         final String select = cards.getSelected();
-        deckController.removeCard(select);
         deckController.addDeck(select);
+        deckController.removeCard(select);
         }
       }
     });
@@ -93,8 +93,9 @@ public class DeckScreen extends BaseScreen {
       public void clicked(final InputEvent event, final float x, final float y) {
         if (deckController.empty()) {
         final String select = deck.getSelected();
-        deckController.removeDeckCard(select);
         deckController.addCard(select);
+        deckController.removeDeckCard(select);
+
         }
       }
     });

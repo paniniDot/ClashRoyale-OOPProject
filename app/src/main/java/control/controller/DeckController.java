@@ -56,7 +56,7 @@ public class DeckController extends Controller {
    * 
    * @return the List of cards.
    */
-  public List<String> setCards() {
+  public List<String> listGDXCard() {
     this.cards.setItems(GlobalData.DECK.namesCardsCard().toArray());
     return cards;
   }
@@ -66,7 +66,7 @@ public class DeckController extends Controller {
    * 
    * @return the List of deck.
    */
-  public List<String> setDeck() {
+  public List<String> listGDXDeck() {
     this.decklist.setItems(GlobalData.DECK.namesCardsDeck().toArray());
     return decklist;
   }
@@ -80,7 +80,7 @@ public class DeckController extends Controller {
    */
   public List<String> addDeck(final String select) {
     GlobalData.DECK.addDeck(select);
-      return setDeck();
+      return listGDXDeck();
     }
 
   /**
@@ -91,8 +91,8 @@ public class DeckController extends Controller {
    * @return the list of cards updated.
    */
   public List<String> addCard(final String select) {
-    GlobalData.DECK.addCardSet(select);
-      return setCards();
+    GlobalData.DECK.addCard(select);
+      return listGDXCard();
     }
 
   /**
@@ -103,8 +103,8 @@ public class DeckController extends Controller {
    * @return the list of cards updated. 
    */
   public List<String> removeCard(final String card) {
-    GlobalData.DECK.removeCardSet(card);
-    return setCards();
+    GlobalData.DECK.removeCard(card);
+    return listGDXCard();
   }
 
   /**
@@ -116,7 +116,8 @@ public class DeckController extends Controller {
    */
   public List<String> removeDeckCard(final String card) {
     GlobalData.DECK.removeDeckCard(card);
-    return setDeck();
+    System.out.println(GlobalData.DECK.getDeck());
+    return listGDXDeck();
   }
 
   /**
@@ -125,7 +126,7 @@ public class DeckController extends Controller {
    * @return true if the deck has 4 cards.
    */
   public boolean full() {
-    if (GlobalData.DECK.getDeckSet().size() < DIMDECK) {
+    if (GlobalData.DECK.getDeck().size() < DIMDECK) {
       return true;
     }
     JOptionPane.showMessageDialog(frame, "DECK PIENO(MAX 4 CARTE), RIMUOVERE PRIMA UNA CARTA");
@@ -138,7 +139,7 @@ public class DeckController extends Controller {
    *   @return true if the deck is empty.
    */
   public boolean empty() {
-    if (!GlobalData.DECK.getDeckSet().isEmpty()) {
+    if (!GlobalData.DECK.getDeck().isEmpty()) {
       return true;
     }
     JOptionPane.showMessageDialog(frame, "DECK VUOTO");
@@ -149,7 +150,7 @@ public class DeckController extends Controller {
    * Check if the deck has 4 cards, than save the deck and return to the menu. 
    */
   public void returnButton() {
-    if (GlobalData.DECK.getDeckSet().size() == DIMDECK) {
+    if (GlobalData.DECK.getDeck().size() == DIMDECK) {
 
       triggerMenu();
     } else {

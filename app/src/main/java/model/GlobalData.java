@@ -34,7 +34,7 @@ public class GlobalData {
   /**
    * Provides a user instance.
    */
-  public static final Deck DECK = new Deck();
+  public static Deck DECK = new Deck();
 
 
   /**
