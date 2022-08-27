@@ -80,6 +80,10 @@ public class DeckController extends Controller {
    */
   public List<String> addDeck(final String select) {
     GlobalData.DECK.addDeck(select);
+    GlobalData.DECK.getDeck().get(select).setPosition(GlobalData.DECK.newPositionFree());
+    System.out.println("posizione libere:" +  GlobalData.DECK.getPositionFree() );
+
+
       return listGDXDeck();
     }
 
@@ -109,14 +113,15 @@ public class DeckController extends Controller {
 
   /**
    * Remove card in DeckScreen and add in CardList.
-   * 
+   * Aggiunge la posizione della carta tolta dal deck tra le posizioni libere
    * @param card the card to remove.
    * 
    * @return the deckList updated.
    */
   public List<String> removeDeckCard(final String card) {
+    GlobalData.DECK.getPositionFree().add(GlobalData.DECK.getDeck().get(card).getPosition());
     GlobalData.DECK.removeDeckCard(card);
-    System.out.println(GlobalData.DECK.getDeck());
+    System.out.println("posizione libere:" +  GlobalData.DECK.getPositionFree() );
     return listGDXDeck();
   }
 

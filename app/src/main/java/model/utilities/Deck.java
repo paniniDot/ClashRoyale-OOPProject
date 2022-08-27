@@ -1,8 +1,11 @@
 package model.utilities;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -25,6 +28,7 @@ public class Deck {
 
   private final Map<String, Card> deckMap;
   private final Map<String, Card> cardsMap;
+  private final Set<Vector2> positionFree;
 
   /**
    * initialize basic cards and decks.
@@ -33,10 +37,13 @@ public class Deck {
     this.deckMap = new HashMap<>();
     this.deckMap.put("Barbarian", Barbarian.create(GlobalData.USER, new Vector2(100, 100)));
     this.deckMap.put("Giant", Giant.create(GlobalData.USER, new Vector2(200, 100)));
-    this.cardsMap = new HashMap<>();
-    this.cardsMap.put("Giants", Giant.create(GlobalData.USER, new Vector2(200, 100)));
     this.deckMap.put("InfernoTower", InfernoTower.create(GlobalData.USER, new Vector2(300, 100)));
     this.deckMap.put("Wizard", Wizard.create(GlobalData.USER, new Vector2(400, 100))); 
+
+    this.cardsMap = new HashMap<>();
+    this.cardsMap.put("Giants", Giant.create(GlobalData.USER, new Vector2(500, 100)));
+    this.positionFree = new HashSet();
+    
   }
 
   /**
@@ -51,8 +58,30 @@ public class Deck {
    * 
    * @return getCardsMap
    */
-  public Map<String,Card> getCards() {
+  public Map<String, Card> getCards() {
     return cardsMap;
+  }
+  
+  
+  /**
+   * 
+   * @return positionFree
+   */
+  public Set<Vector2> getPositionFree() {
+    return positionFree;
+  }
+  
+  /**
+   * 
+   * @return
+   */
+  public Vector2 newPositionFree() {
+    Iterator<Vector2> i = getPositionFree().iterator();
+    Vector2 tmp  =  i.next();
+    i.remove();
+    getPositionFree().remove(tmp);
+    System.out.println("posizione assegnata " +tmp );
+    return tmp;
   }
 
   /**
@@ -61,7 +90,6 @@ public class Deck {
    * @return deckMap
    */
   public Map<String, Card> addDeck(final String select) {
-    
     deckMap.put(select, cardsMap.get(select));
     return deckMap;
   }
@@ -90,9 +118,7 @@ public class Deck {
    * @return deckMap
    */
   public Map<String, Card> removeDeckCard(final String select) {
-    System.out.println(deckMap);
     deckMap.remove(select);
-    System.out.println("rimossa" + select + deckMap);
     return deckMap;
   }
 
