@@ -3,22 +3,32 @@ package control.controller.game;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import control.BaseGame;
 import control.controller.Controller;
 import control.controller.MenuController;
+import model.GlobalData;
 import model.actors.Attackable;
 import model.actors.cards.Card;
+import model.actors.cards.troops.Troop;
 import model.actors.towers.Tower;
+import model.actors.users.Bot;
+import model.actors.users.User;
 import model.utilities.AnimationUtilities;
 import model.utilities.ingame.GameModel;
 import model.utilities.ingame.GameMap;
 import view.actors.CardActor;
 import view.actors.TowerActor;
 import view.screens.GameScreen;
+import model.utilities.Deck;
+import model.utilities.PositionInGameDeck;
 
 /**
  * Abstract Controller for the game screen.
@@ -267,6 +277,18 @@ public abstract class GameController extends Controller {
     this.playerElixir.decrementElixir(card.getCost());
   }
 
+  protected void deployPlayerActor(final Card card) {
+    if (card.getOwner() instanceof User) {
+    CardActor c = null;
+    for (Entry<CardActor, Card> entry : this.getPlayerActorsMap().entrySet()) {
+      if (entry.getValue().equals(card)) {
+        c = entry.getKey();
+      }
+    }
+    this.getPlayerActorsMap().put(new CardActor(card.getSelfId(), c.getOrigin().x, c.getOrigin().y, c.getStage(), AnimationUtilities.loadAnimationFromFiles(card.getAnimationFiles().get("AS_CARD"), ANIMATIONS_FRAME_DURATION, true)), card.createAnother(new Vector2(c.getOrigin().x, c.getOrigin().y), GlobalData.USER));
+    }
+  }
+
   /**
    * Template method implemented by subclasses to update actor positions.
    */
@@ -303,7 +325,7 @@ public abstract class GameController extends Controller {
     elements.stream()
       .peek(Actor::remove)
       .forEach(e -> this.playerCardsMap.remove(e));
-    System.out.println(playerCardsMap);
+    //System.out.println(playerCardsMap);
   }
 }
 
