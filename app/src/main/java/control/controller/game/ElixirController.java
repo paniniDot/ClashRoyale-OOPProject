@@ -24,9 +24,6 @@ public class ElixirController {
         //System.out.println(elixir);
         if (elixir < 10 && run) {
           elixir++;
-        } else {
-          timer.cancel();
-          timer.purge();
         }
       }
     };
