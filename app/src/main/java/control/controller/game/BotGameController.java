@@ -14,7 +14,6 @@ import model.actors.Attackable;
 import model.actors.cards.Card;
 import model.actors.towers.Tower;
 import model.actors.users.Bot;
-import model.utilities.ScoreController;
 import model.utilities.ingame.BotGameModel;
 import view.actors.CardActor;
 import view.actors.TowerActor;
@@ -26,7 +25,6 @@ import view.actors.TowerActor;
 public class BotGameController extends GameController {
 
   private final ElixirController botElixir;
-  private final ScoreController botScore;
   private Map<CardActor, Card> botCardsMap;
   private Map<TowerActor, Tower> botTowersMap;
 
@@ -36,7 +34,6 @@ public class BotGameController extends GameController {
   public BotGameController() { 
     super(new BotGameModel(GlobalData.DECK.cardList(), GlobalData.BOT_DECK, GlobalData.USER, GlobalData.BOT));
     this.botElixir = new ElixirController();
-    this.botScore = new ScoreController();
     this.botCardsMap = new HashMap<>();
     this.botTowersMap = new HashMap<>();
   }
@@ -150,7 +147,7 @@ public class BotGameController extends GameController {
    * 
    * @return the current towers destroyed by the user.
    */
-  public int getBotScore() {
-    return this.botScore.getScore();
+  public long getPlayerScore() {
+    return botTowersMap.entrySet().stream().filter(e -> e.getValue().isDead()).count();
   }
 }

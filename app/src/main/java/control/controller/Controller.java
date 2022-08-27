@@ -88,8 +88,8 @@ public abstract class Controller {
  * @param user
  */
   public void saveUser(final User user) {
-    final FileWriter writer;
     try {
+      final FileWriter writer;
       writer = new FileWriter(SaveController.FILEUSER.file());
       SaveController.GSON.toJson(user, writer);
       writer.close();

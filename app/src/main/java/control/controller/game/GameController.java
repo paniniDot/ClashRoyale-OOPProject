@@ -1,6 +1,5 @@
 package control.controller.game;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +14,6 @@ import model.actors.Attackable;
 import model.actors.cards.Card;
 import model.actors.towers.Tower;
 import model.utilities.AnimationUtilities;
-import model.utilities.ScoreController;
 import model.utilities.ingame.GameModel;
 import model.utilities.ingame.GameMap;
 import view.actors.CardActor;
@@ -31,7 +29,6 @@ public abstract class GameController extends Controller {
 
   private final ElixirController playerElixir;
   private final CountDownController timer;
-  private final ScoreController playerScore;
   private Map<CardActor, Card> playerCardsMap;
   private Map<TowerActor, Tower> playerTowersMap;
   private final GameMap gameMap;
@@ -46,7 +43,6 @@ public abstract class GameController extends Controller {
     super(AudioController.getBattleMusic());
     this.playerElixir = new ElixirController();
     this.timer = new CountDownController();
-    this.playerScore = new ScoreController();
     this.playerCardsMap = new HashMap<>();
     this.playerTowersMap = new HashMap<>();
     this.gameMap = new GameMap();
@@ -294,8 +290,8 @@ public abstract class GameController extends Controller {
    * 
    * @return the current towers destroyed by the user.
    */
-  public int getPlayerScore() {
-    return this.playerScore.getScore();
+  public long getBotScore() {
+    return playerTowersMap.entrySet().stream().filter(e -> e.getValue().isDead()).count();
   }
 
   /**
