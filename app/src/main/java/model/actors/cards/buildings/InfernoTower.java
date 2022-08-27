@@ -20,7 +20,7 @@ public final class InfernoTower extends Building {
    * Elixir cost of the card.
    */
   public static final int ELIXIR_COST = 3;
-  private static final int RANGE = 3;
+  private static final int RANGE = 30;
 
   private final List<Attackable> targets;
 
@@ -58,12 +58,12 @@ public final class InfernoTower extends Building {
    */
   public static Building create(final User user, final Vector2 position) {
     switch (user.getCurrentLevel()) {
-      case LVL1: return new InfernoTower(user, position, 800, 210);
-      case LVL2: return new InfernoTower(user, position, 880, 231);
-      case LVL3: return new InfernoTower(user, position, 968, 254);
-      case LVL4: return new InfernoTower(user, position, 1064, 279);
-      case LVL5: return new InfernoTower(user, position, 1168, 307);
-      default:   return new InfernoTower(user, position, 800, 210);
+      case LVL1: return new InfernoTower(user, position, 200 * 60, 100);
+      case LVL2: return new InfernoTower(user, position, 200 * 60, 100);
+      case LVL3: return new InfernoTower(user, position, 200 * 60, 100);
+      case LVL4: return new InfernoTower(user, position, 200 * 60, 100);
+      case LVL5: return new InfernoTower(user, position, 200 * 60, 100);
+      default:   return new InfernoTower(user, position, 200 * 60, 100);
       }
   }
 

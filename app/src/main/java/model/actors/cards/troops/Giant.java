@@ -18,7 +18,7 @@ public final class Giant extends Troop {
    * Elixir cost of the card.
    */
   public static final int ELIXIR_COST = 5;
-  private static final int RANGE = 1;
+  private static final int RANGE = 30;
 
   private Giant(final User owner, final Vector2 position, final double maxHP, final double damage) {
     super(Giant.ELIXIR_COST, position, owner, maxHP, damage, Speeds.SLOW, Giant.RANGE);

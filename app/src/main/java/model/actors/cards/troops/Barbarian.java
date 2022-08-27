@@ -18,7 +18,7 @@ public final class Barbarian extends Troop {
    * Elixir cost of the card.
    */
   public static final int ELIXIR_COST = 5;
-  private static final int RANGE = 1;
+  private static final int RANGE = 30;
 
   private Barbarian(final User owner, final Vector2 position, final double maxHP, final double damage) {
     super(Barbarian.ELIXIR_COST, position, owner, maxHP, damage, Speeds.MEDIUM, Barbarian.RANGE);

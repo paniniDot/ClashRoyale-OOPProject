@@ -13,7 +13,7 @@ import model.actors.users.User;
  */
 public final class KingTower extends Tower {
 
-  private static final double RANGE = 150;
+  private static final double RANGE = 100;
 
   private KingTower(final Vector2 position, final User owner, final double damage, final double hp) {
     super(position, owner, RANGE, false, damage, hp, Speeds.SLOW);

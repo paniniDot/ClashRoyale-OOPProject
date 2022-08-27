@@ -20,7 +20,7 @@ public final class Wizard extends Troop {
    * Elixir cost of the card.
    */
   public static final int ELIXIR_COST = 5;
-  private static final double RANGE = 80;
+  private static final double RANGE = 100;
 
   private Wizard(final User owner, final Vector2 position, final double maxHP, final double damage) {
     super(Wizard.ELIXIR_COST, position, owner, maxHP, damage, Speeds.MEDIUM, Wizard.RANGE);
@@ -38,10 +38,10 @@ public final class Wizard extends Troop {
   public static Troop create(final User user, final Vector2 position) {
     switch (user.getCurrentLevel()) {
         case LVL1: return new Wizard(user, position, 200 * 60, 100);
-        case LVL2: return new Wizard(user, position, 300 * 60, 200);
-        case LVL3: return new Wizard(user, position, 400 * 60, 300);
-        case LVL4: return new Wizard(user, position, 500 * 60, 400);
-        case LVL5: return new Wizard(user, position, 600 * 60, 500);
+        case LVL2: return new Wizard(user, position, 200 * 60, 100);
+        case LVL3: return new Wizard(user, position, 200 * 60, 100);
+        case LVL4: return new Wizard(user, position, 200 * 60, 100);
+        case LVL5: return new Wizard(user, position, 200 * 60, 100);
         default: return new Wizard(user, position, 200 * 60, 100);
         }
   }
