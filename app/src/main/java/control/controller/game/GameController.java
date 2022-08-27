@@ -1,5 +1,6 @@
 package control.controller.game;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -227,15 +228,26 @@ public abstract class GameController extends Controller {
    * @param fighting
    *                    the name of files used for fighting animation.
    */
-  protected void updateTowerAnimations(final Map<TowerActor, Tower> playerTowersMap, final String standing, final String fighting) {
+  protected void updateTowerAnimations(final Map<TowerActor, Tower> playerTowersMap, final String standing) {
     playerTowersMap.entrySet()
     .stream()
-    .forEach(e -> e.getKey().setAnimation(AnimationUtilities.loadAnimationFromFiles(e.getValue().getAnimationFiles().get(e.getValue().getCurrentTarget().isPresent() ? standing : fighting), ANIMATIONS_FRAME_DURATION, true)));
+    .forEach(e -> {
+      if (((Attackable) e.getValue()).isDead()) {
+      e.getKey().setAngle(0);
+      e.getKey().setAnimation(AnimationUtilities.loadAnimationFromFiles(e.getValue().getAnimationFiles().get("DESTROYED"), ANIMATIONS_FRAME_DURATION, true));
+      } else if (((Attackable) e.getValue()).getCurrentTarget().isPresent()) {
+      e.getKey().setRotation(e.getValue().getCurrentTarget().get().getPosition());
+      e.getKey().setAnimation(AnimationUtilities.loadAnimationFromFiles(e.getValue().getAnimationFiles().get("FIGHTING"), ANIMATIONS_FRAME_DURATION, true));
+      } else {
+      e.getKey().setAngle(0);
+      e.getKey().setAnimation(AnimationUtilities.loadAnimationFromFiles(e.getValue().getAnimationFiles().get(standing), ANIMATIONS_FRAME_DURATION, true));
+      }
+      });
   }
 
   private void updateActorAnimations() {
     this.updateCardAnimations(this.playerCardsMap, "SELF_MOVING", "SELF_FIGHTING");
-    this.updateTowerAnimations(this.playerTowersMap, "SELF", "SELF");
+    this.updateTowerAnimations(this.playerTowersMap, "SELF");
     this.onUpdateActorAnimations();
   }
 

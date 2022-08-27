@@ -43,6 +43,8 @@ public final class QueenTower extends Tower {
   public Map<String, List<String>> getAnimationFiles() {
     return Map.of(
         "SELF", List.of("towers/self/queen_tower.png"),
-        "ENEMY", List.of("towers/enemy/queen_tower.png"));
+        "ENEMY", List.of("towers/enemy/queen_tower.png"),
+        "DESTROYED", List.of("towers/destroyed/destroyed.png"),
+        "FIGHTING", List.of("towers/fighting/0.png", "towers/fighting/1.png", "towers/fighting/2.png", "towers/fighting/3.png"));
   }
 }

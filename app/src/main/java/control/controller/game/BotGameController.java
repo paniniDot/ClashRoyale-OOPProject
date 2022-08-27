@@ -79,7 +79,7 @@ public class BotGameController extends GameController {
   @Override
   protected void onUpdateActorAnimations() {
     super.updateCardAnimations(this.botCardsMap, "ENEMY_MOVING", "ENEMY_FIGHTING");
-    super.updateTowerAnimations(this.botTowersMap, "ENEMY", "ENEMY");
+    super.updateTowerAnimations(this.botTowersMap, "ENEMY");
   }
 
   private void updateAttackablePosition(final Attackable attackable, final List<Attackable> enemies) {
