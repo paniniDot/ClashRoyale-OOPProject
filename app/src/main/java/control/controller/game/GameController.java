@@ -4,13 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import control.BaseGame;
 import control.controller.Controller;
 import control.controller.MenuController;
-import model.GlobalData;
 import model.actors.Attackable;
 import model.actors.cards.Card;
 import model.actors.towers.Tower;
@@ -121,7 +119,7 @@ public abstract class GameController extends Controller {
   protected final Map<CardActor, Card> loadCardActorsFrom(final List<Card> list, final Stage stage, final String animationName) {
     final var actors = new HashMap<CardActor, Card>();
     list.forEach(c -> {
-      final var actor = new CardActor(c.getSelfId(), c.getPosition().x, c.getPosition().y, stage, AnimationUtilities.loadAnimationFromFiles(c.getAnimationFiles().get(animationName), ANIMATIONS_FRAME_DURATION, true));
+      final var actor = new CardActor(c.getPosition().x, c.getPosition().y, stage, AnimationUtilities.loadAnimationFromFiles(c.getAnimationFiles().get(animationName), ANIMATIONS_FRAME_DURATION, true));
       actors.put(actor, c);
     });
     return actors;
@@ -156,7 +154,7 @@ public abstract class GameController extends Controller {
   protected final Map<TowerActor, Tower> loadTowerActorsFrom(final List<Tower> list, final Stage stage, final String animationName) {
     final var towers = new HashMap<TowerActor, Tower>();
     list.forEach(t -> {
-      final var actor = new TowerActor(t.getSelfId(), t.getPosition().x, t.getPosition().y, stage, AnimationUtilities.loadAnimationFromFiles(t.getAnimationFiles().get(animationName), ANIMATIONS_FRAME_DURATION, true));
+      final var actor = new TowerActor(t.getPosition().x, t.getPosition().y, stage, AnimationUtilities.loadAnimationFromFiles(t.getAnimationFiles().get(animationName), ANIMATIONS_FRAME_DURATION, true));
       actor.setPosition(actor.getPosition().x, actor.getPosition().y);
       towers.put(actor, t);
     });
@@ -264,11 +262,16 @@ public abstract class GameController extends Controller {
       for (final Entry<CardActor, Card> entry : this.getPlayerActorsMap().entrySet()) {
         if (entry.getValue().equals(card)) {
           c = entry.getKey();
+          this.deployPlayerCard(card);
         }
       }
-      this.getPlayerActorsMap().put(
-          new CardActor(card.getSelfId(), c.getOrigin().x, c.getOrigin().y, c.getStage(), AnimationUtilities.loadAnimationFromFiles(card.getAnimationFiles().get("AS_CARD"), ANIMATIONS_FRAME_DURATION, true)),
-          card.createAnother(new Vector2(c.getOrigin().x, c.getOrigin().y), GlobalData.USER));
+      final var nextCard = ((GameModel) super.getModel()).getPlayerNextQueuedCard(c.getOrigin());
+      if (nextCard.isPresent()) {
+        this.getPlayerActorsMap().put(
+            new CardActor(c.getOrigin().x, c.getOrigin().y, c.getStage(), AnimationUtilities.loadAnimationFromFiles(card.getAnimationFiles().get("AS_CARD"), ANIMATIONS_FRAME_DURATION, true)),
+            nextCard.get());
+
+      }
     });
   }
 
