@@ -24,7 +24,10 @@ public class ElixirController {
         //System.out.println(elixir);
         if (elixir < 10 && run) {
           elixir++;
-        }
+        } else if (!run) {
+          timer.cancel();
+          timer.purge();
+       }
       }
     };
     this.timer.schedule(task, 0, 1000);
