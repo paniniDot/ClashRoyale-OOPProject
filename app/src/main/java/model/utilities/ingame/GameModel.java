@@ -3,6 +3,7 @@ package model.utilities.ingame;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -99,11 +100,25 @@ public abstract class GameModel extends Model {
    */
   public void deployPlayerCard(final Card card) {
     if (this.playerChoosableCards.contains(card)) {
-      System.out.println("Carta user piazata");
       this.playerChoosableCards.remove(card);
-      this.playerDeployedCards.add(card);
       this.playerCardQueue.add(card);
+      this.playerDeployedCards.add(card);
     }
+  }
+
+  /**
+   * @param origin 
+                  the start position of the new card.
+   * @return an {@link Optional} of the first card entered in the queue.
+   * 
+   */
+  public Optional<Card> getPlayerNextQueuedCard(final Vector2 origin) {
+    if (this.playerCardQueue.isEmpty()) {
+      return Optional.empty();
+    }
+    final var nextCard = this.playerCardQueue.remove(0).createAnother(origin);
+    this.playerChoosableCards.add(nextCard);
+    return Optional.of(nextCard);
   }
 
   /**
@@ -178,7 +193,6 @@ public abstract class GameModel extends Model {
    * @return a list of attackable elements of the player.
    */
   public List<Attackable> getPlayerAttackable() {
-    /* ricorda di sostituire con playerDeployedCards */
     return Stream.concat(this.playerDeployedCards.stream().map(c -> (Attackable) c), this.playerActiveTowers.stream().map(t -> (Attackable) t)).collect(Collectors.toList());
   }
 

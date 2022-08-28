@@ -3,6 +3,7 @@ package model.utilities.ingame;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -66,6 +67,14 @@ public class BotGameModel extends GameModel {
 
   /**
    * 
+   * @return the queued cards of the bot.
+   */
+  public List<Card> getPBotCardQueue() {
+    return Collections.unmodifiableList(this.botCardQueue);
+  }
+
+  /**
+   * 
    * @return a list of bot currently deployed cards.
    */
   public List<Card> getBotDeployedCards() {
@@ -88,9 +97,24 @@ public class BotGameModel extends GameModel {
   public void deployBotCard(final Card card) {
     if (this.botChoosableCards.contains(card)) {
       this.botChoosableCards.remove(card);
+      this.botCardQueue.add(card);
       this.botDeployedCards.add(card);
-      this.botCards.add(card);
     }
+  }
+
+  /**
+   * @param origin 
+                  the start position of the new card.
+   * @return an {@link Optional} of the first card entered in the queue.
+   * 
+   */
+  public Optional<Card> getBotNextQueuedCard(final Vector2 origin) {
+    if (this.botCardQueue.isEmpty()) {
+      return Optional.empty();
+    }
+    final var nextCard = this.botCardQueue.remove(0).createAnother(origin);
+    this.botChoosableCards.add(nextCard);
+    return Optional.of(nextCard);
   }
 
   /**
@@ -129,7 +153,6 @@ public class BotGameModel extends GameModel {
    * @return a list of attackable elements of the bot.
    */
   public List<Attackable> getBotAttackable() {
-    /* ricorda di sostituire con botDeployedCards */
     return Stream.concat(this.botDeployedCards.stream().map(c -> (Attackable) c), this.botActiveTowers.stream().map(t -> (Attackable) t)).collect(Collectors.toList());
   }
 
