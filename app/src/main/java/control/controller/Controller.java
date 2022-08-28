@@ -1,9 +1,5 @@
 package control.controller;
 
-
-import java.io.FileWriter;
-import java.io.IOException;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
