@@ -14,6 +14,7 @@ import model.actors.Attackable;
 import model.actors.cards.Card;
 import model.actors.towers.Tower;
 import model.actors.users.Bot;
+import model.actors.users.User;
 import model.utilities.ingame.BotGameModel;
 import view.actors.CardActor;
 import view.actors.TowerActor;
@@ -31,14 +32,14 @@ public class BotGameController extends GameController {
   /**
    * Constructor.
    */
-  public BotGameController() { 
+  public BotGameController() {
     super(new BotGameModel(GlobalData.DECK.cardList(), GlobalData.BOT_DECK, GlobalData.USER, GlobalData.BOT));
     this.botElixir = new ElixirController();
     this.botCardsMap = new HashMap<>();
     this.botTowersMap = new HashMap<>();
   }
 
-  @Override 
+  @Override
   protected boolean checkEnemyLose() {
     return ((BotGameModel) super.getModel()).getBotActiveTowers().size() == 0;
   }
@@ -49,7 +50,7 @@ public class BotGameController extends GameController {
   }
 
   /**
-   *@return the current elixir owned by the bot.
+   * @return the current elixir owned by the bot.
    */
   public int getBotCurrentElixir() {
     return this.botElixir.getElixirCount();
@@ -85,58 +86,43 @@ public class BotGameController extends GameController {
 
   private void updateActorPositions(final Map<CardActor, Card> cardActors, final List<Attackable> enemyAttackables) {
     final var card = new ArrayList<Card>();
-    cardActors.entrySet().stream()
-      .filter(e -> ((Attackable) e.getValue()).getCurrentTarget().isEmpty())
-      .forEach(e -> {
+    final var actor = new ArrayList<CardActor>();
+    cardActors.entrySet().stream().forEach(e -> {
+      if (e.getKey().isDraggable()) {
         if (!Gdx.input.isTouched()) {
-          if (super.getGameMap().containsPosition(e.getKey().getCenter())) {
-            if (e.getKey().isDraggable()) { //Carta non schierata
-              if (e.getValue().getOwner() instanceof Bot && e.getValue().getCost() <= botElixir.getElixirCount()) {
-                this.deployBotCard(e.getValue());
-                e.getKey().setDraggable(false);
-                e.getValue().setPosition(e.getKey().getCenter());
-              } else if (e.getValue().getCost() <= super.getPlayerCurrentElixir()) {
-                card.add(e.getValue());
-                super.deployPlayerCard(e.getValue());
-                e.getKey().setDraggable(false);
-                e.getValue().setPosition(e.getKey().getCenter());
-              } else {
-                e.getKey().setPosition(e.getKey().getOrigin().x, e.getKey().getOrigin().y);
-              }
-            } else if (this.castedToIntPosition(e.getKey().getCenter()).equals(this.castedToIntPosition(e.getValue().getPosition()))) {
-              this.updateAttackablePosition((Attackable) e.getValue(), enemyAttackables);
-              e.getKey().setRotation(e.getValue().getPosition());
-              e.getKey().moveTo(e.getValue().getPosition());
-            }
+          if (e.getValue().getOwner() instanceof User && e.getValue().getCost() <= super.getPlayerCurrentElixir() && super.getGameMap().containsPosition(e.getKey().getCenter())) {
+            card.add(e.getValue());
+            super.deployPlayerCard(e.getValue());
+            e.getKey().setDraggable(false);
+            e.getValue().setPosition(e.getKey().getCenter());
           } else {
             e.getKey().setPosition(e.getKey().getOrigin().x, e.getKey().getOrigin().y);
           }
-        } 
-      });
-    if (!card.isEmpty()) {
-    card.forEach(e ->  super.deployPlayerActor(e));
-    }
-    final var actor = new ArrayList<CardActor>();
-    cardActors.entrySet().stream()
-      .filter(e -> ((Attackable) e.getValue()).getCurrentTarget().isPresent())
-      .forEach(e -> {
+        }
+      } else if (this.castedToIntPosition(e.getKey().getCenter()).equals(this.castedToIntPosition(e.getValue().getPosition()))) {
+        this.updateAttackablePosition((Attackable) e.getValue(), enemyAttackables);
+        e.getKey().setRotation(e.getValue().getPosition());
+        e.getKey().moveTo(e.getValue().getPosition());
+      }
+      if (((Attackable) e.getValue()).getCurrentTarget().isPresent()) {
         e.getKey().setRotation(((Attackable) e.getValue()).getCurrentTarget().get().getPosition());
-      });
-    cardActors.entrySet().stream()
-    .forEach(e -> {
+      }
       if (((Attackable) e.getValue()).isDead()) {
         actor.add(e.getKey());
       }
     });
+    if (!card.isEmpty()) {
+      super.deployPlayerActor(card);
+    }
     if (!actor.isEmpty()) {
-    super.updateCardsMap(actor);
+      super.updateCardsMap(actor);
     }
   }
+
   private void placeBotActor() {
-    Vector2 v = new Vector2(350, 550);
+    final Vector2 v = new Vector2(350, 550);
     this.botCardsMap.entrySet().stream().forEach(e -> {
-      if (super.getGameMap().containsPosition(v) && e.getKey().isDraggable() && e.getValue().getOwner() instanceof Bot
-          && e.getValue().getCost() <= botElixir.getElixirCount()) {
+      if (super.getGameMap().containsPosition(v) && e.getKey().isDraggable() && e.getValue().getOwner() instanceof Bot && e.getValue().getCost() <= botElixir.getElixirCount()) {
         this.deployBotCard(e.getValue());
         e.getKey().setDraggable(false);
         e.getValue().setPosition(v);
