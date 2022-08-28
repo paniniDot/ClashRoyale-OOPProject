@@ -1,19 +1,11 @@
 package control.controller;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
-import control.BaseGame;
 import control.controller.game.AudioController;
 import control.controller.game.BotGameController;
+import control.launcher.ClashRoyale;
 import model.Model;
-import model.actors.users.User;
 import view.screens.MenuScreen;
 
 /**
@@ -62,6 +54,6 @@ public class MenuController extends Controller {
 
   @Override
   public void setCurrentActiveScreen() {
-   BaseGame.setActiveScreen(new MenuScreen(this));
+   ClashRoyale.setActiveScreen(new MenuScreen(this));
   }
 }

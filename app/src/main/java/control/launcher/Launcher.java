@@ -23,6 +23,6 @@ public final class Launcher {
     config.setWindowedMode(ClashRoyale.WIDTH, ClashRoyale.HEIGHT);
     config.setResizable(false);
     config.setForegroundFPS(ClashRoyale.FPS);
-    new Lwjgl3Application(new ClashRoyale(), config);
+    new Lwjgl3Application(ClashRoyale.getIstance(), config);
   }
 }

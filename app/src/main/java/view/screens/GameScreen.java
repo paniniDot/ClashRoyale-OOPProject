@@ -42,7 +42,7 @@ public class GameScreen extends BaseScreen {
   }
 
   @Override
-  public void initialize() {
+  protected void initialize() {
     super.getController().playMusic();
     super.getController().setInputProcessor(getMainStage());
     sprite = new SpriteBatch();
@@ -54,7 +54,7 @@ public class GameScreen extends BaseScreen {
   }
 
   @Override
-  public void update(final float dt) {
+  protected void update(final float dt) {
     super.getController().update(dt);
   }
 

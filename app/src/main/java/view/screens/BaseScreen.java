@@ -53,7 +53,7 @@ public abstract class BaseScreen implements Screen {
   /**
    * Initialize all components and stages.
    */
-  public abstract void initialize();
+  protected abstract void initialize();
 
   /**
    * Update all components and stages once each dt.
@@ -61,7 +61,7 @@ public abstract class BaseScreen implements Screen {
    * @param dt
    *          delta time how often a screen have to be updated.
    */
-  public abstract void update(float dt);
+  protected abstract void update(float dt);
 
   @Override
   public void render(final float dt) {

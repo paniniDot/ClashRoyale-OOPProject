@@ -38,7 +38,7 @@ public class MenuScreen extends BaseScreen {
    }
 
   @Override
-  public void initialize() {
+  protected void initialize() {
     Table table;
     Label heading;
     TextButton buttonPlay, buttonExit, buttonLevel, buttonScore, buttonDeck, buttonStat;
@@ -127,6 +127,6 @@ public class MenuScreen extends BaseScreen {
   }
 
   @Override
-  public void update(final float dt) {
+  protected void update(final float dt) {
   }
 }

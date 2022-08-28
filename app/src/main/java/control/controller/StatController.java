@@ -1,7 +1,7 @@
 package control.controller;
 
-import control.BaseGame;
 import control.controller.game.AudioController;
+import control.launcher.ClashRoyale;
 import control.utilities.FileManager;
 import model.Model;
 import view.screens.StatScreen;
@@ -62,7 +62,7 @@ public class StatController extends Controller {
 
   @Override
   public void setCurrentActiveScreen() {
-    BaseGame.setActiveScreen(new StatScreen(this));
+    ClashRoyale.setActiveScreen(new StatScreen(this));
   }
 
   @Override
