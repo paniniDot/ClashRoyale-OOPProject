@@ -1,12 +1,14 @@
 package control.launcher;
 
-import control.BaseGame;
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Screen;
+
 import control.controller.MenuController;
 
 /**
- * Implementation of BaseGame class.
+ * Implementation of Game class.
  */
-public class ClashRoyale extends BaseGame {
+public final class ClashRoyale extends Game {
 
   /**
    * Screen default height.
@@ -28,9 +30,31 @@ public class ClashRoyale extends BaseGame {
    */
   public static final int FPS = 60;
 
+  private static final ClashRoyale GAME = new ClashRoyale();
+
+  private ClashRoyale() {
+  }
+
+  /**
+   * 
+   * @return the only one instance ever created for the game.
+   */
+  public static ClashRoyale getIstance() {
+    return GAME;
+  }
+
   @Override
   public void create() {
     new MenuController().setCurrentActiveScreen();
   }
 
+  /**
+   * Set a new screen as active.
+   * 
+   * @param screen
+   *              the new screen.
+   */
+  public static void setActiveScreen(final Screen screen) {
+    GAME.setScreen(screen);
+  }
 }
