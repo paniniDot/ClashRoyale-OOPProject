@@ -97,7 +97,7 @@ public class BotGameController extends GameController {
         } else {
           e.getKey().setPosition(e.getKey().getOrigin().x, e.getKey().getOrigin().y);
         }
-      } else if (!e.getKey().isDraggable() && this.castedToIntPosition(e.getKey().getCenter()).equals(this.castedToIntPosition(e.getValue().getPosition()))) {
+      } else if (!e.getKey().isDraggable() && this.roundedPosition(e.getKey().getCenter()).equals(this.roundedPosition(e.getValue().getPosition()))) {
         this.updateAttackablePosition((Attackable) e.getValue(), enemyAttackables);
         e.getKey().setRotation(e.getValue().getPosition());
         e.getKey().moveTo(e.getValue().getPosition());
@@ -125,6 +125,7 @@ public class BotGameController extends GameController {
         e.getKey().setDraggable(false);
         e.getValue().setPosition(v);
         e.getKey().setPosition(v.x, v.y);
+        ((BotGameModel) super.getModel()).getBotNextQueuedCard(e.getKey().getOrigin());
       }
     });
   }
@@ -134,7 +135,7 @@ public class BotGameController extends GameController {
     this.botElixir.decrementElixir(card.getCost());
   }
 
-  private Vector2 castedToIntPosition(final Vector2 pos) {
+  private Vector2 roundedPosition(final Vector2 pos) {
     return new Vector2((int) pos.x, (int) pos.y);
   }
 
