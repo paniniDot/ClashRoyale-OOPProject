@@ -6,11 +6,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import control.BaseGame;
-import model.GlobalData;
 import model.Model;
 import model.utilities.Deck;
 import control.controller.game.AudioController;
+import control.launcher.ClashRoyale;
 import view.screens.DeckScreen;
 /**
  * Controller implementation for the game screen.
@@ -49,7 +48,7 @@ public class DeckController extends Controller {
 
   @Override
   public void setCurrentActiveScreen() {
-    BaseGame.setActiveScreen(new DeckScreen(this));
+    ClashRoyale.setActiveScreen(new DeckScreen(this));
   }
 
   /**
@@ -159,5 +158,4 @@ public class DeckController extends Controller {
       JOptionPane.showMessageDialog(frame, "INSERIRE 4 CARTE NEL DECK PER POTER GIOCARE");
     }
   }
-
 }

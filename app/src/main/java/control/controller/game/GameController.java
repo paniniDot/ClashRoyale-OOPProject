@@ -6,9 +6,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import control.BaseGame;
 import control.controller.Controller;
 import control.controller.MenuController;
+import control.launcher.ClashRoyale;
 import model.actors.Attackable;
 import model.actors.cards.Card;
 import model.actors.towers.Tower;
@@ -24,6 +24,9 @@ import view.screens.GameScreen;
  */
 public abstract class GameController extends Controller {
 
+  /**
+   * How much each frame has to last during the animation.
+   */
   protected static final float ANIMATIONS_FRAME_DURATION = (float) 0.017_24 * 10;
 
   private final ElixirController playerElixir;
@@ -197,7 +200,7 @@ public abstract class GameController extends Controller {
 
   @Override
   public void setCurrentActiveScreen() {
-    BaseGame.setActiveScreen(new GameScreen(this));
+    ClashRoyale.setActiveScreen(new GameScreen(this));
   }
 
   /**
