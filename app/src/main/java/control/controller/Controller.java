@@ -88,6 +88,6 @@ public abstract class Controller {
    * @param user
    */
   public void saveUser(final User user) {
-    SaveController.getInstance().saveUser(user);
+    SaveController.saveUser(user);
   }
 }
