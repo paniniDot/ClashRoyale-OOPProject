@@ -17,15 +17,14 @@ import model.actors.users.User;
  * Class used to save and load User and Deck.
  */
 public class SaveController  {
-  private static final SaveController SAVE = new SaveController();
-  private final  Gson gson = new GsonBuilder().create();
-  private final  FileHandle fileuser = Gdx.files.internal("saves/user.json");
+  private final static  Gson gson = new GsonBuilder().create();
+  private final static  FileHandle fileuser = Gdx.files.internal("saves/user.json");
   private final User user;
 
   /**
    * Class used to load and save User and Deck.
    */
-  private SaveController() {
+  public SaveController() {
     if (!fileuser.exists()) {
       this.user = new User("P");
     } else {
@@ -48,7 +47,7 @@ public class SaveController  {
    * 
    * @return User
    */
-  public User loadUser() {
+  public static User loadUser() {
     if (!fileuser.exists()) {
       User u = new User("P");
       return u;
@@ -65,7 +64,7 @@ public class SaveController  {
    * save user in file json.
    * @param user
    */
-  public void saveUser(final User user) {
+  public static void saveUser(final User user) {
     try {
       final FileWriter writer;
       writer = new FileWriter(fileuser.file());
@@ -74,14 +73,5 @@ public class SaveController  {
     } catch (IOException e) {
       e.printStackTrace();
     }
-  }
-
-  /**
-   * 
-   * 
-   * @return the only SaveController
-   */
-  public static SaveController getInstance() {
-    return SAVE;
   }
 }

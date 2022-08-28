@@ -1,20 +1,11 @@
 package model;
 
 import model.actors.users.User;
-import model.utilities.Deck;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.List;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
-import control.controller.Controller;
 import control.controller.game.SaveController;
 import model.actors.cards.Card;
 import model.actors.cards.troops.Barbarian;
@@ -29,7 +20,7 @@ public class GlobalData {
   /**
    * Provides a user instance.
    */
-  public static final User USER = SaveController.getInstance().loadUser();
+  public static final User USER = SaveController.loadUser();
 
 //  /**
 //   * Provides a user instance.
