@@ -16,25 +16,18 @@ import model.actors.users.User;
 /**
  * Class used to save and load User and Deck.
  */
-public class SaveController {
-  /**
-   * 
-   */
-  public static final  Gson GSON = new GsonBuilder().create();
-  /**
-   * 
-   */
-  public static final  FileHandle FILEUSER = Gdx.files.internal("saves/user.json");
-  /**
-   * 
-   */
-   private final User user;
+public class SaveController  {
+  private static final SaveController SAVE = new SaveController();
+
+  private final  Gson gson = new GsonBuilder().create();
+  private final  FileHandle fileuser = Gdx.files.internal("saves/user.json");
+  private final User user;
 
   /**
    * Class used to load and save User and Deck.
    */
-  public SaveController() {
-    if (!FILEUSER.exists()) {
+  private SaveController() {
+    if (!fileuser.exists()) {
       this.user = new User("P");
     } else {
       this.user = loadUser();
@@ -44,7 +37,7 @@ public class SaveController {
 
 /**
  * 
- * @return
+ * @return user
  */
   public User getUser() {
     return user;
@@ -56,16 +49,40 @@ public class SaveController {
    * 
    * @return User
    */
-  public static User loadUser() {
-    if (!FILEUSER.exists()) {
+  public User loadUser() {
+    if (!fileuser.exists()) {
       User u = new User("P");
       return u;
     }
     try {
-      return GSON.fromJson(new FileReader(FILEUSER.file()), User.class);
+      return gson.fromJson(new FileReader(fileuser.file()), User.class);
     } catch (IOException e) {
       e.printStackTrace();
     }
     return null;
+  }
+  
+  /**
+   * save user in file json.
+   * @param user
+   */
+  public void saveUser(final User user) {
+    try {
+      final FileWriter writer;
+      writer = new FileWriter(fileuser.file());
+      gson.toJson(user, writer);
+      writer.close();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+  
+  /**
+   * 
+   * 
+   * @return the only SaveController
+   */
+  public static SaveController getInstance() {
+    return SAVE;
   }
 }

@@ -23,18 +23,18 @@ import model.actors.cards.troops.Wizard;
 import model.actors.users.Bot;
 
 /**
- * Class used to easily provide istances of User, Bot and their decks.
+ * Class used to easily provide istances of User and Bot.
  */
 public class GlobalData {
   /**
    * Provides a user instance.
    */
-  public static User USER = SaveController.loadUser();
+  public static final User USER = SaveController.getInstance().loadUser();
 
-  /**
-   * Provides a user instance.
-   */
-  public static Deck DECK = new Deck();
+//  /**
+//   * Provides a user instance.
+//   */
+//  public static Deck DECK = new Deck();
 
 
   /**

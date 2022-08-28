@@ -83,18 +83,11 @@ public abstract class Controller {
   public void stopMusic() {
     this.audio.stop();
   }
-/**
- * Save the Gson file user.
- * @param user
- */
+  /**
+   * Save the Gson file user.
+   * @param user
+   */
   public void saveUser(final User user) {
-    try {
-      final FileWriter writer;
-      writer = new FileWriter(SaveController.FILEUSER.file());
-      SaveController.GSON.toJson(user, writer);
-      writer.close();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    SaveController.getInstance().saveUser(user);
   }
 }
