@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import control.controller.Controller;
 import control.controller.MenuController;
+import control.controller.game.GameController;
 import control.launcher.ClashRoyale;
 import model.GlobalData;
 import model.utilities.AnimationUtilities;
@@ -24,7 +25,6 @@ public class MenuScreen extends BaseScreen {
   private TextureAtlas atlas;
   private Skin skin;
 
-  private MenuController menuController;
   private static final int SPACE = 15;
 
   /**
@@ -50,7 +50,6 @@ public class MenuScreen extends BaseScreen {
     final var background = new BaseActor(0, 0, super.getMainStage(), AnimationUtilities.loadTexture("backgrounds/menuBackground.png"));
     background.setSize(ClashRoyale.WIDTH, ClashRoyale.HEIGHT);
 
-    this.menuController = new MenuController();
     atlas = new TextureAtlas("buttons/atlas.pack");
     skin = new Skin(Gdx.files.internal("buttons/menuSkin.json"), atlas);
     table = new Table(skin);
@@ -64,7 +63,7 @@ public class MenuScreen extends BaseScreen {
       @Override
       public void clicked(final InputEvent event, final float x, final float y) {
         getController().stopMusic();
-        menuController.triggerPlay();
+        ((MenuController) getController()).triggerPlay();
       }
     });
     buttonPlay.pad(SPACE);
@@ -74,7 +73,7 @@ public class MenuScreen extends BaseScreen {
       @Override
       public void clicked(final InputEvent event, final float x, final float y) {
         getController().stopMusic();
-        menuController.triggerDeck();
+        ((MenuController) getController()).triggerDeck();
         }
     });
     buttonDeck.pad(SPACE);
@@ -84,7 +83,7 @@ public class MenuScreen extends BaseScreen {
       @Override
       public void clicked(final InputEvent event, final float x, final float y) {
         getController().stopMusic();
-        menuController.triggerStat();
+        ((MenuController) getController()).triggerStat();
         }
     });
     buttonStat.pad(SPACE);
