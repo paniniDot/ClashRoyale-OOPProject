@@ -95,7 +95,6 @@ public class MenuScreen extends BaseScreen {
       @Override
       public void clicked(final InputEvent event, final float x, final float y) {
         getController().saveUser(GlobalData.USER);
-        System.out.println(GlobalData.DECK.namesCardsDeck());
         Gdx.app.exit();
       }
     });

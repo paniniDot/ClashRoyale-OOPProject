@@ -4,9 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Objects;
-
 import model.utilities.Deck;
-import model.utilities.SaveController;
 
 
 /**
@@ -121,19 +119,5 @@ public class User {
     final User other = (User) obj;
     return currentLevel == other.currentLevel && currentXP == other.currentXP && Objects.equals(name, other.name);
   }
-
-  /**
-   * Save the Gson file user.
-   */
-  public void saveUser(final User user) {
-    final FileWriter writer;
-    try {
-      writer = new FileWriter(SaveController.FILEUSER.file());
-      SaveController.GSON.toJson(user, writer);
-      writer.close();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-  }
-  
 }
+

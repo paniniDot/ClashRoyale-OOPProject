@@ -24,7 +24,7 @@ import model.actors.cards.troops.Wizard;
  */
 public class Deck {
 
-
+  private static final Deck DECK = new Deck();
   private final Map<String, Card> deckMap;
   private final Map<String, Card> cardsMap;
   private final PositionInGameDeck positionInGameDeck = new PositionInGameDeck();
@@ -33,7 +33,7 @@ public class Deck {
   /**
    * initialize basic cards and decks.
    */
-  public Deck() {
+  private Deck() {
     this.deckMap = new HashMap<>();
     this.deckMap.put("Barbarian", Barbarian.create(GlobalData.USER, newPositionFree()));
     this.deckMap.put("Giant", Giant.create(GlobalData.USER, newPositionFree()));
@@ -66,10 +66,10 @@ public class Deck {
   public Set<Vector2> getPositionFree() {
     return positionFree;
   }
-/**
- * 
- * @return the first free position and deletes it from those available
- */
+  /**
+   * 
+   * @return the first free position and deletes it from those available
+   */
   public Vector2 newPositionFree() {
     final Iterator<Vector2> i = getPositionFree().iterator();
     final Vector2 tmp  =  i.next();
@@ -141,5 +141,14 @@ public class Deck {
     return cardsMap.entrySet().stream()
         .map(e -> e.getKey())
         .collect(Collectors.toList());
+  }
+
+  /**
+   * 
+   * 
+   * @return the only DECK
+   */
+  public static Deck getInstance() {
+    return DECK;
   }
 }

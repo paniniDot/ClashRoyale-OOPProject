@@ -95,7 +95,6 @@ public class DeckScreen extends BaseScreen {
         final String select = deck.getSelected();
         deckController.addCard(select);
         deckController.removeDeckCard(select);
-
         }
       }
     });

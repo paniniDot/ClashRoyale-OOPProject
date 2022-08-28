@@ -15,6 +15,7 @@ import model.actors.cards.Card;
 import model.actors.towers.Tower;
 import model.actors.users.Bot;
 import model.actors.users.User;
+import model.utilities.Deck;
 import model.utilities.ingame.BotGameModel;
 import view.actors.CardActor;
 import view.actors.TowerActor;
@@ -33,7 +34,7 @@ public class BotGameController extends GameController {
    * Constructor.
    */
   public BotGameController() {
-    super(new BotGameModel(GlobalData.DECK.cardList(), GlobalData.BOT_DECK, GlobalData.USER, GlobalData.BOT));
+    super(new BotGameModel(Deck.getInstance().cardList(), GlobalData.BOT_DECK, GlobalData.USER, GlobalData.BOT));
     this.botElixir = new ElixirController();
     this.botCardsMap = new HashMap<>();
     this.botTowersMap = new HashMap<>();

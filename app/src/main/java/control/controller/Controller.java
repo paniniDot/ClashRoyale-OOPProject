@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import model.Model;
 import model.actors.users.User;
 import control.controller.game.AudioController;
-import model.utilities.SaveController;
+import control.controller.game.SaveController;
 
 /**
  * The controller for the game.
@@ -83,18 +83,11 @@ public abstract class Controller {
   public void stopMusic() {
     this.audio.stop();
   }
-/**
- * Save the Gson file user.
- * @param user
- */
+  /**
+   * Save the Gson file user.
+   * @param user
+   */
   public void saveUser(final User user) {
-    try {
-      final FileWriter writer;
-      writer = new FileWriter(SaveController.FILEUSER.file());
-      SaveController.GSON.toJson(user, writer);
-      writer.close();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    SaveController.getInstance().saveUser(user);
   }
 }

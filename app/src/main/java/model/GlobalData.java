@@ -2,7 +2,6 @@ package model;
 
 import model.actors.users.User;
 import model.utilities.Deck;
-import model.utilities.SaveController;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -16,6 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import control.controller.Controller;
+import control.controller.game.SaveController;
 import model.actors.cards.Card;
 import model.actors.cards.troops.Barbarian;
 import model.actors.cards.troops.Giant;
@@ -23,18 +23,18 @@ import model.actors.cards.troops.Wizard;
 import model.actors.users.Bot;
 
 /**
- * Class used to easily provide istances of User, Bot and their decks.
+ * Class used to easily provide istances of User and Bot.
  */
 public class GlobalData {
   /**
    * Provides a user instance.
    */
-  public static User USER = SaveController.loadUser();
+  public static final User USER = SaveController.getInstance().loadUser();
 
-  /**
-   * Provides a user instance.
-   */
-  public static Deck DECK = new Deck();
+//  /**
+//   * Provides a user instance.
+//   */
+//  public static Deck DECK = new Deck();
 
 
   /**
