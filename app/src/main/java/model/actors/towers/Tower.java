@@ -16,7 +16,6 @@ import model.actors.users.User;
  */
 public abstract class Tower implements Attackable {
 
-  private final UUID id;
   private final User owner;
   private final Vector2 position;
   private final double range;
@@ -45,7 +44,6 @@ public abstract class Tower implements Attackable {
    *            the number of hits per second.
    */
   public Tower(final Vector2 position, final User owner, final double range, final boolean isActive, final double damage, final double hp, final Speeds hitSpeed) {
-    this.id = UUID.randomUUID();
     this.owner = owner;
     this.position = position;
     this.range = range;
@@ -73,11 +71,6 @@ public abstract class Tower implements Attackable {
   @Override
   public boolean isDead() {
     return this.currentHP <= 0;
-  }
-
-  @Override
-  public UUID getSelfId() {
-    return this.id;
   }
 
   /**
@@ -159,15 +152,12 @@ public abstract class Tower implements Attackable {
 
   @Override
   public void attackCurrentTarget() {
-    if (this.getCurrentTarget().isPresent()) {
-      System.out.println("truppa " + this + " attacca " + this.currentTarget.get());
-    }
-    this.currentTarget.ifPresent(t -> t.reduceHPBy(this.damage));
+   this.currentTarget.ifPresent(t -> t.reduceHPBy(this.damage));
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(currentHP, currentTarget, damage, hitSpeed, id, isActive, owner, position, range);
+    return Objects.hash(currentHP, currentTarget, damage, hitSpeed, isActive, owner, position, range);
   }
 
   @Override
@@ -185,7 +175,7 @@ public abstract class Tower implements Attackable {
     return Double.doubleToLongBits(currentHP) == Double.doubleToLongBits(other.currentHP)
         && Objects.equals(currentTarget, other.currentTarget)
         && Double.doubleToLongBits(damage) == Double.doubleToLongBits(other.damage) && hitSpeed == other.hitSpeed
-        && Objects.equals(id, other.id) && isActive == other.isActive && Objects.equals(owner, other.owner)
+        && isActive == other.isActive && Objects.equals(owner, other.owner)
         && Objects.equals(position, other.position)
         && Double.doubleToLongBits(range) == Double.doubleToLongBits(other.range);
   }

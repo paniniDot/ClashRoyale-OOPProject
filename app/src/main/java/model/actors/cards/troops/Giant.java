@@ -57,7 +57,7 @@ public final class Giant extends Troop {
   /**
    * {@inheritDoc}
    */
-  public Card createAnother(final Vector2 position, final User owner) {
-    return create(owner, position);
+  public Card createAnother(final Vector2 position) {
+    return create(super.getOwner(), position);
   }
 }

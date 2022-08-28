@@ -1,7 +1,6 @@
 package model.actors;
 
 import java.util.Optional;
-import java.util.UUID;
 
 import com.badlogic.gdx.math.Vector2;
 
@@ -63,11 +62,6 @@ public interface Attackable {
    * @return whether the entity is dead or not.
    */
   boolean isDead();
-
-  /**
-   * @return self unique identifier.
-   */
-  UUID getSelfId();
 
   /**
    * @return the remaining Health Point

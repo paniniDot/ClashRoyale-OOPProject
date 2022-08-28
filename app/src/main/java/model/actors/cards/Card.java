@@ -15,7 +15,6 @@ import model.actors.users.User;
  */
 public abstract class Card implements Attackable {
 
-  private final UUID id;
   private final int cost;
   private final User owner;
   private Vector2 position;
@@ -45,7 +44,6 @@ public abstract class Card implements Attackable {
    *          the distance between this troop and other entities to being targeted by it.
    */
   protected Card(final int cost, final Vector2 position, final User owner, final double maxHP, final double damage, final Speeds speed, final double range) {
-    this.id = UUID.randomUUID();
     this.cost = cost;
     this.owner = owner;
     this.position = position;
@@ -54,14 +52,6 @@ public abstract class Card implements Attackable {
     this.speed = speed;
     this.range = range;
     this.currentTarget = Optional.empty();
-  }
-
-  /**
-   * 
-   * @return the self unique identifier for this card.
-   */
-  public UUID getSelfId() {
-    return this.id;
   }
 
   /**
@@ -102,9 +92,11 @@ public abstract class Card implements Attackable {
     return this.position;
   }
 
+ 
+
   @Override
   public int hashCode() {
-    return Objects.hash(cost, id, owner, position);
+    return Objects.hash(cost, currentHP, currentTarget, damage, owner, position, range, speed);
   }
 
   @Override
@@ -119,8 +111,11 @@ public abstract class Card implements Attackable {
       return false;
     }
     final Card other = (Card) obj;
-    return cost == other.cost && Objects.equals(id, other.id) && Objects.equals(owner, other.owner)
-        && Objects.equals(position, other.position);
+    return cost == other.cost && Double.doubleToLongBits(currentHP) == Double.doubleToLongBits(other.currentHP)
+        && Objects.equals(currentTarget, other.currentTarget)
+        && Double.doubleToLongBits(damage) == Double.doubleToLongBits(other.damage)
+        && Objects.equals(owner, other.owner) && Objects.equals(position, other.position)
+        && Double.doubleToLongBits(range) == Double.doubleToLongBits(other.range) && speed == other.speed;
   }
 
   /**
@@ -128,11 +123,9 @@ public abstract class Card implements Attackable {
    * 
    * @param position the position of the card.
    * 
-   * @param owner the card owner.
-   * 
    * @return the card created
    */
-  public abstract Card createAnother(Vector2 position, User owner);
+  public abstract Card createAnother(Vector2 position);
   /**
    * @return the current health of the troop.
    */
@@ -187,15 +180,7 @@ public abstract class Card implements Attackable {
    * Hits one time the current target, if any.
    */
   public void attackCurrentTarget() {
-    if (this.getCurrentTarget().isPresent()) {
-      System.out.println("truppa " + this + " attacca " + this.currentTarget.get());
-    }
     this.currentTarget.ifPresent(target -> target.reduceHPBy(this.damage));
-    /*if(this.currentTarget.isPresent()) {
-      if(this.currentTarget.get().isDead()) {
-        this.currentTarget.get().
-      }
-    }*/
   }
 
   @Override
