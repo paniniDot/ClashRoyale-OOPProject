@@ -38,7 +38,7 @@ public class StatScreen extends BaseScreen {
   }
 
   @Override
-  public void initialize() {
+  protected void initialize() {
     super.getController().playMusic();
     super.getController().setInputProcessor(super.getMainStage());
     final var background = new BaseActor(0, 0, super.getMainStage(), AnimationUtilities.loadTexture("backgrounds/menuBackground.png"));
@@ -90,7 +90,7 @@ public class StatScreen extends BaseScreen {
   }
 
   @Override
-  public void update(final float dt) {
+  protected void update(final float dt) {
   }
 
 }
