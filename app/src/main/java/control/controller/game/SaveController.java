@@ -1,4 +1,4 @@
-package model.utilities;
+package control.controller.game;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -18,7 +18,6 @@ import model.actors.users.User;
  */
 public class SaveController  {
   private static final SaveController SAVE = new SaveController();
-
   private final  Gson gson = new GsonBuilder().create();
   private final  FileHandle fileuser = Gdx.files.internal("saves/user.json");
   private final User user;
@@ -61,7 +60,7 @@ public class SaveController  {
     }
     return null;
   }
-  
+
   /**
    * save user in file json.
    * @param user
@@ -76,7 +75,7 @@ public class SaveController  {
       e.printStackTrace();
     }
   }
-  
+
   /**
    * 
    * 

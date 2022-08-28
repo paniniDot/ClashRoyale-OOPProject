@@ -2,7 +2,6 @@ package model;
 
 import model.actors.users.User;
 import model.utilities.Deck;
-import model.utilities.SaveController;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -16,6 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import control.controller.Controller;
+import control.controller.game.SaveController;
 import model.actors.cards.Card;
 import model.actors.cards.troops.Barbarian;
 import model.actors.cards.troops.Giant;

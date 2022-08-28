@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import model.Model;
 import model.actors.users.User;
 import control.controller.game.AudioController;
-import model.utilities.SaveController;
+import control.controller.game.SaveController;
 
 /**
  * The controller for the game.
