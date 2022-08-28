@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
@@ -15,6 +16,7 @@ import model.actors.cards.Card;
 import model.actors.towers.Tower;
 import model.actors.users.Bot;
 import model.actors.users.User;
+import model.utilities.AnimationUtilities;
 import model.utilities.Deck;
 import model.utilities.ingame.BotGameModel;
 import view.actors.CardActor;
@@ -120,15 +122,24 @@ public class BotGameController extends GameController {
 
   private void placeBotActor() {
     final Vector2 v = new Vector2(350, 550);
-    this.botCardsMap.entrySet().stream().forEach(e -> {
-      if (super.getGameMap().containsPosition(v) && e.getKey().isDraggable() && e.getValue().getOwner() instanceof Bot && e.getValue().getCost() <= botElixir.getElixirCount()) {
-        this.deployBotCard(e.getValue());
-        e.getKey().setDraggable(false);
+    CardActor c = null;
+    for (final Entry<CardActor, Card> e : this.botCardsMap.entrySet()) {
+      if (e.getKey().isDraggable() && e.getValue().getOwner() instanceof Bot && e.getValue().getCost() <= botElixir.getElixirCount()) {
         e.getValue().setPosition(v);
         e.getKey().setPosition(v.x, v.y);
-        ((BotGameModel) super.getModel()).getBotNextQueuedCard(e.getKey().getOrigin());
+        c = e.getKey();
+        e.getKey().setDraggable(false);
+        this.deployBotCard(e.getValue());
       }
-    });
+    }
+    if (c != null) {
+    final var nextCard = ((BotGameModel) super.getModel()).getBotNextQueuedCard(c.getOrigin());
+    if (nextCard.isPresent()) {
+      this.botCardsMap.put(
+          new CardActor(c.getOrigin().x, c.getOrigin().y, c.getStage(), AnimationUtilities.loadAnimationFromFiles(nextCard.get().getAnimationFiles().get("ENEMY_MOVING"), ANIMATIONS_FRAME_DURATION, true)),
+          nextCard.get());
+    }
+    }
   }
 
   private void deployBotCard(final Card card) {

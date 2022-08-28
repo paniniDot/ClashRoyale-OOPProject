@@ -24,7 +24,7 @@ import view.screens.GameScreen;
  */
 public abstract class GameController extends Controller {
 
-  private static final float ANIMATIONS_FRAME_DURATION = (float) 0.017_24 * 10;
+  protected static final float ANIMATIONS_FRAME_DURATION = (float) 0.017_24 * 10;
 
   private final ElixirController playerElixir;
   private final CountDownController timer;
@@ -259,18 +259,20 @@ public abstract class GameController extends Controller {
   protected void deployPlayerActor(final List<Card> elements) {
     elements.stream().forEach(card -> {
       CardActor c = null;
-      for (final Entry<CardActor, Card> entry : this.getPlayerActorsMap().entrySet()) {
+      for (final Entry<CardActor, Card> entry : this.playerCardsMap.entrySet()) {
         if (entry.getValue().equals(card)) {
           c = entry.getKey();
           this.deployPlayerCard(card);
         }
       }
+      if (c != null) {
       final var nextCard = ((GameModel) super.getModel()).getPlayerNextQueuedCard(c.getOrigin());
       if (nextCard.isPresent()) {
-        this.getPlayerActorsMap().put(
-            new CardActor(c.getOrigin().x, c.getOrigin().y, c.getStage(), AnimationUtilities.loadAnimationFromFiles(card.getAnimationFiles().get("AS_CARD"), ANIMATIONS_FRAME_DURATION, true)),
+        this.playerCardsMap.put(
+            new CardActor(c.getOrigin().x, c.getOrigin().y, c.getStage(), AnimationUtilities.loadAnimationFromFiles(nextCard.get().getAnimationFiles().get("AS_CARD"), ANIMATIONS_FRAME_DURATION, true)),
             nextCard.get());
 
+      }
       }
     });
   }

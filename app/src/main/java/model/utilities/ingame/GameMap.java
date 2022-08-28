@@ -141,7 +141,7 @@ public class GameMap {
       }
     }
     final var path = this.getPath(this.getMapUnitFromPosition(source.getPosition()), this.getMapUnitFromPosition(dest.getPosition()));
-    return path.size() > 1 ? path.get(1) : path.get(0);
+    return path.size() > 1 ? path.get(1) : path.isEmpty() ? source.getPosition() : path.get(0);
   }
 
   /**

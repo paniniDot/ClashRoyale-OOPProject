@@ -47,11 +47,9 @@ public class GlobalData {
    */
   public static final List<Card> BOT_DECK = List.of(
       Wizard.create(BOT, new Vector2(100, 800)), 
-      Giant.create(BOT, new Vector2(200, 800)), 
-      Barbarian.create(BOT, new Vector2(300, 800)), 
-      Wizard.create(BOT, new Vector2(400, 800)), 
-      Wizard.create(BOT, new Vector2(500, 800)),
-      Wizard.create(BOT, new Vector2(600, 800)));
+      Barbarian.create(BOT, new Vector2(200, 800)), 
+      Giant.create(BOT, new Vector2(300, 800)), 
+      Wizard.create(BOT, new Vector2(400, 800)));
 
   private GlobalData() {    
   }
