@@ -18,6 +18,9 @@ class StatsTest {
   private FileManager fm;
   private final File file = new File("saves" + File.separator + "stats.txt");
 
+  /**
+   * Delete and create a new stats.txt.
+   */
   @BeforeEach
   void setUp() {
 
@@ -28,32 +31,38 @@ class StatsTest {
     this.fm = new FileManager();
   }
 
+  /**
+   * Check if the file is created and is empty.
+   */
   @Test
   void createFile() {
-
     this.fm.read();
     assertTrue(file.exists());
+    assertEquals(0, this.fm.getPlays());
+    assertEquals(0, this.fm.getWins());
+    assertEquals(0, this.fm.getTowersDestroyed());
   }
 
+  /**
+   * Check if adds methods and getters works.
+   */
   @Test
   void updateFile() {
     fm.addPlays();
     fm.addPlays();
     fm.addPlays();
+    fm.addWin();
+    fm.addTowersDestroyed(3);
+    fm.addTowersDestroyed(2);
 
     assertEquals(3, fm.getPlays());
-
-    fm.addWin();
-
     assertEquals(1, fm.getWins());
-    assertEquals(0, fm.getTowersDestroyed());
-
-    fm.addTowersDestroyed(2);
-    fm.addTowersDestroyed(3);
-
     assertEquals(2 + 3, fm.getTowersDestroyed());
   }
 
+  /**
+   * Saves new data on an empty file and then read the data.
+   */
   @Test
   void readUpdatedFile() {
     fm.addPlays();
