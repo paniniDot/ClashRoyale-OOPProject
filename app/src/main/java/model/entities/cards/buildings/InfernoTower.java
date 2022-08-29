@@ -1,5 +1,6 @@
 package model.entities.cards.buildings;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,13 @@ import model.entities.users.User;
  * Inferno Tower building.
  */
 public final class InfernoTower extends Building {
+
+  private static final String INFERNO_WORD = "infernoTower";
+
+  private static final String SELF_WALK = INFERNO_WORD + File.separator + "self" + File.separator + "staying" + File.separator;
+  private static final String SELF_ATT = INFERNO_WORD + File.separator + "self" + File.separator + "attacking" + File.separator;
+  private static final String BOT_WALK = INFERNO_WORD + File.separator + "bot" + File.separator + "staying" + File.separator;
+  private static final String BOT_ATT = INFERNO_WORD + File.separator + "bot" + File.separator + "attacking" + File.separator;
 
   /**
    * Elixir cost of the card.
@@ -70,11 +78,11 @@ public final class InfernoTower extends Building {
   @Override
   public Map<String, List<String>> getAnimationFiles() {
     return  Map.of(
-        "SELF_MOVING", List.of("infernoTower/self/staying/0.png", "infernoTower/self/staying/1.png", "infernoTower/self/staying/2.png", "infernoTower/self/staying/3.png"),
-        "SELF_FIGHTING", List.of("infernoTower/self/attacking/0.png", "infernoTower/self/attacking/1.png", "infernoTower/self/attacking/2.png", "infernoTower/self/attacking/3.png"),
-        "ENEMY_MOVING", List.of("infernoTower/bot/staying/0.png", "infernoTower/bot/staying/1.png", "infernoTower/bot/staying/2.png", "infernoTower/bot/staying/3.png"),
-        "ENEMY_FIGHTING", List.of("infernoTower/bot/attacking/0.png", "infernoTower/bot/attacking/1.png", "infernoTower/bot/attacking/2.png", "infernoTower/bot/attacking/3.png"),
-        "AS_CARD", List.of("cards/InfernoTowerCard.png"));
+        "SELF_MOVING", List.of(InfernoTower.SELF_WALK + "0.png", InfernoTower.SELF_WALK + "1.png", InfernoTower.SELF_WALK + "2.png", InfernoTower.SELF_WALK + "3.png"),
+        "SELF_FIGHTING", List.of(InfernoTower.SELF_ATT + "0.png", InfernoTower.SELF_ATT + "1.png", InfernoTower.SELF_ATT + "2.png", InfernoTower.SELF_ATT + "3.png"),
+        "ENEMY_MOVING", List.of(InfernoTower.BOT_WALK + "0.png", InfernoTower.BOT_WALK + "1.png", InfernoTower.BOT_WALK + "2.png", InfernoTower.BOT_WALK + "3.png"),
+        "ENEMY_FIGHTING", List.of(InfernoTower.BOT_ATT + "0.png", InfernoTower.BOT_ATT + "1.png", InfernoTower.BOT_ATT + "2.png", InfernoTower.BOT_ATT + "3.png"),
+        "AS_CARD", List.of("cards" + File.separator + "InfernoTowerCard.png"));
   }
 
   /**
