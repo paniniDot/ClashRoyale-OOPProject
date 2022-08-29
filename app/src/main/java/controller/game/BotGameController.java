@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
@@ -124,10 +125,10 @@ public class BotGameController extends GameController {
   }
 
   private void placeBotActor() {
-    final Vector2 v = new Vector2(350, 550);
+    final Vector2 v = new Vector2(this.randomPosition(150, 550), this.randomPosition(450, 700));
     CardActor c = null;
     for (final Entry<CardActor, Card> e : this.botCardsMap.entrySet()) {
-      if (e.getKey().isDraggable() && e.getValue().getOwner() instanceof Bot && e.getValue().getCost() <= botElixir.getElixirCount()) {
+      if (super.getGameMap().containsPosition(v) && e.getKey().isDraggable() && e.getValue().getOwner() instanceof Bot && e.getValue().getCost() <= this.botElixir.getElixirCount()) {
         e.getValue().setPosition(v);
         e.getKey().setPosition(v.x, v.y);
         c = e.getKey();
@@ -148,6 +149,11 @@ public class BotGameController extends GameController {
   private void deployBotCard(final Card card) {
     ((BotGameModel) super.getModel()).deployBotCard(card);
     this.botElixir.decrementElixir(card.getCost());
+  }
+
+  private int randomPosition(final int min, final int max) {
+    final Random rand = new Random();
+    return rand.nextInt((max - min) + 1) + min;
   }
 
   private Vector2 roundedPosition(final Vector2 pos) {
