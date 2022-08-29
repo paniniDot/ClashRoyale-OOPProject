@@ -22,7 +22,7 @@ import model.entities.users.User;
 import model.deck.PlayersDeck;
 import model.utilities.AnimationUtilities;
 import model.utilities.ingame.BotGameModel;
-
+import model.utilities.ingame.MapUnit;
 import view.actors.cards.CardActor;
 import view.actors.towers.TowerActor;
 
@@ -96,7 +96,7 @@ public class BotGameController extends GameController {
     final var actor = new ArrayList<CardActor>();
     cardActors.entrySet().stream().forEach(e -> {
       if (e.getKey().isDraggable() && !Gdx.input.isTouched()) {
-        if (e.getValue().getOwner() instanceof User && e.getValue().getCost() <= super.getPlayerCurrentElixir() && super.getGameMap().containsPosition(e.getKey().getCenter())) {
+        if (e.getValue().getOwner() instanceof User && e.getValue().getCost() <= super.getPlayerCurrentElixir() && super.getGameMap().containsPosition(e.getKey().getCenter()) && super.getGameMap().getMapUnitFromPosition(e.getKey().getCenter()).getType().equals(MapUnit.Type.TERRAIN)) {
           card.add(e.getValue());
           super.deployPlayerCard(e.getValue());
           e.getKey().setDraggable(false);
@@ -128,7 +128,7 @@ public class BotGameController extends GameController {
     final Vector2 v = new Vector2(this.randomPosition(150, 550), this.randomPosition(450, 700));
     CardActor c = null;
     for (final Entry<CardActor, Card> e : this.botCardsMap.entrySet()) {
-      if (super.getGameMap().containsPosition(v) && e.getKey().isDraggable() && e.getValue().getOwner() instanceof Bot && e.getValue().getCost() <= this.botElixir.getElixirCount()) {
+      if (super.getGameMap().containsPosition(v) && super.getGameMap().getMapUnitFromPosition(v).getType().equals(MapUnit.Type.TERRAIN) && e.getKey().isDraggable() && e.getValue().getOwner() instanceof Bot && e.getValue().getCost() <= this.botElixir.getElixirCount()) {
         e.getValue().setPosition(v);
         e.getKey().setPosition(v.x, v.y);
         c = e.getKey();

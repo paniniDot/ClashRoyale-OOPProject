@@ -154,7 +154,7 @@ public class GameMap {
     return this.map.containsVertex(this.getMapUnitFromPosition(position));
   }
 
-  private MapUnit getMapUnitFromPosition(final Vector2 pixels) {
+  public MapUnit getMapUnitFromPosition(final Vector2 pixels) {
     final var coords = new Vector2((float) Math.ceil((pixels.x - X_START) / MapUnit.WIDTH), (float) Math.ceil((pixels.y - Y_START) / MapUnit.HEIGHT));
     return new MapUnit(coords, this.getPixelsFromUnitCoords(coords), this.towerPositions.contains(coords) ? MapUnit.Type.TOWER : MapUnit.Type.TERRAIN);
   }
