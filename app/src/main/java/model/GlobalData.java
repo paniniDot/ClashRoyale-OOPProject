@@ -15,7 +15,7 @@ import model.entities.users.User;
 /**
  * Class used to easily provide istances of User and Bot.
  */
-public class GlobalData {
+public final class GlobalData {
   /**
    * Provides a user instance.
    */
@@ -41,6 +41,6 @@ public class GlobalData {
       Giant.create(BOT, new Vector2(300, 800)), 
       Wizard.create(BOT, new Vector2(400, 800)));
 
-  private GlobalData() {    
+  private GlobalData() {
   }
 }

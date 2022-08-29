@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.g3d.model.Node;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import model.entities.cards.Card;
 import model.entities.users.User;
 
 /**
@@ -49,7 +48,7 @@ public class SaveController  {
    */
   public static User loadUser() {
     if (!fileuser.exists()) {
-      User u = new User("P");
+      final User u = new User("P");
       return u;
     }
     try {

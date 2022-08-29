@@ -22,7 +22,7 @@ import model.entities.cards.troops.Wizard;
  * Class Deck.
  *
  */
-public class PlayersDeck extends BasicDeck {
+public final class PlayersDeck extends BasicDeck {
 
   private static final PlayersDeck DECK = new PlayersDeck();
   private final Map<String, Card> deckMap;
@@ -38,9 +38,9 @@ public class PlayersDeck extends BasicDeck {
     this.deckMap.put("InfernoTower", InfernoTower.create(GlobalData.USER, newPositionFree()));
     this.deckMap.put("Wizard", Wizard.create(GlobalData.USER, newPositionFree())); 
     this.cardsMap = new HashMap<>();
-    this.cardsMap.put("Archer", Archer.create(GlobalData.USER, new Vector2(500, 100)));
-    this.cardsMap.put("MiniPekka", MiniPekka.create(GlobalData.USER, new Vector2(500, 100)));
-    this.cardsMap.put("Valkrie", Valkyrie.create(GlobalData.USER, new Vector2(500, 100)));
+    this.cardsMap.put("Archer", Archer.create(GlobalData.USER, new Vector2(0, 0)));
+    this.cardsMap.put("MiniPekka", MiniPekka.create(GlobalData.USER, new Vector2(0, 0)));
+    this.cardsMap.put("Valkrie", Valkyrie.create(GlobalData.USER, new Vector2(0, 0)));
 
   }
 
