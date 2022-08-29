@@ -1,4 +1,4 @@
-package model.utilities;
+package model.deck;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -22,18 +22,16 @@ import model.entities.cards.troops.Wizard;
  * Class Deck.
  *
  */
-public class Deck {
+public class PlayersDeck extends BasicDeck {
 
-  private static final Deck DECK = new Deck();
+  private static final PlayersDeck DECK = new PlayersDeck();
   private final Map<String, Card> deckMap;
   private final Map<String, Card> cardsMap;
-  private final PositionInGameDeck positionInGameDeck = new PositionInGameDeck();
-  private final Set<Vector2> positionFree = positionInGameDeck.getPositionFree();
 
   /**
    * initialize basic cards and decks.
    */
-  private Deck() {
+  private PlayersDeck() {
     this.deckMap = new HashMap<>();
     this.deckMap.put("Barbarian", Barbarian.create(GlobalData.USER, newPositionFree()));
     this.deckMap.put("Giant", Giant.create(GlobalData.USER, newPositionFree()));
@@ -57,24 +55,6 @@ public class Deck {
    */
   public Map<String, Card> getCards() {
     return cardsMap;
-  }
-
-  /**
-   * 
-   * @return set positionFree
-   */
-  public Set<Vector2> getPositionFree() {
-    return positionFree;
-  }
-  /**
-   * 
-   * @return the first free position and deletes it from those available
-   */
-  public Vector2 newPositionFree() {
-    final Iterator<Vector2> i = getPositionFree().iterator();
-    final Vector2 tmp  =  i.next();
-    getPositionFree().remove(tmp);
-    return tmp;
   }
 
   /**
@@ -148,7 +128,7 @@ public class Deck {
    * 
    * @return the only DECK
    */
-  public static Deck getInstance() {
+  public static PlayersDeck getInstance() {
     return DECK;
   }
 }

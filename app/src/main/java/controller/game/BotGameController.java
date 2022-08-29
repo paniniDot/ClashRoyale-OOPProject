@@ -11,15 +11,17 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import controller.ElixirController;
+
 import model.GlobalData;
 import model.entities.Attackable;
 import model.entities.cards.Card;
 import model.entities.towers.Tower;
 import model.entities.users.Bot;
 import model.entities.users.User;
+import model.deck.PlayersDeck;
 import model.utilities.AnimationUtilities;
-import model.utilities.Deck;
 import model.utilities.ingame.BotGameModel;
+
 import view.actors.cards.CardActor;
 import view.actors.towers.TowerActor;
 
@@ -37,7 +39,7 @@ public class BotGameController extends GameController {
    * Constructor.
    */
   public BotGameController() {
-    super(new BotGameModel(Deck.getInstance().cardList(), GlobalData.BOT_DECK, GlobalData.USER, GlobalData.BOT));
+    super(new BotGameModel(PlayersDeck.getInstance().cardList(), GlobalData.BOT_DECK, GlobalData.USER, GlobalData.BOT));
     this.botElixir = new ElixirController();
     this.botCardsMap = new HashMap<>();
     this.botTowersMap = new HashMap<>();

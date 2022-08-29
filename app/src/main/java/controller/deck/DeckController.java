@@ -7,12 +7,13 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import model.Model;
-import model.utilities.Deck;
 import view.screens.deck.DeckScreen;
 import controller.AudioController;
 import controller.Controller;
 import controller.menu.MenuController;
 import launcher.ClashRoyale;
+import model.deck.PlayersDeck;
+
 /**
  * Controller implementation for the game screen.
  */
@@ -59,7 +60,7 @@ public class DeckController extends Controller {
    * @return the List of cards.
    */
   public List<String> listGDXCard() {
-    this.cards.setItems(Deck.getInstance().namesCardsCard().toArray());
+    this.cards.setItems(PlayersDeck.getInstance().namesCardsCard().toArray());
     return cards;
   }
 
@@ -69,7 +70,7 @@ public class DeckController extends Controller {
    * @return the List of deck.
    */
   public List<String> listGDXDeck() {
-    this.decklist.setItems(Deck.getInstance().namesCardsDeck().toArray());
+    this.decklist.setItems(PlayersDeck.getInstance().namesCardsDeck().toArray());
     return decklist;
   }
 
@@ -81,8 +82,8 @@ public class DeckController extends Controller {
    * @return List of deck. 
    */
   public List<String> addDeck(final String select) {
-    Deck.getInstance().addDeck(select);
-    Deck.getInstance().getDeck().get(select).setPosition(Deck.getInstance().newPositionFree());
+    PlayersDeck.getInstance().addDeck(select);
+    PlayersDeck.getInstance().getDeck().get(select).setPosition(PlayersDeck.getInstance().newPositionFree());
     return listGDXDeck();
   }
 
@@ -94,7 +95,7 @@ public class DeckController extends Controller {
    * @return the list of cards updated.
    */
   public List<String> addCard(final String select) {
-    Deck.getInstance().addCard(select);
+    PlayersDeck.getInstance().addCard(select);
     return listGDXCard();
   }
 
@@ -106,7 +107,7 @@ public class DeckController extends Controller {
    * @return the list of cards updated. 
    */
   public List<String> removeCard(final String card) {
-    Deck.getInstance().removeCard(card);
+    PlayersDeck.getInstance().removeCard(card);
     return listGDXCard();
   }
 
@@ -118,8 +119,8 @@ public class DeckController extends Controller {
    * @return the deckList updated.
    */
   public List<String> removeDeckCard(final String card) {
-    Deck.getInstance().getPositionFree().add(Deck.getInstance().getDeck().get(card).getPosition());
-    Deck.getInstance().removeDeckCard(card);
+    PlayersDeck.getInstance().getPositionFree().add(PlayersDeck.getInstance().getDeck().get(card).getPosition());
+    PlayersDeck.getInstance().removeDeckCard(card);
     return listGDXDeck();
   }
 
@@ -129,7 +130,7 @@ public class DeckController extends Controller {
    * @return true if the deck has 4 cards.
    */
   public boolean full() {
-    if (Deck.getInstance().getDeck().size() < DIMDECK) {
+    if (PlayersDeck.getInstance().getDeck().size() < DIMDECK) {
       return true;
     }
     JOptionPane.showMessageDialog(frame, "DECK PIENO(MAX 4 CARTE), RIMUOVERE PRIMA UNA CARTA");
@@ -142,7 +143,7 @@ public class DeckController extends Controller {
    *   @return true if the deck is empty.
    */
   public boolean empty() {
-    if (!Deck.getInstance().getDeck().isEmpty()) {
+    if (!PlayersDeck.getInstance().getDeck().isEmpty()) {
       return true;
     }
     JOptionPane.showMessageDialog(frame, "DECK VUOTO");
@@ -153,7 +154,7 @@ public class DeckController extends Controller {
    * Check if the deck has 4 cards, than save the deck and return to the menu. 
    */
   public void returnButton() {
-    if (Deck.getInstance().getDeck().size() == DIMDECK) {
+    if (PlayersDeck.getInstance().getDeck().size() == DIMDECK) {
 
       triggerMenu();
     } else {
