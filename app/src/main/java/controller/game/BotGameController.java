@@ -122,7 +122,7 @@ public class BotGameController extends GameController {
     final Vector2 v = new Vector2(this.randomPosition(150, 550), this.randomPosition(500, 700));
     CardActor c = null;
     for (final Entry<CardActor, Card> e : this.botCardsMap.entrySet()) {
-      if (this.checkposition(v, e.getValue().getOwner()) && e.getKey().isDraggable() && e.getValue().getCost() <= this.botElixir.getElixirCount()) {
+      if (this.checkposition(v, e.getValue()) && e.getKey().isDraggable() && e.getValue().getCost() <= this.botElixir.getElixirCount()) {
         e.getValue().setPosition(v);
         e.getKey().setPosition(v.x, v.y);
         c = e.getKey();
@@ -144,7 +144,7 @@ public class BotGameController extends GameController {
     final var card = new ArrayList<Card>();
     super.getPlayerActorsMap().entrySet().stream().forEach(e -> {
       if (e.getKey().isDraggable() && !Gdx.input.isTouched()) {
-        if (this.checkposition(e.getKey().getCenter(), e.getValue().getOwner()) && e.getValue().getCost() <= super.getPlayerCurrentElixir()) {
+        if (this.checkposition(e.getKey().getCenter(), e.getValue()) && e.getValue().getCost() <= super.getPlayerCurrentElixir()) {
           card.add(e.getValue());
           super.deployPlayerCard(e.getValue());
           e.getKey().setDraggable(false);
@@ -159,11 +159,11 @@ public class BotGameController extends GameController {
     }
   }
 
-  private boolean checkposition(final Vector2 v, final User u) {
+  private boolean checkposition(final Vector2 v, final Card c) {
     if (super.getGameMap().containsPosition(v) && super.getGameMap().getMapUnitFromPosition(v).getType().equals(MapUnit.Type.TERRAIN)) {
-      if (u instanceof User && v.y < SIDE) {
+      if (c.getOwner() instanceof User && v.y < SIDE) {
         return true;
-      } else if (u instanceof Bot && v.y > SIDE) {
+      } else if (c.getOwner() instanceof Bot && v.y > SIDE) {
         return true;
       }
     }
