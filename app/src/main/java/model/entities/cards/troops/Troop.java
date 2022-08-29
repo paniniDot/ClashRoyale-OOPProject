@@ -1,10 +1,10 @@
-package model.actors.cards.troops;
+package model.entities.cards.troops;
 
 import com.badlogic.gdx.math.Vector2;
-import model.actors.Speeds;
-//import model.actors.TargetType;
-import model.actors.cards.Card;
-import model.actors.users.User;
+
+import model.entities.Speeds;
+import model.entities.cards.Card;
+import model.entities.users.User;
 
 /**
  * Defines a troop. 

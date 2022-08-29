@@ -1,8 +1,10 @@
-package view.actors;
+package view.actors.cards;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+
+import view.actors.DragAndDropActor;
 
 /**
  * Deployable card actor.

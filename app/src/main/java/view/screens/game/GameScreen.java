@@ -1,4 +1,4 @@
-package view.screens;
+package view.screens.game;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -7,14 +7,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import control.controller.Controller;
-import control.controller.game.BotGameController;
-import control.controller.game.GameController;
-import control.launcher.ClashRoyale;
-
+import controller.Controller;
+import controller.game.BotGameController;
+import controller.game.GameController;
+import launcher.ClashRoyale;
 import model.utilities.AnimationUtilities;
 
 import view.actors.BaseActor;
+import view.screens.BaseScreen;
 
 /**
  * In-game screen implementation.

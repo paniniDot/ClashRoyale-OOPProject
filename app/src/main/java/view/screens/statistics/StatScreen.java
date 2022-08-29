@@ -1,4 +1,4 @@
-package view.screens;
+package view.screens.statistics;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -9,11 +9,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-import control.controller.Controller;
-import control.controller.StatController;
-import control.launcher.ClashRoyale;
+import controller.Controller;
+import controller.statistics.StatController;
+import launcher.ClashRoyale;
 import model.utilities.AnimationUtilities;
 import view.actors.BaseActor;
+import view.screens.BaseScreen;
 
 /**
  * View implementation of the stat screen.

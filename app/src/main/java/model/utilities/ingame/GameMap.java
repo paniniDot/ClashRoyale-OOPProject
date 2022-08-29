@@ -17,7 +17,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 
-import model.actors.Attackable;
+import model.entities.Attackable;
 import model.utilities.VectorsUtilities;
 
 /**

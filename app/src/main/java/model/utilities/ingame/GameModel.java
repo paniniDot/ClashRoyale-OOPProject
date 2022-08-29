@@ -12,12 +12,12 @@ import com.badlogic.gdx.math.Vector2;
 
 import model.GlobalData;
 import model.Model;
-import model.actors.Attackable;
-import model.actors.cards.Card;
-import model.actors.towers.KingTower;
-import model.actors.towers.QueenTower;
-import model.actors.towers.Tower;
-import model.actors.users.User;
+import model.entities.Attackable;
+import model.entities.cards.Card;
+import model.entities.towers.KingTower;
+import model.entities.towers.QueenTower;
+import model.entities.towers.Tower;
+import model.entities.users.User;
 
 /**
  * Defines the logic to be used inside the game.

@@ -1,4 +1,4 @@
-package view.screens;
+package view.screens.deck;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -10,11 +10,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import control.controller.Controller;
-import control.controller.DeckController;
-import control.launcher.ClashRoyale;
+
+import controller.Controller;
+import controller.deck.DeckController;
+import launcher.ClashRoyale;
 import model.utilities.AnimationUtilities;
 import view.actors.BaseActor;
+import view.screens.BaseScreen;
 
 /**
  * Deck screen implementation.

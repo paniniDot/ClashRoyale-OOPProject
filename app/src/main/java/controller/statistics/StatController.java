@@ -1,10 +1,12 @@
-package control.controller;
+package controller.statistics;
 
-import control.controller.game.AudioController;
-import control.launcher.ClashRoyale;
-import control.utilities.FileManager;
+import controller.AudioController;
+import controller.Controller;
+import controller.FileManager;
+import controller.menu.MenuController;
+import launcher.ClashRoyale;
 import model.Model;
-import view.screens.StatScreen;
+import view.screens.statistics.StatScreen;
 
 /**
  * Controller implementation of the stat screen.

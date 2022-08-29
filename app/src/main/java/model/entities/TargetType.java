@@ -1,4 +1,4 @@
-package model.actors;
+package model.entities;
 
 /**
  * The self type of an Attackable entity.

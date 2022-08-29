@@ -1,4 +1,4 @@
-package control.controller.game;
+package controller.game;
 
 import java.util.HashMap;
 import java.util.List;
@@ -6,18 +6,22 @@ import java.util.Map;
 import java.util.Map.Entry;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import control.controller.Controller;
-import control.controller.MenuController;
-import control.launcher.ClashRoyale;
-import model.actors.Attackable;
-import model.actors.cards.Card;
-import model.actors.towers.Tower;
+
+import controller.AudioController;
+import controller.Controller;
+import controller.CountDownController;
+import controller.ElixirController;
+import controller.menu.MenuController;
+import launcher.ClashRoyale;
+import model.entities.Attackable;
+import model.entities.cards.Card;
+import model.entities.towers.Tower;
 import model.utilities.AnimationUtilities;
 import model.utilities.ingame.GameModel;
 import model.utilities.ingame.GameMap;
-import view.actors.CardActor;
-import view.actors.TowerActor;
-import view.screens.GameScreen;
+import view.actors.cards.CardActor;
+import view.actors.towers.TowerActor;
+import view.screens.game.GameScreen;
 
 /**
  * Abstract Controller for the game screen.

@@ -1,4 +1,4 @@
-package view.screens;
+package view.screens.menu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -9,13 +9,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-import control.controller.Controller;
-import control.controller.MenuController;
-import control.controller.game.GameController;
-import control.launcher.ClashRoyale;
+import controller.Controller;
+import controller.game.GameController;
+import controller.menu.MenuController;
+import launcher.ClashRoyale;
 import model.GlobalData;
 import model.utilities.AnimationUtilities;
 import view.actors.BaseActor;
+import view.screens.BaseScreen;
 
 /**
  * Menu screen implementation.

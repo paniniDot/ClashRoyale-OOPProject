@@ -1,9 +1,10 @@
-package model.actors.cards.buildings;
+package model.entities.cards.buildings;
 
 import com.badlogic.gdx.math.Vector2;
-import model.actors.cards.Card;
-import model.actors.users.User;
-import model.actors.Speeds;
+
+import model.entities.Speeds;
+import model.entities.cards.Card;
+import model.entities.users.User;
 
 /**
  * Building card.

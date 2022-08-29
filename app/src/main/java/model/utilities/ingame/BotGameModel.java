@@ -10,13 +10,13 @@ import java.util.stream.Stream;
 
 import com.badlogic.gdx.math.Vector2;
 
-import model.actors.Attackable;
-import model.actors.cards.Card;
-import model.actors.towers.KingTower;
-import model.actors.towers.QueenTower;
-import model.actors.towers.Tower;
-import model.actors.users.Bot;
-import model.actors.users.User;
+import model.entities.Attackable;
+import model.entities.cards.Card;
+import model.entities.towers.KingTower;
+import model.entities.towers.QueenTower;
+import model.entities.towers.Tower;
+import model.entities.users.Bot;
+import model.entities.users.User;
 import model.utilities.VectorsUtilities;
 
 /**

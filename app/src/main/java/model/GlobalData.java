@@ -1,17 +1,16 @@
 package model;
 
-import model.actors.users.User;
-
 import java.util.List;
 
 import com.badlogic.gdx.math.Vector2;
 
-import control.controller.game.SaveController;
-import model.actors.cards.Card;
-import model.actors.cards.troops.Barbarian;
-import model.actors.cards.troops.Giant;
-import model.actors.cards.troops.Wizard;
-import model.actors.users.Bot;
+import controller.SaveController;
+import model.entities.cards.Card;
+import model.entities.cards.troops.Barbarian;
+import model.entities.cards.troops.Giant;
+import model.entities.cards.troops.Wizard;
+import model.entities.users.Bot;
+import model.entities.users.User;
 
 /**
  * Class used to easily provide istances of User and Bot.

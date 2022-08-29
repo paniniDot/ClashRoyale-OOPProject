@@ -1,4 +1,4 @@
-package control.controller.game;
+package controller.game;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,17 +10,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
+import controller.ElixirController;
 import model.GlobalData;
-import model.actors.Attackable;
-import model.actors.cards.Card;
-import model.actors.towers.Tower;
-import model.actors.users.Bot;
-import model.actors.users.User;
+import model.entities.Attackable;
+import model.entities.cards.Card;
+import model.entities.towers.Tower;
+import model.entities.users.Bot;
+import model.entities.users.User;
 import model.utilities.AnimationUtilities;
 import model.utilities.Deck;
 import model.utilities.ingame.BotGameModel;
-import view.actors.CardActor;
-import view.actors.TowerActor;
+import view.actors.cards.CardActor;
+import view.actors.towers.TowerActor;
 
 /**
  * 

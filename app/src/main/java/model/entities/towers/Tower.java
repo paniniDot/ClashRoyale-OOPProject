@@ -1,4 +1,4 @@
-package model.actors.towers;
+package model.entities.towers;
 
 import java.util.List;
 import java.util.Map;
@@ -7,9 +7,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.badlogic.gdx.math.Vector2;
-import model.actors.Attackable;
-import model.actors.Speeds;
-import model.actors.users.User;
+
+import model.entities.Attackable;
+import model.entities.Speeds;
+import model.entities.users.User;
 
 /**
  * Tower abstract class.

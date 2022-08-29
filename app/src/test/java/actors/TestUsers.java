@@ -4,8 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import model.actors.users.User;
-import model.actors.users.UserLevel;
+
+import model.entities.users.User;
+import model.entities.users.UserLevel;
 
 class TestUsers {
 

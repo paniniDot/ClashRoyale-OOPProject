@@ -1,4 +1,4 @@
-package control.controller.game;
+package controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;

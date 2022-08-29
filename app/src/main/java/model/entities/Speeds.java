@@ -1,4 +1,4 @@
-package model.actors;
+package model.entities;
 
 /**
  * Speed at which entities move.

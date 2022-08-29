@@ -1,4 +1,4 @@
-package control.controller.game;
+package controller;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -10,8 +10,8 @@ import com.badlogic.gdx.graphics.g3d.model.Node;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import model.actors.cards.Card;
-import model.actors.users.User;
+import model.entities.cards.Card;
+import model.entities.users.User;
 
 /**
  * Class used to save and load User and Deck.

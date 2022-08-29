@@ -1,12 +1,10 @@
-package control.controller;
+package controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import model.Model;
-import model.actors.users.User;
-import control.controller.game.AudioController;
-import control.controller.game.SaveController;
+import model.entities.users.User;
 
 /**
  * The controller for the game.

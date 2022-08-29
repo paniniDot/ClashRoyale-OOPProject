@@ -1,10 +1,10 @@
-package model.actors;
+package model.entities;
 
 import java.util.Optional;
 
 import com.badlogic.gdx.math.Vector2;
 
-import model.actors.users.User;
+import model.entities.users.User;
 
 /**
  * Defines entities which are allowed to be attacked from others.

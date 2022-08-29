@@ -1,9 +1,9 @@
-package control.launcher;
+package launcher;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 
-import control.controller.MenuController;
+import controller.menu.MenuController;
 
 /**
  * Implementation of Game class.

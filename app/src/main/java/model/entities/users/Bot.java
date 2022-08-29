@@ -1,4 +1,4 @@
-package model.actors.users;
+package model.entities.users;
 
 /**
  * bot implementation.

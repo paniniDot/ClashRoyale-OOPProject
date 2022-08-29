@@ -1,4 +1,4 @@
-package model.actors.cards.buildings;
+package model.entities.cards.buildings;
 
 import java.util.Collections;
 import java.util.List;
@@ -6,10 +6,10 @@ import java.util.Map;
 
 import com.badlogic.gdx.math.Vector2;
 
-import model.actors.users.User;
-import model.actors.Attackable;
-import model.actors.Speeds;
-import model.actors.cards.Card;
+import model.entities.Attackable;
+import model.entities.Speeds;
+import model.entities.cards.Card;
+import model.entities.users.User;
 
 /**
  * Inferno Tower building.

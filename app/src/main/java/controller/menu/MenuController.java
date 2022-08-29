@@ -1,12 +1,15 @@
-package control.controller;
+package controller.menu;
 
 import com.badlogic.gdx.Gdx;
 
-import control.controller.game.AudioController;
-import control.controller.game.BotGameController;
-import control.launcher.ClashRoyale;
+import controller.AudioController;
+import controller.Controller;
+import controller.deck.DeckController;
+import controller.game.BotGameController;
+import controller.statistics.StatController;
+import launcher.ClashRoyale;
 import model.Model;
-import view.screens.MenuScreen;
+import view.screens.menu.MenuScreen;
 
 /**
  * Controller implementation for the Menu Screen.

@@ -1,12 +1,12 @@
-package model.actors.towers;
+package model.entities.towers;
 
 import java.util.List;
 import java.util.Map;
 
 import com.badlogic.gdx.math.Vector2;
 
-import model.actors.Speeds;
-import model.actors.users.User;
+import model.entities.Speeds;
+import model.entities.users.User;
 
 /**
  * The central tower.

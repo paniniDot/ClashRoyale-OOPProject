@@ -1,4 +1,4 @@
-package control.controller;
+package controller.deck;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -8,9 +8,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import model.Model;
 import model.utilities.Deck;
-import control.controller.game.AudioController;
-import control.launcher.ClashRoyale;
-import view.screens.DeckScreen;
+import view.screens.deck.DeckScreen;
+import controller.AudioController;
+import controller.Controller;
+import controller.menu.MenuController;
+import launcher.ClashRoyale;
 /**
  * Controller implementation for the game screen.
  */

@@ -11,11 +11,11 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-import model.actors.cards.Card;
-import model.actors.cards.buildings.InfernoTower;
-import model.actors.cards.troops.Barbarian;
-import model.actors.cards.troops.Giant;
-import model.actors.cards.troops.Wizard;
+import model.entities.cards.Card;
+import model.entities.cards.buildings.InfernoTower;
+import model.entities.cards.troops.Barbarian;
+import model.entities.cards.troops.Giant;
+import model.entities.cards.troops.Wizard;
 
 /**
  *
