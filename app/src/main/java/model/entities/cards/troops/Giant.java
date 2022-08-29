@@ -15,7 +15,7 @@ import model.entities.users.User;
  */
 public final class Giant extends Troop {
 
-  private static final String GIANT_WORD = "barbarian";
+  private static final String GIANT_WORD = "giant";
 
   private static final String SELF_WALK = GIANT_WORD + File.separator + "self" + File.separator + "walking" + File.separator;
   private static final String SELF_ATT = GIANT_WORD + File.separator + "self" + File.separator + "attacking" + File.separator;
