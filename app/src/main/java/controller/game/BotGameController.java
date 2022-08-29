@@ -97,19 +97,9 @@ public class BotGameController extends GameController {
   }
 
   private void updateActorPositions(final Map<CardActor, Card> cardActors, final List<Attackable> enemyAttackables) {
-    final var card = new ArrayList<Card>();
     final var actor = new ArrayList<CardActor>();
     cardActors.entrySet().stream().forEach(e -> {
-      if (e.getKey().isDraggable() && !Gdx.input.isTouched()) {
-        if (e.getValue().getOwner() instanceof User && e.getValue().getCost() <= super.getPlayerCurrentElixir() && super.getGameMap().containsPosition(e.getKey().getCenter()) && super.getGameMap().getMapUnitFromPosition(e.getKey().getCenter()).getType().equals(MapUnit.Type.TERRAIN)) {
-          card.add(e.getValue());
-          super.deployPlayerCard(e.getValue());
-          e.getKey().setDraggable(false);
-          e.getValue().setPosition(e.getKey().getCenter());
-        } else {
-          e.getKey().setPosition(e.getKey().getOrigin().x, e.getKey().getOrigin().y);
-        }
-      } else if (!e.getKey().isDraggable() && this.roundedPosition(e.getKey().getCenter()).equals(this.roundedPosition(e.getValue().getPosition()))) {
+      if (!e.getKey().isDraggable() && e.getKey().getCenter().equals(e.getValue().getPosition())) {
         this.updateAttackablePosition((Attackable) e.getValue(), enemyAttackables);
         e.getKey().setRotation(e.getValue().getPosition());
         e.getKey().moveTo(e.getValue().getPosition());
@@ -121,19 +111,16 @@ public class BotGameController extends GameController {
         actor.add(e.getKey());
       }
     });
-    if (!card.isEmpty()) {
-      super.deployPlayerActor(card);
-    }
     if (!actor.isEmpty()) {
       super.updateCardsMap(actor);
     }
   }
 
   private void placeBotActor() {
-    final Vector2 v = new Vector2(this.randomPosition(150, 550), this.randomPosition(450, 700));
+    final Vector2 v = new Vector2(this.randomPosition(150, 550), this.randomPosition(500, 700));
     CardActor c = null;
     for (final Entry<CardActor, Card> e : this.botCardsMap.entrySet()) {
-      if (super.getGameMap().containsPosition(v) && super.getGameMap().getMapUnitFromPosition(v).getType().equals(MapUnit.Type.TERRAIN) && e.getKey().isDraggable() && e.getValue().getOwner() instanceof Bot && e.getValue().getCost() <= this.botElixir.getElixirCount()) {
+      if (this.checkposition(v, e.getValue().getOwner()) && e.getKey().isDraggable() && e.getValue().getCost() <= this.botElixir.getElixirCount()) {
         e.getValue().setPosition(v);
         e.getKey().setPosition(v.x, v.y);
         c = e.getKey();
@@ -151,6 +138,35 @@ public class BotGameController extends GameController {
     }
   }
 
+  private void placePlayeActor() {
+    final var card = new ArrayList<Card>();
+    super.getPlayerActorsMap().entrySet().stream().forEach(e -> {
+      if (e.getKey().isDraggable() && !Gdx.input.isTouched()) {
+        if (this.checkposition(e.getKey().getCenter(), e.getValue().getOwner()) && e.getValue().getCost() <= super.getPlayerCurrentElixir()) {
+          card.add(e.getValue());
+          super.deployPlayerCard(e.getValue());
+          e.getKey().setDraggable(false);
+          e.getValue().setPosition(e.getKey().getCenter());
+        } else {
+          e.getKey().setPosition(e.getKey().getOrigin().x, e.getKey().getOrigin().y);
+        }
+      }
+    });
+    if (!card.isEmpty()) {
+      super.deployPlayerActor(card);
+    }
+  }
+
+  private boolean checkposition(final Vector2 v, final User u) {
+    if (super.getGameMap().containsPosition(v) && super.getGameMap().getMapUnitFromPosition(v).getType().equals(MapUnit.Type.TERRAIN)) {
+      if (u instanceof User && v.y < 500) {
+        return true;
+      } else if (u instanceof Bot && v.y > 500) {
+        return true;
+      }
+    }
+    return false;
+  }
   private void deployBotCard(final Card card) {
     ((BotGameModel) super.getModel()).deployBotCard(card);
     this.botElixir.decrementElixir(card.getCost());
@@ -161,13 +177,10 @@ public class BotGameController extends GameController {
     return rand.nextInt((max - min) + 1) + min;
   }
 
-  private Vector2 roundedPosition(final Vector2 pos) {
-    return new Vector2((int) pos.x, (int) pos.y);
-  }
-
   @Override
   protected void onUpdateActors() {
     this.placeBotActor();
+    this.placePlayeActor();
     this.updateActorPositions(super.getPlayerActorsMap(), this.getBotAttackables());
     this.updateActorPositions(this.botCardsMap, super.getUserAttackables());
   }
