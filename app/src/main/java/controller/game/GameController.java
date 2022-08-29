@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import controller.Controller;
 import controller.CountDownController;
 import controller.ElixirController;
+import controller.FileManager;
 import controller.menu.MenuController;
 import launcher.ClashRoyale;
 import model.entities.Attackable;
@@ -64,6 +65,7 @@ public abstract class GameController extends Controller {
   public void update(final float dt) {
     if (this.timer.getTime() == 0 || this.checkUserLose() || this.checkEnemyLose()) {
       this.playerElixir.setRunFalse();
+      this.updateStats();
       this.onUpdate();
       this.timer.setRunFalse();
       super.stopMusic();
@@ -71,6 +73,16 @@ public abstract class GameController extends Controller {
     }
     this.updateActors();
     this.updateActorAnimations();
+  }
+
+  private void updateStats() {
+    final var fileManager = new FileManager();
+    fileManager.addPlays();
+    if (this.checkEnemyLose()) {
+      fileManager.addWin();
+    }
+    fileManager.addTowersDestroyed(getDestoryedTowers());
+    fileManager.save();
   }
 
   private boolean checkUserLose() {
@@ -82,6 +94,12 @@ public abstract class GameController extends Controller {
    * @return if the enemy, whether is a bot or a real player, lost the match.
    */
   protected abstract boolean checkEnemyLose();
+
+  /**
+   * 
+   * @return the number of destryedTowers.
+   */
+  protected abstract int getDestoryedTowers();
 
   /**
    * Called from subclasses to extend functionalities when the match is over.

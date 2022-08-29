@@ -52,6 +52,11 @@ public class BotGameController extends GameController {
   }
 
   @Override
+  protected int getDestoryedTowers() {
+    return 3 - ((BotGameModel) super.getModel()).getBotActiveTowers().size();
+  }
+
+  @Override
   protected void onUpdate() {
     this.botElixir.setRunFalse();
   }
