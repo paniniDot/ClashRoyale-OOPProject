@@ -97,8 +97,6 @@ public class FileManager {
       bufferedWriter.write(this.getWins());
       bufferedWriter.write(this.getTowersDestroyed());
 
-      //System.out.println(this.getPlays() +" "+ this.getTowersDestroyed() +" "+ this.getWins());
-
     } catch (IOException e) {
       System.err.println("IOException from FileManager.save()");
       e.printStackTrace();
