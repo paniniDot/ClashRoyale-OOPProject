@@ -1,5 +1,6 @@
 package model.entities.cards.troops;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +14,13 @@ import model.entities.users.User;
  * Giant troop.
  */
 public final class Giant extends Troop {
+
+  private static final String GIANT_WORD = "barbarian";
+
+  private static final String SELF_WALK = GIANT_WORD + File.separator + "self" + File.separator + "walking" + File.separator;
+  private static final String SELF_ATT = GIANT_WORD + File.separator + "self" + File.separator + "attacking" + File.separator;
+  private static final String BOT_WALK = GIANT_WORD + File.separator + "bot" + File.separator + "walking" + File.separator;
+  private static final String BOT_ATT = GIANT_WORD + File.separator + "bot" + File.separator + "attacking" + File.separator;
 
   /**
    * Elixir cost of the card.
@@ -47,11 +55,11 @@ public final class Giant extends Troop {
   @Override
   public Map<String, List<String>> getAnimationFiles() {
     return Map.of(
-        "SELF_MOVING", List.of("giant/self/walking/0.png", "giant/self/walking/1.png"),
-        "SELF_FIGHTING", List.of("giant/self/attacking/0.png", "giant/self/attacking/1.png", "giant/self/attacking/2.png"),
-        "ENEMY_MOVING", List.of("giant/bot/walking/0.png", "giant/bot/walking/1.png"),
-        "ENEMY_FIGHTING", List.of("giant/bot/attacking/0.png", "giant/bot/attacking/1.png", "giant/bot/attacking/2.png"),
-        "AS_CARD", List.of("cards/GiantCard.png"));
+        "SELF_MOVING", List.of(Giant.SELF_WALK + "0.png", Giant.SELF_WALK + "1.png"),
+        "SELF_FIGHTING", List.of(Giant.SELF_ATT + "0.png", Giant.SELF_ATT + "1.png", Giant.SELF_ATT + "2.png"),
+        "ENEMY_MOVING", List.of(Giant.BOT_WALK + "0.png", Giant.BOT_WALK + "1.png"),
+        "ENEMY_FIGHTING", List.of(Giant.BOT_ATT + "0.png", Giant.BOT_ATT + "1.png", Giant.BOT_ATT + "2.png"),
+        "AS_CARD", List.of("cards" + File.separator + "GiantCard.png"));
   }
 
   /**

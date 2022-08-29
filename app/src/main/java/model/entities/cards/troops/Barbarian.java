@@ -1,5 +1,6 @@
 package model.entities.cards.troops;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -14,10 +15,17 @@ import model.entities.users.User;
  */
 public final class Barbarian extends Troop {
 
+  private static final String BARBARIAN_WORD = "barbarian";
+
+  private static final String SELF_WALK = BARBARIAN_WORD + File.separator + "self" + File.separator + "walking" + File.separator;
+  private static final String SELF_ATT = BARBARIAN_WORD + File.separator + "self" + File.separator + "attacking" + File.separator;
+  private static final String BOT_WALK = BARBARIAN_WORD + File.separator + "bot" + File.separator + "walking" + File.separator;
+  private static final String BOT_ATT = BARBARIAN_WORD + File.separator + "bot" + File.separator + "attacking" + File.separator;
+
   /**
    * Elixir cost of the card.
    */
-  public static final int ELIXIR_COST = 5;
+  public static final int ELIXIR_COST = 4;
   private static final int RANGE = 30;
 
   private Barbarian(final User owner, final Vector2 position, final double maxHP, final double damage) {
@@ -46,11 +54,12 @@ public final class Barbarian extends Troop {
   @Override
   public Map<String, List<String>> getAnimationFiles() {
     return Map.of(
-        "SELF_MOVING", List.of("barbarian/self/walking/0.png", "barbarian/self/walking/1.png", "barbarian/self/walking/2.png", "barbarian/self/walking/3.png", "barbarian/self/walking/4.png", "barbarian/self/walking/5.png", "barbarian/self/walking/6.png"),
-        "SELF_FIGHTING", List.of("barbarian/self/attacking/0.png", "barbarian/self/attacking/1.png", "barbarian/self/attacking/2.png", "barbarian/self/attacking/3.png"),
-        "ENEMY_MOVING", List.of("barbarian/bot/walking/0.png", "barbarian/bot/walking/1.png"),
-        "ENEMY_FIGHTING", List.of("barbarian/bot/attacking/0.png", "barbarian/bot/attacking/1.png", "barbarian/bot/attacking/2.png", "barbarian/bot/attacking/3.png"),
-        "AS_CARD", List.of("cards/BarbariansCard.png"));
+        "SELF_MOVING", List.of(Barbarian.SELF_WALK + "0.png", Barbarian.SELF_WALK + "1.png", Barbarian.SELF_WALK + "2.png", Barbarian.SELF_WALK + "3.png", 
+            Barbarian.SELF_WALK + "4.png", Barbarian.SELF_WALK + "5.png", Barbarian.SELF_WALK + "6.png"),
+        "SELF_FIGHTING", List.of(Barbarian.SELF_ATT + "0.png", Barbarian.SELF_ATT + "1.png", Barbarian.SELF_ATT + "2.png", Barbarian.SELF_ATT + "3.png"),
+        "ENEMY_MOVING", List.of(Barbarian.BOT_WALK + "0.png", Barbarian.BOT_WALK + "1.png"),
+        "ENEMY_FIGHTING", List.of(Barbarian.BOT_ATT + "0.png", Barbarian.BOT_ATT + "1.png", Barbarian.BOT_ATT + "2.png", Barbarian.BOT_ATT + "3.png"),
+        "AS_CARD", List.of("cards" + File.separator + "BarbariansCard.png"));
   }
 
   /**
