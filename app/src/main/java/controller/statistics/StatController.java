@@ -1,6 +1,5 @@
 package controller.statistics;
 
-import controller.AudioController;
 import controller.Controller;
 import controller.FileManager;
 import controller.menu.MenuController;
@@ -19,7 +18,7 @@ public class StatController extends Controller {
    * Constructor.
    */
   public StatController() {
-    super(AudioController.getMenuMusic());
+    super(new AudioStaticsController());
     super.registerModel(new Model());
     this.fileManager = new FileManager();
     this.fileManager.read();

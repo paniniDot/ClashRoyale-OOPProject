@@ -4,15 +4,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 
 /**
- * Utility class for music.
+ * Controller class for music.
  */
-public final class AudioController {
+public abstract class AudioController {
 
   private static final float VOLUME = 0.1f;
 
   private final Music music;
-
-  private AudioController(final String name) {
+  /**
+   * Constructor.
+   * @param name name of the audio file.
+   */
+  public AudioController(final String name) {
     this.music = Gdx.audio.newMusic(Gdx.files.internal(name));
     this.music.setLooping(true);
   }
@@ -29,20 +32,5 @@ public final class AudioController {
    */
   public void stop() {
     this.music.stop();
-  }
-
-  /**
-   * plays menu music.
-   * @return the menu audio. 
-   */
-  public static AudioController getMenuMusic() {
-    return new AudioController("sounds/Menu.mp3");
-  }
-  /**
-   * plays battle music.
-   * @return the game audio. 
-   */
-  public static AudioController getBattleMusic() {
-    return new AudioController("sounds/Battle.mp3");
   }
 }

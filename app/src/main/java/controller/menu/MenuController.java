@@ -20,7 +20,7 @@ public class MenuController extends Controller {
    * Constructor.
    */
   public MenuController() {
-    super(AudioController.getMenuMusic());
+    super(new AudioMenuController());
     super.registerModel(new Model());
   }
 

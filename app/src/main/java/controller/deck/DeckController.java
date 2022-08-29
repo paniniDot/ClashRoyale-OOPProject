@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import model.Model;
 import view.screens.deck.DeckScreen;
-import controller.AudioController;
 import controller.Controller;
 import controller.menu.MenuController;
 import launcher.ClashRoyale;
@@ -28,7 +27,7 @@ public class DeckController extends Controller {
    * Constructor.
    */
   public DeckController() {
-    super(AudioController.getMenuMusic());
+    super(new AudioDeckController());
     super.registerModel(new Model());
     this.atlas = new TextureAtlas("buttons/atlas.pack");
     this.skin = new Skin(Gdx.files.internal("buttons/menuSkin.json"), atlas);

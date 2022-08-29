@@ -6,8 +6,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-
-import controller.AudioController;
 import controller.Controller;
 import controller.CountDownController;
 import controller.ElixirController;
@@ -45,7 +43,7 @@ public abstract class GameController extends Controller {
    * @param model the logic followed by this controller.
    */
   public GameController(final GameModel model) {
-    super(AudioController.getBattleMusic());
+    super(new AudioGameController());
     this.playerElixir = new ElixirController();
     this.timer = new CountDownController();
     this.playerCardsMap = new HashMap<>();
