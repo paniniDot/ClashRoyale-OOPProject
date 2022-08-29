@@ -35,6 +35,8 @@ public class BotGameController extends GameController {
   private final ElixirController botElixir;
   private Map<CardActor, Card> botCardsMap;
   private Map<TowerActor, Tower> botTowersMap;
+  private final Random rand = new Random();
+  private static final int SIDE = 500;
 
   /**
    * Constructor.
@@ -159,9 +161,9 @@ public class BotGameController extends GameController {
 
   private boolean checkposition(final Vector2 v, final User u) {
     if (super.getGameMap().containsPosition(v) && super.getGameMap().getMapUnitFromPosition(v).getType().equals(MapUnit.Type.TERRAIN)) {
-      if (u instanceof User && v.y < 500) {
+      if (u instanceof User && v.y < SIDE) {
         return true;
-      } else if (u instanceof Bot && v.y > 500) {
+      } else if (u instanceof Bot && v.y > SIDE) {
         return true;
       }
     }
@@ -173,7 +175,6 @@ public class BotGameController extends GameController {
   }
 
   private int randomPosition(final int min, final int max) {
-    final Random rand = new Random();
     return rand.nextInt((max - min) + 1) + min;
   }
 
