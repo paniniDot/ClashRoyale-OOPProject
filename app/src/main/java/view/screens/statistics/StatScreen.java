@@ -1,5 +1,7 @@
 package view.screens.statistics;
 
+import java.io.File;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -42,7 +44,7 @@ public class StatScreen extends BaseScreen {
   protected void initialize() {
     super.getController().playMusic();
     super.getController().setInputProcessor(super.getMainStage());
-    final var background = new BaseActor(0, 0, super.getMainStage(), AnimationUtilities.loadTexture("backgrounds/menuBackground.png"));
+    final var background = new BaseActor(0, 0, super.getMainStage(), AnimationUtilities.loadTexture("backgrounds" + File.separator + "menuBackground.png"));
     background.setSize(ClashRoyale.WIDTH, ClashRoyale.HEIGHT);
   }
 
@@ -50,11 +52,11 @@ public class StatScreen extends BaseScreen {
   public void show() {
     super.show();
     Gdx.input.setInputProcessor(super.getUiStage());
-    this.atlas = new TextureAtlas("buttons/atlas.pack");
-    this.skin = new Skin(Gdx.files.internal("buttons/menuSkin.json"), atlas);
+    this.atlas = new TextureAtlas("buttons" + File.separator + "atlas.pack");
+    this.skin = new Skin(Gdx.files.internal("buttons" + File.separator + "menuSkin.json"), atlas);
     final var table = new Table(skin);
     table.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-    final var heading = new Label("Statistiche", this.skin);
+    final var heading = new Label("Statistics", this.skin);
 
     final var buttonReturn = new TextButton("RETURN", skin);
     buttonReturn.addListener(new ClickListener() {
@@ -70,13 +72,13 @@ public class StatScreen extends BaseScreen {
     table.add(heading);
     table.getCell(heading).spaceBottom(100).row();
     table.row();
-    table.add("Partite giocate: " + statController.getPlays());
+    table.add("Games played: " + statController.getPlays());
     table.row();
-    table.add("Vittorie: " + statController.getWins());
+    table.add("Wins: " + statController.getWins());
     table.row();
     table.add("W/L: " + statController.getRatio());
     table.row();
-    table.add("Torri abbattute: " + statController.getTowers());
+    table.add("Destroyed towers: " + statController.getTowers());
     table.row();
     table.add(buttonReturn).spaceTop(SPACE).right().expandX().expandY();
 
