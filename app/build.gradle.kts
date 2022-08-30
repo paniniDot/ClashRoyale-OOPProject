@@ -27,6 +27,7 @@ dependencies {
     // This dependency is used by the application.
 	implementation("com.google.guava:guava:30.1.1-jre")
 	implementation("com.badlogicgames.gdx:gdx-backend-lwjgl3:1.10.0")
+	implementation ("com.badlogicgames.gdx:gdx-backend-headless:1.10.0")
 	implementation("com.badlogicgames.gdx:gdx-platform:1.10.0")
 	implementation("com.badlogicgames.gdx:gdx-box2d-platform:1.10.0")
 	implementation("com.badlogicgames.gdx:gdx-bullet-platform:1.10.0")
@@ -42,6 +43,8 @@ dependencies {
 	implementation("org.jgrapht:jgrapht-core:1.5.1")
 
 	implementation("com.google.code.gson:gson:2.9.1")
+
+	testImplementation("org.mockito:mockito-core:4.7.0")
 }
 
 application {
