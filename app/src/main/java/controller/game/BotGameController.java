@@ -160,7 +160,14 @@ public class BotGameController extends GameController {
   }
 
   private boolean checkposition(final Vector2 v, final Card c) {
-    return super.getGameMap().containsPosition(v) && super.getGameMap().getMapUnitFromPosition(v).getType().equals(MapUnit.Type.TERRAIN) && c.getOwner() instanceof User && v.y < SIDE || v.y > SIDE;
+    if (super.getGameMap().containsPosition(v) && super.getGameMap().getMapUnitFromPosition(v).getType().equals(MapUnit.Type.TERRAIN)) {
+      if (c.getOwner() instanceof User && v.y < SIDE) {
+        return true;
+      } else if (c.getOwner() instanceof Bot && v.y > SIDE) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private void deployBotCard(final Card card) {
