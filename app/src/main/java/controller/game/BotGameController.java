@@ -7,6 +7,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -37,6 +40,7 @@ public class BotGameController extends GameController {
   private Map<TowerActor, Tower> botTowersMap;
   private final Random rand = new Random();
   private static final int SIDE = 500;
+  private final JFrame frame;
 
   /**
    * Constructor.
@@ -46,6 +50,7 @@ public class BotGameController extends GameController {
     this.botElixir = new ElixirController();
     this.botCardsMap = new HashMap<>();
     this.botTowersMap = new HashMap<>();
+    this.frame = new JFrame();
   }
 
   @Override
@@ -193,5 +198,18 @@ public class BotGameController extends GameController {
    */
   public long getPlayerScore() {
     return botTowersMap.entrySet().stream().filter(e -> e.getValue().isDead()).count();
+  }
+
+  @Override
+  public boolean checkForwinner() {
+    if (getPlayerScore() == 3) {
+      JOptionPane.showMessageDialog(frame, "Hai Perso");
+      return true;
+    }
+    if (super.getBotScore() == 3) {
+      JOptionPane.showMessageDialog(frame, "Hai Vinto");
+      return true;
+    }
+    return false;   
   }
 }
