@@ -24,6 +24,7 @@ import model.utilities.VectorsUtilities;
  * The actual map.
  */
 public class GameMap {
+
   private static final int HORIZONTAL_UNITS = 19;
   private static final int VERTICAL_UNITS = 32;
   private static final int X_START = 175;
@@ -32,6 +33,7 @@ public class GameMap {
   private final Graph<MapUnit, DefaultEdge> map;
   private final List<Vector2> obstaclePositions;
   private final List<Vector2> towerPositions;
+
   /**
    * Constructor.
    */
@@ -68,14 +70,14 @@ public class GameMap {
 
   private void addEdges() {
     this.map.vertexSet().stream()
-    .filter(src -> this.checkForOutOfBounds(src.getCoordinates()))
-    .forEach(src -> Stream.iterate(src.getCoordinates().x - 1, n -> n <= src.getCoordinates().x + 1, n -> n + 1)
-        .forEach(i -> Stream.iterate(src.getCoordinates().y - 1, n -> n <= src.getCoordinates().y + 1, n -> n + 1)
-            .forEach(j -> Stream.of(new Vector2(i, j))
-                .filter(v -> !this.obstaclePositions.contains(v))
-                .map(v -> new MapUnit(v, this.getPixelsFromUnitCoords(v), this.towerPositions.contains(v) ? MapUnit.Type.TOWER : MapUnit.Type.TERRAIN))
-                .filter(dst -> this.map.containsVertex(dst) && !src.equals(dst))
-                .forEach(dst -> this.map.addEdge(src, dst)))));
+      .filter(src -> this.checkForOutOfBounds(src.getCoordinates()))
+      .forEach(src -> Stream.iterate(src.getCoordinates().x - 1, n -> n <= src.getCoordinates().x + 1, n -> n + 1)
+          .forEach(i -> Stream.iterate(src.getCoordinates().y - 1, n -> n <= src.getCoordinates().y + 1, n -> n + 1)
+              .forEach(j -> Stream.of(new Vector2(i, j))
+                  .filter(v -> !this.obstaclePositions.contains(v))
+                  .map(v -> new MapUnit(v, this.getPixelsFromUnitCoords(v), this.towerPositions.contains(v) ? MapUnit.Type.TOWER : MapUnit.Type.TERRAIN))
+                  .filter(dst -> this.map.containsVertex(dst) && !src.equals(dst))
+                  .forEach(dst -> this.map.addEdge(src, dst)))));
   }
 
   private boolean checkForOutOfBounds(final Vector2 pos) {
@@ -83,30 +85,31 @@ public class GameMap {
   }
 
   @SuppressWarnings("serial")
-  private List<Vector2> getTowers() {
+  private List<Vector2> loadListFromGson(final String sourceFile) {
     try {
-      return new Gson().fromJson(new FileReader(Gdx.files.internal("saves/Arena1Resources/towers.json").file()), new TypeToken<List<Vector2>>() { }.getType());
+      return new Gson().fromJson(new FileReader(Gdx.files.internal(sourceFile).file()), new TypeToken<List<Vector2>>() { }.getType());
     } catch (IOException e) {
       return Collections.emptyList();
     }
   }
 
-  @SuppressWarnings("serial")
+  private List<Vector2> getTowers() {
+    return this.loadListFromGson("saves/Arena1Resources/towers.json");
+  }
+
   private List<Vector2> getObstacles() {
-    try {
-      return new Gson().fromJson(new FileReader(Gdx.files.internal("saves/Arena1Resources/obstacles.json").file()), new TypeToken<List<Vector2>>() { }.getType());
-    } catch (IOException e) {
-      return Collections.emptyList();
-    }
+    return this.loadListFromGson("saves/Arena1Resources/obstacles.json");
   }
 
   /**
    * Evaluate the best path form a source to a destination.
+   * 
    * @param source
    *            the source point of the path.
    * @param dest
    *            the destination point.
-   * @return a list of vector2 of mapUnits coordinates.
+   * @return 
+   *            a list of vector2 of mapUnits coordinates.
    */
   private List<Vector2> getPath(final MapUnit source, final MapUnit dest) {
     if (this.map.containsVertex(source) && this.map.containsVertex(dest)) {
@@ -118,11 +121,12 @@ public class GameMap {
           .map(MapUnit::getCenter)
           .collect(Collectors.toList());
     }
-    return List.of();
+    return Collections.emptyList();
   }
 
   /**
    * Get the next position {@link Vector2} in the path of an attackable, choosing the destinations in a list passed as argument.
+   * 
    * @param source
    *              the {@link Attackable} entity to find the next position of.
    * @param destinations
@@ -141,19 +145,27 @@ public class GameMap {
       }
     }
     final var path = this.getPath(this.getMapUnitFromPosition(source.getPosition()), this.getMapUnitFromPosition(dest.getPosition()));
-    return path.size() > 1 ? path.get(1) : path.isEmpty() ? source.getPosition() : path.get(0);
+    return path.isEmpty() ? source.getPosition() : path.size() > 1 ? path.get(1) : path.get(0); 
   }
 
   /**
    * 
    * @param position
    *            the {@link Vector2} to be checked if inside the map or not.
-   * @return whether the position is contained or not in the map.
+   * @return 
+   *            whether the position is contained or not in the map.
    */
   public boolean containsPosition(final Vector2 position) {
     return this.map.containsVertex(this.getMapUnitFromPosition(position));
   }
 
+  /**
+   * 
+   * @param pixels 
+   *            the x,y coordinate to find the relative {@link MapUnit}.
+   * @return
+   *            the {@link MapUnit} that contains the pixels.
+   */
   public MapUnit getMapUnitFromPosition(final Vector2 pixels) {
     final var coords = new Vector2((float) Math.ceil((pixels.x - X_START) / MapUnit.WIDTH), (float) Math.ceil((pixels.y - Y_START) / MapUnit.HEIGHT));
     return new MapUnit(coords, this.getPixelsFromUnitCoords(coords), this.towerPositions.contains(coords) ? MapUnit.Type.TOWER : MapUnit.Type.TERRAIN);
