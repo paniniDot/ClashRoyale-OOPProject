@@ -13,14 +13,9 @@ class ElixirControllerTest {
     this.elixir = new ElixirController();
   }
   @Test
-  void testElixir() {
+  void test() throws InterruptedException {
     assertEquals(this.elixir.getElixirCount(), 0);
-    try {
-      Thread.sleep(5050);
-    } catch (InterruptedException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
+    Thread.sleep(5050);
     this.elixir.decrementElixir(5);
     assertEquals(this.elixir.getElixirCount(), 0);
     this.elixir.resetElixirCount();

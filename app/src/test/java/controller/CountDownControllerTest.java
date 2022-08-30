@@ -12,14 +12,9 @@ class CountDownControllerTest {
     this.count = new CountDownController();
   }
   @Test
-  void testElixir() {
+  void test() throws InterruptedException {
     assertEquals(this.count.getTime(), 60);
-    try {
-      Thread.sleep(5050);
-    } catch (InterruptedException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
+    Thread.sleep(5050);
     assertEquals(this.count.getTime(), 55);
     this.count.setTime();
     assertEquals(this.count.getTime(), 60);
