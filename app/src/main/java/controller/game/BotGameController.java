@@ -209,13 +209,25 @@ public class BotGameController extends GameController {
   @Override
   public boolean checkForwinner() {
     if (getPlayerScore() == 3) {
-      JOptionPane.showMessageDialog(frame, "Hai Perso");
       return true;
-    }
+      }
     if (super.getBotScore() == 3) {
-      JOptionPane.showMessageDialog(frame, "Hai Vinto");
       return true;
     }
-    return false;   
+    return false;
+  }
+
+  @Override
+  public void recordResult() {
+    if (getPlayerScore() == super.getBotScore()) {
+      JOptionPane.showMessageDialog(frame, "Pareggio");
+    }
+    else if (getPlayerScore() > super.getBotScore()) {
+      JOptionPane.showMessageDialog(frame, "Hai Vinto");
+      GlobalData.USER.awardXp(10);
+    }
+    else {
+    JOptionPane.showMessageDialog(frame, "Hai Perso");
+    }
   }
 }
