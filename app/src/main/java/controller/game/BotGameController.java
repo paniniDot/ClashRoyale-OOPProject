@@ -123,11 +123,11 @@ public class BotGameController extends GameController {
     CardActor c = null;
     for (final Entry<CardActor, Card> e : this.botCardsMap.entrySet()) {
       if (this.checkposition(v, e.getValue()) && e.getKey().isDraggable() && e.getValue().getCost() <= this.botElixir.getElixirCount()) {
-        e.getValue().setPosition(v);
-        e.getKey().setPosition(v.x, v.y);
         c = e.getKey();
-        e.getKey().setDraggable(false);
         this.deployBotCard(e.getValue());
+        e.getKey().setPosition(v.x, v.y);
+        e.getValue().setPosition(e.getKey().getCenter());
+        e.getKey().setDraggable(false);
       }
     }
     if (c != null) {
