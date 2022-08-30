@@ -25,19 +25,19 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.7.2")
 
     // This dependency is used by the application.
-	implementation("com.google.guava:guava:30.1.1-jre")
+    implementation("com.google.guava:guava:30.1.1-jre")
 
     val gdxVersion = "1.10.0"
-	implementation("com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion")
-	implementation ("com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion")
-	implementation("com.badlogicgames.gdx:gdx:$gdxVersion")
-	implementation("com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop")
+    implementation("com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion")
+    implementation ("com.badlogicgames.gdx:gdx-backend-headless:$gdxVersion")
+    implementation("com.badlogicgames.gdx:gdx:$gdxVersion")
+    implementation("com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop")
 	
     implementation("com.google.code.gson:gson:2.9.1")
 
-	implementation("org.jgrapht:jgrapht-core:1.5.1")
+    implementation("org.jgrapht:jgrapht-core:1.5.1")
 	
-	testImplementation("org.mockito:mockito-core:4.7.0")
+    testImplementation("org.mockito:mockito-core:4.7.0")
 }
 
 application {
