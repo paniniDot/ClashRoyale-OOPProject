@@ -33,4 +33,12 @@ public abstract class AudioController {
   public void stop() {
     this.music.stop();
   }
+
+  /**
+   * is Playing.
+   * @return Boolean.
+   */
+  public Boolean isPlaying() {
+    return this.music.isPlaying();
+  }
 }
