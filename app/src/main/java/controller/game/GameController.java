@@ -64,6 +64,7 @@ public abstract class GameController extends Controller {
   @Override
   public void update(final float dt) {
     if (this.timer.getTime() == 0 || this.checkUserLose() || this.checkEnemyLose() || this.checkForwinner()) {
+      this.recordResult();
       this.playerElixir.setRunFalse();
       this.updateStats();
       this.onUpdate();
@@ -336,12 +337,16 @@ public abstract class GameController extends Controller {
   protected void updateCardsMap(final List<CardActor> elements) {
     elements.stream().peek(Actor::remove).forEach(c -> this.playerCardsMap.remove(c));
   }
-  
-  
-  /**
-   * check the winner
-   */
+
+/**
+ * check the winner.
+ * @return boolean
+ */
   public abstract boolean checkForwinner();
 
+  /**
+   * record result.
+   */
+  public abstract void recordResult();
 }
 
