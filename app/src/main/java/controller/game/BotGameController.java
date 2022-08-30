@@ -38,6 +38,7 @@ public class BotGameController extends GameController {
   private final ElixirController botElixir;
   private Map<CardActor, Card> botCardsMap;
   private Map<TowerActor, Tower> botTowersMap;
+  private BotAiController botController;
   private final Random rand = new Random();
   private static final int SIDE = 500;
   private final JFrame frame;
@@ -51,6 +52,7 @@ public class BotGameController extends GameController {
     this.botCardsMap = new HashMap<>();
     this.botTowersMap = new HashMap<>();
     this.frame = new JFrame();
+    this.botController = new BotAiController(this.randomCard());
   }
 
   @Override
@@ -124,22 +126,23 @@ public class BotGameController extends GameController {
   }
 
   private void placeBotActor() {
-    final Vector2 v = new Vector2(this.randomPosition(150, 550), this.randomPosition(500, 700));
-    CardActor c = null;
-    for (final Entry<CardActor, Card> e : this.botCardsMap.entrySet()) {
-      if (this.checkposition(v, e.getValue()) && e.getKey().isDraggable() && e.getValue().getCost() <= this.botElixir.getElixirCount()) {
-        c = e.getKey();
-        this.deployBotCard(e.getValue());
-        e.getKey().setPosition(v.x, v.y);
-        e.getValue().setPosition(e.getKey().getCenter());
-        e.getKey().setDraggable(false);
-      }
+    this.botController.setBotCardsMap(this.botCardsMap);
+    this.botController.setElixir(this.getBotCurrentElixir());
+    final Vector2 randomPosition = new Vector2(this.randomPosition(150, 550), this.randomPosition(500, 700));
+    if (this.checkposition(randomPosition, this.botController.getRandomCard())) {
+      this.botController.setRandomPosition(randomPosition);
     }
-    if (c != null) {
-    final var nextCard = ((BotGameModel) super.getModel()).getBotNextQueuedCard(c.getOrigin());
+    final Card cardDeployed = this.botController.getCardDeployed();
+    if (cardDeployed != null) {
+      this.deployBotCard(cardDeployed);
+      this.botController.setRandomCard(this.randomCard());
+    }
+    final CardActor cardActorDeployed = this.botController.getCardActorDeployed();
+    if (cardActorDeployed != null) {
+    final var nextCard = ((BotGameModel) super.getModel()).getBotNextQueuedCard(cardActorDeployed.getOrigin());
     if (nextCard.isPresent()) {
       this.botCardsMap.put(
-          new CardActor(c.getOrigin().x, c.getOrigin().y, c.getStage(), AnimationUtilities.loadAnimationFromFiles(nextCard.get().getAnimationFiles().get("ENEMY_MOVING"), ANIMATIONS_FRAME_DURATION, true)),
+          new CardActor(cardActorDeployed.getOrigin().x, cardActorDeployed.getOrigin().y, cardActorDeployed.getStage(), AnimationUtilities.loadAnimationFromFiles(nextCard.get().getAnimationFiles().get("ENEMY_MOVING"), ANIMATIONS_FRAME_DURATION, true)),
           nextCard.get());
     }
     }
@@ -182,6 +185,9 @@ public class BotGameController extends GameController {
 
   private int randomPosition(final int min, final int max) {
     return rand.nextInt((max - min) + 1) + min;
+  }
+  private Card randomCard() {
+    return ((BotGameModel) super.getModel()).getBotChoosableCards().get(rand.nextInt(((BotGameModel) super.getModel()).getBotChoosableCards().size()));
   }
 
   @Override
