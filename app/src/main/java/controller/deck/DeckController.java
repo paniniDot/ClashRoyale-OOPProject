@@ -17,8 +17,8 @@ import model.deck.PlayersDeck;
  * Controller implementation for the game screen.
  */
 public class DeckController extends Controller {
-  private TextureAtlas atlas;
-  private Skin skin;
+  private final TextureAtlas atlas;
+  private final Skin skin;
   private List cards, decklist;
   private static final int DIMDECK = 4;
   private final JFrame frame;

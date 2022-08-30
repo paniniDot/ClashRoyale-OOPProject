@@ -1,11 +1,8 @@
 package model.deck;
 
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.badlogic.gdx.math.Vector2;
@@ -13,8 +10,11 @@ import com.badlogic.gdx.math.Vector2;
 import model.GlobalData;
 import model.entities.cards.Card;
 import model.entities.cards.buildings.InfernoTower;
+import model.entities.cards.troops.Archer;
 import model.entities.cards.troops.Barbarian;
 import model.entities.cards.troops.Giant;
+import model.entities.cards.troops.MiniPekka;
+import model.entities.cards.troops.Valkyrie;
 import model.entities.cards.troops.Wizard;
 
 /**
@@ -22,7 +22,7 @@ import model.entities.cards.troops.Wizard;
  * Class Deck.
  *
  */
-public class PlayersDeck extends BasicDeck {
+public final class PlayersDeck extends BasicDeck {
 
   private static final PlayersDeck DECK = new PlayersDeck();
   private final Map<String, Card> deckMap;
@@ -38,7 +38,10 @@ public class PlayersDeck extends BasicDeck {
     this.deckMap.put("InfernoTower", InfernoTower.create(GlobalData.USER, newPositionFree()));
     this.deckMap.put("Wizard", Wizard.create(GlobalData.USER, newPositionFree())); 
     this.cardsMap = new HashMap<>();
-    this.cardsMap.put("Giants", Giant.create(GlobalData.USER, new Vector2(500, 100)));
+    this.cardsMap.put("Archer", Archer.create(GlobalData.USER, new Vector2(0, 0)));
+    this.cardsMap.put("MiniPekka", MiniPekka.create(GlobalData.USER, new Vector2(0, 0)));
+    this.cardsMap.put("Valkrie", Valkyrie.create(GlobalData.USER, new Vector2(0, 0)));
+
   }
 
   /**

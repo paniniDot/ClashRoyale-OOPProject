@@ -30,7 +30,7 @@ public class ElixirController {
        }
       }
     };
-    this.timer.schedule(task, 0, 1000);
+    this.timer.schedule(task, 1000, 1000);
   }
 
    /**

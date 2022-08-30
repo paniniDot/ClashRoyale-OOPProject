@@ -33,7 +33,6 @@ public abstract class BasicDeck {
   public Set<Vector2> getPositionFree() {
     return positionFree;
   }
-  
   /**
    * 
    * @return the first free position and deletes it from those available
