@@ -224,10 +224,11 @@ public class BotGameController extends GameController {
     }
     else if (getPlayerScore() > super.getBotScore()) {
       JOptionPane.showMessageDialog(frame, "Hai Vinto");
-      GlobalData.USER.awardXp(10);
+      GlobalData.USER.awardXp((int) getPlayerScore());
     }
     else {
     JOptionPane.showMessageDialog(frame, "Hai Perso");
+    GlobalData.USER.pointReduction();
     }
   }
 }

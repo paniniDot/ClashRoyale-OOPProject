@@ -1,12 +1,7 @@
 package model.entities.users;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Map;
 import java.util.Objects;
-
-import model.deck.PlayersDeck;
-
 
 /**
  * Users that play the game.
@@ -23,6 +18,7 @@ public class User {
   private final String name;
   private int currentXP;
   private UserLevel currentLevel;
+  private static final int POINT = 5; 
 
   /**
    * @param name
@@ -58,11 +54,21 @@ public class User {
 
   /**
    * Increase the current xp user owns.
-   * @param xp to be added.
+   * @param towersDestroy to be added.
    */
-  public void awardXp(final int xp) {
-    this.currentXP += xp;
-    this.checkCurrentXP();
+  public void awardXp(final int towersDestroy) {
+    this.currentXP += towersDestroy*POINT;
+    checkCurrentXP();
+  }
+  
+  /**
+   * score decrease in case of lose.
+   */
+  public void pointReduction() {
+    this.currentXP -= POINT;
+    if (this.currentXP < 0) {
+      this.currentXP = 0;
+    }
   }
 
   private void checkCurrentXP() {
