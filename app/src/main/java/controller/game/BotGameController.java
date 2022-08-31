@@ -13,7 +13,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import controller.ElixirController;
-
+import controller.SaveController;
 import model.GlobalData;
 import model.entities.Attackable;
 import model.entities.cards.Card;
@@ -182,6 +182,7 @@ public class BotGameController extends GameController {
     JOptionPane.showMessageDialog(frame, "Hai Perso");
     GlobalData.USER.pointReduction();
     }
+    SaveController.saveUser(GlobalData.USER);
   }
 
   @Override
