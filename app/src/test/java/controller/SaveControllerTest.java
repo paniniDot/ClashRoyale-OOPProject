@@ -5,22 +5,22 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
+import gdxtests.GdxTest;
 import model.GlobalData;
-
-class SaveControllerTest {
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+class SaveControllerTest extends GdxTest{
 
   private static final  String USER_DIR_PATH = System.getProperty("user.home") + File.separator + "royaleData" + File.separator + "user.json";
-  final File file = new File(USER_DIR_PATH); 
+  private final File file = new File(USER_DIR_PATH); 
   
-  @BeforeEach
+  @BeforeAll
   void createNew() {
-    if (file.exists()) {
-      file.delete();
-    }
-
+    SaveController.loadUser();
     assertTrue(file.exists());
   }
   
