@@ -1,11 +1,10 @@
 package controller;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -14,33 +13,33 @@ import model.entities.users.User;
 /**
  * Class used to save and load User and Deck.
  */
-public class SaveController  {
+public final class SaveController  {
 
   private static final  Gson GSON = new GsonBuilder().create();
-  private static final  FileHandle USER_FILES = Gdx.files.internal("saves/user.json");
+  private static final  String USER_DIR_PATH = System.getProperty("user.home") + File.separator + "royaleData" + File.separator;
 
-  private final User user;
+  private SaveController() {
+  }
 
-  /**
-   * Class used to load and save User and Deck.
-   */
-  public SaveController() {
-    if (!USER_FILES.exists()) {
-      this.user = new User("P");
-    } else {
-      this.user = loadUser();
+  private static boolean checkDirectoryExistance() {
+    return new File(USER_DIR_PATH).exists();
+  }
+
+  private static void createDirectory() {
+    new File(USER_DIR_PATH).mkdir();
+  }
+
+  private static boolean checkFileExistance() {
+    return new File(USER_DIR_PATH + File.separator + "user.json").exists();
+  }
+
+  private static void createFile() {
+    try {
+      new File(USER_DIR_PATH + File.separator + "user.json").createNewFile();
+    } catch (IOException e) {
+      e.printStackTrace();
     }
   }
-
-
-/**
- * 
- * @return an object of {@link User}.
- */
-  public User getUser() {
-    return user;
-  }
-
 
   /**
    * Load the user from the Json file.
@@ -48,13 +47,16 @@ public class SaveController  {
    * @return a {@link User} loaded from file.
    */
   public static User loadUser() {
-    if (!USER_FILES.exists()) {
-      return new User("Panini");
-    }
-    try {
-      return GSON.fromJson(new FileReader(USER_FILES.file()), User.class);
-    } catch (IOException e) {
-      e.printStackTrace();
+    if (SaveController.checkDirectoryExistance() && SaveController.checkFileExistance()) {
+      try {
+        return GSON.fromJson(new FileReader(new File(USER_DIR_PATH + File.separator + "user.json")), User.class);
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    } else {
+      SaveController.createDirectory();
+      SaveController.createFile();
+      return new User("P");
     }
     return null;
   }
@@ -65,7 +67,7 @@ public class SaveController  {
    * @param user the {@link User} to be saved.
    */
   public static void saveUser(final User user) {
-    try (FileWriter writer = new FileWriter(USER_FILES.file())) {
+    try (FileWriter writer = new FileWriter(new File(USER_DIR_PATH + File.separator + "user.json"))) {
       GSON.toJson(user, writer);
     } catch (IOException e) {
       e.printStackTrace();

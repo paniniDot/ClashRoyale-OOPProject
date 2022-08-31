@@ -14,12 +14,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import controller.Controller;
 import controller.CountDownController;
 import controller.ElixirController;
-import controller.FileManager;
 import controller.audio.AudioGameController;
 import controller.menu.MenuController;
 
 import launcher.ClashRoyale;
-
 import model.entities.Attackable;
 import model.entities.cards.Card;
 import model.entities.towers.Tower;
@@ -77,9 +75,8 @@ public abstract class GameController extends Controller {
   @Override
   public void update(final float dt) {
     if (this.timer.getTime() == 0 || this.checkUserLose() || this.checkEnemyLose() || this.checkForwinner()) {
-      this.recordResult();
       this.playerElixir.setRunFalse();
-      this.updateStats();
+      this.updateUserStatistics();
       this.onUpdate();
       this.timer.setRunFalse();
       super.stopMusic();
@@ -89,15 +86,10 @@ public abstract class GameController extends Controller {
     this.updateActorAnimations();
   }
 
-  private void updateStats() {
-    final var fileManager = new FileManager();
-    fileManager.addPlays();
-    if (this.checkEnemyLose()) {
-      fileManager.addWin();
-    }
-    fileManager.addTowersDestroyed(this.getEnemyDestoryedTowers());
-    fileManager.save();
-  }
+  /**
+   * Updates the game statistics for the user, based on the game outcome.
+   */
+  protected abstract void updateUserStatistics();
 
   private boolean checkUserLose() {
     return ((GameModel) super.getModel()).getPlayerActiveTowers().size() == 0;
@@ -412,11 +404,6 @@ public abstract class GameController extends Controller {
  * @return whether a winner exists or not at the moment this method is called.
  */
   public abstract boolean checkForwinner();
-
-  /**
-   * record result.
-   */
-  public abstract void recordResult();
 
   @Override
   public void setCurrentActiveScreen() {

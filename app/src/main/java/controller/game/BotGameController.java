@@ -167,12 +167,16 @@ public class BotGameController extends GameController {
   }
 
   @Override
-  public void recordResult() {
+  public void updateUserStatistics() {
     final JFrame frame = new JFrame();
+    final var user = GlobalData.USER;
+    user.addPlay();
+    user.addDestroyedTowers(this.getEnemyDestroyedTowers());
     if (this.getEnemyDestoryedTowers() == super.getPlayerDestroyedTowers()) {
       JOptionPane.showMessageDialog(frame, "Pareggio");
     } else if (this.getEnemyDestoryedTowers() > super.getPlayerDestroyedTowers()) {
       JOptionPane.showMessageDialog(frame, "Hai Vinto");
+      user.addWin();
       GlobalData.USER.awardXp((int) this.getEnemyDestoryedTowers());
     } else {
     JOptionPane.showMessageDialog(frame, "Hai Perso");

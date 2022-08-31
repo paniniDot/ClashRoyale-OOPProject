@@ -1,12 +1,11 @@
 package controller.statistics;
 
 import controller.Controller;
-import controller.FileManager;
 import controller.audio.AudioStaticsController;
 import controller.menu.MenuController;
 
 import launcher.ClashRoyale;
-
+import model.GlobalData;
 import model.Model;
 
 import view.screens.statistics.StatScreen;
@@ -16,37 +15,33 @@ import view.screens.statistics.StatScreen;
  */
 public class StatController extends Controller {
 
-  private final FileManager fileManager;
-
   /**
    * Constructor.
    */
   public StatController() {
     super(new AudioStaticsController());
     super.registerModel(new Model());
-    this.fileManager = new FileManager();
-    this.fileManager.read();
   }
 
   /**
    * @return matches played.
    */
   public int getPlays() {
-    return this.fileManager.getPlays();
+    return GlobalData.USER.getPlays();
   }
 
 /**
  * @return matches win.
  */
   public int getWins() {
-    return this.fileManager.getWins();
+    return GlobalData.USER.getWins();
   }
 
 /**
  * @return towers destroyed.
  */
   public int getTowers() {
-    return this.fileManager.getTowersDestroyed();
+    return GlobalData.USER.getDestroyedTowers();
   }
 
   /**

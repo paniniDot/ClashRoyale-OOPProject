@@ -18,6 +18,9 @@ public class User {
   private final String name;
   private int currentXP;
   private UserLevel currentLevel;
+  private int plays;
+  private int wins;
+  private int destroyedTowers;
   private static final int POINT = 5; 
 
   /**
@@ -27,6 +30,9 @@ public class User {
   public User(final String name) {
     this.name = name;
     this.currentXP = 0;
+    this.plays = 0;
+    this.wins = 0;
+    this.destroyedTowers = 0;
     this.currentLevel = UserLevel.LVL1;
   }
 
@@ -102,14 +108,56 @@ public class User {
     this.currentLevel = currentLevel;
   }
 
-  @Override
-  public String toString() {
-    return "User [name=" + name + ", currentXP=" + currentXP + ", currentLevel=" + currentLevel + "]";
+  /**
+   *  Increment the wins counter of one.
+   */
+  public void addWin() {
+    this.wins++;
+  }
+
+  /**
+   * 
+   * @return how many wins the player has.
+   */
+  public int getWins() {
+    return this.wins;
+  }
+
+  /**
+   * Increment the plays counter of one.
+   */
+  public void addPlay() {
+    this.plays++;
+  }
+
+  /**
+   * 
+   * @return how many plays the player has.
+   */
+  public int getPlays() {
+    return this.plays;
+  }
+
+  /**
+   * Increment the number of destroyed towers. 
+   * @param value
+   *            the number of towers destroyed.
+   */
+  public void addDestroyedTowers(final int value) {
+    this.destroyedTowers += value;
+  }
+
+  /**
+   * 
+   * @return how many towers the player has destroyed.
+   */
+  public int getDestroyedTowers() {
+    return this.destroyedTowers;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(currentLevel, currentXP, name);
+    return Objects.hash(currentLevel, currentXP, destroyedTowers, name, plays, wins);
   }
 
   @Override
@@ -124,7 +172,10 @@ public class User {
       return false;
     }
     final User other = (User) obj;
-    return currentLevel == other.currentLevel && currentXP == other.currentXP && Objects.equals(name, other.name);
+    return currentLevel == other.currentLevel && currentXP == other.currentXP
+        && destroyedTowers == other.destroyedTowers && Objects.equals(name, other.name) && plays == other.plays
+        && wins == other.wins;
   }
+
 }
 
