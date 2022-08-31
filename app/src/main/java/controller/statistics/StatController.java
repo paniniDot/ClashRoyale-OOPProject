@@ -2,13 +2,17 @@ package controller.statistics;
 
 import controller.Controller;
 import controller.FileManager;
+import controller.audio.AudioStaticsController;
 import controller.menu.MenuController;
+
 import launcher.ClashRoyale;
+
 import model.Model;
+
 import view.screens.statistics.StatScreen;
 
 /**
- * Controller implementation of the stat screen.
+ * Controller implementation of the statistics screen.
  */
 public class StatController extends Controller {
 
@@ -55,7 +59,7 @@ public class StatController extends Controller {
   }
 
   /**
-   * Istanciate a new MenuController which takes control of the application.
+   * Instantiate a new MenuController which takes control of the application.
    */
   public void triggerMenu() {
     new MenuController().setCurrentActiveScreen();

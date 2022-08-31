@@ -5,6 +5,7 @@ import java.util.List;
 import com.badlogic.gdx.math.Vector2;
 
 import controller.SaveController;
+
 import model.entities.cards.Card;
 import model.entities.cards.troops.Barbarian;
 import model.entities.cards.troops.Giant;
@@ -13,19 +14,13 @@ import model.entities.users.Bot;
 import model.entities.users.User;
 
 /**
- * Class used to easily provide istances of User and Bot.
+ * Class used to easily provide and instance of User and Bot.
  */
 public final class GlobalData {
   /**
    * Provides a user instance.
    */
   public static final User USER = SaveController.loadUser();
-
-//  /**
-//   * Provides a user instance.
-//   */
-//  public static Deck DECK = new Deck();
-
 
   /**
    * Provides a bot.

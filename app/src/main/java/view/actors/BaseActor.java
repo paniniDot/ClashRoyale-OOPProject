@@ -57,7 +57,6 @@ public class BaseActor extends Actor {
    * @return the center of the actor.
    */
   public Vector2 getCenter() {
-    //System.out.println("Rettangolo = " + this.getBoundaries() + " Centro del rettangolo = " + this.getBoundaries().getCenter(new Vector2()));
     return new Vector2(super.getX() + (this.w / 2), super.getY() + (this.h / 2));
   }
 

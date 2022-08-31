@@ -2,13 +2,16 @@ package controller.menu;
 
 import com.badlogic.gdx.Gdx;
 
-import controller.AudioController;
 import controller.Controller;
+import controller.audio.AudioMenuController;
 import controller.deck.DeckController;
 import controller.game.BotGameController;
 import controller.statistics.StatController;
+
 import launcher.ClashRoyale;
+
 import model.Model;
+
 import view.screens.menu.MenuScreen;
 
 /**
@@ -29,21 +32,21 @@ public class MenuController extends Controller {
   }
 
   /**
-   * Istanciate a new GameController which takes control of the application.
+   * Instantiate a new GameController which takes control of the application.
    */
   public void triggerPlay() {
     new BotGameController().setCurrentActiveScreen();
   }
 
   /**
-   * Istanciate a new DeckController which takes control of the application.
+   * Instantiate a new DeckController which takes control of the application.
    */
   public void triggerDeck() {
     new DeckController().setCurrentActiveScreen();
   }
 
   /**
-   * Istanciate a new StatController which takes control of the application. 
+   * Instantiate a new StatController which takes control of the application. 
    */
   public void triggerStat() {
     new StatController().setCurrentActiveScreen();

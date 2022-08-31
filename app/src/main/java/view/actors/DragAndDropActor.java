@@ -48,8 +48,7 @@ public class DragAndDropActor extends BaseActor {
         self.grabOffsetX = eventOffsetX;
         self.grabOffsetY = eventOffsetY;
         self.toFront();
-        self.onDragStart();
-        return true; // returning true indicates other touch methods are called
+        return true;
       }
 
       @Override
@@ -61,7 +60,6 @@ public class DragAndDropActor extends BaseActor {
 
       @Override
       public void touchUp(final InputEvent event, final float eventOffsetX, final float eventOffsetY, final int pointer, final int button) {
-        // return object to original size when dropped by player
         self.onDrop();
       }
     });
@@ -85,12 +83,6 @@ public class DragAndDropActor extends BaseActor {
    */
   public boolean isDraggable() {
     return isDraggable;
-  }
-
-  /**
-   * Called when drag begins; extending classes may override this method.
-   */
-  public void onDragStart() {
   }
 
   /**

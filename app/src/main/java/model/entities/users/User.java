@@ -57,10 +57,10 @@ public class User {
    * @param towersDestroy to be added.
    */
   public void awardXp(final int towersDestroy) {
-    this.currentXP += towersDestroy*POINT;
+    this.currentXP += towersDestroy * POINT;
     checkCurrentXP();
   }
-  
+
   /**
    * score decrease in case of lose.
    */

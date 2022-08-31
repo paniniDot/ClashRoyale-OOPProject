@@ -13,13 +13,16 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import controller.Controller;
 import controller.statistics.StatController;
+
 import launcher.ClashRoyale;
+
 import model.utilities.AnimationUtilities;
+
 import view.actors.BaseActor;
 import view.screens.BaseScreen;
 
 /**
- * View implementation of the stat screen.
+ * View implementation of the statistics screen.
  */
 public class StatScreen extends BaseScreen {
 

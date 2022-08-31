@@ -5,7 +5,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import controller.menu.AudioMenuController;
+
+import controller.audio.AudioController;
+import controller.audio.AudioMenuController;
 import gdxtests.GdxTest;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)

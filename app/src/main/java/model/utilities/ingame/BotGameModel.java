@@ -48,7 +48,6 @@ public class BotGameModel extends GameModel {
     this.botActiveTowers = this.getBotTowers(bot);
   }
 
-  /* logica per la posizione delle torri mancante */
   private List<Tower> getBotTowers(final Bot bot) {
     final List<Tower> towers = new ArrayList<>();
     towers.add(QueenTower.create(bot, new Vector2(205 + 33, 613 + 44)));

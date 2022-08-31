@@ -1,3 +1,4 @@
+
 package model.entities.cards.buildings;
 
 import java.io.File;
@@ -66,7 +67,7 @@ public final class InfernoTower extends Building {
    */
   public static Building create(final User user, final Vector2 position) {
     switch (user.getCurrentLevel()) {
-      case LVL1: return new InfernoTower(user, position, 200 * 60, 100);
+      case LVL1: return new InfernoTower(user, position, 12_000, 100);
       case LVL2: return new InfernoTower(user, position, 200 * 60, 100);
       case LVL3: return new InfernoTower(user, position, 200 * 60, 100);
       case LVL4: return new InfernoTower(user, position, 200 * 60, 100);

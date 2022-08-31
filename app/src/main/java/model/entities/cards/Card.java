@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+
 import com.badlogic.gdx.math.Vector2;
 
 import model.entities.Attackable;
@@ -140,13 +141,6 @@ public abstract class Card implements Attackable {
     return this.damage;
   }
 
-  /**
-   * @return the hit speed.
-   */
- /* public double getHitSpeed() {
-    return this.hitSpeed;
-  }
-*/
   /**
    * @return the movement speed of this troop.
    */

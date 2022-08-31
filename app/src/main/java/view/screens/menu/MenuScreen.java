@@ -11,9 +11,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import controller.Controller;
 import controller.menu.MenuController;
+
 import launcher.ClashRoyale;
+
 import model.GlobalData;
 import model.utilities.AnimationUtilities;
+
 import view.actors.BaseActor;
 import view.screens.BaseScreen;
 

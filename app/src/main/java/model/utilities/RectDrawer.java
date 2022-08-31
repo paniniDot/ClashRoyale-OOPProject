@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 
 /**
- * Disegna i rettangolini.
+ * For debugging purpose: draws the {@link MapUnit}s.
  */
 public final class RectDrawer {
 
@@ -18,11 +18,11 @@ public final class RectDrawer {
   }
 
   /**
-   * Disegna i rettangoli.
+   * Draws a {@link List} of {@link Rectangle}.
    * @param boundingBoxes
-   *                  i rettangoli.
+   *                  The shapes of {@link MapUnit}.
    * @param color
-   *                  il colore.
+   *                  The {@link Color} that the rectangles have to assume.
    */
   public static void showDebugBoundingBoxes(final List<Rectangle> boundingBoxes, final Color color) {
       debugShapeRenderer.begin(ShapeType.Line); // make sure to end the spritebatch before you call this line

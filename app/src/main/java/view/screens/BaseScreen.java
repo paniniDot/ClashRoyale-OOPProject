@@ -65,19 +65,11 @@ public abstract class BaseScreen implements Screen {
 
   @Override
   public void render(final float dt) {
-
-    // act methods
     this.uiStage.act(dt);
     this.mainStage.act(dt);
-
-    // defined by user
     this.update(dt);
-
-    // clear the screen
     Gdx.gl.glClearColor(0, 0, 0, 1);
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-    // draw the graphics
     this.mainStage.draw();
     this.uiStage.draw();
   }

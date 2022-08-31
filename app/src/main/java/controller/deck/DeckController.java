@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import model.Model;
 import view.screens.deck.DeckScreen;
 import controller.Controller;
+import controller.audio.AudioDeckController;
 import controller.menu.MenuController;
 import launcher.ClashRoyale;
 import model.deck.PlayersDeck;
@@ -17,10 +18,11 @@ import model.deck.PlayersDeck;
  * Controller implementation for the game screen.
  */
 public class DeckController extends Controller {
-  private final TextureAtlas atlas;
-  private final Skin skin;
-  private List cards, decklist;
-  private static final int DIMDECK = 4;
+
+  private static final int DECK_SIZE = 4;
+
+  private final List<String> cards;
+  private final List<String> decklist;
   private final JFrame frame;
 
   /**
@@ -29,8 +31,7 @@ public class DeckController extends Controller {
   public DeckController() {
     super(new AudioDeckController());
     super.registerModel(new Model());
-    this.atlas = new TextureAtlas("buttons/atlas.pack");
-    this.skin = new Skin(Gdx.files.internal("buttons/menuSkin.json"), atlas);
+    final var skin = new Skin(Gdx.files.internal("buttons/menuSkin.json"), new TextureAtlas("buttons/atlas.pack"));
     this.decklist = new List<>(skin);
     this.cards = new List<>(skin);
     this.frame = new JFrame();
@@ -59,7 +60,7 @@ public class DeckController extends Controller {
    * @return the List of cards.
    */
   public List<String> listGDXCard() {
-    this.cards.setItems(PlayersDeck.getInstance().namesCardsCard().toArray());
+    this.cards.setItems(PlayersDeck.getInstance().namesCardsCard().stream().toArray(String[]::new));
     return cards;
   }
 
@@ -69,7 +70,7 @@ public class DeckController extends Controller {
    * @return the List of deck.
    */
   public List<String> listGDXDeck() {
-    this.decklist.setItems(PlayersDeck.getInstance().namesCardsDeck().toArray());
+    this.decklist.setItems(PlayersDeck.getInstance().namesCardsDeck().stream().toArray(String[]::new));
     return decklist;
   }
 
@@ -129,7 +130,7 @@ public class DeckController extends Controller {
    * @return true if the deck has 4 cards.
    */
   public boolean full() {
-    if (PlayersDeck.getInstance().getDeck().size() < DIMDECK) {
+    if (PlayersDeck.getInstance().getDeck().size() < DECK_SIZE) {
       return true;
     }
     JOptionPane.showMessageDialog(frame, "DECK PIENO(MAX 4 CARTE), RIMUOVERE PRIMA UNA CARTA");
@@ -153,7 +154,7 @@ public class DeckController extends Controller {
    * Check if the deck has 4 cards, than save the deck and return to the menu. 
    */
   public void returnButton() {
-    if (PlayersDeck.getInstance().getDeck().size() == DIMDECK) {
+    if (PlayersDeck.getInstance().getDeck().size() == DECK_SIZE) {
 
       triggerMenu();
     } else {

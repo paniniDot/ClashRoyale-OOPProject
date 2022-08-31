@@ -51,7 +51,6 @@ public abstract class GameModel extends Model {
     this.playerActiveTowers = this.getPlayerTowers(user);
   }
 
-  /* logica per la posizione delle torri nella mappa mancante */
   private List<Tower> getPlayerTowers(final User user) {
     final List<Tower> towers = new ArrayList<>();
     towers.add(QueenTower.create(user, new Vector2(205 + 33, 312 + 44)));

@@ -6,7 +6,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.badlogic.gdx.math.Vector2;
+
 import model.entities.cards.Card;
+
 import view.actors.cards.CardActor;
 /**
  * Game will least 60 seconds.
@@ -38,7 +40,6 @@ public class BotAiController {
     final var task = new TimerTask() {
       @Override
       public void run() {
-        //System.out.println(time);
         if (time > 0 && run) {
           cardActorDeployed = null;
           cardDeployed = null;

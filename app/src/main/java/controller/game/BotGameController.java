@@ -21,6 +21,7 @@ import model.entities.towers.Tower;
 import model.deck.PlayersDeck;
 import model.utilities.AnimationUtilities;
 import model.utilities.ingame.BotGameModel;
+
 import view.actors.cards.CardActor;
 import view.actors.towers.TowerActor;
 
@@ -55,7 +56,7 @@ public class BotGameController extends GameController {
   }
 
   @Override
-  protected int getDestoryedTowers() {
+  protected int getEnemyDestoryedTowers() {
     return 3 - ((BotGameModel) super.getModel()).getBotActiveTowers().size();
   }
 
@@ -80,17 +81,17 @@ public class BotGameController extends GameController {
   }
 
   @Override
-  protected void onLoadActors(final Stage stage) {
+  protected void loadEnemyActors(final Stage stage) {
     this.botCardsMap = super.loadCardActorsFrom(((BotGameModel) super.getModel()).getBotDeck(), stage, "ENEMY_MOVING");
   }
 
   @Override
-  protected void onLoadTowers(final Stage stage) {
+  protected void loadEnemyTowers(final Stage stage) {
     this.botTowersMap = super.loadTowerActorsFrom(((BotGameModel) super.getModel()).getBotActiveTowers(), stage, "ENEMY");
   }
 
   @Override
-  protected void onUpdateActorAnimations() {
+  protected void updateEnemyActorAnimations() {
     super.updateCardAnimations(this.botCardsMap, "ENEMY_MOVING", "ENEMY_FIGHTING");
     super.updateTowerAnimations(this.botTowersMap, "ENEMY");
   }
@@ -155,38 +156,35 @@ public class BotGameController extends GameController {
   }
 
   @Override
-  protected void onUpdateActors() {
+  protected void updateEnemyActors() {
     this.placeBotActor();
     this.updateActorPositions(super.getPlayerActorsMap(), this.getBotAttackables());
     this.updateActorPositions(this.botCardsMap, super.getUserAttackables());
   }
 
-  /**
-   * 
-   * @return the current towers destroyed by the user.
-   */
-  public long getPlayerScore() {
-    return botTowersMap.entrySet().stream().filter(e -> e.getValue().isDead()).count();
-  }
-
   @Override
   public boolean checkForwinner() {
-    if (getPlayerScore() == 3 || super.getBotScore() == 3) {
-      return true;
-      }
-    return false;
+    return this.getEnemyDestoryedTowers() == 3 || super.getPlayerDestroyedTowers() == 3;
   }
 
   @Override
   public void recordResult() {
-    if (getPlayerScore() == super.getBotScore()) {
+    if (this.getEnemyDestoryedTowers() == super.getPlayerDestroyedTowers()) {
       JOptionPane.showMessageDialog(frame, "Pareggio");
-    } else if (getPlayerScore() > super.getBotScore()) {
+    } else if (this.getEnemyDestoryedTowers() > super.getPlayerDestroyedTowers()) {
       JOptionPane.showMessageDialog(frame, "Hai Vinto");
-      GlobalData.USER.awardXp((int) getPlayerScore());
+      GlobalData.USER.awardXp((int) this.getEnemyDestoryedTowers());
     } else {
     JOptionPane.showMessageDialog(frame, "Hai Perso");
     GlobalData.USER.pointReduction();
     }
+  }
+
+  @Override
+  public int getEnemyDestroyedTowers() {
+    return (int) this.botTowersMap.entrySet()
+        .stream()
+        .filter(s -> s.getValue().isDead())
+        .count();
   }
 }

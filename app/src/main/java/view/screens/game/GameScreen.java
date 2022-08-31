@@ -8,9 +8,10 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import controller.Controller;
-import controller.game.BotGameController;
 import controller.game.GameController;
+
 import launcher.ClashRoyale;
+
 import model.utilities.AnimationUtilities;
 
 import view.actors.BaseActor;
@@ -64,12 +65,9 @@ public class GameScreen extends BaseScreen {
     sprite.begin();
     gamefont.draw(sprite, "Elixir " + ((GameController) super.getController()).getPlayerCurrentElixir(), GameScreen.ELISIR_X, GameScreen.ELISIR_Y);
     gamefont.draw(sprite, "Time left " + ((GameController) super.getController()).getLeftTime(), GameScreen.TIMER_X, GameScreen.TIMER_Y);
-    gamefont.draw(sprite, "Score: Player->" + ((BotGameController) super.getController()).getPlayerScore() + " Bot->" + ((GameController) super.getController()).getBotScore() ,GameScreen.POINT_X, GameScreen.POINT_Y);
+    gamefont.draw(sprite, "Score: Player->" + ((GameController) super.getController()).getEnemyDestroyedTowers() + " Bot->" + ((GameController) super.getController()).getPlayerDestroyedTowers(), GameScreen.POINT_X, GameScreen.POINT_Y);
     sprite.end();
-    //RectDrawer.showDebugBoundingBoxes(this.map.getMap().vertexSet().stream().map(MapUnit::getUnitRectangle).collect(Collectors.toList()), Color.BLUE);
-    //RectDrawer.showDebugBoundingBoxes(this.map.getMap().vertexSet().stream().filter(v -> v.getType().equals(MapUnit.Type.TERRAIN)).map(MapUnit::getUnitRectangle).collect(Collectors.toList()), Color.BLUE);
-    //RectDrawer.showDebugBoundingBoxes(this.map.getMap().vertexSet().stream().filter(v -> v.getType().equals(MapUnit.Type.TOWER)).map(MapUnit::getUnitRectangle).collect(Collectors.toList()), Color.RED);
-  }
+   }
 
 
   /**
