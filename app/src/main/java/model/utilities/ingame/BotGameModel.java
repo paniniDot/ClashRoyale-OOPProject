@@ -50,9 +50,12 @@ public class BotGameModel extends GameModel {
 
   private List<Tower> getBotTowers(final Bot bot) {
     final List<Tower> towers = new ArrayList<>();
-    towers.add(QueenTower.create(bot, new Vector2(205 + 33, 613 + 44)));
-    towers.add(QueenTower.create(bot, new Vector2(415 + 33, 613 + 44)));
-    towers.add(KingTower.create(bot, new Vector2(300 + 44, 640 + 66)));
+    final var leftTowerPosition = new Vector2(238, 657);
+    final var rightTowerPosition = new Vector2(448, 657);
+    final var centralTowerPosition = new Vector2(344, 706);
+    towers.add(QueenTower.create(bot, leftTowerPosition));
+    towers.add(QueenTower.create(bot, rightTowerPosition));
+    towers.add(KingTower.create(bot, centralTowerPosition));
     return towers;
   }
 

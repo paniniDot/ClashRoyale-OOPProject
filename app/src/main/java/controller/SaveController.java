@@ -15,8 +15,9 @@ import model.entities.users.User;
  */
 public final class SaveController  {
 
-  private static final  Gson GSON = new GsonBuilder().create();
-  private static final  String USER_DIR_PATH = System.getProperty("user.home") + File.separator + "royaleData" + File.separator;
+  private static final Gson GSON = new GsonBuilder().create();
+  private static final String USER_DIR_PATH = System.getProperty("user.home") + File.separator + "royaleData" + File.separator;
+  private static final String FILE_NAME = "user.json";
 
   private SaveController() {
   }
@@ -30,12 +31,12 @@ public final class SaveController  {
   }
 
   private static boolean checkFileExistance() {
-    return new File(USER_DIR_PATH + File.separator + "user.json").exists();
+    return new File(USER_DIR_PATH + File.separator + FILE_NAME).exists();
   }
 
   private static void createFile() {
     try {
-      new File(USER_DIR_PATH + File.separator + "user.json").createNewFile();
+      new File(USER_DIR_PATH + File.separator + FILE_NAME).createNewFile();
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -49,7 +50,7 @@ public final class SaveController  {
   public static User loadUser() {
     if (SaveController.checkDirectoryExistance() && SaveController.checkFileExistance()) {
       try {
-        return GSON.fromJson(new FileReader(new File(USER_DIR_PATH + File.separator + "user.json")), User.class);
+        return GSON.fromJson(new FileReader(new File(USER_DIR_PATH + File.separator + FILE_NAME)), User.class);
       } catch (IOException e) {
         e.printStackTrace();
       }
@@ -67,7 +68,7 @@ public final class SaveController  {
    * @param user the {@link User} to be saved.
    */
   public static void saveUser(final User user) {
-    try (FileWriter writer = new FileWriter(new File(USER_DIR_PATH + File.separator + "user.json"))) {
+    try (FileWriter writer = new FileWriter(new File(USER_DIR_PATH + File.separator + FILE_NAME))) {
       GSON.toJson(user, writer);
     } catch (IOException e) {
       e.printStackTrace();

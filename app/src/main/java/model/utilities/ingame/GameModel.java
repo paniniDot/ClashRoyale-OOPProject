@@ -53,9 +53,12 @@ public abstract class GameModel extends Model {
 
   private List<Tower> getPlayerTowers(final User user) {
     final List<Tower> towers = new ArrayList<>();
-    towers.add(QueenTower.create(user, new Vector2(205 + 33, 312 + 44)));
-    towers.add(QueenTower.create(user, new Vector2(415 + 33, 312 + 44)));
-    towers.add(KingTower.create(user, new Vector2(300 + 44, 255 + 55)));
+    final var leftTowerPosition = new Vector2(238, 356);
+    final var rightTowerPosition = new Vector2(448, 356);
+    final var centralTowerPosition = new Vector2(344, 310);
+    towers.add(QueenTower.create(user, leftTowerPosition));
+    towers.add(QueenTower.create(user, rightTowerPosition));
+    towers.add(KingTower.create(user, centralTowerPosition));
     return towers;
   }
 
