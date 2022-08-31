@@ -58,7 +58,7 @@ public class MenuScreen extends BaseScreen {
     atlasLabel = new TextureAtlas("buttons/scoreLabel.pack");
     skinLabel = new Skin(Gdx.files.internal("buttons/menuSkinLabel.json"), atlasLabel);
 
-    buttonPlay = new TextButton("Play", skin);
+    buttonPlay = new TextButton("Battle", skin);
     buttonPlay.addListener(new ClickListener() {
       @Override
       public void clicked(final InputEvent event, final float x, final float y) {
@@ -78,7 +78,7 @@ public class MenuScreen extends BaseScreen {
     });
     buttonDeck.pad(SPACE);
 
-    buttonStat = new TextButton("Stat", skin);
+    buttonStat = new TextButton("Stats", skin);
     buttonStat.addListener(new ClickListener() {
       @Override
       public void clicked(final InputEvent event, final float x, final float y) {

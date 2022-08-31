@@ -28,9 +28,9 @@ public class DeckScreen extends BaseScreen {
   private List<String> cards, deck;
   private final DeckController deckController;
 
-  private static final int SPACE = 15;
-  private static final int HEIGHTSCROLLPANE = 350;
-  private static final int WIDTHSCROLLPANE = 400;
+  private static final int SPACE = 10;
+  private static final int HEIGHTSCROLLPANE = 300;
+  private static final int WIDTHSCROLLPANE = 300;
 
 
   /**
@@ -69,9 +69,9 @@ public class DeckScreen extends BaseScreen {
     table.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     tableDeck = new Table(skin);
     tableCards = new Table(skin);
-    heading = new Label("Scelta Deck", this.skin);
-    headingDeck = new Label("Deck", this.skin);
-    headingCards = new Label("Mazzo", this.skin);
+    heading = new Label("Deck", this.skin);
+    headingDeck = new Label("Battle Deck", this.skin);
+    headingCards = new Label("Card collection", this.skin);
     scrollPaneDeck = new ScrollPane(deck);
     scrollPaneCards = new ScrollPane(cards);
 

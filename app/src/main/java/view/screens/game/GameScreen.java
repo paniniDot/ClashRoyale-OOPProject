@@ -62,8 +62,8 @@ public class GameScreen extends BaseScreen {
   public void render(final float dt) {
     super.render(dt);
     sprite.begin();
-    gamefont.draw(sprite, "elisir " + ((GameController) super.getController()).getPlayerCurrentElixir(), GameScreen.ELISIR_X, GameScreen.ELISIR_Y);
-    gamefont.draw(sprite, "durata " + ((GameController) super.getController()).getLeftTime(), GameScreen.TIMER_X, GameScreen.TIMER_Y);
+    gamefont.draw(sprite, "Elixir " + ((GameController) super.getController()).getPlayerCurrentElixir(), GameScreen.ELISIR_X, GameScreen.ELISIR_Y);
+    gamefont.draw(sprite, "Time left " + ((GameController) super.getController()).getLeftTime(), GameScreen.TIMER_X, GameScreen.TIMER_Y);
     gamefont.draw(sprite, "Score: Player->" + ((BotGameController) super.getController()).getPlayerScore() + " Bot->" + ((GameController) super.getController()).getBotScore() ,GameScreen.POINT_X, GameScreen.POINT_Y);
     sprite.end();
     //RectDrawer.showDebugBoundingBoxes(this.map.getMap().vertexSet().stream().map(MapUnit::getUnitRectangle).collect(Collectors.toList()), Color.BLUE);

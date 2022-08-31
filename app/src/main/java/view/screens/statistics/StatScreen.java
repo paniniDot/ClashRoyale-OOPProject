@@ -56,7 +56,7 @@ public class StatScreen extends BaseScreen {
     this.skin = new Skin(Gdx.files.internal("buttons" + File.separator + "menuSkin.json"), atlas);
     final var table = new Table(skin);
     table.setBounds(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-    final var heading = new Label("Statistics", this.skin);
+    final var heading = new Label("Stats", this.skin);
 
     final var buttonReturn = new TextButton("RETURN", skin);
     buttonReturn.addListener(new ClickListener() {
