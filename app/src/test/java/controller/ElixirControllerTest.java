@@ -15,9 +15,10 @@ class ElixirControllerTest {
   @Test
   void test() throws InterruptedException {
     assertEquals(this.elixir.getElixirCount(), 0);
-    Thread.sleep(5050);
+    Thread.sleep(12050);
+    assertEquals(this.elixir.getElixirCount(), 10);
     this.elixir.decrementElixir(5);
-    assertEquals(this.elixir.getElixirCount(), 0);
+    assertEquals(this.elixir.getElixirCount(), 5);
     this.elixir.resetElixirCount();
     assertEquals(this.elixir.getElixirCount(), 0);
   }

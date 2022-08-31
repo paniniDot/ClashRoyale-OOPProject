@@ -1,9 +1,13 @@
 package controller.game;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import controller.Controller;
@@ -15,8 +19,11 @@ import launcher.ClashRoyale;
 import model.entities.Attackable;
 import model.entities.cards.Card;
 import model.entities.towers.Tower;
+import model.entities.users.Bot;
+import model.entities.users.User;
 import model.utilities.AnimationUtilities;
 import model.utilities.ingame.GameModel;
+import model.utilities.ingame.MapUnit;
 import model.utilities.ingame.GameMap;
 import view.actors.cards.CardActor;
 import view.actors.towers.TowerActor;
@@ -37,6 +44,7 @@ public abstract class GameController extends Controller {
   private Map<CardActor, Card> playerCardsMap;
   private Map<TowerActor, Tower> playerTowersMap;
   private final GameMap gameMap;
+  private static final int SIDE = 500;
 
   /**
    * Constructor.
@@ -261,6 +269,7 @@ public abstract class GameController extends Controller {
   private void updateActors() {
     ((GameModel) super.getModel()).findAttackableTargets();
     ((GameModel) super.getModel()).handleAttackTargets();
+    this.placePlayeActor();
     this.onUpdateActors();
   }
 
@@ -348,5 +357,41 @@ public abstract class GameController extends Controller {
    * record result.
    */
   public abstract void recordResult();
+
+  private void placePlayeActor() {
+    final var card = new ArrayList<Card>();
+    this.getPlayerActorsMap().entrySet().stream().forEach(e -> {
+      if (e.getKey().isDraggable() && !Gdx.input.isTouched()) {
+        if (this.checkposition(e.getKey().getCenter(), e.getValue()) && e.getValue().getCost() <= this.getPlayerCurrentElixir()) {
+          card.add(e.getValue());
+          this.deployPlayerCard(e.getValue());
+          e.getKey().setDraggable(false);
+          e.getValue().setPosition(e.getKey().getCenter());
+        } else {
+          e.getKey().setPosition(e.getKey().getOrigin().x, e.getKey().getOrigin().y);
+        }
+      }
+    });
+    if (!card.isEmpty()) {
+      this.deployPlayerActor(card);
+    }
+  }
+
+  /**
+   * check position in the map.
+   * @param v vector2 position
+   * @param c card to place
+   * @return boolean
+   */ 
+  protected boolean checkposition(final Vector2 v, final Card c) {
+    if (this.getGameMap().containsPosition(v) && this.getGameMap().getMapUnitFromPosition(v).getType().equals(MapUnit.Type.TERRAIN)) {
+      if (c.getOwner() instanceof User && v.y < SIDE) {
+        return true;
+      } else if (c.getOwner() instanceof Bot && v.y > SIDE) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
 

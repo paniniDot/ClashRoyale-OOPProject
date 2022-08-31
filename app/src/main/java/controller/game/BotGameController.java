@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
@@ -20,12 +18,9 @@ import model.GlobalData;
 import model.entities.Attackable;
 import model.entities.cards.Card;
 import model.entities.towers.Tower;
-import model.entities.users.Bot;
-import model.entities.users.User;
 import model.deck.PlayersDeck;
 import model.utilities.AnimationUtilities;
 import model.utilities.ingame.BotGameModel;
-import model.utilities.ingame.MapUnit;
 import view.actors.cards.CardActor;
 import view.actors.towers.TowerActor;
 
@@ -38,9 +33,8 @@ public class BotGameController extends GameController {
   private final ElixirController botElixir;
   private Map<CardActor, Card> botCardsMap;
   private Map<TowerActor, Tower> botTowersMap;
-  private BotAiController botController;
+  private final BotAiController botController;
   private final Random rand = new Random();
-  private static final int SIDE = 500;
   private final JFrame frame;
 
   /**
@@ -148,36 +142,6 @@ public class BotGameController extends GameController {
     }
   }
 
-  private void placePlayeActor() {
-    final var card = new ArrayList<Card>();
-    super.getPlayerActorsMap().entrySet().stream().forEach(e -> {
-      if (e.getKey().isDraggable() && !Gdx.input.isTouched()) {
-        if (this.checkposition(e.getKey().getCenter(), e.getValue()) && e.getValue().getCost() <= super.getPlayerCurrentElixir()) {
-          card.add(e.getValue());
-          super.deployPlayerCard(e.getValue());
-          e.getKey().setDraggable(false);
-          e.getValue().setPosition(e.getKey().getCenter());
-        } else {
-          e.getKey().setPosition(e.getKey().getOrigin().x, e.getKey().getOrigin().y);
-        }
-      }
-    });
-    if (!card.isEmpty()) {
-      super.deployPlayerActor(card);
-    }
-  }
-
-  private boolean checkposition(final Vector2 v, final Card c) {
-    if (super.getGameMap().containsPosition(v) && super.getGameMap().getMapUnitFromPosition(v).getType().equals(MapUnit.Type.TERRAIN)) {
-      if (c.getOwner() instanceof User && v.y < SIDE) {
-        return true;
-      } else if (c.getOwner() instanceof Bot && v.y > SIDE) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   private void deployBotCard(final Card card) {
     ((BotGameModel) super.getModel()).deployBotCard(card);
     this.botElixir.decrementElixir(card.getCost());
@@ -193,7 +157,6 @@ public class BotGameController extends GameController {
   @Override
   protected void onUpdateActors() {
     this.placeBotActor();
-    this.placePlayeActor();
     this.updateActorPositions(super.getPlayerActorsMap(), this.getBotAttackables());
     this.updateActorPositions(this.botCardsMap, super.getUserAttackables());
   }
@@ -208,12 +171,9 @@ public class BotGameController extends GameController {
 
   @Override
   public boolean checkForwinner() {
-    if (getPlayerScore() == 3) {
+    if (getPlayerScore() == 3 || super.getBotScore() == 3) {
       return true;
       }
-    if (super.getBotScore() == 3) {
-      return true;
-    }
     return false;
   }
 
@@ -221,12 +181,10 @@ public class BotGameController extends GameController {
   public void recordResult() {
     if (getPlayerScore() == super.getBotScore()) {
       JOptionPane.showMessageDialog(frame, "Pareggio");
-    }
-    else if (getPlayerScore() > super.getBotScore()) {
+    } else if (getPlayerScore() > super.getBotScore()) {
       JOptionPane.showMessageDialog(frame, "Hai Vinto");
       GlobalData.USER.awardXp((int) getPlayerScore());
-    }
-    else {
+    } else {
     JOptionPane.showMessageDialog(frame, "Hai Perso");
     GlobalData.USER.pointReduction();
     }
