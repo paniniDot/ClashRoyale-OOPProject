@@ -36,7 +36,6 @@ public class BotGameController extends GameController {
   private Map<TowerActor, Tower> botTowersMap;
   private final BotAiController botController;
   private final Random rand = new Random();
-  private final JFrame frame;
 
   /**
    * Constructor.
@@ -46,7 +45,6 @@ public class BotGameController extends GameController {
     this.botElixir = new ElixirController();
     this.botCardsMap = new HashMap<>();
     this.botTowersMap = new HashMap<>();
-    this.frame = new JFrame();
     this.botController = new BotAiController(this.randomCard());
   }
 
@@ -63,6 +61,7 @@ public class BotGameController extends GameController {
   @Override
   protected void onUpdate() {
     this.botElixir.setRunFalse();
+    this.botController.setRunFalse();
   }
 
   /**
@@ -169,6 +168,7 @@ public class BotGameController extends GameController {
 
   @Override
   public void recordResult() {
+    final JFrame frame = new JFrame();
     if (this.getEnemyDestoryedTowers() == super.getPlayerDestroyedTowers()) {
       JOptionPane.showMessageDialog(frame, "Pareggio");
     } else if (this.getEnemyDestoryedTowers() > super.getPlayerDestroyedTowers()) {
