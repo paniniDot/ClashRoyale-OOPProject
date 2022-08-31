@@ -1,7 +1,7 @@
 package model.utilities.ingame;
 
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.File;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,8 +14,7 @@ import org.jgrapht.graph.builder.GraphTypeBuilder;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
-import com.google.common.reflect.TypeToken;
-import com.google.gson.Gson;
+import com.badlogic.gdx.utils.Json;
 
 import model.entities.Attackable;
 import model.utilities.VectorsUtilities;
@@ -38,7 +37,7 @@ public class GameMap {
    * Constructor.
    */
   public GameMap() {
-    this.map = GraphTypeBuilder
+    map = GraphTypeBuilder
         .<MapUnit, DefaultEdge>undirected()
         .allowingMultipleEdges(false)
         .allowingSelfLoops(false)
@@ -84,21 +83,17 @@ public class GameMap {
     return pos.x > 1 && pos.y > 1;
   }
 
-  @SuppressWarnings("serial")
+  @SuppressWarnings("unchecked")
   private List<Vector2> loadListFromGson(final String sourceFile) {
-    try {
-      return new Gson().fromJson(new FileReader(Gdx.files.internal(sourceFile).file()), new TypeToken<List<Vector2>>() { }.getType());
-    } catch (IOException e) {
-      return Collections.emptyList();
-    }
+    return new Json().fromJson(List.class, Vector2.class, Gdx.files.internal(sourceFile));
   }
 
   private List<Vector2> getTowers() {
-    return this.loadListFromGson("saves/Arena1Resources/towers.json");
+    return this.loadListFromGson("map" + File.separator + "arena1" + File.separator + "towers.json");
   }
 
   private List<Vector2> getObstacles() {
-    return this.loadListFromGson("saves/Arena1Resources/obstacles.json");
+    return this.loadListFromGson("map" + File.separator + "arena1" + File.separator + "obstacles.json");
   }
 
   /**
