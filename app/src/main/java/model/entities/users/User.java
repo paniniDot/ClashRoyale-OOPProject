@@ -14,6 +14,7 @@ public class User {
       UserLevel.LVL3, 300, 
       UserLevel.LVL4, 600, 
       UserLevel.LVL5, 1000);
+  private static final int POINT = 5; 
 
   private final String name;
   private int currentXP;
@@ -21,7 +22,6 @@ public class User {
   private int plays;
   private int wins;
   private int destroyedTowers;
-  private static final int POINT = 5; 
 
   /**
    * @param name
