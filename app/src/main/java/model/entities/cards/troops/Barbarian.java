@@ -42,12 +42,12 @@ public final class Barbarian extends Troop {
    */
   public static Troop create(final User user, final Vector2 position) {
       switch (user.getCurrentLevel()) {
-          case LVL1: return new Barbarian(user, position, 200 * 60, 100);
-          case LVL2: return new Barbarian(user, position, 200 * 60, 100);
-          case LVL3: return new Barbarian(user, position, 200 * 60, 100);
-          case LVL4: return new Barbarian(user, position, 200 * 60, 100);
-          case LVL5: return new Barbarian(user, position, 200 * 60, 100);
-          default: return new Barbarian(user, position, 200 * 60, 100);
+          case LVL1: return new Barbarian(user, position, 400 * 60, 200);
+          case LVL2: return new Barbarian(user, position, 400 * 60, 200);
+          case LVL3: return new Barbarian(user, position, 400 * 60, 200);
+          case LVL4: return new Barbarian(user, position, 400 * 60, 200);
+          case LVL5: return new Barbarian(user, position, 400 * 60, 200);
+          default: return new Barbarian(user, position, 400 * 60, 200);
       }
   }
 

@@ -43,12 +43,12 @@ public final class Giant extends Troop {
    */
   public static Troop create(final User user, final Vector2 position) {
       switch (user.getCurrentLevel()) {
-          case LVL1: return new Giant(user, position, 200 * 60, 100);
-          case LVL2: return new Giant(user, position, 200 * 60, 100);
-          case LVL3: return new Giant(user, position, 200 * 60, 100);
-          case LVL4: return new Giant(user, position, 200 * 60, 100);
-          case LVL5: return new Giant(user, position, 200 * 60, 100);
-          default: return new Giant(user, position, 200 * 60, 100);
+          case LVL1: return new Giant(user, position, 600 * 60, 300);
+          case LVL2: return new Giant(user, position, 600 * 60, 300);
+          case LVL3: return new Giant(user, position, 600 * 60, 300);
+          case LVL4: return new Giant(user, position, 600 * 60, 300);
+          case LVL5: return new Giant(user, position, 600 * 60, 300);
+          default: return new Giant(user, position, 600 * 60, 300);
       }
   }
 

@@ -30,12 +30,12 @@ public final class QueenTower extends Tower {
    */
   public static QueenTower create(final User owner, final Vector2 position) {
     switch (owner.getCurrentLevel()) {
-      case LVL1: return new QueenTower(position, owner, 100, 200 * 60);
-      case LVL2: return new QueenTower(position, owner, 100, 200 * 60);
-      case LVL3: return new QueenTower(position, owner, 100, 200 * 60);
-      case LVL4: return new QueenTower(position, owner, 100, 200 * 60);
-      case LVL5: return new QueenTower(position, owner, 100, 200 * 60);
-      default: return new QueenTower(position, owner, 100, 200 * 60);
+      case LVL1: return new QueenTower(position, owner, 100, 800 * 60);
+      case LVL2: return new QueenTower(position, owner, 100, 800 * 60);
+      case LVL3: return new QueenTower(position, owner, 100, 800 * 60);
+      case LVL4: return new QueenTower(position, owner, 100, 800 * 60);
+      case LVL5: return new QueenTower(position, owner, 100, 800 * 60);
+      default: return new QueenTower(position, owner, 100, 800 * 60);
     }
   }
 
