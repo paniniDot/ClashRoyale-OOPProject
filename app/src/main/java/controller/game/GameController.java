@@ -18,16 +18,15 @@ import controller.audio.AudioGameController;
 import controller.menu.MenuController;
 
 import launcher.ClashRoyale;
+import model.GameModel;
 import model.entities.Attackable;
 import model.entities.cards.Card;
 import model.entities.towers.Tower;
 import model.entities.users.Bot;
 import model.entities.users.User;
-import model.utilities.AnimationUtilities;
-import model.utilities.ingame.GameModel;
-import model.utilities.ingame.MapUnit;
-import model.utilities.ingame.GameMap;
-
+import model.map.GameMap;
+import model.map.MapUnit;
+import utilities.AnimationUtilities;
 import view.actors.cards.CardActor;
 import view.actors.towers.TowerActor;
 import view.screens.game.GameScreen;

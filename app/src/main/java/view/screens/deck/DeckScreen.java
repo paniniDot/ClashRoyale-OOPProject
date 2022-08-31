@@ -15,9 +15,7 @@ import controller.Controller;
 import controller.deck.DeckController;
 
 import launcher.ClashRoyale;
-
-import model.utilities.AnimationUtilities;
-
+import utilities.AnimationUtilities;
 import view.actors.BaseActor;
 import view.screens.BaseScreen;
 

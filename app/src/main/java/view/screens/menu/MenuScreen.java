@@ -15,8 +15,7 @@ import controller.menu.MenuController;
 import launcher.ClashRoyale;
 
 import model.GlobalData;
-import model.utilities.AnimationUtilities;
-
+import utilities.AnimationUtilities;
 import view.actors.BaseActor;
 import view.screens.BaseScreen;
 

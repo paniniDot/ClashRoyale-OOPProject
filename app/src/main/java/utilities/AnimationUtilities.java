@@ -1,4 +1,4 @@
-package model.utilities;
+package utilities;
 
 import java.util.List;
 

@@ -18,8 +18,8 @@ import model.entities.Attackable;
 import model.entities.cards.troops.Wizard;
 import model.entities.users.Bot;
 import model.entities.users.User;
-import model.utilities.ingame.GameMap;
-import model.utilities.ingame.MapUnit;
+import model.map.GameMap;
+import model.map.MapUnit;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class GameMapTest extends GdxTest {

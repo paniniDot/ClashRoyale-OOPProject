@@ -1,4 +1,4 @@
-package model.utilities.ingame;
+package model.map;
 
 import java.util.Objects;
 

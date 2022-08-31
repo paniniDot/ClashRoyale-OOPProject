@@ -1,4 +1,4 @@
-package model.utilities.ingame;
+package model;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,8 +10,6 @@ import java.util.stream.Stream;
 
 import com.badlogic.gdx.math.Vector2;
 
-import model.GlobalData;
-import model.Model;
 import model.entities.Attackable;
 import model.entities.cards.Card;
 import model.entities.towers.KingTower;

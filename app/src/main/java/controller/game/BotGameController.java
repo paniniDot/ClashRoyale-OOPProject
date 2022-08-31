@@ -14,14 +14,13 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import controller.ElixirController;
 import controller.SaveController;
+import model.BotGameModel;
 import model.GlobalData;
 import model.entities.Attackable;
 import model.entities.cards.Card;
 import model.entities.towers.Tower;
 import model.deck.PlayersDeck;
-import model.utilities.AnimationUtilities;
-import model.utilities.ingame.BotGameModel;
-
+import utilities.AnimationUtilities;
 import view.actors.cards.CardActor;
 import view.actors.towers.TowerActor;
 

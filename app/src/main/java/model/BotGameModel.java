@@ -1,4 +1,4 @@
-package model.utilities.ingame;
+package model;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,7 +17,7 @@ import model.entities.towers.QueenTower;
 import model.entities.towers.Tower;
 import model.entities.users.Bot;
 import model.entities.users.User;
-import model.utilities.VectorsUtilities;
+import utilities.VectorsUtilities;
 
 /**
  * An implementation of GameController in which the user plays 
