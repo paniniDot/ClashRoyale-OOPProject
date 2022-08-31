@@ -23,7 +23,7 @@ public final class Archer extends Troop {
   private static final String BOT_ATT = ARCHER_WORD + File.separator + "bot" + File.separator + "attacking" + File.separator;
 
   private static final int ELIXIR_COST = 3;
-  private static final double RANGE = 5;
+  private static final double RANGE = 100;
 
   private Archer(final User owner, final Vector2 position, final double maxHP, final double damage) {
     super(Archer.ELIXIR_COST, position, owner, maxHP, damage, Speeds.FAST, Archer.RANGE);
@@ -39,12 +39,12 @@ public final class Archer extends Troop {
    */
   public static Troop create(final User user, final Vector2 position) {
       switch (user.getCurrentLevel()) {
-          case LVL1: return new Archer(user, position, 125, 33);
-          case LVL2: return new Archer(user, position, 127, 44);
-          case LVL3: return new Archer(user, position, 151, 48);
-          case LVL4: return new Archer(user, position, 166, 53);
-          case LVL5: return new Archer(user, position, 182, 58);
-          default: return new Archer(user, position, 125, 33);
+          case LVL1: return new Archer(user, position, 200*60, 100);
+          case LVL2: return new Archer(user, position, 250*60, 100);
+          case LVL3: return new Archer(user, position, 300*60, 100);
+          case LVL4: return new Archer(user, position, 350*60, 100);
+          case LVL5: return new Archer(user, position, 400*60, 100);
+          default: return new Archer(user, position, 200*60, 100);
       }
   }
 

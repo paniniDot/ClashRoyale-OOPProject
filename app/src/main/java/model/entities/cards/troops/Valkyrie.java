@@ -26,7 +26,7 @@ public final class Valkyrie extends Troop {
    * Elixir cost of the card.
    */
   public static final int ELIXIR_COST = 4;
-  private static final int RANGE = 1;
+  private static final int RANGE = 60;
 
   private Valkyrie(final User owner, final Vector2 position, final double maxHP, final double damage) {
     super(Valkyrie.ELIXIR_COST, position, owner, maxHP, damage, Speeds.MEDIUM, Valkyrie.RANGE);
@@ -42,12 +42,12 @@ public final class Valkyrie extends Troop {
    */
   public static Troop create(final User user, final Vector2 position) {
       switch (user.getCurrentLevel()) {
-          case LVL1: return new Valkyrie(user, position, 800, 120);
-          case LVL2: return new Valkyrie(user, position, 968, 132);
-          case LVL3: return new Valkyrie(user, position, 1064, 145);
-          case LVL4: return new Valkyrie(user, position, 1170, 159);
-          case LVL5: return new Valkyrie(user, position, 1284, 175);
-          default: return new Valkyrie(user, position, 800, 120);
+          case LVL1: return new Valkyrie(user, position, 300*60, 120);
+          case LVL2: return new Valkyrie(user, position, 350*60, 120);
+          case LVL3: return new Valkyrie(user, position, 400*60, 120);
+          case LVL4: return new Valkyrie(user, position, 450*60, 120);
+          case LVL5: return new Valkyrie(user, position, 5000*60, 120);
+          default: return new Valkyrie(user, position, 300, 120);
       }
   }
 

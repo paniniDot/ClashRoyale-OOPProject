@@ -19,9 +19,9 @@ class AudioControllerTest extends GdxTest {
  }
   @Test
   void test() {
-    assertTrue(audio.isPlaying());
+    assertTrue(this.audio.isPlaying());
     this.audio.stop();
-    assertFalse(audio.isPlaying());
+    assertFalse(this.audio.isPlaying());
   }
 
 }

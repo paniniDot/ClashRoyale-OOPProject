@@ -11,13 +11,13 @@ import model.entities.cards.Card;
 
 import view.actors.cards.CardActor;
 /**
- * Game will least 60 seconds.
+ * Game will least 90 seconds.
  */
 public class BotAiController {
   /**
-   * Game will least 60 seconds.
+   * Game will least 90 seconds.
    */
-  public static final int DEFAULT_TIME = 60;
+  public static final int DEFAULT_TIME = 90;
   private final Timer timer;
   private boolean run;
   private int time;

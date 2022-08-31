@@ -26,7 +26,7 @@ public final class Barbarian extends Troop {
    * Elixir cost of the card.
    */
   public static final int ELIXIR_COST = 4;
-  private static final int RANGE = 30;
+  private static final int RANGE = 60;
 
   private Barbarian(final User owner, final Vector2 position, final double maxHP, final double damage) {
     super(Barbarian.ELIXIR_COST, position, owner, maxHP, damage, Speeds.MEDIUM, Barbarian.RANGE);
@@ -43,10 +43,10 @@ public final class Barbarian extends Troop {
   public static Troop create(final User user, final Vector2 position) {
       switch (user.getCurrentLevel()) {
           case LVL1: return new Barbarian(user, position, 400 * 60, 200);
-          case LVL2: return new Barbarian(user, position, 400 * 60, 200);
-          case LVL3: return new Barbarian(user, position, 400 * 60, 200);
-          case LVL4: return new Barbarian(user, position, 400 * 60, 200);
-          case LVL5: return new Barbarian(user, position, 400 * 60, 200);
+          case LVL2: return new Barbarian(user, position, 450 * 60, 200);
+          case LVL3: return new Barbarian(user, position, 500 * 60, 200);
+          case LVL4: return new Barbarian(user, position, 550 * 60, 200);
+          case LVL5: return new Barbarian(user, position, 600 * 60, 200);
           default: return new Barbarian(user, position, 400 * 60, 200);
       }
   }

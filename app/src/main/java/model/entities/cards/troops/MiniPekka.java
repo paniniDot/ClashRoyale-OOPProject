@@ -26,7 +26,7 @@ public final class MiniPekka extends Troop {
    * Elixir cost of the card.
    */
   public static final int ELIXIR_COST = 5;
-  private static final int RANGE = 30;
+  private static final int RANGE = 60;
 
   private MiniPekka(final User owner, final Vector2 position, final double maxHP, final double damage) {
     super(MiniPekka.ELIXIR_COST, position, owner, maxHP, damage, Speeds.SLOW, MiniPekka.RANGE);
@@ -42,12 +42,12 @@ public final class MiniPekka extends Troop {
    */
   public static Troop create(final User user, final Vector2 position) {
       switch (user.getCurrentLevel()) {
-          case LVL1: return new MiniPekka(user, position, 600, 325);
-          case LVL2: return new MiniPekka(user, position, 660, 357);
-          case LVL3: return new MiniPekka(user, position, 726, 393);
-          case LVL4: return new MiniPekka(user, position, 798, 432);
-          case LVL5: return new MiniPekka(user, position, 876, 474);
-          default: return new MiniPekka(user, position, 600, 325);
+          case LVL1: return new MiniPekka(user, position, 300*60, 150);
+          case LVL2: return new MiniPekka(user, position, 350*60, 150);
+          case LVL3: return new MiniPekka(user, position, 400*60, 150);
+          case LVL4: return new MiniPekka(user, position, 450*60, 150);
+          case LVL5: return new MiniPekka(user, position, 500*60, 150);
+          default: return new MiniPekka(user, position, 300*60, 150);
       }
   }
 

@@ -8,9 +8,9 @@ import java.util.TimerTask;
 public class CountDownController {
 
   /**
-   * Game will least 60 seconds.
+   * Game will least 90 seconds.
    */
-  public static final int DEFAULT_TIME = 60;
+  public static final int DEFAULT_TIME = 90;
   private final Timer timer;
   private boolean run;
   private int time;
