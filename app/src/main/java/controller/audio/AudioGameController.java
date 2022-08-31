@@ -1,10 +1,10 @@
-package controller.game;
+package controller.audio;
 
-import controller.AudioController;
 /**
  * class for game music.
  */
-public class AudioGameController extends AudioController{
+public class AudioGameController extends AudioController {
+
   /**
    * Constructor.
    */

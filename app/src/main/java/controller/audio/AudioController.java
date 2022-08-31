@@ -1,4 +1,4 @@
-package controller;
+package controller.audio;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
@@ -6,16 +6,17 @@ import com.badlogic.gdx.audio.Music;
 /**
  * Controller class for music.
  */
-public abstract class AudioController {
+public class AudioController {
 
   private static final float VOLUME = 0.1f;
 
   private final Music music;
+
   /**
-   * Constructor.
+   * Protected constructor in order to be unable to instantiate this controller outside its package.
    * @param name name of the audio file.
    */
-  public AudioController(final String name) {
+  protected AudioController(final String name) {
     this.music = Gdx.audio.newMusic(Gdx.files.internal(name));
     this.music.setLooping(true);
   }

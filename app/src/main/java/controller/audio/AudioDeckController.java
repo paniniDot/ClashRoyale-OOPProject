@@ -1,10 +1,10 @@
-package controller.deck;
+package controller.audio;
 
-import controller.AudioController;
 /**
  * class for deck music.
  */
-public class AudioDeckController extends AudioController{
+public class AudioDeckController extends AudioController {
+
   /**
    * Constructor.
    */

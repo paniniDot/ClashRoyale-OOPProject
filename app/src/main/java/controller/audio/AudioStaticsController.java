@@ -1,10 +1,10 @@
-package controller.statistics;
+package controller.audio;
 
-import controller.AudioController;
 /**
  * class for statics music.
  */
-public class AudioStaticsController extends AudioController{
+public class AudioStaticsController extends AudioController {
+
   /**
    * Constructor.
    */

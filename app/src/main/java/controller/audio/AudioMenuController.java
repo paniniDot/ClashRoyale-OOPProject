@@ -1,10 +1,10 @@
-package controller.menu;
+package controller.audio;
 
-import controller.AudioController;
 /**
  * class for menu music.
  */
-public class AudioMenuController extends AudioController{
+public class AudioMenuController extends AudioController {
+
   /**
    * Constructor.
    */
