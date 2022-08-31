@@ -30,12 +30,12 @@ public final class KingTower extends Tower {
    */
   public static KingTower create(final User owner, final Vector2 position) {
     switch (owner.getCurrentLevel()) {
-      case LVL1: return new KingTower(position, owner, 100, 1200 * 60);
-      case LVL2: return new KingTower(position, owner, 100, 1200 * 60);
-      case LVL3: return new KingTower(position, owner, 100, 1200 * 60);
-      case LVL4: return new KingTower(position, owner, 100, 1200 * 60);
-      case LVL5: return new KingTower(position, owner, 100, 1200 * 60);
-      default: return new KingTower(position, owner, 100, 1200 * 60);
+      case LVL1: return new KingTower(position, owner, 100, 400 * 60);
+      case LVL2: return new KingTower(position, owner, 100, 400 * 60);
+      case LVL3: return new KingTower(position, owner, 100, 400 * 60);
+      case LVL4: return new KingTower(position, owner, 100, 400 * 60);
+      case LVL5: return new KingTower(position, owner, 100, 400 * 60);
+      default: return new KingTower(position, owner, 100, 400 * 60);
     }
   }
 
