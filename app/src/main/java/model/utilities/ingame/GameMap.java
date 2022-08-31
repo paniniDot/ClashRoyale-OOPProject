@@ -144,8 +144,11 @@ public class GameMap {
         min = distance;
       }
     }
-    final var path = this.getPath(this.getMapUnitFromPosition(source.getPosition()), this.getMapUnitFromPosition(dest.getPosition()));
-    return path.isEmpty() ? source.getPosition() : path.size() > 1 ? path.get(1) : path.get(0); 
+    if (dest != null) {
+      final var path = this.getPath(this.getMapUnitFromPosition(source.getPosition()), this.getMapUnitFromPosition(dest.getPosition()));
+      return path.isEmpty() ? source.getPosition() : path.size() > 1 ? path.get(1) : path.get(0); 
+    }
+    return source.getPosition();
   }
 
   /**
