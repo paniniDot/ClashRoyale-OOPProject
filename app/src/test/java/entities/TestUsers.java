@@ -21,13 +21,16 @@ class TestUsers {
   void simpleTest() {
     assertEquals(this.panini.getName(), "panini");
     assertEquals(this.panini.getCurrentXP(), 0);
+    assertEquals(this.panini.getPlays(), 0);
+    assertEquals(this.panini.getWins(), 0);
+    assertEquals(this.panini.getDestroyedTowers(), 0);
     assertEquals(this.panini.getCurrentLevel(), UserLevel.LVL1);
   }
 
   @Test
   void testLevelUp() {
-    final int firstAward = 50;
-    final int secondAward = 300;
+    final int firstAward = 10;
+    final int secondAward = 60;
     this.panini.awardXp(firstAward);
     assertEquals(this.panini.getCurrentLevel(), UserLevel.LVL1);
     this.panini.awardXp(firstAward);
@@ -38,7 +41,7 @@ class TestUsers {
 
   @Test
   void testMultipleLevelsUp() {
-    final int award = 400;
+    final int award = 80;
     this.panini.awardXp(award);
     assertEquals(this.panini.getCurrentLevel(), UserLevel.LVL3);
   }
@@ -49,4 +52,5 @@ class TestUsers {
     this.panini.awardXp(award);
     assertEquals(this.panini.getCurrentLevel(), UserLevel.LVL5);
   }
+
 }

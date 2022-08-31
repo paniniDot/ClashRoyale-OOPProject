@@ -56,7 +56,7 @@ public final class SaveController  {
     } else {
       SaveController.createDirectory();
       SaveController.createFile();
-      return new User("P");
+      return new User("Dream");
     }
     return null;
   }
