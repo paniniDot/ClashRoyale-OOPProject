@@ -97,25 +97,25 @@ The usage of the game is quite intuitive and quite similar to the original game 
 Once started the game, a Menu screen will apear
 <div align="center">
   <a href="https://github.com/paniniDot/ClashRoyale-OOPProject/">
-    <img src="images/menu.png" alt="Menu" height="30%">
+    <img src="images/menu.png" alt="Menu" height="500">
   </a>
 </div>
 From it you can easily start a new game by pressing Battle button, this will create a new game 
 <div align="center">
   <a href="https://github.com/paniniDot/ClashRoyale-OOPProject/">
-    <img src="images/game.png" alt="Game" height="30%">
+    <img src="images/game.png" alt="Game" height="500">
   </a>
 </div>
 or choose which cards want to use, pressing Deck button
 <div align="center">
   <a href="https://github.com/paniniDot/ClashRoyale-OOPProject/">
-    <img src="images/deck.png" alt="Deck" height="30%">
+    <img src="images/deck.png" alt="Deck" height="500">
   </a>
 </div>
 You can also see your statistics, pressing Stats button
 <div align="center">
   <a href="https://github.com/paniniDot/ClashRoyale-OOPProject/">
-    <img src="images/stats.png" alt="Stats" height="30%">
+    <img src="images/stats.png" alt="Stats" height="500">
   </a>
 </div>
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
