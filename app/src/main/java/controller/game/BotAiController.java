@@ -62,50 +62,47 @@ public class BotAiController {
     this.timer.schedule(task, 1000, 1000);
   }
    /**
-    * set elixir.
+    * update elixir of the bot.
     * @param elixir
     */
   public void setElixir(final int elixir) {
     this.elixir = elixir;
   }
   /**
-   * get cardActorDeployed.
-   * @return CardActor
+   * @return CardActor deployed. 
    */
   public CardActor getCardActorDeployed() {
     return cardActorDeployed;
   }
 
   /**
-   * get cardDeployed.
-   * @return Card
+   * @return Card deployed.
    */
   public Card getCardDeployed() {
     return cardDeployed;
   }
   /**
-   * get randomCard.
-   * @return Card
+   * @return random card.
    */
   public Card getRandomCard() {
     return randomCard;
   }
   /**
-   * set randomCard.
+   * set randomCard to deploy.
    * @param randomCard
    */
   public void setRandomCard(final Card randomCard) {
     this.randomCard = randomCard;
   }
   /**
-   * set randomPosition.
+   * set random Position for the card to deploy.
    * @param randomPosition
    */
   public void setRandomPosition(final Vector2 randomPosition) {
     this.randomPosition = randomPosition;
   }
   /**
-   * set botCardsMap.
+   * update botCardsMap.
    * @param botCardsMap
    */
   public void setBotCardsMap(final Map<CardActor, Card> botCardsMap) {
