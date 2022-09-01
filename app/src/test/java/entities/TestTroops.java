@@ -30,8 +30,8 @@ class TestTroops {
   void createTroop() {
     this.myTroop = Archer.create(panini, new Vector2(0, 0));
     if (panini.getCurrentLevel().equals(UserLevel.LVL1)) {
-      assertEquals(this.myTroop.getCurrentHP(), 125);
-      assertEquals(this.myTroop.getDamage(), 33);
+      assertEquals(this.myTroop.getCurrentHP(), 200*60);
+      assertEquals(this.myTroop.getDamage(), 100);
     }
   }
 
