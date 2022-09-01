@@ -12,13 +12,16 @@ import gdxtests.GdxTest;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class AudioControllerTest extends GdxTest {
- private AudioController audio;
- @BeforeAll
- public void setUp() {
-   this.audio = new AudioMenuController();
- }
+  private AudioController audio;
+
+  @BeforeAll
+  public void setUp() {
+    this.audio = new AudioMenuController();
+  }
+
   @Test
   void test() {
+    this.audio.play();
     assertTrue(this.audio.isPlaying());
     this.audio.stop();
     assertFalse(this.audio.isPlaying());

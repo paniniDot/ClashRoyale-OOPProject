@@ -11,6 +11,7 @@ public class AudioController {
   private static final float VOLUME = 0.1f;
 
   private final Music music;
+  private boolean playing;
 
   /**
    * Protected constructor in order to be unable to instantiate this controller outside its package.
@@ -19,6 +20,7 @@ public class AudioController {
   protected AudioController(final String name) {
     this.music = Gdx.audio.newMusic(Gdx.files.internal(name));
     this.music.setLooping(true);
+    this.playing = false;
   }
 
   /**
@@ -26,6 +28,7 @@ public class AudioController {
    */
   public void play() {
     this.music.play();
+    this.playing = true;
     this.music.setVolume(VOLUME);
   }
   /**
@@ -33,6 +36,7 @@ public class AudioController {
    */
   public void stop() {
     this.music.stop();
+    this.playing = false;
   }
 
   /**
@@ -40,6 +44,6 @@ public class AudioController {
    * @return Boolean.
    */
   public Boolean isPlaying() {
-    return this.music.isPlaying();
+    return this.playing;
   }
 }
