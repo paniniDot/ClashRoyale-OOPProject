@@ -13,10 +13,10 @@ class CountDownControllerTest {
   }
   @Test
   void test() throws InterruptedException {
-    assertEquals(this.count.getTime(), 60);
+    assertEquals(this.count.getTime(), 90);
     Thread.sleep(5050);
-    assertEquals(this.count.getTime(), 55);
+    assertEquals(this.count.getTime(), 85);
     this.count.setTime();
-    assertEquals(this.count.getTime(), 60);
+    assertEquals(this.count.getTime(), 90);
   }
 }
