@@ -42,7 +42,6 @@ public class GameScreen extends BaseScreen {
 
   @Override
   protected void initialize() {
-    super.getController().playMusic();
     super.getController().setInputProcessor(getMainStage());
     sprite = new SpriteBatch();
     gamefont = new BitmapFont(Gdx.files.internal("Fonts/font.fnt"));

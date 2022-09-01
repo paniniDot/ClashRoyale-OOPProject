@@ -55,6 +55,7 @@ public abstract class GameController extends Controller {
    */
   public GameController(final GameModel model) {
     super(new AudioGameController());
+    super.playMusic();
     this.timer = new CountDownController();
     this.playerElixir = new ElixirController();
     this.gameMap = new GameMap();

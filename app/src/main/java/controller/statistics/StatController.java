@@ -20,6 +20,7 @@ public class StatController extends Controller {
    */
   public StatController() {
     super(new AudioStaticsController());
+    super.playMusic();
     super.registerModel(new Model());
   }
 

@@ -30,6 +30,7 @@ public class DeckController extends Controller {
    */
   public DeckController() {
     super(new AudioDeckController());
+    super.playMusic();
     super.registerModel(new Model());
     final var skin = new Skin(Gdx.files.internal("buttons/menuSkin.json"), new TextureAtlas("buttons/atlas.pack"));
     this.decklist = new List<>(skin);

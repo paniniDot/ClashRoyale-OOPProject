@@ -43,7 +43,6 @@ public class StatScreen extends BaseScreen {
 
   @Override
   protected void initialize() {
-    super.getController().playMusic();
     super.getController().setInputProcessor(super.getMainStage());
     final var background = new BaseActor(0, 0, super.getMainStage(), AnimationUtilities.loadTexture("backgrounds" + File.separator + "menuBackground.png"));
     background.setSize(ClashRoyale.WIDTH, ClashRoyale.HEIGHT);

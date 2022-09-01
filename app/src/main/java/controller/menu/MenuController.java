@@ -24,6 +24,7 @@ public class MenuController extends Controller {
    */
   public MenuController() {
     super(new AudioMenuController());
+    super.playMusic();
     super.registerModel(new Model());
   }
 

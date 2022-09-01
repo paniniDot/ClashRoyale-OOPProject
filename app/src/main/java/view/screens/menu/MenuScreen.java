@@ -46,8 +46,6 @@ public class MenuScreen extends BaseScreen {
     TextButton buttonPlay, buttonExit, buttonLevel, buttonScore, buttonDeck, buttonStat;
     Skin skinLabel;
     TextureAtlas atlasLabel;
-
-    super.getController().playMusic();
     super.getController().setInputProcessor(super.getUiStage());
     final var background = new BaseActor(0, 0, super.getMainStage(), AnimationUtilities.loadTexture("backgrounds/menuBackground.png"));
     background.setSize(ClashRoyale.WIDTH, ClashRoyale.HEIGHT);
