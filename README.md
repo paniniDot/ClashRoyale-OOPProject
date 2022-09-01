@@ -173,4 +173,4 @@ Project Link: [https://github.com/paniniDot/ClashRoyale-OOPProject/](https://git
 <!-- MARKDOWN LINKS & IMAGES -->
 [license-shield]: https://img.shields.io/github/license/github_username/ClashRoyale-OOPProject.svg?style=for-the-badge
 [license-url]: https://github.com/paniniDot/ClashRoyale-OOPProject/blob/master/LICENSE
-[product-screenshot]: images/secondLogo.png
+[product-screenshot]: images/secondLogo.jpg
