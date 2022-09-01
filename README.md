@@ -50,9 +50,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-<div align="center">
 [![Product Name Screen Shot][product-screenshot]](https://clashroyale.com/)
-</div>
 The goal of the project is to develop software that emulates the Clash Royale game, 
 a well-known video game in the tower-defense category. Each player, equipped with a deck, consisting of four cards,
 will have to face opponents of which he will try to destroy one or more towers to win the game. 
@@ -78,8 +76,7 @@ the cards in his possession) and trophies, otherwise the latter will be stolen.
    cd ClashRoyale-OOPProject
    gradle build
    ```
-### Usage
-You could just download the latest release and run it with
+Alternatively you could just download the latest release and run it with
    ```
    java -jar clashroyale.jar
    ```
@@ -94,25 +91,25 @@ The usage of the game is quite intuitive and quite similar to the original game 
 Once started the game, a Menu screen will apear
 <div align="center">
   <a href="https://github.com/paniniDot/ClashRoyale-OOPProject/">
-    <img src="images/menu.png" alt="Menu">
+    <img src="images/menu.png" alt="Menu" height="60%">
   </a>
 </div>
 From it you can easily start a new game by pressing Battle button, this will create a new game 
 <div align="center">
   <a href="https://github.com/paniniDot/ClashRoyale-OOPProject/">
-    <img src="images/game.png" alt="Game">
+    <img src="images/game.png" alt="Game" height="60%">
   </a>
 </div>
 or choose which cards want to use, pressing Deck button
 <div align="center">
   <a href="https://github.com/paniniDot/ClashRoyale-OOPProject/">
-    <img src="images/deck.png" alt="Deck">
+    <img src="images/deck.png" alt="Deck" height="60%">
   </a>
 </div>
 You can also see your statistics, pressing Stats button
 <div align="center">
   <a href="https://github.com/paniniDot/ClashRoyale-OOPProject/">
-    <img src="images/stats.png" alt="Stats">
+    <img src="images/stats.png" alt="Stats" height="60%">
   </a>
 </div>
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -141,8 +138,6 @@ Optional featues:
 - [ ] Elixir production increasing 30 seconds from the match end
 - [ ] Multiple arenas
 
-See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
@@ -158,10 +153,10 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Mattia Panni - mattia.panni@studio.unibo.it
-Riccardo Fiorani - riccardo.fiorani2@studio.unibo.it
-Simone Bollini - simone.bollini@studio.unibo.it
-Alexandro Salvato - alexandro.salvato@studio.unibo.it
+Mattia Panni - mattia.panni@studio.unibo.it <br />
+Riccardo Fiorani - riccardo.fiorani2@studio.unibo.it <br />
+Simone Bollini - simone.bollini@studio.unibo.it <br />
+Alexandro Salvato - alexandro.salvato@studio.unibo.it <br />
 
 Project Link: [https://github.com/paniniDot/ClashRoyale-OOPProject/](https://github.com/paniniDot/ClashRoyale-OOPProject/)
 
