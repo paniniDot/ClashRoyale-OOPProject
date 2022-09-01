@@ -15,7 +15,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/paniniDot/ClashRoyale-OOPProject">
-    <img src="images/logo.png" alt="Logo" width="100" height="100">
+    <img src="images/logo.png" alt="Logo" width="100">
   </a>
 
 <h3 align="center">Clash Royale clone</h3>
