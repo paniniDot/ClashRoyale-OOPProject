@@ -50,7 +50,13 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-[![Product Name Screen Shot][product-screenshot]](https://clashroyale.com/)
+<br />
+<div align="center">
+  <a href="https://github.com/paniniDot/ClashRoyale-OOPProject">
+    <img src="images/splash_screen.jpeg" alt="Logo" width="800">
+  </a>
+  <p align="center">
+</div>
 The goal of the project is to develop software that emulates the Clash Royale game, 
 a well-known video game in the tower-defense category. Each player, equipped with a deck, consisting of four cards,
 will have to face opponents of which he will try to destroy one or more towers to win the game. 
